@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Operation Baaz - Ultimate Mock Test Engine</title>
+    <!-- Tailwind CSS for vibrant UI -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- FontAwesome for beautiful icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background: radial-gradient(circle at top, #1a1c2e 0%, #0f101b 100%);
+            color: #e2e8f0;
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+        .neon-border {
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
+            border: 1px solid rgba(59, 130, 246, 0.6);
+        }
+        .neon-text-red {
+            text-shadow: 0 0 10px rgba(239, 68, 68, 0.6);
+        }
+        .vibrant-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col p-4 md:p-6">
+
+    <!-- HEADER TITLE -->
+    <header class="w-full text-center mb-6 animate-pulse">
+        <h1 class="text-5xl md:text-7xl font-extrabold tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 font-black">
+            OPERATION BAAZ
+        </h1>
+        <p class="text-sm uppercase tracking-widest text-cyan-400 font-bold mt-2">⚡ Tactical Mock Test Series Engine ⚡</p>
+    </header>
+
+    <!-- 1. SETUP / PASTE SCREEN -->
+    <div id="setup-screen" class="max-w-4xl w-full mx-auto vibrant-card rounded-2xl p-6 md:p-8 shadow-2xl">
+        <h2 class="text-2xl font-bold text-white mb-4 flex items-center gap-3">
+            <i class="fas fa-paste text-cyan-400"></i> Paste Your Questions Here (100 - 200 Questions)
+        </h2>
+        <p class="text-gray-400 text-sm mb-4">
+            Format Example:<br>
+            Q1. Which country officially declined the invitation to join BRICS in 2024?<br>
+            (A) Iran<br>
+            (B) Saudi Arabia<br>
+            (C) Argentina<br>
+            (D) Egypt<br>
+            Correct: C
+        </p>
+        
+        <textarea id="raw-questions" class="w-full h-80 bg-[#0b0c16] border border-gray-700 rounded-xl p-4 text-gray-200 focus:outline-none focus:border-cyan-500 font-mono text-sm mb-6 resize-none" placeholder="Paste your massive question set here...&#10;&#10;Q1. Question Text...&#10;(A) Option&#10;(B) Option&#10;(C) Option&#10;(D) Option&#10;Correct: C"></textarea>
+        
+        <button onclick="parseAndStartTest()" class="w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white font-extrabold py-4 rounded-xl shadow-lg shadow-cyan-500/20 transition cursor-pointer text-lg tracking-wide uppercase">
+            <i class="fas fa-play-circle mr-2"></i> Launch Mock Test
+        </button>
+    </div>
+
+    <!-- 2. MAIN TEST INTERFACE (HIDDEN AT START) -->
+    <div id="test-screen" class="hidden w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-4 gap-6 flex-1">
+        
+        <!-- LEFT: QUESTION AREA (3 COLUMNS) -->
+        <div class="lg:col-span-3 flex flex-col justify-between vibrant-card rounded-2xl p-6 md:p-8 shadow-xl relative">
+            
+            <!-- TOP STATS & STOPWATCH -->
+            <div class="flex justify-between items-center border-b border-gray-700 pb-4 mb-6">
+                <span class="text-lg font-bold bg-blue-500/10 text-blue-400 border border-blue-500/20 px-4 py-1.5 rounded-full">
+                    Question <span id="current-q-num">1</span> of <span id="total-q-num">0</span>
+                </span>
+                
+                <!-- 1.5 Min Stopwatch per Question -->
+                <div class="flex items-center gap-3 bg-red-500/10 border border-red-500/30 px-5 py-1.5 rounded-full text-red-400 font-mono text-xl font-black neon-text-red">
+                    <i class="fas fa-stopwatch animate-spin-slow"></i>
+                    <span id="stopwatch">01:30</span>
+                </div>
+            </div>
+
+            <!-- QUESTION TEXT -->
+            <div class="flex-1 mb-8">
+                <h3 id="question-text" class="text-2xl md:text-3xl font-bold text-white leading-snug mb-6">
+                    Loading Question...
+                </h3>
+                
+                <!-- OPTIONS CONTAINER -->
+                <div id="options-container" class="space-y-4">
+                    <!-- Dynamic Options will load here -->
+                </div>
+            </div>
+
+            <!-- BOTTOM NAVIGATION CONTROLS -->
+            <div class="flex justify-between items-center border-t border-gray-700 pt-6 mt-4 gap-4">
+                <button id="prev-btn" onclick="prevQuestion()" class="bg-gray-800 hover:bg-gray-700 text-white font-bold px-6 py-3 rounded-xl transition cursor-pointer flex items-center gap-2 disabled:opacity-40">
+                    <i class="fas fa-arrow-left"></i> Previous
+                </button>
+                
+                <button id="next-btn" onclick="nextQuestion()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-8 py-3 rounded-xl transition cursor-pointer flex items-center gap-2">
+                    Next <i class="fas fa-arrow-right"></i>
+                </button>
+                
+                <button onclick="confirmSubmit()" class="bg-gradient-to-r from-rose-500 to-red-600 hover:from-rose-600 hover:to-red-700 text-white font-extrabold px-8 py-3 rounded-xl shadow-lg transition cursor-pointer uppercase tracking-wider">
+                    <i class="fas fa-check-double mr-1"></i> Submit Test
+                </button>
+            </div>
+        </div>
+
+        <!-- RIGHT: SIDEBAR SCOREBOARD & GRID (1 COLUMN) -->
+        <div class="lg:col-span-1 flex flex-col vibrant-card rounded-2xl p-5 shadow-xl border border-gray-800 max-h-[80vh] lg:max-h-none overflow-y-auto">
+            <h4 class="text-lg font-bold text-cyan-400 mb-4 tracking-wider uppercase flex items-center gap-2 border-b border-gray-700 pb-2">
+                <i class="fas fa-chart-pie"></i> Live Status
+            </h4>
+            
+            <!-- LIVE COUNTERS -->
+            <div class="grid grid-cols-2 gap-3 mb-6 text-sm font-semibold">
+                <div class="bg-emerald-500/10 border border-emerald-500/20 p-3 rounded-xl text-center">
+                    <p class="text-gray-400 text-xs uppercase">Attempted</p>
+                    <p id="live-attempted" class="text-2xl font-black text-emerald-400 mt-1">0</p>
+                </div>
+                <div class="bg-amber-500/10 border border-amber-500/20 p-3 rounded-xl text-center">
+                    <p class="text-gray-400 text-xs uppercase">Skipped</p>
+                    <p id="live-skipped" class="text-2xl font-black text-amber-400 mt-1 font-mono">0</p>
+                </div>
+            </div>
+
+            <!-- QUESTION NAVIGATION GRID -->
+            <h4 class="text-xs font-bold text-gray-400 tracking-widest uppercase mb-3">Question Palette</h4>
+            <div id="palette-grid" class="grid grid-cols-5 gap-2 overflow-y-auto flex-1 pr-1 max-h-60 lg:max-h-none">
+                <!-- Grid items generated dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. FINAL RESULTS SCREEN (HIDDEN AT START) -->
+    <div id="result-screen" class="hidden max-w-4xl w-full mx-auto vibrant-card rounded-3xl p-6 md:p-10 shadow-2xl text-center border border-purple-500/30">
+        <h2 class="text-4xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-500 mb-2">
+            MISSION COMPLETED!
+        </h2>
+        <p class="text-gray-400 uppercase tracking-widest text-xs mb-8">Operation Baaz Performance Report</p>
+
+        <!-- SCORE BREAKDOWN GRID -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+            <div class="bg-blue-500/5 border border-blue-500/20 p-4 rounded-2xl">
+                <p class="text-gray-400 text-xs uppercase font-bold">Total Score</p>
+                <p id="res-score" class="text-3xl font-black text-blue-400 mt-2">0/0</p>
+            </div>
+            <div class="bg-emerald-500/5 border border-emerald-500/20 p-4 rounded-2xl">
+                <p class="text-gray-400 text-xs uppercase font-bold">Correct Answers</p>
+                <p id="res-right" class="text-3xl font-black text-emerald-400 mt-2"><i class="fas fa-check-circle mr-1"></i>0</p>
+            </div>
+            <div class="bg-rose-500/5 border border-rose-500/20 p-4 rounded-2xl">
+                <p class="text-gray-400 text-xs uppercase font-bold">Wrong Answers</p>
+                <p id="res-wrong" class="text-3xl font-black text-rose-400 mt-2"><i class="fas fa-times-circle mr-1"></i>0</p>
+            </div>
+            <div class="bg-amber-500/5 border border-amber-500/20 p-4 rounded-2xl">
+                <p class="text-gray-400 text-xs uppercase font-bold">Left/Skipped</p>
+                <p id="res-skipped" class="text-3xl font-black text-amber-400 mt-2">0</p>
+            </div>
+        </div>
+
+        <button onclick="window.location.reload()" class="bg-gradient-to-r from-cyan-500 to-purple-600 hover:from-cyan-600 hover:to-purple-700 text-white font-extrabold px-10 py-4 rounded-xl shadow-lg text-lg tracking-wide cursor-pointer transition">
+            <i class="fas fa-redo mr-2"></i> Load Another Test Set
+        </button>
+    </div>
+
+    <!-- ENGINE LOGIC IN JAVASCRIPT -->
+    <script>
+        let questions = [];
+        let currentIndex = 0;
+        let userAnswers = {}; // Index -> Selected Option Label (A, B, C, etc.)
+        let timerInterval = null;
+        let timeLeft = 90; // 1.5 minutes in seconds
+
+        function parseAndStartTest() {
+            const rawText = document.getElementById('raw-questions').value.trim();
+            if (!rawText) {
+                alert("Please paste some questions first!");
+                return;
+            }
+
+            // Simple RegExp block matching logic for dynamic formats
+            const blocks = rawText.split(/(?=Q\d+[\.\s]|\d+[\.\s])/g);
+            questions = [];
+
+            blocks.forEach(block => {
+                const lines = block.trim().split('\n').map(l => l.trim()).filter(l => l.length > 0);
+                if (lines.length < 3) return;
+
+                let questionText = lines[0];
+                let options = [];
+                let correctAnswer = "";
+
+                for(let i = 1; i < lines.length; i++) {
+                    const line = lines[i];
+                    if (line.toLowerCase().startsWith('correct:') || line.toLowerCase().startsWith('ans:')) {
+                        correctAnswer = line.split(':')[1].trim().toUpperCase().replace(/[\(\)]/g, "");
+                    } else if (line.match(/^[\(\[A-Ea-e\d]\)/) || line.match(/^[A-Ea-e][\.\s]/)) {
+                        options.push(line);
+                    }
+                }
+
+                if (options.length > 0) {
+                    questions.push({
+                        text: questionText,
+                        options: options,
+                        correct: correctAnswer || "A" // fallback default if not written
+                    });
+                }
+            });
+
+            if (questions.length === 0) {
+                alert("Could not parse any questions. Make sure they start with Q1., Q2. or similar labels and follow with option styles like (A) or A.");
+                return;
+            }
+
+            // Change Screens
+            document.getElementById('setup-screen').classList.add('hidden');
+            document.getElementById('test-screen').classList.remove('hidden');
+            
+            document.getElementById('total-q-num').innerText = questions.length;
+            
+            initPaletteGrid();
+            loadQuestion(0);
+        }
+
+        function initPaletteGrid() {
+            const grid = document.getElementById('palette-grid');
+            grid.innerHTML = "";
+            questions.forEach((_, idx) => {
+                grid.innerHTML += `
+                    <button id="palette-btn-${idx}" onclick="jumpToQuestion(${idx})" class="w-10 h-10 rounded-lg text-sm font-bold bg-gray-800 border border-gray-700 text-gray-400 hover:border-cyan-400 cursor-pointer flex items-center justify-center transition">
+                        ${idx + 1}
+                    </button>
+                `;
+            });
+        }
+
+        function loadQuestion(index) {
+            currentIndex = index;
+            clearInterval(timerInterval);
+            
+            // UI Updates
+            document.getElementById('current-q-num').innerText = index + 1;
+            const q = questions[index];
+            document.getElementById('question-text').innerText = q.text;
+
+            // Render Options
+            const container = document.getElementById('options-container');
+            container.innerHTML = "";
+            
+            q.options.forEach(opt => {
+                // Extract clean label like A, B, C, D
+                const match = opt.match(/^[\(\[]?([A-Ea-e])[\)\]\.\s]/);
+                const label = match ? match[1].toUpperCase() : opt.charAt(0).toUpperCase();
+                
+                const isSelected = userAnswers[index] === label;
+
+                container.innerHTML += `
+                    <div onclick="selectOption('${label}')" class="flex items-center gap-4 bg-[#0f111a] border ${isSelected ? 'border-cyan-400 bg-cyan-500/10' : 'border-gray-800 hover:border-gray-600'} rounded-xl p-4 cursor-pointer transition shadow-md">
+                        <div class="w-7 h-7 rounded-full border-2 ${isSelected ? 'border-cyan-400 bg-cyan-500' : 'border-gray-600'} flex items-center justify-center text-xs font-black text-white">
+                            ${label}
+                        </div>
+                        <p class="text-lg text-gray-200">${opt}</p>
+                    </div>
+                `;
+            });
+
+            // Handle Nav Buttons Disabled State
+            document.getElementById('prev-btn').disabled = (index === 0);
+
+            // Trigger 1.5 min stopwatch
+            timeLeft = 90; 
+            updateStopwatchUI();
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                updateStopwatchUI();
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    nextQuestion(); // Auto skip to next when individual time expires
+                }
+            }, 1000);
+
+            updateSidebarCounters();
+            highlightActivePalette();
+        }
+
+        function updateStopwatchUI() {
+            const mins = String(Math.floor(timeLeft / 60)).padStart(2, '0');
+            const secs = String(timeLeft % 60).padStart(2, '0');
+            document.getElementById('stopwatch').innerText = `${mins}:${secs}`;
+        }
+
+        function selectOption(label) {
+            userAnswers[currentIndex] = label;
+            loadQuestion(currentIndex); // reload quickly to show selection state change
+        }
+
+        function nextQuestion() {
+            if (currentIndex < questions.length - 1) {
+                loadQuestion(currentIndex + 1);
+            } else {
+                alert("This was the last question! You can review or submit the test.");
+            }
+        }
+
+        function prevQuestion() {
+            if (currentIndex > 0) {
+                loadQuestion(currentIndex - 1);
+            }
+        }
+
+        function jumpToQuestion(index) {
+            loadQuestion(index);
+        }
+
+        function updateSidebarCounters() {
+            let attempted = 0;
+            questions.forEach((_, idx) => {
+                if(userAnswers[idx]) attempted++;
+            });
+            
+            document.getElementById('live-attempted').innerText = attempted;
+            document.getElementById('live-skipped').innerText = questions.length - attempted;
+
+            // Palette colors update based on status
+            questions.forEach((_, idx) => {
+                const btn = document.getElementById(`palette-btn-${idx}`);
+                if (btn) {
+                    if (userAnswers[idx]) {
+                        btn.className = "w-10 h-10 rounded-lg text-sm font-bold bg-emerald-500/20 border-2 border-emerald-500 text-emerald-400 flex items-center justify-center cursor-pointer transition";
+                    } else {
+                        btn.className = "w-10 h-10 rounded-lg text-sm font-bold bg-gray-800 border border-gray-700 text-gray-400 hover:border-cyan-400 flex items-center justify-center cursor-pointer transition";
+                    }
+                }
+            });
+        }
+
+        function highlightActivePalette() {
+            const btn = document.getElementById(`palette-btn-${currentIndex}`);
+            if (btn) {
+                btn.classList.add('ring-4', 'ring-cyan-400');
+            }
+        }
+
+        function confirmSubmit() {
+            if (confirm("Are you sure you want to finish and view your final report for Operation Baaz?")) {
+                clearInterval(timerInterval);
+                showResults();
+            }
+        }
+
+        function showResults() {
+            document.getElementById('test-screen').classList.add('hidden');
+            document.getElementById('result-screen').classList.remove('hidden');
+
+            let correctCount = 0;
+            let wrongCount = 0;
+            let skippedCount = 0;
+
+            questions.forEach((q, idx) => {
+                const userAns = userAnswers[idx];
+                if (!userAns) {
+                    skippedCount++;
+                } else if (userAns === q.correct) {
+                    correctCount++;
+                } else {
+                    wrongCount++;
+                }
+            });
+
+            document.getElementById('res-score').innerText = `${correctCount}/${questions.length}`;
+            document.getElementById('res-right').innerText = correctCount;
+            document.getElementById('res-wrong').innerText = wrongCount;
+            document.getElementById('res-skipped').innerText = skippedCount;
+        }
+    </script>
+</body>
+</html>
