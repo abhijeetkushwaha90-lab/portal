@@ -13,9 +13,7 @@
 </head>
 <body class="min-h-screen flex flex-col items-center justify-center p-4 md:p-6">
 
-    <!-- 1. AUTH CONTAINER (LOGIN & REGISTRATION) -->
     <div id="auth-container" class="w-full max-w-5xl grid grid-cols-1 md:grid-cols-2 gap-6">
-        <!-- Login Form -->
         <div class="form-card rounded-xl p-8 shadow-xl flex flex-col justify-between">
             <div>
                 <h2 class="text-3xl font-bold text-white mb-2 flex items-center gap-2">
@@ -36,7 +34,6 @@
             </div>
         </div>
 
-        <!-- Registration Form -->
         <div class="form-card rounded-xl p-8 shadow-xl flex flex-col justify-between">
             <div>
                 <h2 class="text-3xl font-bold text-white mb-2 flex items-center gap-2">
@@ -62,7 +59,6 @@
         </div>
     </div>
 
-    <!-- 2. STUDENT DASHBOARD -->
     <div id="dashboard-container" class="hidden w-full max-w-6xl my-auto">
         <header class="flex flex-col md:flex-row justify-between items-start md:items-center bg-[#161b22] border border-[#30363d] rounded-xl p-6 mb-6 gap-4">
             <div>
@@ -73,17 +69,16 @@
                 <i class="fas fa-sign-out-alt"></i> Logout
             </button>
         </header>
-        <main>
+        <header>
             <h2 class="text-xl font-semibold text-white mb-4 flex items-center gap-2">
                 <i class="fas fa-file-alt text-blue-500"></i> Available Mock Tests
             </h2>
             <div id="tests-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <p id="loading-text" class="text-gray-500 col-span-3 text-center py-4">Fetching live tests from Google Sheet...</p>
             </div>
-        </main>
+        </header>
     </div>
 
-    <!-- 3. ADMIN PANEL -->
     <div id="admin-container" class="hidden w-full max-w-4xl my-auto">
         <header class="flex justify-between items-center bg-[#161b22] border border-[#30363d] rounded-xl p-6 mb-8 shadow-xl">
             <div>
@@ -122,10 +117,9 @@
         </div>
     </div>
 
-    <!-- JAVASCRIPT LOGIC -->
     <script>
-        // आपका नया Version 3 वाला URL पहले से यहाँ सेट है
-        const SHEET_URL = "https://script.google.com/macros/s/AKfycbyzl2hkXb4Mk9rHUMh2LE6KNyZ_RdJDaenoQSLs9D088pQe2vJPpQTuXLgT9D2S28zNa/exec";
+        // आपका नया यूआरएल यहाँ पूरी तरह से जुड़ चुका है
+        const SHEET_URL = "https://script.google.com/macros/s/AKfycbytc205hWtuDR2JGahuBw2sHx2f7bG9hNwc3ZpVhBWxx2GR_JKLksHcC4UGBdmHyDUI/exec";
 
         // Admin Credentials
         const ADMIN_EMAIL = "kajalkushwaha208@gmail.com";
@@ -217,7 +211,7 @@
             fetch(SHEET_URL, {
                 method: "POST",
                 mode: "no-cors",
-                headers: { "Content-Type": "application/json" },
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
                 body: JSON.stringify({ action: "register", name: name, email: email, password: password })
             })
             .then(() => {
@@ -248,7 +242,7 @@
                 fetch(SHEET_URL, {
                     method: "POST",
                     mode: "no-cors",
-                    headers: { "Content-Type": "application/json" },
+                    headers: { "Content-Type": "application/x-www-form-urlencoded" },
                     body: JSON.stringify({ 
                         type: "test", 
                         title: title, 
