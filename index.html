@@ -15,7 +15,7 @@
 
     <!-- REGISTRATION & LOGIN FORM -->
     <div id="auth-container" class="w-full max-w-5xl grid grid-cols-1 md:grid-cols-2 gap-6">
-        <!-- Student Login Mock (Direct Access for Demo/Simplicity) -->
+        <!-- Student Login -->
         <div class="form-card rounded-xl p-8 shadow-xl flex flex-col justify-between">
             <div>
                 <h2 class="text-3xl font-bold text-white mb-2 flex items-center gap-2">
@@ -36,7 +36,7 @@
             </div>
         </div>
 
-        <!-- New Registration to Google Sheets -->
+        <!-- New Registration -->
         <div class="form-card rounded-xl p-8 shadow-xl border-emerald-900/50 flex flex-col justify-between">
             <div>
                 <h2 class="text-3xl font-bold text-white mb-2 flex items-center gap-2">
@@ -67,7 +67,7 @@
         <header class="flex flex-col md:flex-row justify-between items-start md:items-center bg-[#161b22] border border-[#30363d] rounded-xl p-6 mb-6 gap-4">
             <div>
                 <h1 class="text-2xl font-bold text-white">Welcome Back, <span id="student-name" class="text-blue-400">Student</span>!</h1>
-                <p class="text-sm text-gray-400 mt-1">Status: Connected via Google Sheets API ✅</p>
+                <p class="text-sm text-gray-400 mt-1">Status: Connected via Google Sheets Live API ✅</p>
             </div>
             <button onclick="window.location.reload()" class="bg-rose-600 hover:bg-rose-700 text-white px-5 py-2.5 rounded-lg font-semibold shadow-lg transition cursor-pointer flex items-center gap-2">
                 <i class="fas fa-sign-out-alt"></i> Logout
@@ -78,25 +78,45 @@
                 <i class="fas fa-file-alt text-blue-500"></i> Available Mock Tests
             </h2>
             <div id="tests-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Static Demo Tests since Firebase is detached -->
-                <div class="form-card rounded-xl p-6 shadow-md border-t-4 border-t-blue-500 flex flex-col justify-between">
-                    <div>
-                        <h3 class="text-xl font-bold text-white mb-2">Mathematics Mock Test 01</h3>
-                        <p class="text-gray-400 text-sm mb-4">Full length mock test paper containing 50 objective questions.</p>
-                    </div>
-                    <a href="#" class="w-full mt-4 text-center bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 rounded-lg transition text-sm flex items-center justify-center gap-2">
-                        <i class="fas fa-play text-xs"></i> Start Exam
-                    </a>
-                </div>
+                <p id="loading-text" class="text-gray-500 col-span-3 text-center py-4">Fetching live tests from Google Sheet...</p>
             </div>
         </main>
     </div>
 
     <script>
-        // Aapka Sheet Script URL
         const SHEET_URL = "https://script.google.com/macros/s/AKfycbyMXIG-e-1IRkamMh5TynABpPQQMMFuaUdLxtMLfGuxr6H1K6c7I0ICYm0m5Zk7g8zfLg/exec";
 
-        // Register Submit Event
+        function loadLiveTests() {
+            fetch(SHEET_URL)
+            .then(res => res.json())
+            .then(tests => {
+                const list = document.getElementById('tests-list');
+                list.innerHTML = "";
+
+                if(tests.length === 0) {
+                    list.innerHTML = `<p class="text-gray-500 col-span-3 text-center py-4">No tests published yet by Admin.</p>`;
+                    return;
+                }
+
+                tests.forEach(test => {
+                    list.innerHTML += `
+                        <div class="form-card rounded-xl p-6 shadow-md border-t-4 border-t-blue-500 flex flex-col justify-between">
+                            <div>
+                                <h3 class="text-xl font-bold text-white mb-2">${test.title}</h3>
+                                <p class="text-gray-400 text-sm mb-4">${test.description}</p>
+                            </div>
+                            <a href="${test.link}" target="_blank" class="w-full mt-4 text-center bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 rounded-lg transition text-sm flex items-center justify-center gap-2">
+                                <i class="fas fa-file-pdf text-xs"></i> Open PDF Paper
+                            </a>
+                        </div>
+                    `;
+                });
+            })
+            .catch(err => {
+                document.getElementById('tests-list').innerHTML = `<p class="text-rose-500 col-span-3 text-center py-4">Error loading tests.</p>`;
+            });
+        }
+
         document.getElementById('register-form').addEventListener('submit', (e) => {
             e.preventDefault();
             const btn = document.getElementById('reg-btn');
@@ -109,30 +129,26 @@
 
             fetch(SHEET_URL, {
                 method: "POST",
-                mode: "no-cors", // Required for Google Scripts cross-origin bypass
+                mode: "no-cors",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ name: name, email: email, password: password })
             })
             .then(() => {
-                alert('Registration Successful! Checked Google Sheet.');
+                alert('Registration Successful!');
                 document.getElementById('student-name').innerText = name;
                 document.getElementById('auth-container').classList.add('hidden');
                 document.getElementById('dashboard-container').classList.remove('hidden');
-            })
-            .catch(err => {
-                alert("Error: " + err.message);
-                btn.innerText = "Register Profile";
-                btn.disabled = false;
+                loadLiveTests();
             });
         });
 
-        // Mock Login Event
         document.getElementById('login-form').addEventListener('submit', (e) => {
             e.preventDefault();
             const email = document.getElementById('login-email').value.trim();
             document.getElementById('student-name').innerText = email.split('@')[0];
             document.getElementById('auth-container').classList.add('hidden');
             document.getElementById('dashboard-container').classList.remove('hidden');
+            loadLiveTests();
         });
     </script>
 </body>
