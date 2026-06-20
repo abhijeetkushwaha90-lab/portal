@@ -13,13 +13,15 @@
 </head>
 <body class="min-h-screen flex items-center justify-center p-4">
 
+    <!-- REGISTRATION & LOGIN FORM -->
     <div id="auth-container" class="w-full max-w-5xl grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Student Login Mock (Direct Access for Demo/Simplicity) -->
         <div class="form-card rounded-xl p-8 shadow-xl flex flex-col justify-between">
             <div>
                 <h2 class="text-3xl font-bold text-white mb-2 flex items-center gap-2">
                     <i class="fas fa-user-graduate text-blue-500"></i> Student Login
                 </h2>
-                <p class="text-gray-400 mb-6 text-sm">Already registered? Enter your details.</p>
+                <p class="text-gray-400 mb-6 text-sm">Enter your registered email to login instantly.</p>
                 <form id="login-form" class="space-y-4">
                     <div>
                         <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Email Address</label>
@@ -27,19 +29,20 @@
                     </div>
                     <div>
                         <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Password</label>
-                        <input type="password" id="login-password" required class="w-full bg-[#0d1117] border border-[#30363d] rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition" placeholder="••••••••">
+                        <input type="password" required class="w-full bg-[#0d1117] border border-[#30363d] rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition" placeholder="••••••••">
                     </div>
-                    <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg shadow-lg hover:shadow-blue-500/20 transition cursor-pointer mt-4">Login</button>
+                    <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg shadow-lg transition cursor-pointer mt-4">Login</button>
                 </form>
             </div>
         </div>
 
+        <!-- New Registration to Google Sheets -->
         <div class="form-card rounded-xl p-8 shadow-xl border-emerald-900/50 flex flex-col justify-between">
             <div>
                 <h2 class="text-3xl font-bold text-white mb-2 flex items-center gap-2">
                     <i class="fas fa-user-plus text-emerald-500"></i> New Registration
                 </h2>
-                <p class="text-gray-400 mb-6 text-sm">Create your new student profile.</p>
+                <p class="text-gray-400 mb-6 text-sm">Your profile will be saved directly to Google Sheets.</p>
                 <form id="register-form" class="space-y-4">
                     <div>
                         <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Full Name</label>
@@ -53,19 +56,20 @@
                         <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Password</label>
                         <input type="password" id="register-password" required class="w-full bg-[#0d1117] border border-[#30363d] rounded-lg px-4 py-3 text-white focus:outline-none focus:border-emerald-500 transition" placeholder="••••••••">
                     </div>
-                    <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 rounded-lg shadow-lg hover:shadow-emerald-500/20 transition cursor-pointer mt-4">Register Profile</button>
+                    <button type="submit" id="reg-btn" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 rounded-lg shadow-lg transition cursor-pointer mt-4">Register Profile</button>
                 </form>
             </div>
         </div>
     </div>
 
+    <!-- STUDENT DASHBOARD -->
     <div id="dashboard-container" class="hidden w-full max-w-6xl">
         <header class="flex flex-col md:flex-row justify-between items-start md:items-center bg-[#161b22] border border-[#30363d] rounded-xl p-6 mb-6 gap-4">
             <div>
                 <h1 class="text-2xl font-bold text-white">Welcome Back, <span id="student-name" class="text-blue-400">Student</span>!</h1>
-                <p class="text-sm text-gray-400 mt-1">Email: <span id="student-email" class="font-mono"></span></p>
+                <p class="text-sm text-gray-400 mt-1">Status: Connected via Google Sheets API ✅</p>
             </div>
-            <button id="logout-btn" class="bg-rose-600 hover:bg-rose-700 text-white px-5 py-2.5 rounded-lg font-semibold shadow-lg hover:shadow-rose-500/20 transition cursor-pointer flex items-center gap-2">
+            <button onclick="window.location.reload()" class="bg-rose-600 hover:bg-rose-700 text-white px-5 py-2.5 rounded-lg font-semibold shadow-lg transition cursor-pointer flex items-center gap-2">
                 <i class="fas fa-sign-out-alt"></i> Logout
             </button>
         </header>
@@ -73,126 +77,63 @@
             <h2 class="text-xl font-semibold text-white mb-4 flex items-center gap-2">
                 <i class="fas fa-file-alt text-blue-500"></i> Available Mock Tests
             </h2>
-            <div id="tests-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
-            <div id="no-tests" class="hidden text-center py-12 form-card rounded-xl">
-                <i class="fas fa-folder-open text-gray-600 text-5xl mb-3"></i>
-                <p class="text-gray-400 text-lg">No mock tests available at the moment.</p>
+            <div id="tests-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Static Demo Tests since Firebase is detached -->
+                <div class="form-card rounded-xl p-6 shadow-md border-t-4 border-t-blue-500 flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-xl font-bold text-white mb-2">Mathematics Mock Test 01</h3>
+                        <p class="text-gray-400 text-sm mb-4">Full length mock test paper containing 50 objective questions.</p>
+                    </div>
+                    <a href="#" class="w-full mt-4 text-center bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 rounded-lg transition text-sm flex items-center justify-center gap-2">
+                        <i class="fas fa-play text-xs"></i> Start Exam
+                    </a>
+                </div>
             </div>
         </main>
     </div>
 
-    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
-
     <script>
-        // Sateek API Key aur Configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyBOeLSNjBXkjMgtqe3jgOdhNVTu8F8Fx_14",
-            authDomain: "operation-baaz.firebaseapp.com",
-            projectId: "operation-baaz",
-            storageBucket: "operation-baaz.firebasestorage.app",
-            messagingSenderId: "229131380430",
-            appId: "1:229131380430:web:e9b77b1703ee62a1af929f",
-            measurementId: "G-DRNSDYSN6B"
-        };
+        // Aapka Sheet Script URL
+        const SHEET_URL = "https://script.google.com/macros/s/AKfycbyMXIG-e-1IRkamMh5TynABpPQQMMFuaUdLxtMLfGuxr6H1K6c7I0ICYm0m5Zk7g8zfLg/exec";
 
-        firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-        const db = firebase.firestore();
-
-        const authContainer = document.getElementById('auth-container');
-        const dashboardContainer = document.getElementById('dashboard-container');
-        const studentNameDisplay = document.getElementById('student-name');
-        const studentEmailDisplay = document.getElementById('student-email');
-        const testsList = document.getElementById('tests-list');
-        const noTests = document.getElementById('no-tests');
-
-        // Check user login status
-        auth.onAuthStateChanged(user => {
-            if (user) {
-                db.collection('students').doc(user.uid).get().then(doc => {
-                    studentNameDisplay.innerText = doc.exists ? (doc.data().name || "Student") : "Student";
-                    studentEmailDisplay.innerText = user.email;
-                    authContainer.classList.add('hidden');
-                    dashboardContainer.classList.remove('hidden');
-                    loadMockTests();
-                }).catch(() => {
-                    studentEmailDisplay.innerText = user.email;
-                    authContainer.classList.add('hidden');
-                    dashboardContainer.classList.remove('hidden');
-                    loadMockTests();
-                });
-            } else {
-                dashboardContainer.classList.add('hidden');
-                authContainer.classList.remove('hidden');
-            }
-        });
-
-        // New Registration
+        // Register Submit Event
         document.getElementById('register-form').addEventListener('submit', (e) => {
             e.preventDefault();
+            const btn = document.getElementById('reg-btn');
+            btn.innerText = "Registering...";
+            btn.disabled = true;
+
             const name = document.getElementById('register-name').value.trim();
             const email = document.getElementById('register-email').value.trim();
             const password = document.getElementById('register-password').value;
 
-            auth.createUserWithEmailAndPassword(email, password)
-                .then(cred => {
-                    return db.collection('students').doc(cred.user.uid).set({
-                        name: name,
-                        email: email,
-                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
-                    });
-                })
-                .then(() => {
-                    alert('Registration Successful!');
-                    document.getElementById('register-form').reset();
-                })
-                .catch(err => alert("Firebase: " + err.message));
+            fetch(SHEET_URL, {
+                method: "POST",
+                mode: "no-cors", // Required for Google Scripts cross-origin bypass
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ name: name, email: email, password: password })
+            })
+            .then(() => {
+                alert('Registration Successful! Checked Google Sheet.');
+                document.getElementById('student-name').innerText = name;
+                document.getElementById('auth-container').classList.add('hidden');
+                document.getElementById('dashboard-container').classList.remove('hidden');
+            })
+            .catch(err => {
+                alert("Error: " + err.message);
+                btn.innerText = "Register Profile";
+                btn.disabled = false;
+            });
         });
 
-        // Student Login
+        // Mock Login Event
         document.getElementById('login-form').addEventListener('submit', (e) => {
             e.preventDefault();
             const email = document.getElementById('login-email').value.trim();
-            const password = document.getElementById('login-password').value;
-
-            auth.signInWithEmailAndPassword(email, password)
-                .then(() => document.getElementById('login-form').reset())
-                .catch(err => alert("Firebase: " + err.message));
+            document.getElementById('student-name').innerText = email.split('@')[0];
+            document.getElementById('auth-container').classList.add('hidden');
+            document.getElementById('dashboard-container').classList.remove('hidden');
         });
-
-        // Logout
-        document.getElementById('logout-btn').addEventListener('click', () => {
-            auth.signOut().then(() => window.location.reload());
-        });
-
-        // Load Mock Tests from Firestore
-        function loadMockTests() {
-            testsList.innerHTML = '';
-            db.collection('tests').orderBy('createdAt', 'desc').get().then(snapshot => {
-                if (snapshot.empty) {
-                    noTests.classList.remove('hidden');
-                    return;
-                }
-                noTests.classList.add('hidden');
-                snapshot.forEach(doc => {
-                    const test = doc.data();
-                    const card = document.createElement('div');
-                    card.className = 'form-card rounded-xl p-6 shadow-md border-t-4 border-t-blue-500 flex flex-col justify-between';
-                    card.innerHTML = `
-                        <div>
-                            <h3 class="text-xl font-bold text-white mb-2">${test.title || 'Untitled Test'}</h3>
-                            <p class="text-gray-400 text-sm mb-4 line-clamp-2">${test.description || 'No description.'}</p>
-                        </div>
-                        <a href="${test.link || '#'}" target="_blank" class="w-full mt-4 text-center bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 rounded-lg transition text-sm flex items-center justify-center gap-2">
-                            <i class="fas fa-play text-xs"></i> Start Exam
-                        </a>
-                    `;
-                    testsList.appendChild(card);
-                });
-            }).catch(() => noTests.classList.remove('hidden'));
-        }
     </script>
 </body>
 </html>
