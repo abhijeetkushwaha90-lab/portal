@@ -120,16 +120,14 @@
     <script>
         const SHEET_URL = "https://script.google.com/macros/s/AKfycbyMXIG-e-1IRkamMh5TynABpPQQMMFuaUdLxtMLfGuxr6H1K6c7I0ICYm0m5Zk7g8zfLg/exec";
 
-        // यहाँ अपनी एडमिन ID और पासवर्ड सेट करें
-        const ADMIN_EMAIL = "admin@baaz.com";
-        const ADMIN_PASSWORD = "adminsecretpass";
+        // आपका एडमिन ईमेल और पासवर्ड यहाँ सेट है
+        const ADMIN_EMAIL = "kajalkushwaha208@gmail.com";
+        const ADMIN_PASSWORD = "kajal@123";
 
-        // यूज़र लॉगआउट करने के लिए फ़ंक्शन
         function logout() {
             window.location.reload();
         }
 
-        // लाइव टेस्ट लोड करने के लिए (स्टूडेंट के लिए)
         function loadLiveTests() {
             fetch(SHEET_URL)
             .then(res => res.json())
@@ -161,21 +159,17 @@
             });
         }
 
-        // लॉग इन सबमिशन हैंडलर (दोनों के लिए काम करेगा)
         document.getElementById('login-form').addEventListener('submit', (e) => {
             e.preventDefault();
             const email = document.getElementById('login-email').value.trim();
             const password = document.getElementById('login-password').value;
 
-            // जाँचें कि क्या यह एडमिन है
             if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
-                // एडमिन पैनल दिखाएँ
                 document.getElementById('auth-container').classList.add('hidden');
                 document.getElementById('admin-container').classList.remove('hidden');
-                document.body.className = "min-h-screen p-6 block"; // एडमिन लेआउट एडजस्टमेंट
+                document.body.className = "min-h-screen p-6 block"; 
                 alert('Welcome Admin!');
             } else {
-                // छात्र लॉगिन (यहाँ आप चाहें तो Sheets API से पासवर्ड वेरिफाई कर सकते हैं, फ़िलहाल आपके पुराने कोड जैसा ही है)
                 document.getElementById('student-name').innerText = email.split('@')[0];
                 document.getElementById('auth-container').classList.add('hidden');
                 document.getElementById('dashboard-container').classList.remove('hidden');
@@ -183,7 +177,6 @@
             }
         });
 
-        // छात्र पंजीकरण हैंडलर
         document.getElementById('register-form').addEventListener('submit', (e) => {
             e.preventDefault();
             const btn = document.getElementById('reg-btn');
@@ -194,7 +187,6 @@
             const email = document.getElementById('register-email').value.trim();
             const password = document.getElementById('register-password').value;
 
-            // रजिस्ट्रेशन के समय एडमिन ईमेल बैन करें
             if(email === ADMIN_EMAIL) {
                 alert("This email is reserved for Admin.");
                 btn.innerText = "Register Profile";
@@ -217,7 +209,6 @@
             });
         });
 
-        // एडमिन टेस्ट अपलोड हैंडलर
         document.getElementById('add-test-form').addEventListener('submit', (e) => {
             e.preventDefault();
             const btn = document.getElementById('sub-btn');
