@@ -12,6 +12,8 @@
         .active-opt { background-color: #238636 !important; border-color: #2ea043 !important; color: white !important; }
         .review-opt { background-color: #9e6a03 !important; border-color: #d29922 !important; color: white !important; }
         .oos-opt { background-color: #da3633 !important; border-color: #f85149 !important; color: white !important; }
+        /* स्मूथ स्क्रॉलिंग के लिए */
+        .pdf-wrapper { -webkit-overflow-scrolling: touch; overflow-y: auto; }
     </style>
 </head>
 <body class="min-h-screen flex flex-col p-2 md:p-4">
@@ -69,22 +71,22 @@
                 <div><label class="block text-xs font-bold text-gray-400 mb-1">Test Name</label><input type="text" id="test-title" required class="w-full bg-[#0d1117] border border-[#30363d] rounded-lg px-4 py-2 text-white"></div>
                 <div><label class="block text-xs font-bold text-gray-400 mb-1">Description</label><textarea id="test-desc" required rows="2" class="w-full bg-[#0d1117] border border-[#30363d] rounded-lg px-4 py-2 text-white resize-none"></textarea></div>
                 <div><label class="block text-xs font-bold text-gray-400 mb-1">Choose Test PDF File</label><input type="file" id="test-file" accept="application/pdf" required class="w-full text-sm text-gray-400"></div>
-                <button type="submit" id="sub-btn" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 rounded-lg"><i class="fas fa-paper-plane"></i> Publish Test Live</button>
+                <button type="submit" id="sub-btn" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-lg"><i class="fas fa-paper-plane"></i> Publish Test Live</button>
             </form>
         </div>
     </div>
 
     <!-- 4. LIVE EXAM INTERFACE -->
     <div id="exam-engine-container" class="hidden w-full h-[90vh] flex flex-col lg:flex-row gap-4">
-        <!-- LEFT PANEL: HYBRID APP-SAFE PDF ENGINE -->
-        <div class="w-full lg:w-7/12 form-card rounded-xl overflow-hidden flex flex-col h-[50vh] lg:h-full">
+        <!-- LEFT PANEL: EMBED ENGINE (No external libraries required) -->
+        <div class="w-full lg:w-7/12 form-card rounded-xl overflow-hidden flex flex-col h-[45vh] lg:h-full">
             <div class="bg-[#1f242c] px-4 py-2 text-xs font-bold text-gray-400 border-b border-[#30363d] flex justify-between items-center">
                 <span><i class="fas fa-file-pdf text-rose-500"></i> QUESTION PAPER PDF</span>
                 <span id="test-name-top" class="text-white text-sm font-black">Test-Name</span>
             </div>
-            <!-- ऐप के अंदर 100% काम करने वाला नेटिव स्क्रॉलर -->
-            <div class="w-full flex-1 bg-[#1e293b] overflow-y-auto p-2 flex flex-col items-center gap-4" id="pdf-scroll-container">
-                <p id="pdf-loading-text" class="text-gray-400 text-sm mt-10"><i class="fas fa-spinner animate-spin mr-2"></i> Loading PDF Document safely inside app...</p>
+            <!-- नेटिव एम्बेड इंजन जो बिना किसी लाइब्रेरी के बेस64 पीडीएफ को रेंडर करेगा -->
+            <div class="w-full flex-1 bg-[#1e293b] pdf-wrapper" id="pdf-view-wrapper">
+                <iframe id="native-pdf-iframe" class="w-full h-full border-0 bg-white" src=""></iframe>
             </div>
         </div>
 
@@ -144,11 +146,7 @@
         <button onclick="location.reload()" class="bg-blue-600 text-white px-6 py-2 rounded-lg font-bold text-sm">Back to Dashboard</button>
     </div>
 
-    <!-- PDF.js library to fix blank mobile issue safely -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
     <script>
-        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
-
         const SHEET_URL = "https://script.google.com/macros/s/AKfycbw8NFSxkRCA1TFjNm5MPlW_mYNWg6HHXITlpQP7KcKxEEaadYZ3reX9KfEg0Y4n2Gg2/exec";
         const ADMIN_EMAIL = "kajalkushwaha208@gmail.com";
         const ADMIN_PASSWORD = "kajal@123";
@@ -230,39 +228,9 @@
             document.getElementById('exam-engine-container').classList.remove('hidden');
             document.body.className = "min-h-screen p-1 block";
 
-            // 🔥 APP PDF FIXED ENGINE LOGIC
-            const scrollContainer = document.getElementById('pdf-scroll-container');
-            scrollContainer.innerHTML = '<p class="text-gray-400 text-xs mt-10"><i class="fas fa-spinner animate-spin mr-2"></i> Unpacking exam paper securely...</p>';
-
+            // 🔥 100% मुफ़्त और इंडिपेंडेंट नेटिव बेस64 रेंडरिंग बिना बाहरी लाइब्रेरी के
             if (selectedTest.pdfdata) {
-                const base64Data = selectedTest.pdfdata.split(',')[1];
-                const pdfBytes = atob(base64Data);
-                const uint8Array = new Uint8Array(pdfBytes.length);
-                for (let i = 0; i < pdfBytes.length; i++) {
-                    uint8Array[i] = pdfBytes.charCodeAt(i);
-                }
-
-                pdfjsLib.getDocument({ data: uint8Array }).promise.then(pdf => {
-                    scrollContainer.innerHTML = ''; // Clear loading text
-                    
-                    // Render all pages sequentially for seamless scroll
-                    for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
-                        const canvas = document.createElement('canvas');
-                        canvas.className = "w-full max-w-full shadow-lg rounded-md bg-white border border-gray-700";
-                        scrollContainer.appendChild(canvas);
-
-                        pdf.getPage(pageNum).then(page => {
-                            const viewport = page.getViewport({ scale: 1.5 });
-                            const context = canvas.getContext('20d');
-                            canvas.height = viewport.height;
-                            canvas.width = viewport.width;
-
-                            page.render({ canvasContext: context, viewport: viewport });
-                        });
-                    }
-                }).catch(err => {
-                    scrollContainer.innerHTML = '<p class="text-red-400 text-xs p-4">Error loading PDF content inside mobile browser.</p>';
-                });
+                document.getElementById('native-pdf-iframe').src = selectedTest.pdfdata;
             }
 
             buildPaletteGrid(); loadQuestionNode(1);
@@ -292,54 +260,4 @@
         }
 
         function updateStopwatchUI() {
-            document.getElementById('stopwatch').innerText = `${String(Math.floor(qTimeLeft / 60)).padStart(2, '0')}:${String(qTimeLeft % 60).padStart(2, '0')}`;
-        }
-
-        function selectAnswer(label) {
-            if(!studentResponses[currentIndex]) { studentResponses[currentIndex] = { status: 'attempted', ans: label }; } 
-            else { studentResponses[currentIndex].ans = label; if(studentResponses[currentIndex].status === 'skipped') studentResponses[currentIndex].status = 'attempted'; }
-            loadQuestionNode(currentIndex);
-        }
-
-        function prevQuestion() { if(currentIndex > 1) loadQuestionNode(currentIndex - 1); }
-        function nextQuestion() { if(currentIndex < totalQuestionsCount) loadQuestionNode(currentIndex + 1); }
-        function markReview() { if(!studentResponses[currentIndex] || !studentResponses[currentIndex].ans) return; studentResponses[currentIndex].status = 'review'; loadQuestionNode(currentIndex); }
-        function markOOS() { if(!studentResponses[currentIndex] || !studentResponses[currentIndex].ans) return; studentResponses[currentIndex].status = 'oos'; loadQuestionNode(currentIndex); }
-        function stopTimerButton() { clearInterval(singleQTimer); document.getElementById('stopwatch').innerText = "STOPPED"; }
-
-        function refreshTrackerUI() {
-            let att = 0, rev = 0, oos = 0;
-            for(let i = 1; i <= totalQuestionsCount; i++) {
-                const node = document.getElementById(`pal-node-${i}`); const rec = studentResponses[i];
-                if(node) {
-                    node.className = "w-8 h-8 text-xs rounded font-bold flex items-center justify-center cursor-pointer";
-                    if(i === currentIndex) node.classList.add('ring-2', 'ring-cyan-400');
-                    if(rec && rec.ans) {
-                        if(rec.status === 'attempted') { node.classList.add('bg-emerald-700', 'text-white'); att++; }
-                        if(rec.status === 'review') { node.classList.add('bg-yellow-600', 'text-white'); rev++; }
-                        if(rec.status === 'oos') { node.classList.add('bg-rose-600', 'text-white'); oos++; }
-                    } else { node.classList.add('bg-gray-800', 'text-gray-400'); }
-                }
-            }
-            document.getElementById('count-attempted').innerText = att;
-            document.getElementById('count-review').innerText = rev;
-            document.getElementById('count-oos').innerText = oos;
-            document.getElementById('count-skipped').innerText = totalQuestionsCount - (att + rev + oos);
-        }
-
-        function confirmSubmitTest() { if(confirm("Submit Mock Test?")) { clearInterval(singleQTimer); calculateFinalResults(); } }
-
-        function calculateFinalResults() {
-            document.getElementById('exam-engine-container').classList.add('hidden');
-            document.getElementById('result-screen').classList.remove('hidden');
-            let right = 0, wrong = 0, skip = 0;
-            for(let i = 1; i <= totalQuestionsCount; i++) {
-                const rec = studentResponses[i]; const correctAns = EXAM_ANSWER_KEY[i];
-                if(!rec || !rec.ans) skip++; else if(rec.ans === correctAns) right++; else wrong++;
-            }
-            document.getElementById('res-total').innerText = totalQuestionsCount;
-            document.getElementById('res-right').innerText = right; document.getElementById('res-wrong').innerText = wrong; document.getElementById('res-skipped').innerText = skip;
-        }
-    </script>
-</body>
-</html>
+            document.getE
