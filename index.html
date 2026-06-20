@@ -36,7 +36,7 @@
             </div>
         </div>
 
-        <!-- Registration Form (Students Only) -->
+        <!-- Registration Form -->
         <div class="form-card rounded-xl p-8 shadow-xl flex flex-col justify-between">
             <div>
                 <h2 class="text-3xl font-bold text-white mb-2 flex items-center gap-2">
@@ -124,7 +124,8 @@
 
     <!-- JAVASCRIPT LOGIC -->
     <script>
-        const SHEET_URL = "https://script.google.com/macros/s/AKfycbyMXIG-e-1IRkamMh5TynABpPQQMMFuaUdLxtMLfGuxr6H1K6c7I0ICYm0m5Zk7g8zfLg/exec";
+        // आपका नया Version 2 का URL यहाँ बिल्कुल सही पेस्ट कर दिया गया है
+        const SHEET_URL = "https://script.google.com/macros/s/AKfycbyzl2hkXb4Mk9rHUMh2LE6KNyZ_RdJDaenoQSLs9D088pQe2vJPpQTuXLgT9D2S28zNa/exec";
 
         // Admin Credentials
         const ADMIN_EMAIL = "kajalkushwaha208@gmail.com";
@@ -141,7 +142,6 @@
                 const list = document.getElementById('tests-list');
                 list.innerHTML = "";
 
-                // Safe check: If the response is not an array or is empty
                 if(!Array.isArray(tests) || tests.length === 0) {
                     list.innerHTML = `<p class="text-gray-500 col-span-3 text-center py-4">No tests published yet by Admin.</p>`;
                     return;
@@ -149,10 +149,9 @@
 
                 let testCount = 0;
                 tests.forEach(test => {
-                    // It will look for any property containing URL/Link and Title dynamically
-                    const title = test.title || test.Title || test.name || test.Name;
-                    const link = test.link || test.Link || test.url || test.Url;
-                    const description = test.description || test.Description || test.desc || "";
+                    const title = test.title || test.Title;
+                    const link = test.link || test.Link;
+                    const description = test.description || test.desc || "";
 
                     if(title && link) {
                         testCount++;
@@ -171,22 +170,19 @@
                 });
 
                 if(testCount === 0) {
-                    list.innerHTML = `<p class="text-gray-500 col-span-3 text-center py-4">No valid tests found.</p>`;
+                    list.innerHTML = `<p class="text-gray-500 col-span-3 text-center py-4">No tests found.</p>`;
                 }
             })
             .catch(err => {
-                console.error(err);
-                document.getElementById('tests-list').innerHTML = `<p class="text-rose-500 col-span-3 text-center py-4">Error loading tests. Please refresh or check Apps Script.</p>`;
+                document.getElementById('tests-list').innerHTML = `<p class="text-rose-500 col-span-3 text-center py-4">Error loading tests.</p>`;
             });
         }
 
         document.getElementById('login-form').addEventListener('submit', (e) => {
             e.preventDefault();
-            const loginBtn = document.getElementById('login-btn');
             const email = document.getElementById('login-email').value.trim();
             const password = document.getElementById('login-password').value;
 
-            // 1. Check Admin
             if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
                 document.getElementById('auth-container').classList.add('hidden');
                 document.getElementById('admin-container').classList.remove('hidden');
@@ -195,7 +191,6 @@
                 return;
             }
 
-            // 2. Student Dashboard View (Bypass hard sheet check if it causes loop)
             document.getElementById('student-name').innerText = email.split('@')[0];
             document.getElementById('auth-container').classList.add('hidden');
             document.getElementById('dashboard-container').classList.remove('hidden');
@@ -226,14 +221,7 @@
                 body: JSON.stringify({ action: "register", name: name, email: email, password: password })
             })
             .then(() => {
-                alert('Registration Successful! Logging you in...');
-                document.getElementById('student-name').innerText = name;
-                document.getElementById('auth-container').classList.add('hidden');
-                document.getElementById('dashboard-container').classList.remove('hidden');
-                loadLiveTests();
-            })
-            .catch(() => {
-                // Fallback inside no-cors
+                alert('Registration Successful!');
                 document.getElementById('student-name').innerText = name;
                 document.getElementById('auth-container').classList.add('hidden');
                 document.getElementById('dashboard-container').classList.remove('hidden');
