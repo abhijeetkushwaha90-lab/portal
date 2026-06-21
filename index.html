@@ -12,22 +12,17 @@
         .active-opt { background-color: #238636 !important; border-color: #2ea043 !important; color: white !important; }
         .review-opt { background-color: #9e6a03 !important; border-color: #d29922 !important; color: white !important; }
         .oos-opt { background-color: #da3633 !important; border-color: #f85149 !important; color: white !important; }
-        /* स्मूथ स्क्रॉलिंग के लिए */
-        .pdf-wrapper { -webkit-overflow-scrolling: touch; overflow-y: auto; }
     </style>
 </head>
 <body class="min-h-screen flex flex-col p-2 md:p-4">
 
-    <!-- HEADER -->
     <header class="w-full text-center mb-4">
         <h1 class="text-4xl md:text-6xl font-black tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600">
             OPERATION BAAZ
         </h1>
     </header>
 
-    <!-- 1. AUTH CONTAINER -->
     <div id="auth-container" class="w-full max-w-5xl grid grid-cols-1 md:grid-cols-2 gap-6 mx-auto my-auto pt-4">
-        <!-- Login -->
         <div class="form-card rounded-xl p-6 shadow-xl flex flex-col justify-between">
             <h2 class="text-2xl font-bold text-white mb-4"><i class="fas fa-sign-in-alt text-blue-500"></i> Portal Login</h2>
             <form id="login-form" class="space-y-4">
@@ -36,7 +31,6 @@
                 <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 rounded-lg cursor-pointer">Login</button>
             </form>
         </div>
-        <!-- Register -->
         <div class="form-card rounded-xl p-6 shadow-xl flex flex-col justify-between">
             <h2 class="text-2xl font-bold text-white mb-4"><i class="fas fa-user-plus text-emerald-500"></i> Registration</h2>
             <form id="register-form" class="space-y-4">
@@ -48,11 +42,10 @@
         </div>
     </div>
 
-    <!-- 2. STUDENT DASHBOARD -->
     <div id="dashboard-container" class="hidden w-full max-w-6xl mx-auto">
         <header class="flex justify-between items-center form-card rounded-xl p-4 mb-4">
             <div><h1 class="text-xl font-bold">Welcome, <span id="student-name" class="text-blue-400">Student</span>!</h1></div>
-            <button onclick="location.reload()" class="bg-rose-600 text-white px-4 py-1.5 rounded-lg text-xs font-bold cursor-pointer">Logout</button>
+            <button onclick="logout()" class="bg-rose-600 text-white px-4 py-1.5 rounded-lg text-xs font-bold cursor-pointer">Logout</button>
         </header>
         <h2 class="text-lg font-bold mb-3 text-white"><i class="fas fa-file-alt text-blue-500"></i> Available Mock Tests</h2>
         <div id="tests-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -60,37 +53,32 @@
         </div>
     </div>
 
-    <!-- 3. ADMIN PANEL -->
     <div id="admin-container" class="hidden w-full max-w-4xl mx-auto">
         <header class="flex justify-between items-center form-card rounded-xl p-4 mb-4">
             <h1 class="text-xl font-bold text-white">Admin Control Center</h1>
-            <button onclick="location.reload()" class="bg-rose-600 text-white px-4 py-1.5 rounded-lg text-xs font-bold cursor-pointer">Logout</button>
+            <button onclick="logout()" class="bg-rose-600 text-white px-4 py-1.5 rounded-lg text-xs font-bold cursor-pointer">Logout</button>
         </header>
         <div class="form-card rounded-xl p-6 shadow-xl">
             <form id="add-test-form" class="space-y-4">
                 <div><label class="block text-xs font-bold text-gray-400 mb-1">Test Name</label><input type="text" id="test-title" required class="w-full bg-[#0d1117] border border-[#30363d] rounded-lg px-4 py-2 text-white"></div>
                 <div><label class="block text-xs font-bold text-gray-400 mb-1">Description</label><textarea id="test-desc" required rows="2" class="w-full bg-[#0d1117] border border-[#30363d] rounded-lg px-4 py-2 text-white resize-none"></textarea></div>
                 <div><label class="block text-xs font-bold text-gray-400 mb-1">Choose Test PDF File</label><input type="file" id="test-file" accept="application/pdf" required class="w-full text-sm text-gray-400"></div>
-                <button type="submit" id="sub-btn" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-lg"><i class="fas fa-paper-plane"></i> Publish Test Live</button>
+                <button type="submit" id="sub-btn" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 rounded-lg"><i class="fas fa-paper-plane"></i> Publish Test Live</button>
             </form>
         </div>
     </div>
 
-    <!-- 4. LIVE EXAM INTERFACE -->
     <div id="exam-engine-container" class="hidden w-full h-[90vh] flex flex-col lg:flex-row gap-4">
-        <!-- LEFT PANEL: EMBED ENGINE (No external libraries required) -->
-        <div class="w-full lg:w-7/12 form-card rounded-xl overflow-hidden flex flex-col h-[45vh] lg:h-full">
+        <div class="w-full lg:w-7/12 form-card rounded-xl overflow-hidden flex flex-col h-[50vh] lg:h-full">
             <div class="bg-[#1f242c] px-4 py-2 text-xs font-bold text-gray-400 border-b border-[#30363d] flex justify-between items-center">
                 <span><i class="fas fa-file-pdf text-rose-500"></i> QUESTION PAPER PDF</span>
                 <span id="test-name-top" class="text-white text-sm font-black">Test-Name</span>
             </div>
-            <!-- नेटिव एम्बेड इंजन जो बिना किसी लाइब्रेरी के बेस64 पीडीएफ को रेंडर करेगा -->
-            <div class="w-full flex-1 bg-[#1e293b] pdf-wrapper" id="pdf-view-wrapper">
-                <iframe id="native-pdf-iframe" class="w-full h-full border-0 bg-white" src=""></iframe>
+            <div class="w-full flex-1 bg-[#1e293b] overflow-y-auto p-2 flex flex-col items-center gap-4" id="pdf-scroll-container">
+                <p id="pdf-loading-text" class="text-gray-400 text-sm mt-10"><i class="fas fa-spinner animate-spin mr-2"></i> Loading PDF Document safely inside app...</p>
             </div>
         </div>
 
-        <!-- RIGHT PANEL: OMR -->
         <div class="w-full lg:w-5/12 flex flex-col gap-4 flex-1 lg:h-full overflow-y-auto">
             <div class="form-card rounded-xl p-4 flex justify-between items-center">
                 <div><div class="text-xs text-gray-400 font-bold">Opr. Baaz Code</div><div class="text-xl font-black text-blue-400">Q. - 80</div></div>
@@ -99,59 +87,72 @@
             </div>
 
             <div class="form-card rounded-xl p-4 flex-1 flex flex-col justify-between">
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div class="border-b sm:border-b-0 sm:border-r border-[#30363d] pb-4 sm:pb-0 sm:pr-2 flex flex-col justify-center">
-                        <div class="text-lg font-black text-white mb-4">Q-<span id="current-q-display">1</span> Please select your option:</div>
-                        <div class="grid grid-cols-2 gap-3">
-                            <button onclick="selectAnswer('A')" id="opt-A" class="bg-[#0d1117] border border-[#30363d] py-3 rounded-lg font-bold text-center text-sm transition cursor-pointer">a . - - -</button>
-                            <button onclick="selectAnswer('B')" id="opt-B" class="bg-[#0d1117] border border-[#30363d] py-3 rounded-lg font-bold text-center text-sm transition cursor-pointer">b . - - -</button>
-                            <button onclick="selectAnswer('C')" id="opt-C" class="bg-[#0d1117] border border-[#30363d] py-3 rounded-lg font-bold text-center text-sm transition cursor-pointer">c . - - -</button>
-                            <button onclick="selectAnswer('D')" id="opt-D" class="bg-[#0d1117] border border-[#30363d] py-3 rounded-lg font-bold text-center text-sm transition cursor-pointer">d . - - -</button>
+                <div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="border-b sm:border-b-0 sm:border-r border-[#30363d] pb-4 sm:pb-0 sm:pr-2 flex flex-col justify-center">
+                            <div class="text-lg font-black text-white mb-4">Q-<span id="current-q-display">1</span> Please select your option:</div>
+                            <div class="grid grid-cols-2 gap-3">
+                                <button onclick="selectAnswer('A')" id="opt-A" class="bg-[#0d1117] border border-[#30363d] py-3 rounded-lg font-bold text-center text-sm transition cursor-pointer">A</button>
+                                <button onclick="selectAnswer('B')" id="opt-B" class="bg-[#0d1117] border border-[#30363d] py-3 rounded-lg font-bold text-center text-sm transition cursor-pointer">B</button>
+                                <button onclick="selectAnswer('C')" id="opt-C" class="bg-[#0d1117] border border-[#30363d] py-3 rounded-lg font-bold text-center text-sm transition cursor-pointer">C</button>
+                                <button onclick="selectAnswer('D')" id="opt-D" class="bg-[#0d1117] border border-[#30363d] py-3 rounded-lg font-bold text-center text-sm transition cursor-pointer">D</button>
+                            </div>
+                        </div>
+                        <div class="pt-2 sm:pt-0 sm:pl-2 flex flex-col">
+                            <div class="text-xs font-bold text-gray-400 uppercase mb-2">Question Grid</div>
+                            <div id="palette-grid" class="grid grid-cols-5 gap-1.5 overflow-y-auto max-h-40 pr-1"></div>
                         </div>
                     </div>
-                    <div class="pt-2 sm:pt-0 sm:pl-2 flex flex-col">
-                        <div class="text-xs font-bold text-gray-400 uppercase mb-2">Question Grid</div>
-                        <div id="palette-grid" class="grid grid-cols-5 gap-1.5 overflow-y-auto max-h-40 pr-1"></div>
+
+                    <div class="mt-4 p-3 bg-blue-950/30 border border-blue-900 rounded-xl text-xs">
+                        <div class="font-bold text-blue-400 mb-1"><i class="fas fa-robot"></i> AI OMR Answer Evaluator</div>
+                        <p class="text-gray-400 mb-2">If PDF has an Answer Key at the bottom, paste it below to evaluate dynamically:</p>
+                        <input type="text" id="ai-paste-input" placeholder="Example: 1:A, 2:B, 3:C or A B C D..." class="w-full bg-[#0d1117] border border-[#30363d] rounded p-2 text-white text-xs outline-none focus:border-blue-500">
                     </div>
                 </div>
 
-                <div class="grid grid-cols-4 gap-2 bg-[#0d1117] p-2.5 rounded-xl border border-[#30363d] mt-4 text-center">
-                    <div><p class="text-[9px] text-gray-400 font-bold uppercase">Attempted</p><p id="count-attempted" class="text-md font-black text-emerald-400">0</p></div>
-                    <div><p class="text-[9px] text-gray-400 font-bold uppercase">Skiped</p><p id="count-skipped" class="text-md font-black text-amber-500">80</p></div>
-                    <div><p class="text-[9px] text-gray-400 font-bold uppercase">M. for Rev</p><p id="count-review" class="text-md font-black text-yellow-500">0</p></div>
-                    <div><p class="text-[9px] text-gray-400 font-bold uppercase">Out of Syl.</p><p id="count-oos" class="text-md font-black text-rose-500">0</p></div>
-                </div>
+                <div>
+                    <div class="grid grid-cols-4 gap-2 bg-[#0d1117] p-2.5 rounded-xl border border-[#30363d] mt-4 text-center">
+                        <div><p class="text-[9px] text-gray-400 font-bold uppercase">Attempted</p><p id="count-attempted" class="text-md font-black text-emerald-400">0</p></div>
+                        <div><p class="text-[9px] text-gray-400 font-bold uppercase">Skipped</p><p id="count-skipped" class="text-md font-black text-amber-500">80</p></div>
+                        <div><p class="text-[9px] text-gray-400 font-bold uppercase">M. for Rev</p><p id="count-review" class="text-md font-black text-yellow-500">0</p></div>
+                        <div><p class="text-[9px] text-gray-400 font-bold uppercase">Out of Syl.</p><p id="count-oos" class="text-md font-black text-rose-500">0</p></div>
+                    </div>
 
-                <div class="grid grid-cols-3 gap-2 border-t border-[#30363d] pt-3 mt-4 text-xs font-bold">
-                    <button onclick="prevQuestion()" class="bg-[#21262d] py-2 rounded cursor-pointer text-center">Pr.</button>
-                    <button onclick="nextQuestion()" class="bg-[#21262d] py-2 rounded cursor-pointer text-center">Next</button>
-                    <button onclick="markOOS()" class="bg-rose-900/40 text-rose-400 border border-rose-800 py-2 rounded cursor-pointer text-center text-[10px]">Out of Sl</button>
-                    <button onclick="markReview()" class="bg-yellow-950/40 text-yellow-400 border border-yellow-800 py-2 rounded cursor-pointer text-center text-[10px]">M. for Rev</button>
-                    <button onclick="stopTimerButton()" class="bg-gray-800 text-gray-300 py-2 rounded cursor-pointer text-center text-[10px]">Stop button</button>
-                    <button onclick="confirmSubmitTest()" class="bg-emerald-600 text-white py-2 rounded cursor-pointer text-center uppercase">Sumit</button>
+                    <div class="grid grid-cols-3 gap-2 border-t border-[#30363d] pt-3 mt-4 text-xs font-bold">
+                        <button onclick="prevQuestion()" class="bg-[#21262d] py-2 rounded cursor-pointer text-center">Pr.</button>
+                        <button onclick="nextQuestion()" class="bg-[#21262d] py-2 rounded cursor-pointer text-center">Next</button>
+                        <button onclick="markOOS()" class="bg-rose-900/40 text-rose-400 border border-rose-800 py-2 rounded cursor-pointer text-center text-[10px]">Out of Sl</button>
+                        <button onclick="markReview()" class="bg-yellow-950/40 text-yellow-400 border border-yellow-800 py-2 rounded cursor-pointer text-center text-[10px]">M. for Rev</button>
+                        <button onclick="stopTimerButton()" class="bg-gray-800 text-gray-300 py-2 rounded cursor-pointer text-center text-[10px]">Stop Timer</button>
+                        <button onclick="confirmSubmitTest()" class="bg-emerald-600 text-white py-2 rounded cursor-pointer text-center uppercase">Submit</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- 5. FINAL SCORE SCREEN -->
     <div id="result-screen" class="hidden max-w-2xl w-full form-card rounded-2xl p-6 shadow-2xl text-center mx-auto my-auto">
         <h2 class="text-2xl font-black text-emerald-400 mb-2">MOCK TEST RESULTS</h2>
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
-            <div class="bg-blue-500/5 border border-blue-500/20 p-3 rounded-xl"><p class="text-gray-400 text-xs">Total Checked</p><p id="res-total" class="text-2xl font-black text-blue-400 mt-1">0</p></div>
+            <div class="bg-blue-500/5 border border-blue-500/20 p-3 rounded-xl"><p class="text-gray-400 text-xs">Total Questions</p><p id="res-total" class="text-2xl font-black text-blue-400 mt-1">0</p></div>
             <div class="bg-emerald-500/5 border border-emerald-500/20 p-3 rounded-xl"><p class="text-gray-400 text-xs">Right Answer</p><p id="res-right" class="text-2xl font-black text-emerald-400 mt-1">0</p></div>
             <div class="bg-rose-500/5 border border-rose-500/20 p-3 rounded-xl"><p class="text-gray-400 text-xs">Wrong Answer</p><p id="res-wrong" class="text-2xl font-black text-rose-400 mt-1">0</p></div>
             <div class="bg-amber-500/5 border border-amber-500/20 p-3 rounded-xl"><p class="text-gray-400 text-xs">Skipped</p><p id="res-skipped" class="text-2xl font-black text-amber-400 mt-1">0</p></div>
         </div>
-        <button onclick="location.reload()" class="bg-blue-600 text-white px-6 py-2 rounded-lg font-bold text-sm">Back to Dashboard</button>
+        <button onclick="goToDashboard()" class="bg-blue-600 text-white px-6 py-2 rounded-lg font-bold text-sm">Back to Dashboard</button>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
     <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+
         const SHEET_URL = "https://script.google.com/macros/s/AKfycbw8NFSxkRCA1TFjNm5MPlW_mYNWg6HHXITlpQP7KcKxEEaadYZ3reX9KfEg0Y4n2Gg2/exec";
         const ADMIN_EMAIL = "kajalkushwaha208@gmail.com";
         const ADMIN_PASSWORD = "kajal@123";
 
-        const EXAM_ANSWER_KEY = {
+        // Default Hardcoded Keys fallback
+        let DynamicAnswerKey = {
             1:"C", 2:"D", 3:"B", 4:"C", 5:"A", 6:"B", 7:"C", 8:"D", 9:"A", 10:"B",
             11:"C", 12:"A", 13:"D", 14:"B", 15:"C", 16:"D", 17:"A", 18:"C", 19:"B", 20:"A",
             21:"D", 22:"C", 23:"B", 24:"A", 25:"D", 26:"C", 27:"B", 28:"A", 29:"C", 30:"D",
@@ -165,20 +166,51 @@
         let activeTests = []; let currentIndex = 1; let totalQuestionsCount = 80;
         let studentResponses = {}; let singleQTimer = null; let qTimeLeft = 90;
 
+        // CHECK LOGIN STATE ON LOAD (Refresh Secure)
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedUser = localStorage.getItem('baaz_user');
+            const savedRole = localStorage.getItem('baaz_role');
+            if (savedUser && savedRole) {
+                document.getElementById('auth-container').classList.add('hidden');
+                if (savedRole === 'admin') {
+                    document.getElementById('admin-container').classList.remove('hidden');
+                } else {
+                    document.getElementById('student-name').innerText = savedUser.split('@')[0];
+                    document.getElementById('dashboard-container').classList.remove('hidden');
+                    fetchDashboardTests();
+                }
+            }
+        });
+
         document.getElementById('login-form').addEventListener('submit', (e) => {
             e.preventDefault();
             const email = document.getElementById('login-email').value.trim();
             const password = document.getElementById('login-password').value;
-            if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
-                document.getElementById('auth-container').classList.add('hidden');
-                document.getElementById('admin-container').classList.remove('hidden');
-                return;
-            }
-            document.getElementById('student-name').innerText = email.split('@')[0];
+            
             document.getElementById('auth-container').classList.add('hidden');
+            if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
+                localStorage.setItem('baaz_user', email);
+                localStorage.setItem('baaz_role', 'admin');
+                document.getElementById('admin-container').classList.remove('hidden');
+            } else {
+                localStorage.setItem('baaz_user', email);
+                localStorage.setItem('baaz_role', 'student');
+                document.getElementById('student-name').innerText = email.split('@')[0];
+                document.getElementById('dashboard-container').classList.remove('hidden');
+                fetchDashboardTests();
+            }
+        });
+
+        function logout() {
+            localStorage.clear();
+            location.reload();
+        }
+
+        function goToDashboard() {
+            document.getElementById('result-screen').classList.add('hidden');
             document.getElementById('dashboard-container').classList.remove('hidden');
             fetchDashboardTests();
-        });
+        }
 
         document.getElementById('register-form').addEventListener('submit', (e) => {
             e.preventDefault();
@@ -206,17 +238,21 @@
         });
 
         function fetchDashboardTests() {
-            fetch(SHEET_URL).then(res => res.json()).then(tests => {
+            fetch(SHEET_URL)
+            .then(res => res.json())
+            .then(tests => {
                 activeTests = tests;
                 const list = document.getElementById('tests-list'); list.innerHTML = "";
-                if(tests.length === 0) { list.innerHTML = `<p class="col-span-3 text-center text-gray-500">No tests available.</p>`; return; }
+                if(!tests || tests.length === 0) { list.innerHTML = `<p class="col-span-3 text-center text-gray-500">No tests available.</p>`; return; }
                 tests.forEach((test, index) => {
                     list.innerHTML += `
                         <div class="form-card rounded-xl p-4 border-t-4 border-t-blue-500 flex flex-col justify-between">
-                            <div><h3 class="text-md font-bold text-white mb-1">${test.title}</h3><p class="text-gray-400 text-xs">${test.description}</p></div>
+                            <div><h3 class="text-md font-bold text-white mb-1">${test.title}</h3><p class="text-gray-400 text-xs">${test.description || 'No description'}</p></div>
                             <button onclick="launchExamEngine(${index})" class="w-full mt-3 bg-emerald-600 py-2 rounded-lg text-xs font-bold uppercase cursor-pointer">Start Live Test</button>
                         </div>`;
                 });
+            }).catch(err => {
+                document.getElementById('tests-list').innerHTML = `<p class="col-span-3 text-center text-rose-400">Error loading data from Google Sheets.</p>`;
             });
         }
 
@@ -228,11 +264,42 @@
             document.getElementById('exam-engine-container').classList.remove('hidden');
             document.body.className = "min-h-screen p-1 block";
 
-            // 🔥 100% मुफ़्त और इंडिपेंडेंट नेटिव बेस64 रेंडरिंग बिना बाहरी लाइब्रेरी के
-            if (selectedTest.pdfdata) {
-                document.getElementById('native-pdf-iframe').src = selectedTest.pdfdata;
+            const scrollContainer = document.getElementById('pdf-scroll-container');
+            scrollContainer.innerHTML = '<p class="text-gray-400 text-xs mt-10"><i class="fas fa-spinner animate-spin mr-2"></i> Unpacking exam paper securely...</p>';
+
+            // Handle clean base64 data strings correctly
+            let rawData = selectedTest.fileData || selectedTest.pdfdata;
+            if (rawData) {
+                const base64Data = rawData.includes(',') ? rawData.split(',')[1] : rawData;
+                const pdfBytes = atob(base64Data);
+                const uint8Array = new Uint8Array(pdfBytes.length);
+                for (let i = 0; i < pdfBytes.length; i++) {
+                    uint8Array[i] = pdfBytes.charCodeAt(i);
+                }
+
+                pdfjsLib.getDocument({ data: uint8Array }).promise.then(pdf => {
+                    scrollContainer.innerHTML = ''; 
+                    for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+                        const canvas = document.createElement('canvas');
+                        canvas.className = "w-full max-w-full shadow-lg rounded-md bg-white border border-gray-700 mb-2";
+                        scrollContainer.appendChild(canvas);
+
+                        pdf.getPage(pageNum).then(page => {
+                            const viewport = page.getViewport({ scale: 1.5 });
+                            const context = canvas.getContext('2d'); // 🔥 FIXED: '20d' corrected to '2d'
+                            canvas.height = viewport.height;
+                            canvas.width = viewport.width;
+                            page.render({ canvasContext: context, viewport: viewport });
+                        });
+                    }
+                }).catch(err => {
+                    scrollContainer.innerHTML = '<p class="text-red-400 text-xs p-4">Error loading PDF content context layout.</p>';
+                });
+            } else {
+                scrollContainer.innerHTML = '<p class="text-amber-400 text-xs p-4">No PDF binary stream string attached to this element record.</p>';
             }
 
+            studentResponses = {};
             buildPaletteGrid(); loadQuestionNode(1);
         }
 
@@ -246,7 +313,7 @@
         function loadQuestionNode(num) {
             currentIndex = num; clearInterval(singleQTimer);
             document.getElementById('current-q-display').innerText = num;
-            ['A', 'B', 'C', 'D'].forEach(opt => { document.getElementById(`opt-${opt}`).className = "bg-[#0d1117] border border-[#30363d] py-3 rounded-lg font-bold text-center text-sm transition cursor-pointer"; });
+            ['A', 'B', 'C', 'D'].forEach(opt => { document.getElementById(`opt-${opt}`).className = "bg-[#0d1117] border border-[#30363d] py-3 rounded-lg font-bold text-center text-sm transition cursor-pointer text-white"; });
             const record = studentResponses[num];
             if(record && record.ans) {
                 const btn = document.getElementById(`opt-${record.ans}`);
@@ -260,4 +327,75 @@
         }
 
         function updateStopwatchUI() {
-            document.getE
+            document.getElementById('stopwatch').innerText = `${String(Math.floor(qTimeLeft / 60)).padStart(2, '0')}:${String(qTimeLeft % 60).padStart(2, '0')}`;
+        }
+
+        function selectAnswer(label) {
+            if(!studentResponses[currentIndex]) { studentResponses[currentIndex] = { status: 'attempted', ans: label }; } 
+            else { studentResponses[currentIndex].ans = label; if(studentResponses[currentIndex].status === 'skipped') studentResponses[currentIndex].status = 'attempted'; }
+            loadQuestionNode(currentIndex);
+        }
+
+        function prevQuestion() { if(currentIndex > 1) loadQuestionNode(currentIndex - 1); }
+        function nextQuestion() { if(currentIndex < totalQuestionsCount) loadQuestionNode(currentIndex + 1); }
+        function markReview() { if(!studentResponses[currentIndex] || !studentResponses[currentIndex].ans) return; studentResponses[currentIndex].status = 'review'; loadQuestionNode(currentIndex); }
+        function markOOS() { if(!studentResponses[currentIndex] || !studentResponses[currentIndex].ans) return; studentResponses[currentIndex].status = 'oos'; loadQuestionNode(currentIndex); }
+        function stopTimerButton() { clearInterval(singleQTimer); document.getElementById('stopwatch').innerText = "STOPPED"; }
+
+        function refreshTrackerUI() {
+            let att = 0, rev = 0, oos = 0;
+            for(let i = 1; i <= totalQuestionsCount; i++) {
+                const node = document.getElementById(`pal-node-${i}`); const rec = studentResponses[i];
+                if(node) {
+                    node.className = "w-8 h-8 text-xs rounded font-bold flex items-center justify-center cursor-pointer";
+                    if(i === currentIndex) node.classList.add('ring-2', 'ring-cyan-400');
+                    if(rec && rec.ans) {
+                        if(rec.status === 'attempted') { node.classList.add('bg-emerald-700', 'text-white'); att++; }
+                        if(rec.status === 'review') { node.classList.add('bg-yellow-600', 'text-white'); rev++; }
+                        if(rec.status === 'oos') { node.classList.add('bg-rose-600', 'text-white'); oos++; }
+                    } else { node.classList.add('bg-gray-800', 'text-gray-400'); }
+                }
+            }
+            document.getElementById('count-attempted').innerText = att;
+            document.getElementById('count-review').innerText = rev;
+            document.getElementById('count-oos').innerText = oos;
+            document.getElementById('count-skipped').innerText = totalQuestionsCount - (att + rev + oos);
+        }
+
+        function confirmSubmitTest() { if(confirm("Submit Mock Test?")) { clearInterval(singleQTimer); calculateFinalResults(); } }
+
+        function calculateFinalResults() {
+            // Process AI manual input mapping string if provided by structural content 
+            const aiRawText = document.getElementById('ai-paste-input').value.trim();
+            if(aiRawText.length > 5) {
+                // Parse strings formats like "A B C D..." or "1:A, 2:B"
+                let cleanTokens = aiRawText.toUpperCase().replace(/[^A-D0-9:]/g, ' ').split(/\s+/).filter(Boolean);
+                let questionPointer = 1;
+                cleanTokens.forEach(token => {
+                    if(token.includes(':')) {
+                        let parts = token.split(':');
+                        let qNum = parseInt(parts[0]);
+                        let ans = parts[1];
+                        if(qNum && ['A','B','C','D'].includes(ans)) DynamicAnswerKey[qNum] = ans;
+                    } else if(['A','B','C','D'].includes(token)) {
+                        DynamicAnswerKey[questionPointer] = token;
+                        questionPointer++;
+                    }
+                });
+            }
+
+            document.getElementById('exam-engine-container').classList.add('hidden');
+            document.getElementById('result-screen').classList.remove('hidden');
+            document.body.className = "min-h-screen flex flex-col p-2 md:p-4";
+            
+            let right = 0, wrong = 0, skip = 0;
+            for(let i = 1; i <= totalQuestionsCount; i++) {
+                const rec = studentResponses[i]; const correctAns = DynamicAnswerKey[i];
+                if(!rec || !rec.ans) skip++; else if(rec.ans === correctAns) right++; else wrong++;
+            }
+            document.getElementById('res-total').innerText = totalQuestionsCount;
+            document.getElementById('res-right').innerText = right; document.getElementById('res-wrong').innerText = wrong; document.getElementById('res-skipped').innerText = skip;
+        }
+    </script>
+</body>
+</html>
