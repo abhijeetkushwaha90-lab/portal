@@ -806,10 +806,14 @@ body.notes-open{-webkit-user-select:none;user-select:none;}
    CONFIG & STATE
    ============================================================ */
 const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz94_WMrpCCh6w98LcV4G1lkRCKl7Ls0GELPvqA0YuS2pYLPQ1R-3ezuhMriteqg8Us/exec";
-const ADMIN_EMAIL = "kajalkushwaha208@gmail.com";
-const ADMIN_PASSWORD = "Kajal@123";
 const UPI_ID = "7068252052@axl";
 const UPI_NAME = "Abhijeet Kushwaha";
+/* SECURITY NOTE: Admin credentials are NOT defined here anymore.
+   Admin login is verified entirely on the backend (Code.gs). The
+   frontend just sends email+password to the server like any other
+   login attempt, and the server decides whether the response role
+   is "admin" or "student". This means viewing page source no longer
+   reveals the admin password. */
 
 let cachedTests=[], activeTest=null, currentTestQuestions=[];
 let flaggedQuestions={}, visitedQuestions={}, studentResponses={};
@@ -920,26 +924,36 @@ async function doSignup() {
   } catch(e){err.innerText="Server error. Try again.";err.classList.remove('hidden');}
 }
 
+/* ------------------------------------------------------------------
+   doLogin() — SECURITY-PATCHED VERSION
+   Previously this function compared the typed email/password against
+   hardcoded ADMIN_EMAIL/ADMIN_PASSWORD constants sitting in this very
+   file, visible to anyone who opened dev tools or viewed page source.
+   Now it ALWAYS sends credentials to the backend, and the backend
+   alone decides if the login is admin or student (see Code.gs
+   handleLogin_ function). The response includes "role" directly.
+   ------------------------------------------------------------------ */
 async function doLogin() {
   const email=document.getElementById('login-email').value.trim();
   const password=document.getElementById('login-password').value;
   const err=document.getElementById('login-error');
   err.classList.add('hidden');
 
-  if(email===ADMIN_EMAIL && password===ADMIN_PASSWORD) {
-    const adminObj={uid:"ADMIN",name:"Admin",email:ADMIN_EMAIL,role:"admin",walletBalance:9999,sessionID:"ROOT",blurStrikes:0,joinDate:new Date().toLocaleDateString()};
-    localStorage.setItem('baaz_email',email);
-    localStorage.setItem('baaz_userdata',JSON.stringify(adminObj));
-    loginSuccess(adminObj); return;
+  if(!email || !password) {
+    err.innerText="Email aur Password dono bharein.";
+    err.classList.remove('hidden');
+    return;
   }
+
   try {
     const res=await fetch(APPS_SCRIPT_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:"login",email,password})});
     const d=await res.json();
     if(d.status==="success"){
-      const user={...d,role:"student"};
+      // role comes from the server now ("admin" or "student") —
+      // the frontend no longer makes this decision itself.
       localStorage.setItem('baaz_email',email);
-      localStorage.setItem('baaz_userdata',JSON.stringify(user));
-      loginSuccess(user);
+      localStorage.setItem('baaz_userdata',JSON.stringify(d));
+      loginSuccess(d);
     } else {err.innerText=d.message;err.classList.remove('hidden');}
   } catch(e){err.innerText="Login error. Check connection.";err.classList.remove('hidden');}
 }
@@ -1251,7 +1265,10 @@ function filterCourses(cat) {
 }
 
 /* ============================================================
-   PAYMENT MODAL
+   PAYMENT MODAL — purely optional / non-blocking popup.
+   Nothing in this app gates access behind payment going through;
+   it just shows UPI details and a WhatsApp link for manual
+   confirmation. Closing it does nothing destructive.
    ============================================================ */
 function openPaymentModal(courseName, price) {
   if(!courseName || !courseName.trim()) return;
