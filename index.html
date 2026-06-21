@@ -3,13 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Operation Baaz — Complete Learning Platform v11.0</title>
+<title>Operation Baaz — Complete Learning Platform v12.0</title>
 <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
-/* ============================================================
-   THEME SYSTEM
-   ============================================================ */
+/* ============ THEME SYSTEM ============ */
 html[data-theme="military"] {
   --bg:#0a0f18;--card:#131a26;--border:rgba(33,38,53,0.65);
   --text:#c9d1d9;--text-dim:#7d8590;
@@ -38,8 +36,9 @@ html[data-theme="minimalist"] {
   --grad1:#2563eb;--grad2:#4f46e5;--grad3:#131a26;
 }
 
-*{transition:background-color .2s ease,border-color .2s ease,color .2s ease;box-sizing:border-box;}
+*{transition:background-color .2s,border-color .2s,color .2s;box-sizing:border-box;}
 body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,sans-serif;min-height:100vh;}
+.hidden{display:none!important;}
 .premium-card{background:var(--card);border:0.5px solid var(--border);box-shadow:0 12px 40px rgba(0,0,0,.6);backdrop-filter:blur(12px);}
 .surface{background:var(--bg);border:0.5px solid var(--border);}
 .text-muted{color:var(--text-dim);}
@@ -56,42 +55,25 @@ body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,
 .btn-neutral:hover{filter:brightness(1.25);}
 .input-field{background:var(--bg);border:0.5px solid var(--border);color:var(--text);}
 .input-field:focus{outline:none;border-color:var(--accent);}
-.nav-tab-active{background:color-mix(in srgb,var(--accent) 12%,var(--card));border-color:var(--accent);color:var(--accent);}
 .active-opt{background-color:var(--success)!important;border-color:var(--success2)!important;color:#fff!important;}
 .flagged-node{background-color:var(--flag)!important;border-color:var(--flag2)!important;color:#fff!important;}
 .answered-node{background-color:var(--success)!important;border-color:var(--success2)!important;color:#fff!important;}
-.student-lock{-webkit-user-select:none;user-select:none;}
 .timer-critical{color:var(--danger2)!important;animation:pulse 1.4s infinite;}
 @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.4;}}
-.watermark-overlay{position:absolute;inset:0;pointer-events:none;overflow:hidden;display:flex;align-items:center;justify-content:center;z-index:5;}
-.watermark-overlay span{display:block;white-space:nowrap;font-size:1.1rem;font-weight:800;color:var(--text);opacity:.03;transform:rotate(-28deg) scale(2.2);letter-spacing:.1em;}
-.gender-pill{background:var(--bg);border:0.5px solid var(--border);color:var(--text-dim);}
-.gender-pill.active{background:var(--accent);color:var(--accent-text);border-color:var(--accent);}
-.vip-card{border:0.5px solid rgba(245,158,11,0.4);background:linear-gradient(135deg,rgba(245,158,11,0.05),rgba(239,68,68,0.05));}
-.vip-badge{background:linear-gradient(90deg,#f59e0b,#ef4444);color:#fff;font-size:9px;font-weight:900;padding:2px 8px;border-radius:999px;}
-.lock-overlay{position:absolute;inset:0;background:rgba(0,0,0,.75);border-radius:inherit;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;}
-.review-correct{background:rgba(16,185,129,0.08);}
-.review-wrong{background:rgba(244,63,94,0.08);}
-.spinner{border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;width:28px;height:28px;animation:spin .7s linear infinite;margin:auto;}
-@keyframes spin{to{transform:rotate(360deg);}}
-.auth-tab{padding:.5rem 1.25rem;border-radius:.75rem;font-weight:700;font-size:.75rem;cursor:pointer;color:var(--text-dim);flex:1;}
-.auth-tab.active{background:var(--accent);color:var(--accent-text);}
-.broadcast-banner{background:linear-gradient(90deg,#1e293b,var(--card));border-bottom:1px solid var(--border);animation:flashBorder 3s infinite alternate;}
-@keyframes flashBorder{from{border-color:var(--border);}to{border-color:var(--accent);}}
 
-/* HOME DASHBOARD GRID */
+/* WATERMARK */
+.wm-overlay{position:fixed;inset:0;pointer-events:none;z-index:9999;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+.wm-overlay span{white-space:nowrap;font-size:1.2rem;font-weight:900;color:var(--text);opacity:.04;transform:rotate(-28deg) scale(2.8);letter-spacing:.12em;user-select:none;}
+
+/* HOME GRID */
 .home-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:8px;}
 @media(min-width:640px){.home-grid{grid-template-columns:repeat(4,1fr);}}
-@media(min-width:768px){.home-grid{grid-template-columns:repeat(3,1fr);}}
-.home-card{background:var(--card);border:0.5px solid var(--border);border-radius:18px;padding:20px 12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;cursor:pointer;transition:all .25s ease;position:relative;overflow:hidden;min-height:110px;text-align:center;}
+.home-card{background:var(--card);border:0.5px solid var(--border);border-radius:18px;padding:20px 12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;cursor:pointer;transition:all .25s;position:relative;overflow:hidden;min-height:110px;text-align:center;}
 .home-card:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(0,0,0,.5);border-color:var(--accent);}
 .home-card:active{transform:scale(0.96);}
-.home-card .card-icon{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin-bottom:2px;}
+.home-card .card-icon{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;}
 .home-card .card-label{font-size:11px;font-weight:800;color:var(--text);letter-spacing:.03em;line-height:1.2;}
-.home-card .card-sub{font-size:9px;color:var(--text-dim);font-weight:600;margin-top:2px;}
-.home-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,0.03),transparent);pointer-events:none;}
-
-/* GRADIENT CARD COLORS */
+.home-card .card-sub{font-size:9px;color:var(--text-dim);font-weight:600;}
 .card-g1{background:linear-gradient(135deg,#1a1a2e,#16213e);}
 .card-g2{background:linear-gradient(135deg,#0f1b12,#1a2f1d);}
 .card-g3{background:linear-gradient(135deg,#1a0a0a,#2d1515);}
@@ -101,99 +83,131 @@ body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,
 .card-g7{background:linear-gradient(135deg,#001a1a,#002d2d);}
 .card-g8{background:linear-gradient(135deg,#1a0a1a,#2d152d);}
 .card-g9{background:linear-gradient(135deg,#0a0a0a,#1a0000);}
+.card-gA{background:linear-gradient(135deg,#001020,#002040);}
+.card-gB{background:linear-gradient(135deg,#0a1a00,#1a3000);}
+.card-gC{background:linear-gradient(135deg,#1a000a,#300015);}
 
-/* MODAL SYSTEM */
-.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:1000;display:flex;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(8px);}
-.modal-box{background:var(--card);border:0.5px solid var(--border);border-radius:20px;padding:24px;max-width:520px;width:100%;max-height:90vh;overflow-y:auto;position:relative;}
+/* MODAL */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:1000;display:flex;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(10px);}
+.modal-box{background:var(--card);border:0.5px solid var(--border);border-radius:20px;padding:24px;max-width:540px;width:100%;max-height:90vh;overflow-y:auto;position:relative;}
 
-/* PAYMENT SECTION */
+/* EXAM */
+.exam-container{min-height:85vh;}
+
+/* TABS */
+.admin-tab{padding:8px 16px;border-radius:10px;font-weight:700;font-size:11px;cursor:pointer;color:var(--text-dim);border:0.5px solid transparent;}
+.admin-tab.active{background:var(--accent);color:var(--accent-text);}
+.auth-tab{padding:.5rem 1.25rem;border-radius:.75rem;font-weight:700;font-size:.75rem;cursor:pointer;color:var(--text-dim);flex:1;}
+.auth-tab.active{background:var(--accent);color:var(--accent-text);}
+.nav-pill{padding:6px 14px;border-radius:999px;font-size:11px;font-weight:700;cursor:pointer;border:1px solid var(--border);color:var(--text-dim);transition:all .2s;}
+.nav-pill.active{background:var(--accent);color:var(--accent-text);border-color:var(--accent);}
+
+/* REVIEW */
+.review-correct{background:rgba(16,185,129,0.08);}
+.review-wrong{background:rgba(244,63,94,0.08);}
+.spinner{border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;width:28px;height:28px;animation:spin .7s linear infinite;margin:auto;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+/* GENDER PILL */
+.gender-pill{background:var(--bg);border:0.5px solid var(--border);color:var(--text-dim);}
+.gender-pill.active{background:var(--accent);color:var(--accent-text);border-color:var(--accent);}
+
+/* PAYMENT */
 .payment-card{background:linear-gradient(135deg,#0a2000,#001a00);border:1px solid rgba(16,185,129,0.3);border-radius:20px;padding:20px;}
-.upi-display{background:var(--bg);border:1px solid rgba(16,185,129,0.4);border-radius:12px;padding:16px;font-family:monospace;letter-spacing:.05em;}
+.upi-display{background:var(--bg);border:1px solid rgba(16,185,129,0.4);border-radius:12px;padding:16px;font-family:monospace;}
 .qr-box{background:#fff;border-radius:12px;padding:12px;display:inline-block;}
 
-/* NOTES SYSTEM */
-.notes-reader{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;}
+/* BROADCAST */
+.broadcast-banner{background:linear-gradient(90deg,#1e293b,var(--card));border-bottom:1px solid var(--border);animation:flashBorder 3s infinite alternate;}
+@keyframes flashBorder{from{border-color:var(--border);}to{border-color:var(--accent);}}
 
-/* COURSE CARDS */
-.course-card{background:var(--card);border:0.5px solid var(--border);border-radius:16px;padding:16px;position:relative;transition:all .2s ease;}
-.course-card:hover{border-color:var(--accent);transform:translateY(-2px);}
+/* COUNTDOWN */
+.countdown-banner{background:linear-gradient(135deg,rgba(239,68,68,0.15),rgba(245,158,11,0.1));border:1px solid rgba(239,68,68,0.3);border-radius:16px;padding:12px 16px;}
+.countdown-digit{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:6px 10px;font-size:1.4rem;font-weight:900;color:var(--danger2);min-width:48px;text-align:center;line-height:1;}
+.countdown-label{font-size:8px;color:var(--text-dim);font-weight:700;text-align:center;margin-top:2px;text-transform:uppercase;}
+
+/* COLOR BLINDNESS TEST */
+.ishihara-plate{border-radius:50%;width:160px;height:160px;margin:auto;position:relative;overflow:hidden;cursor:pointer;}
+.ishihara-dot{position:absolute;border-radius:50%;}
+
+/* PFT LOGGER */
+.pft-badge{padding:4px 12px;border-radius:999px;font-size:10px;font-weight:900;text-transform:uppercase;}
+.badge-alpha{background:linear-gradient(90deg,#f59e0b,#ef4444);color:#fff;}
+.badge-bravo{background:linear-gradient(90deg,#3b82f6,#6366f1);color:#fff;}
+.badge-charlie{background:linear-gradient(90deg,#6b7280,#9ca3af);color:#fff;}
+
+/* NOTES TREE */
+.tree-exam{background:var(--card);border:0.5px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:8px;}
+.tree-exam-header{padding:12px 16px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;font-weight:800;font-size:13px;}
+.tree-exam-header:hover{background:rgba(255,255,255,0.03);}
+.tree-subject{padding:8px 16px 8px 28px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;font-size:12px;font-weight:700;border-top:0.5px solid var(--border);}
+.tree-subject:hover{background:rgba(255,255,255,0.02);}
+.tree-mock{padding:8px 16px 8px 44px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;font-size:11px;border-top:0.5px solid var(--border);color:var(--text-dim);}
+.tree-mock:hover{background:rgba(255,255,255,0.02);color:var(--accent);}
+
+/* SSB WAT */
+.wat-word{font-size:2rem;font-weight:900;color:var(--accent);text-align:center;padding:20px;letter-spacing:.05em;}
+.wat-timer-ring{width:60px;height:60px;border-radius:50%;background:conic-gradient(var(--danger2) calc(var(--pct)*1%),var(--border) 0);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:1rem;color:var(--danger2);}
+
+/* VCARD */
+.vip-badge{background:linear-gradient(90deg,#f59e0b,#ef4444);color:#fff;font-size:9px;font-weight:900;padding:2px 8px;border-radius:999px;}
 .locked-badge{position:absolute;top:10px;right:10px;background:linear-gradient(90deg,#f59e0b,#ef4444);color:#fff;font-size:8px;font-weight:900;padding:3px 8px;border-radius:999px;}
+.course-card{background:var(--card);border:0.5px solid var(--border);border-radius:16px;padding:16px;position:relative;transition:all .2s;}
+.course-card:hover{border-color:var(--accent);transform:translateY(-2px);}
 
-/* RANKING */
+/* RANK */
 .rank-gold{background:linear-gradient(135deg,rgba(245,158,11,0.15),rgba(245,158,11,0.05));border-color:rgba(245,158,11,0.4)!important;}
 .rank-silver{background:linear-gradient(135deg,rgba(148,163,184,0.1),transparent);border-color:rgba(148,163,184,0.3)!important;}
 .rank-bronze{background:linear-gradient(135deg,rgba(180,83,9,0.1),transparent);border-color:rgba(180,83,9,0.3)!important;}
 
-/* ANTI-SELECT (Notes) */
-body.notes-open{-webkit-user-select:none;user-select:none;}
-@media print{.no-print{display:none!important;}.print-block{display:block!important;}}
+/* AI DOUBT */
+.ai-typing{display:inline-block;width:8px;height:16px;background:var(--accent);animation:blink .7s infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:0;}}
 
-/* SCREEN VIEWS */
+/* SCREEN SYSTEM */
 #screen-home,#screen-exam,#screen-notes,#screen-courses,
 #screen-ranking,#screen-profile,#screen-share,#screen-support,
-#screen-admin,#screen-results{display:none;}
+#screen-admin,#screen-results,#screen-medical,#screen-ssb,
+#screen-pft,#screen-ai-doubt{display:none;}
 #screen-home.active,#screen-exam.active,#screen-notes.active,
 #screen-courses.active,#screen-ranking.active,#screen-profile.active,
 #screen-share.active,#screen-support.active,#screen-admin.active,
-#screen-results.active{display:block;}
+#screen-results.active,#screen-medical.active,#screen-ssb.active,
+#screen-pft.active,#screen-ai-doubt.active{display:block;}
 
-/* EXAM ENGINE */
-.exam-container{min-height:85vh;}
-
-/* Tab system for admin */
-.admin-tab{padding:8px 16px;border-radius:10px;font-weight:700;font-size:11px;cursor:pointer;color:var(--text-dim);border:0.5px solid transparent;}
-.admin-tab.active{background:var(--accent);color:var(--accent-text);}
-
-/* ============================================================
-   RELIABILITY FIX: hard fallback for the "hidden" utility class.
-   The Tailwind CDN (loaded above) compiles utility classes like
-   `hidden` at runtime. If that script is slow/blocked (ad-blockers,
-   browser extensions, flaky network) the .hidden class silently
-   does nothing, which leaves modals/screens visible on top of
-   everything and the whole app *looks* permanently stuck on one
-   screen. This rule guarantees .hidden always works even if the
-   Tailwind CDN never finishes loading.
-   ============================================================ */
-.hidden{display:none!important;}
+@media print{.no-print{display:none!important;}}
 </style>
 </head>
 <body class="min-h-screen flex flex-col p-3 md:p-4">
 
-<!-- ====================== BROADCAST BANNER ====================== -->
+<!-- GLOBAL WATERMARK -->
+<div class="wm-overlay no-print"><span id="wm-text">OPERATION BAAZ</span></div>
+
+<!-- BROADCAST BANNER -->
 <div id="global-broadcast" class="broadcast-banner w-full text-center py-2 px-4 rounded-xl hidden mb-3 text-xs font-bold text-accent shadow-md">
-  <i class="fas fa-bullhorn mr-2"></i><span id="broadcast-text">Loading announcements...</span>
+  <i class="fas fa-bullhorn mr-2"></i><span id="broadcast-text"></span>
 </div>
 
-<!-- ====================== HEADER ====================== -->
+<!-- HEADER -->
 <header class="w-full text-center mb-3">
   <h1 class="text-3xl md:text-5xl font-black tracking-widest brand-gradient">OPERATION BAAZ</h1>
-  <p class="text-[10px] text-muted uppercase tracking-widest mt-1 font-semibold">Complete Defence Learning Platform v11.0</p>
+  <p class="text-[10px] text-muted uppercase tracking-widest mt-1 font-semibold">Complete Defence Learning Platform v12.0</p>
 </header>
 
-<!-- ====================== AUTH SCREEN ====================== -->
+<!-- AUTH SCREEN -->
 <div id="auth-container" class="w-full max-w-md mx-auto my-auto pt-1">
   <div class="premium-card rounded-2xl p-6 shadow-xl space-y-4">
     <div class="flex gap-2 p-1 surface rounded-xl">
       <button onclick="showAuthTab('login')" id="tab-login" class="auth-tab active"><i class="fas fa-sign-in-alt mr-1"></i>Login</button>
       <button onclick="showAuthTab('signup')" id="tab-signup" class="auth-tab"><i class="fas fa-user-plus mr-1"></i>Sign Up</button>
     </div>
-    <!-- LOGIN -->
     <div id="form-login" class="space-y-3">
       <h2 class="text-lg font-black"><i class="fas fa-shield-alt text-accent mr-1"></i>Secure Gateway Access</h2>
-      <div>
-        <label class="block text-[11px] font-bold text-muted uppercase mb-1">Email Address</label>
-        <input type="email" id="login-email" placeholder="aapka@email.com" class="w-full input-field rounded-xl px-4 py-3 transition">
-      </div>
-      <div>
-        <label class="block text-[11px] font-bold text-muted uppercase mb-1">Password</label>
-        <input type="password" id="login-password" placeholder="••••••••" class="w-full input-field rounded-xl px-4 py-3 transition">
-      </div>
-      <button onclick="doLogin()" class="w-full btn-accent font-bold py-3 rounded-xl cursor-pointer transition shadow-lg flex items-center justify-center gap-2">
-        <i class="fas fa-unlock-alt"></i> Authenticate
-      </button>
-      <p id="login-error" class="hidden text-xs text-center mt-1 font-bold" style="color:var(--danger2)"></p>
+      <input type="email" id="login-email" placeholder="aapka@email.com" class="w-full input-field rounded-xl px-4 py-3">
+      <input type="password" id="login-password" placeholder="••••••••" class="w-full input-field rounded-xl px-4 py-3">
+      <button onclick="doLogin()" class="w-full btn-accent font-bold py-3 rounded-xl cursor-pointer shadow-lg flex items-center justify-center gap-2"><i class="fas fa-unlock-alt"></i> Authenticate</button>
+      <p id="login-error" class="hidden text-xs text-center font-bold" style="color:var(--danger2)"></p>
     </div>
-    <!-- SIGNUP -->
     <div id="form-signup" class="hidden space-y-3">
       <h2 class="text-lg font-black"><i class="fas fa-user-plus text-accent mr-1"></i>Create Profile</h2>
       <div class="flex items-center gap-3">
@@ -206,11 +220,11 @@ body.notes-open{-webkit-user-select:none;user-select:none;}
           <input type="file" id="su-avatar-input" accept="image/*" class="hidden" onchange="handleSuAvatar(event)">
         </label>
       </div>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-        <div><label class="block text-[11px] font-bold text-muted uppercase mb-1">Full Name *</label><input id="su-name" class="w-full input-field rounded-xl px-3 py-2.5 transition"></div>
-        <div><label class="block text-[11px] font-bold text-muted uppercase mb-1">Mobile *</label><input id="su-phone" type="tel" class="w-full input-field rounded-xl px-3 py-2.5 transition"></div>
-        <div><label class="block text-[11px] font-bold text-muted uppercase mb-1">Email *</label><input id="su-email" type="email" class="w-full input-field rounded-xl px-3 py-2.5 transition"></div>
-        <div><label class="block text-[11px] font-bold text-muted uppercase mb-1">Password *</label><input id="su-password" type="password" class="w-full input-field rounded-xl px-3 py-2.5 transition"></div>
+      <div class="grid grid-cols-2 gap-3">
+        <div><label class="block text-[11px] font-bold text-muted uppercase mb-1">Full Name *</label><input id="su-name" class="w-full input-field rounded-xl px-3 py-2.5"></div>
+        <div><label class="block text-[11px] font-bold text-muted uppercase mb-1">Mobile *</label><input id="su-phone" type="tel" class="w-full input-field rounded-xl px-3 py-2.5"></div>
+        <div><label class="block text-[11px] font-bold text-muted uppercase mb-1">Email *</label><input id="su-email" type="email" class="w-full input-field rounded-xl px-3 py-2.5"></div>
+        <div><label class="block text-[11px] font-bold text-muted uppercase mb-1">Password *</label><input id="su-password" type="password" class="w-full input-field rounded-xl px-3 py-2.5"></div>
         <div><label class="block text-[11px] font-bold text-muted uppercase mb-1">Target Exam</label>
           <select id="su-exam" class="w-full input-field rounded-xl px-3 py-2.5 cursor-pointer">
             <option value="">Select Exam</option>
@@ -218,7 +232,7 @@ body.notes-open{-webkit-user-select:none;user-select:none;}
             <option>NAVY</option><option>ARMY GD</option><option>SSC</option><option>NDA</option>
           </select>
         </div>
-        <div><label class="block text-[11px] font-bold text-muted uppercase mb-1">Target Year</label><input id="su-year" type="number" placeholder="2027" class="w-full input-field rounded-xl px-3 py-2.5 transition"></div>
+        <div><label class="block text-[11px] font-bold text-muted uppercase mb-1">Target Year</label><input id="su-year" type="number" placeholder="2027" class="w-full input-field rounded-xl px-3 py-2.5"></div>
       </div>
       <div>
         <label class="block text-[11px] font-bold text-muted uppercase mb-2">Gender *</label>
@@ -228,16 +242,14 @@ body.notes-open{-webkit-user-select:none;user-select:none;}
           <button type="button" onclick="selectSuGender('Other')" data-gender="Other" class="gender-pill py-2.5 rounded-xl text-xs font-bold cursor-pointer">Other</button>
         </div>
       </div>
-      <button onclick="doSignup()" class="w-full btn-success font-bold py-3 rounded-xl cursor-pointer transition flex items-center justify-center gap-2">
-        <i class="fas fa-rocket"></i> Create Account
-      </button>
+      <button onclick="doSignup()" class="w-full btn-success font-bold py-3 rounded-xl cursor-pointer flex items-center justify-center gap-2"><i class="fas fa-rocket"></i> Create Account</button>
       <p id="signup-error" class="hidden text-xs text-center font-bold" style="color:var(--danger2)"></p>
       <p id="signup-success" class="hidden text-xs text-center font-bold" style="color:var(--success2)"></p>
     </div>
   </div>
 </div>
 
-<!-- ====================== MAIN APP ====================== -->
+<!-- MAIN APP -->
 <div id="app-container" class="hidden w-full max-w-5xl mx-auto space-y-3">
 
   <!-- TOP HEADER BAR -->
@@ -259,141 +271,110 @@ body.notes-open{-webkit-user-select:none;user-select:none;}
     </div>
   </div>
 
+  <!-- COUNTDOWN BANNER -->
+  <div id="countdown-banner" class="countdown-banner">
+    <div class="flex items-center justify-between flex-wrap gap-2">
+      <div>
+        <div class="text-[9px] font-bold uppercase text-red-400 mb-1"><i class="fas fa-fire mr-1"></i>Next All India Mock War</div>
+        <div id="mega-mock-title" class="font-black text-sm text-accent">All India NDA Open War</div>
+      </div>
+      <div class="flex gap-3 items-end">
+        <div><div class="countdown-digit" id="cd-days">00</div><div class="countdown-label">Days</div></div>
+        <div><div class="countdown-digit" id="cd-hours">00</div><div class="countdown-label">Hrs</div></div>
+        <div><div class="countdown-digit" id="cd-mins">00</div><div class="countdown-label">Min</div></div>
+        <div><div class="countdown-digit" id="cd-secs">00</div><div class="countdown-label">Sec</div></div>
+      </div>
+    </div>
+  </div>
+
   <!-- SCREEN: HOME DASHBOARD -->
   <div id="screen-home" class="active">
-    <!-- ANNOUNCEMENT if any -->
     <div id="home-announce" class="hidden premium-card rounded-xl p-3 mb-3 border-l-4 border-amber-500 text-xs font-bold text-amber-400"></div>
-    
     <div class="home-grid">
-      <!-- 1. Exam -->
       <div class="home-card card-g1" onclick="showScreen('exam')">
         <div class="card-icon" style="background:linear-gradient(135deg,#1e40af,#3b82f6)"><i class="fas fa-file-alt text-white"></i></div>
-        <div class="card-label">Exam / Mock Test</div>
-        <div class="card-sub">Practice & Attempt</div>
+        <div class="card-label">Exam / Mock Test</div><div class="card-sub">Practice & Attempt</div>
       </div>
-      <!-- 2. Notes -->
       <div class="home-card card-g2" onclick="showScreen('notes')">
         <div class="card-icon" style="background:linear-gradient(135deg,#065f46,#10b981)"><i class="fas fa-book-open text-white"></i></div>
-        <div class="card-label">Study Notes</div>
-        <div class="card-sub">Read & Revise</div>
+        <div class="card-label">Study Notes</div><div class="card-sub">Read & Revise</div>
       </div>
-      <!-- 3. Profile -->
       <div class="home-card card-g3" onclick="showScreen('profile')">
         <div class="card-icon" style="background:linear-gradient(135deg,#991b1b,#ef4444)"><i class="fas fa-id-card text-white"></i></div>
-        <div class="card-label">My Profile</div>
-        <div class="card-sub">Stats & Settings</div>
+        <div class="card-label">My Profile</div><div class="card-sub">Stats & Settings</div>
       </div>
-      <!-- 4. Share -->
       <div class="home-card card-g4" onclick="showScreen('share')">
         <div class="card-icon" style="background:linear-gradient(135deg,#0c4a6e,#0ea5e9)"><i class="fas fa-share-nodes text-white"></i></div>
-        <div class="card-label">Share & Refer</div>
-        <div class="card-sub">Earn Coins</div>
+        <div class="card-label">Share & Refer</div><div class="card-sub">Earn Coins</div>
       </div>
-      <!-- 5. Ranking -->
       <div class="home-card card-g5" onclick="showScreen('ranking')">
         <div class="card-icon" style="background:linear-gradient(135deg,#4c1d95,#8b5cf6)"><i class="fas fa-trophy text-white"></i></div>
-        <div class="card-label">Leaderboard</div>
-        <div class="card-sub">Top Rankers</div>
+        <div class="card-label">Leaderboard</div><div class="card-sub">Top Rankers</div>
       </div>
-      <!-- 6. Paid Classes -->
       <div class="home-card card-g6" onclick="showScreen('courses')">
         <div class="card-icon" style="background:linear-gradient(135deg,#78350f,#f59e0b)"><i class="fas fa-crown text-white"></i></div>
-        <div class="card-label">Paid Classes</div>
-        <div class="card-sub">Premium Courses</div>
+        <div class="card-label">Paid Classes</div><div class="card-sub">Premium Courses</div>
       </div>
-      <!-- 7. Support -->
       <div class="home-card card-g7" onclick="showScreen('support')">
         <div class="card-icon" style="background:linear-gradient(135deg,#134e4a,#14b8a6)"><i class="fas fa-headset text-white"></i></div>
-        <div class="card-label">Support</div>
-        <div class="card-sub">Help & Issues</div>
+        <div class="card-label">Support</div><div class="card-sub">Help & Issues</div>
       </div>
-      <!-- 8. Results -->
       <div class="home-card card-g8" onclick="showResultsHistory()">
         <div class="card-icon" style="background:linear-gradient(135deg,#701a75,#d946ef)"><i class="fas fa-chart-bar text-white"></i></div>
-        <div class="card-label">My Results</div>
-        <div class="card-sub">Score History</div>
+        <div class="card-label">My Results</div><div class="card-sub">Score History</div>
       </div>
-      <!-- 9. Admin Panel (admin only) -->
+      <!-- NEW FEATURES -->
+      <div class="home-card card-gA" onclick="showScreen('medical')">
+        <div class="card-icon" style="background:linear-gradient(135deg,#064e3b,#059669)"><i class="fas fa-eye text-white"></i></div>
+        <div class="card-label">Medical Test</div><div class="card-sub">Color Blindness</div>
+      </div>
+      <div class="home-card card-gB" onclick="showScreen('ssb')">
+        <div class="card-icon" style="background:linear-gradient(135deg,#1e3a5f,#2563eb)"><i class="fas fa-brain text-white"></i></div>
+        <div class="card-label">SSB Psych</div><div class="card-sub">WAT + SRT</div>
+      </div>
+      <div class="home-card card-gC" onclick="showScreen('pft')">
+        <div class="card-icon" style="background:linear-gradient(135deg,#3d0000,#dc2626)"><i class="fas fa-dumbbell text-white"></i></div>
+        <div class="card-label">PFT Logger</div><div class="card-sub">Fitness Tracker</div>
+      </div>
+      <div class="home-card" style="background:linear-gradient(135deg,#0a0a2e,#1a1a4e)" onclick="showScreen('ai-doubt')">
+        <div class="card-icon" style="background:linear-gradient(135deg,#1a0052,#7c3aed)"><i class="fas fa-robot text-white"></i></div>
+        <div class="card-label">Baaz AI Doubt</div><div class="card-sub">Step-by-Step Help</div>
+      </div>
+      <!-- Admin Card -->
       <div class="home-card card-g9" id="admin-home-card" onclick="showScreen('admin')" style="display:none">
         <div class="card-icon" style="background:linear-gradient(135deg,#450a0a,#dc2626)"><i class="fas fa-user-shield text-white"></i></div>
-        <div class="card-label">Admin Panel</div>
-        <div class="card-sub">Root Control</div>
+        <div class="card-label">Admin Panel</div><div class="card-sub">Root Control</div>
         <span class="absolute top-2 right-2 text-[8px] font-black px-1.5 py-0.5 rounded" style="background:var(--danger2);color:#fff">ADMIN</span>
       </div>
     </div>
 
     <!-- QUICK STATS -->
     <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-3">
-      <div class="premium-card rounded-xl p-3 text-center">
-        <div class="text-2xl font-black text-accent" id="stat-tests">0</div>
-        <div class="text-[10px] text-muted font-bold uppercase mt-1">Tests Given</div>
-      </div>
-      <div class="premium-card rounded-xl p-3 text-center">
-        <div class="text-2xl font-black text-emerald-400" id="stat-score">0</div>
-        <div class="text-[10px] text-muted font-bold uppercase mt-1">Total Score</div>
-      </div>
-      <div class="premium-card rounded-xl p-3 text-center">
-        <div class="text-2xl font-black text-amber-400" id="stat-coins">0</div>
-        <div class="text-[10px] text-muted font-bold uppercase mt-1">Coins Earned</div>
-      </div>
-      <div class="premium-card rounded-xl p-3 text-center">
-        <div class="text-2xl font-black text-violet-400" id="stat-rank">#--</div>
-        <div class="text-[10px] text-muted font-bold uppercase mt-1">Current Rank</div>
-      </div>
+      <div class="premium-card rounded-xl p-3 text-center"><div class="text-2xl font-black text-accent" id="stat-tests">0</div><div class="text-[10px] text-muted font-bold uppercase mt-1">Tests Given</div></div>
+      <div class="premium-card rounded-xl p-3 text-center"><div class="text-2xl font-black text-emerald-400" id="stat-score">0</div><div class="text-[10px] text-muted font-bold uppercase mt-1">Total Score</div></div>
+      <div class="premium-card rounded-xl p-3 text-center"><div class="text-2xl font-black text-amber-400" id="stat-coins">0</div><div class="text-[10px] text-muted font-bold uppercase mt-1">Coins Earned</div></div>
+      <div class="premium-card rounded-xl p-3 text-center"><div class="text-2xl font-black text-violet-400" id="stat-rank">#--</div><div class="text-[10px] text-muted font-bold uppercase mt-1">Current Rank</div></div>
     </div>
   </div>
 
-  <!-- SCREEN: EXAM / MOCK TESTS -->
+  <!-- SCREEN: EXAM TREE -->
   <div id="screen-exam">
-    <div class="flex items-center gap-3 mb-3">
+    <div class="flex items-center gap-3 mb-4">
       <button onclick="goHome()" class="btn-neutral px-3 py-2 rounded-xl text-xs font-bold cursor-pointer"><i class="fas fa-arrow-left mr-1"></i>Back</button>
-      <h2 class="text-base font-black text-accent"><i class="fas fa-layer-group mr-1"></i>Exam Pools</h2>
+      <h2 class="text-base font-black text-accent"><i class="fas fa-layer-group mr-1"></i>Mock Test Library</h2>
     </div>
-    <div id="tests-list" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div id="exam-tree-container" class="space-y-2">
       <div class="premium-card rounded-xl p-4"><div class="spinner"></div></div>
     </div>
   </div>
 
-  <!-- SCREEN: NOTES -->
+  <!-- SCREEN: NOTES TREE -->
   <div id="screen-notes">
-    <div class="flex items-center gap-3 mb-3">
+    <div class="flex items-center gap-3 mb-4">
       <button onclick="goHome()" class="btn-neutral px-3 py-2 rounded-xl text-xs font-bold cursor-pointer"><i class="fas fa-arrow-left mr-1"></i>Back</button>
       <h2 class="text-base font-black text-accent"><i class="fas fa-book-bookmark mr-1"></i>Study Vault</h2>
     </div>
-    <!-- Admin Add Note -->
-    <div id="admin-note-adder" class="hidden premium-card rounded-xl p-4 mb-4 space-y-3" style="border:1px solid rgba(245,158,11,0.3)">
-      <div class="font-bold text-amber-500 text-xs uppercase"><i class="fas fa-plus mr-1"></i>Add New Note (Admin)</div>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
-        <input id="note-title" placeholder="Note Title *" class="input-field rounded-xl px-3 py-2 text-xs">
-        <select id="note-exam" class="input-field rounded-xl px-3 py-2 text-xs cursor-pointer">
-          <option value="">Select Exam</option>
-          <option>NDA</option><option>CDS</option><option>AFCAT</option>
-          <option>AIR FORCE X/Y</option><option>NAVY</option><option>ARMY GD</option><option>SSC</option>
-        </select>
-        <select id="note-subject" class="input-field rounded-xl px-3 py-2 text-xs cursor-pointer">
-          <option>Mathematics</option><option>English</option><option>History</option>
-          <option>Geography</option><option>Science</option><option>GK/GS</option><option>Reasoning</option>
-        </select>
-      </div>
-      <textarea id="note-content" rows="6" placeholder="Note content yahan likhein..." class="w-full input-field rounded-xl px-3 py-2 text-xs font-mono outline-none resize-none"></textarea>
-      <button onclick="adminAddNote()" class="btn-success px-6 py-2 rounded-xl text-xs font-bold cursor-pointer"><i class="fas fa-save mr-1"></i>Publish Note</button>
-    </div>
-    <!-- Notes Filter -->
-    <div class="flex gap-2 flex-wrap mb-3">
-      <select id="notes-filter-exam" onchange="filterNotes()" class="input-field rounded-xl px-3 py-2 text-xs cursor-pointer">
-        <option value="">All Exams</option>
-        <option>NDA</option><option>CDS</option><option>AFCAT</option>
-        <option>AIR FORCE X/Y</option><option>NAVY</option><option>ARMY GD</option><option>SSC</option>
-      </select>
-      <select id="notes-filter-subject" onchange="filterNotes()" class="input-field rounded-xl px-3 py-2 text-xs cursor-pointer">
-        <option value="">All Subjects</option>
-        <option>Mathematics</option><option>English</option><option>History</option>
-        <option>Geography</option><option>Science</option><option>GK/GS</option><option>Reasoning</option>
-      </select>
-    </div>
-    <div id="notes-list" class="grid grid-cols-1 md:grid-cols-2 gap-3">
-      <div class="premium-card rounded-xl p-4"><div class="spinner"></div></div>
-    </div>
+    <div id="notes-tree-container" class="space-y-2"></div>
     <!-- Mistakes Ledger -->
     <div class="premium-card rounded-xl p-4 mt-4 border-l-4 border-red-500">
       <div class="flex items-center justify-between mb-2">
@@ -406,12 +387,11 @@ body.notes-open{-webkit-user-select:none;user-select:none;}
 
   <!-- SCREEN: PROFILE -->
   <div id="screen-profile">
-    <div class="flex items-center gap-3 mb-3">
+    <div class="flex items-center gap-3 mb-4">
       <button onclick="goHome()" class="btn-neutral px-3 py-2 rounded-xl text-xs font-bold cursor-pointer"><i class="fas fa-arrow-left mr-1"></i>Back</button>
       <h2 class="text-base font-black text-accent"><i class="fas fa-id-card mr-1"></i>My Profile</h2>
     </div>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <!-- Student/Admin Info -->
       <div class="premium-card rounded-2xl p-5 space-y-4">
         <div class="flex items-center gap-4">
           <img id="profile-avatar-img" src="" class="hidden w-20 h-20 rounded-2xl object-cover border-2" style="border-color:var(--accent)">
@@ -436,8 +416,12 @@ body.notes-open{-webkit-user-select:none;user-select:none;}
             <option value="minimalist">❄️ Minimalist Light</option>
           </select>
         </div>
+        <button onclick="exportDossier()" class="w-full btn-neutral font-bold py-2 rounded-xl text-xs cursor-pointer"><i class="fas fa-download mr-1"></i>💾 Export Dossier (Backup)</button>
+        <label class="w-full btn-neutral font-bold py-2 rounded-xl text-xs cursor-pointer flex items-center justify-center gap-2">
+          <i class="fas fa-upload"></i> Restore Dossier
+          <input type="file" id="restore-input" accept=".baaz" class="hidden" onchange="importDossier(event)">
+        </label>
       </div>
-      <!-- Stats Card -->
       <div class="premium-card rounded-2xl p-5 space-y-3">
         <div class="font-black text-sm text-accent mb-2"><i class="fas fa-chart-line mr-1"></i>Performance Stats</div>
         <div id="profile-student-stats" class="space-y-3">
@@ -458,59 +442,37 @@ body.notes-open{-webkit-user-select:none;user-select:none;}
 
   <!-- SCREEN: SHARE -->
   <div id="screen-share">
-    <div class="flex items-center gap-3 mb-3">
+    <div class="flex items-center gap-3 mb-4">
       <button onclick="goHome()" class="btn-neutral px-3 py-2 rounded-xl text-xs font-bold cursor-pointer"><i class="fas fa-arrow-left mr-1"></i>Back</button>
       <h2 class="text-base font-black text-accent"><i class="fas fa-share-nodes mr-1"></i>Share & Earn</h2>
     </div>
     <div class="premium-card rounded-2xl p-6 space-y-5">
-      <div class="text-center">
-        <div class="text-4xl mb-2">🎁</div>
-        <h3 class="font-black text-lg text-accent">Refer & Earn Coins!</h3>
-        <p class="text-xs text-muted mt-1">Har referral par 50 Coins earn karo. Dosto ko invite karo!</p>
-      </div>
-      <div class="surface rounded-xl p-4 text-center">
-        <div class="text-xs text-muted font-bold uppercase mb-2">Your Referral Code</div>
-        <div class="font-mono font-black text-2xl text-accent" id="share-ref-code">—</div>
-      </div>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-        <a id="whatsapp-share-btn" href="#" target="_blank" class="flex items-center justify-center gap-2 py-3 rounded-xl font-bold text-sm text-white cursor-pointer" style="background:#25D366">
-          <i class="fab fa-whatsapp text-xl"></i> WhatsApp
-        </a>
-        <a id="telegram-share-btn" href="#" target="_blank" class="flex items-center justify-center gap-2 py-3 rounded-xl font-bold text-sm text-white cursor-pointer" style="background:#2CA5E0">
-          <i class="fab fa-telegram text-xl"></i> Telegram
-        </a>
-        <button onclick="copyReferral()" class="flex items-center justify-center gap-2 py-3 rounded-xl font-bold text-sm btn-accent cursor-pointer">
-          <i class="fas fa-copy"></i> Copy Link
-        </button>
-      </div>
-      <div class="surface rounded-xl p-3 text-center text-xs text-muted">
-        <i class="fas fa-info-circle text-accent mr-1"></i>
-        Jab koi aapke code se join karega, aapko <span class="text-amber-500 font-bold">50 Coins</span> milenge!
+      <div class="text-center"><div class="text-4xl mb-2">🎁</div><h3 class="font-black text-lg text-accent">Refer & Earn Coins!</h3><p class="text-xs text-muted mt-1">Har referral par 50 Coins earn karo.</p></div>
+      <div class="surface rounded-xl p-4 text-center"><div class="text-xs text-muted font-bold uppercase mb-2">Your Referral Code</div><div class="font-mono font-black text-2xl text-accent" id="share-ref-code">—</div></div>
+      <div class="grid grid-cols-3 gap-3">
+        <a id="whatsapp-share-btn" href="#" target="_blank" class="flex items-center justify-center gap-2 py-3 rounded-xl font-bold text-sm text-white cursor-pointer" style="background:#25D366"><i class="fab fa-whatsapp text-xl"></i> WhatsApp</a>
+        <a id="telegram-share-btn" href="#" target="_blank" class="flex items-center justify-center gap-2 py-3 rounded-xl font-bold text-sm text-white cursor-pointer" style="background:#2CA5E0"><i class="fab fa-telegram text-xl"></i> Telegram</a>
+        <button onclick="copyReferral()" class="flex items-center justify-center gap-2 py-3 rounded-xl font-bold text-sm btn-accent cursor-pointer"><i class="fas fa-copy"></i> Copy Link</button>
       </div>
     </div>
   </div>
 
   <!-- SCREEN: RANKING -->
   <div id="screen-ranking">
-    <div class="flex items-center gap-3 mb-3">
+    <div class="flex items-center gap-3 mb-4">
       <button onclick="goHome()" class="btn-neutral px-3 py-2 rounded-xl text-xs font-bold cursor-pointer"><i class="fas fa-arrow-left mr-1"></i>Back</button>
       <h2 class="text-base font-black text-accent"><i class="fas fa-trophy mr-1"></i>Leaderboard</h2>
     </div>
-    <!-- Top 3 Podium -->
     <div id="leaderboard-podium" class="grid grid-cols-3 gap-2 mb-4"></div>
-    <!-- Full Table -->
-    <div class="premium-card rounded-2xl p-4">
-      <div id="leaderboard-table"><div class="spinner my-4"></div></div>
-    </div>
+    <div class="premium-card rounded-2xl p-4"><div id="leaderboard-table"><div class="spinner my-4"></div></div></div>
   </div>
 
-  <!-- SCREEN: PAID CLASSES / COURSES -->
+  <!-- SCREEN: COURSES -->
   <div id="screen-courses">
-    <div class="flex items-center gap-3 mb-3">
+    <div class="flex items-center gap-3 mb-4">
       <button onclick="goHome()" class="btn-neutral px-3 py-2 rounded-xl text-xs font-bold cursor-pointer"><i class="fas fa-arrow-left mr-1"></i>Back</button>
       <h2 class="text-base font-black text-accent"><i class="fas fa-crown mr-1"></i>Paid Classes</h2>
     </div>
-    <!-- Category Tabs -->
     <div class="flex gap-2 flex-wrap mb-4" id="course-cat-tabs">
       <button onclick="filterCourses('ALL')" class="admin-tab active" data-cat="ALL">All</button>
       <button onclick="filterCourses('AFCAT')" class="admin-tab" data-cat="AFCAT">AFCAT</button>
@@ -525,12 +487,11 @@ body.notes-open{-webkit-user-select:none;user-select:none;}
 
   <!-- SCREEN: SUPPORT -->
   <div id="screen-support">
-    <div class="flex items-center gap-3 mb-3">
+    <div class="flex items-center gap-3 mb-4">
       <button onclick="goHome()" class="btn-neutral px-3 py-2 rounded-xl text-xs font-bold cursor-pointer"><i class="fas fa-arrow-left mr-1"></i>Back</button>
       <h2 class="text-base font-black text-accent"><i class="fas fa-headset mr-1"></i>Support</h2>
     </div>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <!-- Submit Issue Form -->
       <div class="premium-card rounded-2xl p-5 space-y-3">
         <h3 class="font-black text-sm"><i class="fas fa-paper-plane text-accent mr-1"></i>Submit Your Issue</h3>
         <input id="sup-name" placeholder="Your Name *" class="w-full input-field rounded-xl px-3 py-2.5 text-xs">
@@ -544,7 +505,6 @@ body.notes-open{-webkit-user-select:none;user-select:none;}
         <button onclick="submitSupport()" class="w-full btn-success font-bold py-2.5 rounded-xl text-xs cursor-pointer"><i class="fas fa-send mr-1"></i>Submit Request</button>
         <p id="sup-msg" class="hidden text-xs text-center font-bold text-emerald-400"></p>
       </div>
-      <!-- Contact & Quick Links -->
       <div class="space-y-3">
         <div class="premium-card rounded-xl p-4 space-y-3">
           <h3 class="font-bold text-sm"><i class="fab fa-whatsapp text-green-500 mr-1"></i>Direct WhatsApp Support</h3>
@@ -555,39 +515,213 @@ body.notes-open{-webkit-user-select:none;user-select:none;}
           <p class="text-xs text-muted">Mon - Sat: 9 AM – 9 PM</p>
           <p class="text-xs text-muted">Sunday: 10 AM – 6 PM</p>
         </div>
-        <!-- Admin: View Support Requests -->
-        <div id="admin-support-viewer" class="hidden premium-card rounded-xl p-4 space-y-2">
-          <div class="font-bold text-xs text-amber-500 mb-2"><i class="fas fa-inbox mr-1"></i>All Support Requests (Admin)</div>
-          <div id="support-requests-list" class="space-y-2 max-h-60 overflow-y-auto text-xs"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN: MY RESULTS -->
+  <div id="screen-results">
+    <div class="flex items-center gap-3 mb-4">
+      <button onclick="goHome()" class="btn-neutral px-3 py-2 rounded-xl text-xs font-bold cursor-pointer"><i class="fas fa-arrow-left mr-1"></i>Back</button>
+      <h2 class="text-base font-black text-accent"><i class="fas fa-chart-bar mr-1"></i>My Results</h2>
+    </div>
+    <div id="results-history-list" class="space-y-3"></div>
+  </div>
+
+  <!-- ======== NEW FEATURE SCREENS ======== -->
+
+  <!-- SCREEN: COLOR BLINDNESS TEST -->
+  <div id="screen-medical">
+    <div class="flex items-center gap-3 mb-4">
+      <button onclick="goHome()" class="btn-neutral px-3 py-2 rounded-xl text-xs font-bold cursor-pointer"><i class="fas fa-arrow-left mr-1"></i>Back</button>
+      <h2 class="text-base font-black text-accent"><i class="fas fa-eye mr-1"></i>Fauji Medical — Color Blindness Test</h2>
+    </div>
+    <div class="premium-card rounded-2xl p-5 space-y-4 max-w-lg mx-auto">
+      <div class="text-center space-y-1">
+        <p class="text-xs text-muted">Ishihara Plate Test — Number dekho aur likho</p>
+        <div class="text-xs font-bold text-amber-500"><i class="fas fa-info-circle mr-1"></i>Army/Air Force medical mein yahi test hota hai</div>
+      </div>
+      <div id="cb-plate-area" class="text-center">
+        <canvas id="cb-canvas" width="200" height="200" class="mx-auto rounded-full" style="border:3px solid var(--border)"></canvas>
+        <p class="text-xs text-muted mt-2" id="cb-instruction">Is plate mein koi number dikhta hai? Likhein:</p>
+      </div>
+      <div class="flex gap-2">
+        <input id="cb-answer" type="number" placeholder="Aapka jawab yahan likhein..." class="flex-1 input-field rounded-xl px-3 py-2.5 text-sm font-bold" onkeydown="if(event.key==='Enter')checkCBAnswer()">
+        <button onclick="checkCBAnswer()" class="btn-accent px-5 py-2.5 rounded-xl text-xs font-bold cursor-pointer">Check</button>
+      </div>
+      <div id="cb-result-msg" class="hidden text-center py-2 rounded-xl text-sm font-bold"></div>
+      <div class="flex justify-between text-xs text-muted">
+        <span>Plate: <span id="cb-plate-num" class="text-accent font-bold">1</span>/8</span>
+        <span>Score: <span id="cb-score" class="text-emerald-400 font-bold">0</span>/8</span>
+      </div>
+      <div id="cb-final-result" class="hidden premium-card rounded-xl p-4 text-center space-y-2">
+        <div id="cb-final-icon" class="text-4xl"></div>
+        <div id="cb-final-text" class="font-black text-base"></div>
+        <div id="cb-final-sub" class="text-xs text-muted"></div>
+        <button onclick="startColorBlindTest()" class="btn-neutral px-5 py-2 rounded-xl text-xs font-bold cursor-pointer mt-2">🔄 Dobara Test Karo</button>
+      </div>
+      <button onclick="startColorBlindTest()" id="cb-start-btn" class="w-full btn-success font-bold py-2.5 rounded-xl text-xs cursor-pointer">🎯 Test Shuru Karo</button>
+    </div>
+  </div>
+
+  <!-- SCREEN: SSB PSYCHOLOGICAL TEST -->
+  <div id="screen-ssb">
+    <div class="flex items-center gap-3 mb-4">
+      <button onclick="goHome()" class="btn-neutral px-3 py-2 rounded-xl text-xs font-bold cursor-pointer"><i class="fas fa-arrow-left mr-1"></i>Back</button>
+      <h2 class="text-base font-black text-accent"><i class="fas fa-brain mr-1"></i>SSB Psychological Test Simulator</h2>
+    </div>
+    <!-- SSB Mode Selector -->
+    <div id="ssb-menu" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="premium-card rounded-2xl p-6 text-center space-y-3 cursor-pointer hover:border-accent" style="border:1px solid var(--border)" onclick="startWAT()">
+        <div class="text-4xl">💬</div>
+        <h3 class="font-black text-lg text-accent">WAT — Word Association Test</h3>
+        <p class="text-xs text-muted">60 words, 15 seconds each. Word dekho aur turant ek sentence banao. Real SSB timing.</p>
+        <button class="w-full btn-success font-bold py-2.5 rounded-xl text-sm cursor-pointer">Start WAT</button>
+      </div>
+      <div class="premium-card rounded-2xl p-6 text-center space-y-3 cursor-pointer hover:border-accent" style="border:1px solid var(--border)" onclick="startSRT()">
+        <div class="text-4xl">🧠</div>
+        <h3 class="font-black text-lg text-accent">SRT — Situation Reaction Test</h3>
+        <p class="text-xs text-muted">30 situations, 30 seconds each. Situation padho aur real action likho. Psychologist waisa hi judge karta hai.</p>
+        <button class="w-full btn-success font-bold py-2.5 rounded-xl text-sm cursor-pointer">Start SRT</button>
+      </div>
+    </div>
+    <!-- SSB Active Test Area -->
+    <div id="ssb-active" class="hidden premium-card rounded-2xl p-6 space-y-4 max-w-2xl mx-auto">
+      <div class="flex justify-between items-center">
+        <div class="font-black text-sm text-accent" id="ssb-test-type">WAT</div>
+        <div class="flex items-center gap-3">
+          <span class="text-xs text-muted">Q <span id="ssb-q-num">1</span>/<span id="ssb-q-total">60</span></span>
+          <div id="ssb-timer-ring" class="wat-timer-ring" style="--pct:100">15</div>
+        </div>
+      </div>
+      <div id="ssb-stimulus" class="wat-word">COURAGE</div>
+      <textarea id="ssb-response" rows="3" placeholder="Apna jawab likhein..." class="w-full input-field rounded-xl p-3 text-sm outline-none resize-none" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();submitSSBAnswer();}"></textarea>
+      <div class="flex gap-2">
+        <button onclick="submitSSBAnswer()" class="flex-1 btn-accent font-bold py-2.5 rounded-xl text-xs cursor-pointer">Next (Enter)</button>
+        <button onclick="skipSSBAnswer()" class="btn-neutral px-4 py-2.5 rounded-xl text-xs font-bold cursor-pointer">Skip</button>
+        <button onclick="endSSBTest()" class="btn-danger-outline px-4 py-2.5 rounded-xl text-xs font-bold cursor-pointer">End</button>
+      </div>
+    </div>
+    <!-- SSB Results -->
+    <div id="ssb-results" class="hidden space-y-3 max-w-2xl mx-auto">
+      <div class="premium-card rounded-xl p-4">
+        <div class="font-black text-sm text-accent mb-3"><i class="fas fa-list-check mr-1"></i>Aapke SSB Responses</div>
+        <div id="ssb-results-list" class="space-y-2 max-h-80 overflow-y-auto"></div>
+        <button onclick="resetSSB()" class="w-full btn-neutral font-bold py-2 rounded-xl text-xs cursor-pointer mt-3">🔄 Naya Test</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN: PFT LOGGER -->
+  <div id="screen-pft">
+    <div class="flex items-center gap-3 mb-4">
+      <button onclick="goHome()" class="btn-neutral px-3 py-2 rounded-xl text-xs font-bold cursor-pointer"><i class="fas fa-arrow-left mr-1"></i>Back</button>
+      <h2 class="text-base font-black text-accent"><i class="fas fa-dumbbell mr-1"></i>PFT Fitness Logger</h2>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <!-- Log Form -->
+      <div class="premium-card rounded-2xl p-5 space-y-3">
+        <h3 class="font-black text-sm text-accent"><i class="fas fa-plus mr-1"></i>Aaj ka Performance Log Karo</h3>
+        <div>
+          <label class="text-[10px] font-bold text-muted uppercase mb-1 block">1.6 KM Run Time (mm:ss)</label>
+          <div class="flex gap-2">
+            <input id="pft-run-min" type="number" min="0" max="30" placeholder="Min" class="flex-1 input-field rounded-xl px-3 py-2 text-sm font-bold">
+            <input id="pft-run-sec" type="number" min="0" max="59" placeholder="Sec" class="flex-1 input-field rounded-xl px-3 py-2 text-sm font-bold">
+          </div>
+        </div>
+        <div>
+          <label class="text-[10px] font-bold text-muted uppercase mb-1 block">Push-ups (Count)</label>
+          <input id="pft-pushups" type="number" min="0" placeholder="e.g. 40" class="w-full input-field rounded-xl px-3 py-2 text-sm font-bold">
+        </div>
+        <div>
+          <label class="text-[10px] font-bold text-muted uppercase mb-1 block">Sit-ups (Count)</label>
+          <input id="pft-situps" type="number" min="0" placeholder="e.g. 35" class="w-full input-field rounded-xl px-3 py-2 text-sm font-bold">
+        </div>
+        <div>
+          <label class="text-[10px] font-bold text-muted uppercase mb-1 block">Pull-ups (Count)</label>
+          <input id="pft-pullups" type="number" min="0" placeholder="e.g. 10" class="w-full input-field rounded-xl px-3 py-2 text-sm font-bold">
+        </div>
+        <div>
+          <label class="text-[10px] font-bold text-muted uppercase mb-1 block">Notes (Optional)</label>
+          <input id="pft-notes" placeholder="Aaj kaisi feeling thi..." class="w-full input-field rounded-xl px-3 py-2 text-xs">
+        </div>
+        <button onclick="logPFT()" class="w-full btn-success font-bold py-2.5 rounded-xl text-xs cursor-pointer"><i class="fas fa-save mr-1"></i>Log Performance</button>
+        <!-- Today's Badge -->
+        <div id="pft-badge-area" class="hidden text-center py-3 rounded-xl surface">
+          <div id="pft-badge-label" class="text-xs font-black uppercase mb-1">Today's Badge</div>
+          <span id="pft-badge" class="pft-badge">—</span>
+          <div id="pft-feedback" class="text-xs text-muted mt-2"></div>
+        </div>
+      </div>
+      <!-- Benchmarks + History -->
+      <div class="space-y-3">
+        <div class="premium-card rounded-xl p-4 space-y-2">
+          <div class="font-black text-xs text-accent uppercase mb-2"><i class="fas fa-medal mr-1"></i>Indian Army PFT Benchmarks</div>
+          <div class="grid grid-cols-3 gap-1 text-[10px]">
+            <div class="surface rounded-lg p-2 text-center"><div class="font-black text-amber-400">🏆 Alpha</div><div class="text-muted">Run ≤5:30</div><div class="text-muted">PU ≥40</div></div>
+            <div class="surface rounded-lg p-2 text-center"><div class="font-black text-blue-400">🥈 Bravo</div><div class="text-muted">Run ≤6:30</div><div class="text-muted">PU ≥30</div></div>
+            <div class="surface rounded-lg p-2 text-center"><div class="font-black text-slate-400">🥉 Charlie</div><div class="text-muted">Run ≤8:00</div><div class="text-muted">PU ≥20</div></div>
+          </div>
+        </div>
+        <div class="premium-card rounded-xl p-4">
+          <div class="font-black text-xs text-accent mb-3"><i class="fas fa-history mr-1"></i>Recent Logs</div>
+          <div id="pft-history" class="space-y-2 max-h-64 overflow-y-auto"></div>
+          <button onclick="clearPFTHistory()" class="w-full btn-danger-outline py-1.5 rounded-xl text-xs font-bold cursor-pointer mt-3">🗑️ Clear History</button>
         </div>
       </div>
     </div>
   </div>
 
+  <!-- SCREEN: AI DOUBT -->
+  <div id="screen-ai-doubt">
+    <div class="flex items-center gap-3 mb-4">
+      <button onclick="goHome()" class="btn-neutral px-3 py-2 rounded-xl text-xs font-bold cursor-pointer"><i class="fas fa-arrow-left mr-1"></i>Back</button>
+      <h2 class="text-base font-black text-accent"><i class="fas fa-robot mr-1"></i>Baaz AI Doubt Command</h2>
+    </div>
+    <div class="premium-card rounded-2xl p-5 space-y-4 max-w-2xl mx-auto">
+      <div class="surface rounded-xl p-3 text-xs text-muted"><i class="fas fa-info-circle text-accent mr-1"></i>Koi bhi Math, Physics, GK, Reasoning ka sawaal paste karo. AI step-by-step solve karega.</div>
+      <div id="ai-chat-box" class="space-y-3 max-h-96 overflow-y-auto min-h-32 surface rounded-xl p-3"></div>
+      <div class="flex gap-2">
+        <textarea id="ai-doubt-input" rows="2" placeholder="Question yahan likho ya paste karo... (e.g. A train travels 120 km in 2 hours...)" class="flex-1 input-field rounded-xl p-3 text-xs outline-none resize-none" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendAIDoubt();}"></textarea>
+        <button onclick="sendAIDoubt()" id="ai-send-btn" class="btn-accent px-4 rounded-xl text-xs font-bold cursor-pointer self-end py-3"><i class="fas fa-paper-plane"></i></button>
+      </div>
+      <button onclick="clearAIChat()" class="w-full btn-neutral text-xs font-bold py-2 rounded-xl cursor-pointer">🗑️ Chat Clear Karo</button>
+    </div>
+  </div>
+
   <!-- SCREEN: ADMIN PANEL -->
   <div id="screen-admin">
-    <div class="flex items-center gap-3 mb-3">
+    <div class="flex items-center gap-3 mb-4">
       <button onclick="goHome()" class="btn-neutral px-3 py-2 rounded-xl text-xs font-bold cursor-pointer"><i class="fas fa-arrow-left mr-1"></i>Back</button>
       <h2 class="text-base font-black text-accent"><i class="fas fa-user-shield mr-1"></i>Admin Control Panel</h2>
       <span class="vip-badge ml-auto">ROOT ACCESS</span>
     </div>
-    <!-- Admin Tabs -->
     <div class="flex gap-2 flex-wrap mb-4 p-2 premium-card rounded-xl">
       <button onclick="switchAdminTab('exams')" class="admin-tab active" data-atab="exams"><i class="fas fa-file-alt mr-1"></i>Add Exam</button>
       <button onclick="switchAdminTab('notes')" class="admin-tab" data-atab="notes"><i class="fas fa-book mr-1"></i>Add Notes</button>
+      <button onclick="switchAdminTab('courses-admin')" class="admin-tab" data-atab="courses-admin"><i class="fas fa-crown mr-1"></i>Courses</button>
       <button onclick="switchAdminTab('students')" class="admin-tab" data-atab="students"><i class="fas fa-users mr-1"></i>Students</button>
       <button onclick="switchAdminTab('support-admin')" class="admin-tab" data-atab="support-admin"><i class="fas fa-headset mr-1"></i>Support</button>
       <button onclick="switchAdminTab('announce')" class="admin-tab" data-atab="announce"><i class="fas fa-bullhorn mr-1"></i>Announce</button>
+      <button onclick="switchAdminTab('countdown-admin')" class="admin-tab" data-atab="countdown-admin"><i class="fas fa-clock mr-1"></i>Countdown</button>
     </div>
 
     <!-- Admin Tab: Add Exam -->
     <div id="atab-exams" class="space-y-3">
       <div class="premium-card rounded-xl p-5 space-y-3" style="border:1px solid rgba(245,158,11,0.3)">
-        <div class="font-bold text-amber-500 text-sm"><i class="fas fa-plus mr-1"></i>Create New Exam / Mock Test</div>
+        <div class="font-bold text-amber-500 text-sm"><i class="fas fa-plus mr-1"></i>Create New Mock Test</div>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
-          <input id="admin-exam-name" placeholder="Exam (e.g. NDA 2026)" class="input-field rounded-xl px-3 py-2 text-xs">
-          <input id="admin-subject-name" placeholder="Subject (e.g. Mathematics)" class="input-field rounded-xl px-3 py-2 text-xs">
-          <input id="admin-test-title" placeholder="Unique Test Title" class="input-field rounded-xl px-3 py-2 text-xs">
+          <select id="admin-exam-name" class="input-field rounded-xl px-3 py-2 text-xs cursor-pointer">
+            <option value="">Select Exam *</option>
+            <option>NDA</option><option>CDS</option><option>AFCAT</option>
+            <option>AIR FORCE X/Y</option><option>NAVY</option><option>ARMY GD</option><option>SSC</option>
+          </select>
+          <select id="admin-subject-name" class="input-field rounded-xl px-3 py-2 text-xs cursor-pointer">
+            <option value="">Select Subject *</option>
+            <option>Mathematics</option><option>English</option><option>History</option>
+            <option>Geography</option><option>Science</option><option>GK/GS</option><option>Reasoning</option>
+          </select>
+          <input id="admin-test-title" placeholder="Unique Test Title *" class="input-field rounded-xl px-3 py-2 text-xs">
         </div>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
           <input id="admin-pos-marks" type="number" placeholder="Positive Marks (default 3)" class="input-field rounded-xl px-3 py-2 text-xs">
@@ -597,19 +731,19 @@ body.notes-open{-webkit-user-select:none;user-select:none;}
             <option value="TRUE">👑 VIP Premium</option>
           </select>
         </div>
-        <input id="admin-test-desc" placeholder="Test description for students..." class="w-full input-field rounded-xl px-3 py-2 text-xs">
-        <textarea id="local-ai-text" rows="6" placeholder="Questions + Answer Key paste karein here..." class="w-full input-field rounded-xl p-3 text-xs font-mono outline-none"></textarea>
+        <input id="admin-test-desc" placeholder="Test description..." class="w-full input-field rounded-xl px-3 py-2 text-xs">
+        <div class="text-[10px] font-bold text-muted uppercase mb-1">Questions paste karo (format: Q1. Question\nA) option\nB) option\nC) option\nD) option\n\nAnswer Key:\n1-A, 2-B...)</div>
+        <textarea id="local-ai-text" rows="8" placeholder="Questions + Answer Key paste karein..." class="w-full input-field rounded-xl p-3 text-xs font-mono outline-none"></textarea>
         <button onclick="setTestByAdmin()" class="w-full btn-success font-bold py-2.5 rounded-xl text-xs uppercase cursor-pointer"><i class="fas fa-rocket mr-1"></i>Deploy Test</button>
         <p id="admin-publish-status" class="text-[10px] text-muted"></p>
       </div>
-      <!-- Existing Tests List for Admin -->
       <div class="premium-card rounded-xl p-4">
-        <div class="font-bold text-xs text-accent mb-3"><i class="fas fa-list mr-1"></i>Deployed Tests</div>
+        <div class="font-bold text-xs text-accent mb-3"><i class="fas fa-list mr-1"></i>Deployed Tests (with Delete)</div>
         <div id="admin-tests-list" class="space-y-2 max-h-64 overflow-y-auto"></div>
       </div>
     </div>
 
-    <!-- Admin Tab: Add Notes -->
+    <!-- Admin Tab: Notes -->
     <div id="atab-notes" class="hidden space-y-3">
       <div class="premium-card rounded-xl p-5 space-y-3">
         <div class="font-bold text-amber-500 text-sm"><i class="fas fa-plus mr-1"></i>Add New Note</div>
@@ -622,13 +756,44 @@ body.notes-open{-webkit-user-select:none;user-select:none;}
             <option>Mathematics</option><option>English</option><option>History</option><option>Geography</option><option>Science</option><option>GK/GS</option><option>Reasoning</option>
           </select>
         </div>
+        <div>
+          <label class="block text-[10px] font-bold text-muted uppercase mb-1">PDF Link (Google Drive "Anyone can view" link)</label>
+          <input id="anote-pdf" placeholder="https://drive.google.com/file/d/... (optional)" class="w-full input-field rounded-xl px-3 py-2 text-xs">
+        </div>
         <textarea id="anote-content" rows="8" placeholder="Note content yahan likhein..." class="w-full input-field rounded-xl p-3 text-xs font-mono outline-none resize-none"></textarea>
         <button onclick="adminAddNoteFromPanel()" class="btn-success px-6 py-2 rounded-xl text-xs font-bold cursor-pointer"><i class="fas fa-save mr-1"></i>Publish Note</button>
       </div>
-      <!-- Existing Notes -->
       <div class="premium-card rounded-xl p-4">
-        <div class="font-bold text-xs text-accent mb-3"><i class="fas fa-list mr-1"></i>Published Notes</div>
+        <div class="font-bold text-xs text-accent mb-3"><i class="fas fa-list mr-1"></i>Published Notes (with Delete)</div>
         <div id="admin-notes-list" class="space-y-2 max-h-64 overflow-y-auto"></div>
+      </div>
+    </div>
+
+    <!-- Admin Tab: Courses Admin -->
+    <div id="atab-courses-admin" class="hidden space-y-3">
+      <div class="premium-card rounded-xl p-5 space-y-3">
+        <div class="font-bold text-amber-500 text-sm"><i class="fas fa-plus mr-1"></i>Add Course / Paid Class Content</div>
+        <div class="grid grid-cols-2 gap-2">
+          <select id="acourse-cat" class="input-field rounded-xl px-3 py-2 text-xs cursor-pointer">
+            <option>AFCAT</option><option>CDS</option><option>AIR FORCE</option><option>NAVY</option><option>ARMY</option><option>SSC</option>
+          </select>
+          <input id="acourse-icon" placeholder="Icon (emoji) e.g. ✈️" class="input-field rounded-xl px-3 py-2 text-xs">
+          <input id="acourse-title" placeholder="Course Title *" class="input-field rounded-xl px-3 py-2 text-xs">
+          <input id="acourse-price" type="number" placeholder="Price ₹ *" class="input-field rounded-xl px-3 py-2 text-xs">
+        </div>
+        <textarea id="acourse-desc" rows="2" placeholder="Course description..." class="w-full input-field rounded-xl p-3 text-xs outline-none resize-none"></textarea>
+        <input id="acourse-pdf" placeholder="PDF/Drive Link (optional)" class="w-full input-field rounded-xl px-3 py-2 text-xs">
+        <div class="flex gap-2">
+          <select id="acourse-type" class="flex-1 input-field rounded-xl px-3 py-2 text-xs cursor-pointer">
+            <option value="FALSE">🔓 Free Access</option>
+            <option value="TRUE">👑 Paid/Premium</option>
+          </select>
+          <button onclick="adminAddCourse()" class="btn-success px-6 py-2 rounded-xl text-xs font-bold cursor-pointer"><i class="fas fa-plus mr-1"></i>Add</button>
+        </div>
+      </div>
+      <div class="premium-card rounded-xl p-4">
+        <div class="font-bold text-xs text-accent mb-3">Custom Courses</div>
+        <div id="admin-courses-list" class="space-y-2 max-h-48 overflow-y-auto"></div>
       </div>
     </div>
 
@@ -660,65 +825,69 @@ body.notes-open{-webkit-user-select:none;user-select:none;}
         <div id="announce-history" class="space-y-2 max-h-48 overflow-y-auto mt-2"></div>
       </div>
     </div>
-  </div>
 
-  <!-- SCREEN: MY RESULTS HISTORY -->
-  <div id="screen-results">
-    <div class="flex items-center gap-3 mb-3">
-      <button onclick="goHome()" class="btn-neutral px-3 py-2 rounded-xl text-xs font-bold cursor-pointer"><i class="fas fa-arrow-left mr-1"></i>Back</button>
-      <h2 class="text-base font-black text-accent"><i class="fas fa-chart-bar mr-1"></i>My Results</h2>
+    <!-- Admin Tab: Countdown -->
+    <div id="atab-countdown-admin" class="hidden">
+      <div class="premium-card rounded-xl p-5 space-y-3">
+        <div class="font-bold text-amber-500 text-sm"><i class="fas fa-clock mr-1"></i>Set Mega-Mock Countdown</div>
+        <input id="cd-event-title" placeholder="Event Title e.g. All India NDA Open War" class="w-full input-field rounded-xl px-3 py-2 text-xs">
+        <div class="grid grid-cols-2 gap-2">
+          <div><label class="text-[10px] font-bold text-muted uppercase mb-1 block">Target Date</label><input type="date" id="cd-date" class="w-full input-field rounded-xl px-3 py-2 text-xs"></div>
+          <div><label class="text-[10px] font-bold text-muted uppercase mb-1 block">Target Time</label><input type="time" id="cd-time" class="w-full input-field rounded-xl px-3 py-2 text-xs"></div>
+        </div>
+        <button onclick="saveCountdown()" class="btn-success px-6 py-2 rounded-xl text-xs font-bold cursor-pointer"><i class="fas fa-save mr-1"></i>Set Countdown</button>
+        <p id="cd-save-msg" class="hidden text-xs text-emerald-400 font-bold"></p>
+      </div>
     </div>
-    <div id="results-history-list" class="space-y-3"></div>
   </div>
 
 </div><!-- end app-container -->
 
-<!-- ====================== EXAM ENGINE ====================== -->
+<!-- EXAM ENGINE -->
 <div id="exam-engine-container" class="hidden w-full max-w-6xl mx-auto flex flex-col gap-3 exam-container">
-  <div class="premium-card rounded-xl p-3 flex justify-between items-center text-center">
-    <div><div class="text-[9px] text-muted font-bold uppercase">Questions</div><div id="disp-total-count" class="text-xl font-black text-accent">0</div></div>
+  <div class="premium-card rounded-xl p-3 flex justify-between items-center">
+    <div class="text-center"><div class="text-[9px] text-muted font-bold uppercase">Questions</div><div id="disp-total-count" class="text-xl font-black text-accent">0</div></div>
     <div id="stopwatch-box" class="px-5 py-1.5 rounded-xl border border-red-500/20" style="background:rgba(225,29,72,0.05)">
       <div class="text-[8px] font-bold uppercase text-red-400">Time Left</div>
       <div id="stopwatch" class="text-xl font-mono font-black text-red-500">45:00</div>
     </div>
-    <div><div class="text-[9px] text-muted font-bold uppercase">Warnings</div><div id="blur-count-disp" class="text-xl font-black text-red-400">0/3</div></div>
+    <div class="text-center"><div class="text-[9px] text-muted font-bold uppercase">Warnings</div><div id="blur-count-disp" class="text-xl font-black text-red-400">0/3</div></div>
   </div>
   <div class="grid grid-cols-3 gap-2 text-xs font-bold">
-    <button onclick="prevQuestion()" class="btn-neutral py-3.5 rounded-xl cursor-pointer"><i class="fas fa-arrow-left mr-1"></i>Previous</button>
+    <button onclick="prevQuestion()" class="btn-neutral py-3.5 rounded-xl cursor-pointer"><i class="fas fa-arrow-left mr-1"></i>Prev</button>
     <button onclick="toggleFlagQuestion()" class="btn-flag-outline py-3.5 rounded-xl cursor-pointer"><i class="fas fa-flag mr-1"></i>Flag</button>
     <button onclick="nextQuestion()" class="btn-neutral py-3.5 rounded-xl cursor-pointer">Next<i class="fas fa-arrow-right ml-1"></i></button>
   </div>
   <div class="premium-card rounded-2xl p-5 flex-1 flex flex-col justify-between relative overflow-hidden min-h-[220px]" style="border-left:4px solid var(--accent)">
-    <div class="watermark-overlay"><span id="watermark-text">OPERATION BAAZ</span></div>
-    <div id="digital-question-text" class="text-sm md:text-base font-bold surface p-4 rounded-xl whitespace-pre-line max-h-40 overflow-y-auto w-full relative z-10">Loading...</div>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-2.5 relative z-10 mt-3 w-full">
-      <button onclick="selectAnswer('A')" id="opt-A" class="w-full text-left input-field p-3 rounded-xl font-semibold flex items-center gap-2 cursor-pointer transition"><span class="text-accent font-black text-xs">A</span><span id="lbl-opt-A">—</span></button>
-      <button onclick="selectAnswer('B')" id="opt-B" class="w-full text-left input-field p-3 rounded-xl font-semibold flex items-center gap-2 cursor-pointer transition"><span class="text-accent font-black text-xs">B</span><span id="lbl-opt-B">—</span></button>
-      <button onclick="selectAnswer('C')" id="opt-C" class="w-full text-left input-field p-3 rounded-xl font-semibold flex items-center gap-2 cursor-pointer transition"><span class="text-accent font-black text-xs">C</span><span id="lbl-opt-C">—</span></button>
-      <button onclick="selectAnswer('D')" id="opt-D" class="w-full text-left input-field p-3 rounded-xl font-semibold flex items-center gap-2 cursor-pointer transition"><span class="text-accent font-black text-xs">D</span><span id="lbl-opt-D">—</span></button>
+    <div id="digital-question-text" class="text-sm md:text-base font-bold surface p-4 rounded-xl whitespace-pre-line max-h-40 overflow-y-auto w-full">Loading...</div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-2.5 mt-3 w-full">
+      <button onclick="selectAnswer('A')" id="opt-A" class="w-full text-left input-field p-3 rounded-xl font-semibold flex items-center gap-2 cursor-pointer"><span class="text-accent font-black text-xs">A</span><span id="lbl-opt-A">—</span></button>
+      <button onclick="selectAnswer('B')" id="opt-B" class="w-full text-left input-field p-3 rounded-xl font-semibold flex items-center gap-2 cursor-pointer"><span class="text-accent font-black text-xs">B</span><span id="lbl-opt-B">—</span></button>
+      <button onclick="selectAnswer('C')" id="opt-C" class="w-full text-left input-field p-3 rounded-xl font-semibold flex items-center gap-2 cursor-pointer"><span class="text-accent font-black text-xs">C</span><span id="lbl-opt-C">—</span></button>
+      <button onclick="selectAnswer('D')" id="opt-D" class="w-full text-left input-field p-3 rounded-xl font-semibold flex items-center gap-2 cursor-pointer"><span class="text-accent font-black text-xs">D</span><span id="lbl-opt-D">—</span></button>
     </div>
   </div>
-  <div class="grid grid-cols-1 md:grid-cols-4 gap-2 text-xs font-bold">
+  <div class="grid grid-cols-4 gap-2 text-xs font-bold">
     <button onclick="clearAnswer()" class="btn-neutral py-2.5 rounded-xl cursor-pointer"><i class="fas fa-eraser mr-1"></i>Clear</button>
-    <button onclick="confirmSubmitTest()" class="btn-success py-2.5 rounded-xl font-black cursor-pointer md:col-span-3 uppercase"><i class="fas fa-paper-plane mr-1"></i>Submit Test</button>
+    <button onclick="confirmSubmitTest()" class="btn-success py-2.5 rounded-xl font-black cursor-pointer col-span-3 uppercase"><i class="fas fa-paper-plane mr-1"></i>Submit Test</button>
   </div>
   <div class="premium-card rounded-2xl p-4 space-y-2">
     <div class="grid grid-cols-5 gap-1 text-[9px] font-bold text-center">
-      <button onclick="setPaletteFilter('all')" class="palette-filter-btn py-1.5 rounded-lg surface cursor-pointer">ALL</button>
-      <button onclick="setPaletteFilter('answered')" class="palette-filter-btn py-1.5 rounded-lg surface cursor-pointer">DONE</button>
-      <button onclick="setPaletteFilter('unanswered')" class="palette-filter-btn py-1.5 rounded-lg surface cursor-pointer">SKIP</button>
-      <button onclick="setPaletteFilter('flagged')" class="palette-filter-btn py-1.5 rounded-lg surface cursor-pointer">FLAGGED</button>
-      <button onclick="setPaletteFilter('unvisited')" class="palette-filter-btn py-1.5 rounded-lg surface cursor-pointer">NEW</button>
+      <button onclick="setPaletteFilter('all')" class="py-1.5 rounded-lg surface cursor-pointer">ALL</button>
+      <button onclick="setPaletteFilter('answered')" class="py-1.5 rounded-lg surface cursor-pointer">DONE</button>
+      <button onclick="setPaletteFilter('unanswered')" class="py-1.5 rounded-lg surface cursor-pointer">SKIP</button>
+      <button onclick="setPaletteFilter('flagged')" class="py-1.5 rounded-lg surface cursor-pointer">FLAG</button>
+      <button onclick="setPaletteFilter('unvisited')" class="py-1.5 rounded-lg surface cursor-pointer">NEW</button>
     </div>
     <div id="palette-grid" class="grid grid-cols-5 md:grid-cols-10 gap-1.5 max-h-32 overflow-y-auto pr-1"></div>
   </div>
 </div>
 
-<!-- ====================== RESULT SCREEN ====================== -->
+<!-- RESULT SCREEN -->
 <div id="result-screen" class="hidden max-w-3xl w-full premium-card rounded-2xl p-6 mx-auto my-auto space-y-4">
   <div class="text-center">
     <h2 class="text-2xl font-black uppercase tracking-widest" style="color:var(--success2)">Scorecard</h2>
-    <div class="text-[9px] font-bold uppercase mt-1 text-amber-500"><i class="fas fa-lock mr-1"></i>Permanently Locked</div>
+    <div class="text-[9px] font-bold uppercase mt-1 text-amber-500"><i class="fas fa-lock mr-1"></i>Result Locked</div>
   </div>
   <div id="rank-badge-box" class="rounded-xl p-2.5 font-black text-xs uppercase tracking-wider text-center border border-amber-500/20 text-accent" style="background:rgba(245,158,11,0.05)">
     Rank Badge: <span id="rank-badge-text">—</span>
@@ -734,37 +903,42 @@ body.notes-open{-webkit-user-select:none;user-select:none;}
     <h3 class="text-xs font-bold text-muted uppercase mb-2"><i class="fas fa-list-check text-accent mr-1"></i>Detailed Review</h3>
     <div id="review-matrix-container" class="space-y-2.5 max-h-72 overflow-y-auto pr-1"></div>
   </div>
-  <div class="grid grid-cols-2 gap-2 text-xs font-bold">
-    <button onclick="window.print()" class="w-full btn-neutral py-3 rounded-xl cursor-pointer uppercase no-print"><i class="fas fa-download mr-1"></i>Download PDF</button>
+  <div class="grid grid-cols-2 gap-2 text-xs font-bold no-print">
+    <button onclick="window.print()" class="w-full btn-neutral py-3 rounded-xl cursor-pointer uppercase"><i class="fas fa-download mr-1"></i>Download PDF</button>
     <button onclick="returnToPortal()" class="w-full btn-accent py-3 rounded-xl cursor-pointer uppercase">Back to Home</button>
   </div>
 </div>
 
-<!-- ====================== NOTE READER MODAL ====================== -->
-<div id="note-reader-modal" class="modal-bg hidden" onclick="if(event.target===this) closeNoteModal()">
-  <div class="modal-box notes-reader" style="max-width:680px">
-    <div class="flex justify-between items-center mb-4 no-print">
+<!-- NOTE READER MODAL -->
+<div id="note-reader-modal" class="modal-bg hidden" onclick="if(event.target===this)closeNoteModal()">
+  <div class="modal-box" style="max-width:720px">
+    <div class="flex justify-between items-center mb-4">
       <h3 id="note-modal-title" class="font-black text-sm text-accent">Note</h3>
       <button onclick="closeNoteModal()" class="text-red-400 font-bold text-xs uppercase cursor-pointer"><i class="fas fa-times mr-1"></i>Close</button>
     </div>
-    <div id="note-modal-content" class="text-sm leading-relaxed whitespace-pre-line surface p-4 rounded-xl max-h-[65vh] overflow-y-auto notes-reader" style="-webkit-user-select:none;user-select:none;"></div>
-    <div class="mt-3 text-[9px] text-muted text-center no-print">⚠️ Copying, printing or downloading is not allowed. For personal study only.</div>
+    <!-- PDF Viewer -->
+    <div id="note-pdf-area" class="hidden mb-3">
+      <div class="text-[10px] font-bold text-muted uppercase mb-1">📎 PDF / Resource</div>
+      <iframe id="note-pdf-iframe" src="" class="w-full rounded-xl" style="height:320px;border:1px solid var(--border)"></iframe>
+    </div>
+    <div id="note-modal-content" class="text-sm leading-relaxed whitespace-pre-line surface p-4 rounded-xl max-h-[50vh] overflow-y-auto" style="-webkit-user-select:none;user-select:none;"></div>
+    <div class="mt-3 text-[9px] text-muted text-center">⚠️ Copy/Print/Download not allowed.</div>
   </div>
 </div>
 
-<!-- ====================== MISTAKES LEDGER MODAL ====================== -->
-<div id="mistakes-modal" class="modal-bg hidden" onclick="if(event.target===this) closeMistakesModal()">
+<!-- MISTAKES MODAL -->
+<div id="mistakes-modal" class="modal-bg hidden" onclick="if(event.target===this)closeMistakesModal()">
   <div class="modal-box">
     <div class="flex justify-between items-center mb-4">
-      <h3 class="font-black text-sm text-red-400"><i class="fas fa-triangle-exclamation mr-1"></i>My Mistakes Ledger</h3>
+      <h3 class="font-black text-sm text-red-400"><i class="fas fa-triangle-exclamation mr-1"></i>Mistakes Ledger</h3>
       <button onclick="closeMistakesModal()" class="text-red-400 font-bold text-xs uppercase cursor-pointer"><i class="fas fa-times mr-1"></i>Close</button>
     </div>
     <div id="mistakes-list" class="space-y-3 max-h-[60vh] overflow-y-auto"></div>
   </div>
 </div>
 
-<!-- ====================== PAYMENT MODAL ====================== -->
-<div id="payment-modal" class="modal-bg hidden" onclick="if(event.target===this) closePaymentModal()">
+<!-- PAYMENT MODAL -->
+<div id="payment-modal" class="modal-bg hidden" onclick="if(event.target===this)closePaymentModal()">
   <div class="modal-box" style="max-width:420px">
     <div class="flex justify-between items-center mb-4">
       <h3 class="font-black text-sm text-emerald-400"><i class="fas fa-credit-card mr-1"></i>Pay & Enroll</h3>
@@ -776,100 +950,158 @@ body.notes-open{-webkit-user-select:none;user-select:none;}
         <div id="pay-course-price" class="text-2xl font-black text-amber-400">₹0</div>
         <div class="text-xs text-muted mt-1">One-time payment • Lifetime access</div>
       </div>
-      <!-- QR Code Section -->
       <div class="text-center">
         <div class="text-xs font-bold text-muted uppercase mb-2">Scan QR to Pay</div>
-        <div class="flex justify-center">
-          <div class="qr-box">
-            <!-- QR Code for UPI 7068252052@axl -->
-            <img src="https://api.qrserver.com/v1/create-qr-code/?data=upi%3A%2F%2Fpay%3Fpa%3D7068252052%40axl%26pn%3DAbhijeet%2520Kushwaha%26cu%3DINR&size=160x160&margin=10" alt="UPI QR Code" width="160" height="160" style="display:block;border-radius:4px;">
-          </div>
-        </div>
-        <div class="text-xs text-muted mt-2">या नीचे UPI ID copy करें</div>
+        <div class="flex justify-center"><div class="qr-box"><img id="pay-qr-img" src="https://api.qrserver.com/v1/create-qr-code/?data=upi%3A%2F%2Fpay%3Fpa%3D7068252052%40axl%26pn%3DAbhijeet%2520Kushwaha%26cu%3DINR&size=160x160&margin=10" alt="QR" width="160" height="160" style="display:block;border-radius:4px;"></div></div>
       </div>
-      <!-- UPI ID -->
       <div class="upi-display text-center">
         <div class="text-[10px] text-muted font-bold uppercase mb-1">UPI ID</div>
-        <div class="text-lg font-black text-emerald-400" id="upi-id-text">7068252052@axl</div>
+        <div class="text-lg font-black text-emerald-400">7068252052@axl</div>
         <button onclick="copyUPI()" class="mt-2 btn-success text-xs px-4 py-1.5 rounded-xl font-bold cursor-pointer"><i class="fas fa-copy mr-1"></i>Copy UPI ID</button>
       </div>
-      <!-- After Payment Instructions -->
-      <div class="surface rounded-xl p-3 text-xs space-y-2">
-        <div class="font-bold text-amber-400"><i class="fas fa-info-circle mr-1"></i>Payment ke baad kya karein?</div>
-        <p class="text-muted">1. Screenshot le lo payment ka</p>
-        <p class="text-muted">2. WhatsApp karo: <span class="text-emerald-400 font-bold">+91 7068252052</span></p>
+      <div class="surface rounded-xl p-3 text-xs space-y-1">
+        <div class="font-bold text-amber-400"><i class="fas fa-info-circle mr-1"></i>Payment ke baad:</div>
+        <p class="text-muted">1. Screenshot lo</p>
+        <p class="text-muted">2. WhatsApp: <span class="text-emerald-400 font-bold">+91 7068252052</span></p>
         <p class="text-muted">3. Course name + screenshot bhejo</p>
         <p class="text-muted">4. 2-4 ghante mein access milega</p>
       </div>
-      <a href="https://api.whatsapp.com/send?phone=917068252052&text=Hello%20Abhijeet%20ji%2C%20maine%20course%20ke%20liye%20payment%20kar%20di%20hai.%20Screenshot%20attach%20kar%20raha%20hoon." target="_blank" class="block text-center w-full btn-success font-bold py-3 rounded-xl text-sm">
-        <i class="fab fa-whatsapp mr-2"></i>WhatsApp Payment Proof
-      </a>
+      <a href="https://api.whatsapp.com/send?phone=917068252052&text=Hello%20Abhijeet%20ji%2C%20maine%20payment%20ki%20hai." target="_blank" class="block text-center w-full btn-success font-bold py-3 rounded-xl text-sm"><i class="fab fa-whatsapp mr-2"></i>WhatsApp Payment Proof</a>
     </div>
   </div>
 </div>
 
 <footer class="w-full text-center text-[9px] text-muted uppercase tracking-widest pt-3 mt-4 border-t border-slate-800">
-  Operation Baaz Platform v11.0 • Architected by Abhijeet Kushwaha • UPI: 7068252052@axl
+  Operation Baaz v12.0 • Architected by Abhijeet Kushwaha • UPI: 7068252052@axl
 </footer>
 
-<!-- ==================== MAIN LOGIC ENGINE ==================== -->
 <script>
 /* ============================================================
-   CONFIG & STATE
+   CONFIG & CONSTANTS
    ============================================================ */
-const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx6g7Vy7S92qEBonoAOuy_4XG1rLg_lLEo7A5ZckueaQVvHofvqzJdbOFAc-wozaf_7/exec";
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz94_WMrpCCh6w98LcV4G1lkRCKl7Ls0GELPvqA0YuS2pYLPQ1R-3ezuhMriteqg8Us/exec";
 const ADMIN_EMAIL = "kajalkushwaha208@gmail.com";
 const ADMIN_PASSWORD = "Kajal@123";
 const UPI_ID = "7068252052@axl";
 const UPI_NAME = "Abhijeet Kushwaha";
 
+/* ============================================================
+   APP STATE
+   ============================================================ */
 let cachedTests=[], activeTest=null, currentTestQuestions=[];
 let flaggedQuestions={}, visitedQuestions={}, studentResponses={};
 let currentIndex=1, totalQuestionsCount=0, qTimeLeft=2700;
-let tabViolationsCount=0, testRunningMode=false, currentPaletteFilter='all';
+let tabViolationsCount=0, testRunningMode=false;
 let currentUserData=null, singleQTimer=null;
 let suAvatarBase64="", suGenderSelected="";
-let allNotes=[], allCourses=[], currentPayCourse=null;
+let allNotes=[], customCourses=[];
+
+/* SSB State */
+let ssbMode='WAT', ssbWords=[], ssbSituations=[], ssbCurrentQ=0, ssbResponses=[], ssbTimer=null, ssbTimeLeft=15;
+
+/* Color Blindness State */
+const CB_PLATES = [
+  {number:12,bg:'#e8d5a3',dots:[{n:74,c:'#a0522d'},{n:12,c:'#228b22'}]},
+  {number:8,bg:'#d4a574',dots:[{n:29,c:'#800000'},{n:8,c:'#4169e1'}]},
+  {number:6,bg:'#c8b89a',dots:[{n:57,c:'#8b4513'},{n:6,c:'#006400'}]},
+  {number:29,bg:'#dfc8a0',dots:[{n:70,c:'#a0522d'},{n:29,c:'#2e8b57'}]},
+  {number:57,bg:'#e0c8a0',dots:[{n:91,c:'#8b6914'},{n:57,c:'#dc143c'}]},
+  {number:5,bg:'#d4c4a0',dots:[{n:35,c:'#a0622d'},{n:5,c:'#228b22'}]},
+  {number:3,bg:'#c8b488',dots:[{n:96,c:'#8b4513'},{n:3,c:'#008000'}]},
+  {number:45,bg:'#dfc0a0',dots:[{n:15,c:'#a05020'},{n:45,c:'#006400'}]},
+];
+let cbCurrentPlate=0, cbScore=0, cbRunning=false;
+
+/* WAT Words */
+const WAT_WORDS = ['Courage','Leadership','Victory','Dedication','Honour','Sacrifice','Discipline','Strength','Justice','Faith','Unity','Service','Duty','Nation','War','Peace','Soldier','Family','Challenge','Fear','Power','Trust','Loyalty','Wisdom','Mission','Teamwork','Integrity','Respect','Ambition','Freedom','Truth','Action','Risk','Success','Enemy','Protection','Order','Compassion','Authority','Example','Bravery','Endurance','Spirit','Achievement','Command','Vigilance','Perseverance','Camaraderie','Excellence','Mindset','Strategy','Adapt','Overcome','Conquer','Inspire','Mentor','Resolve','Boldness','Fortitude','Valor'];
+
+/* SRT Situations */
+const SRT_SITUATIONS = [
+  'Aap jungle mein trek par hain. Achanak aapka saathi ghayel ho jata hai. Aap kya karenge?',
+  'Aapke team ka leader ek galat order deta hai. Aap kya karenge?',
+  'Aapko pata chalta hai ki aapka dost exam mein naqal kar raha hai. Aap kya karenge?',
+  'Raat ko aap ek accident dekhte hain. Aapke paas phone nahi hai. Aap kya karenge?',
+  'Aapka junior bahut demotivated hai. Aap kya karenge?',
+  'Aapke unit mein ek soldier beemar hai, lekin wo duty se jaana nahi chahta. Aap kya karenge?',
+  'Aapko ek mission mein bhejna gaya hai, lekin orders unclear hain. Aap kya karenge?',
+  'Aapka dost pressurize kar raha hai ki aap ek galat kaam karo. Aap kya karenge?',
+  'Apni team mein do log aapas mein lad rahe hain. Aap kya karenge?',
+  'Aap ek interview mein hain aur ek question ka jawab nahi pata. Aap kya karenge?',
+  'Aapka commanding officer bahut strict hai aur aapko unfair feel ho raha hai. Aap kya karenge?',
+  'Jungle mein aap raste se bhatak jaate hain. Compass nahi hai. Aap kya karenge?',
+  'Ek baccha darya mein doob raha hai. Aapko swimming nahi aati. Aap kya karenge?',
+  'Aapki team mein koi cheating kar raha hai par baaki log chup hain. Aap kya karenge?',
+  'Aapko raat ko akele ek dangerous area mein patrol karna hai. Aap kya karenge?',
+  'Aapke paas limited resources hain aur 10 logon ko bachana hai. Aap kya karenge?',
+  'Group mein ek member kaam nahi kar raha. Deadline paas hai. Aap kya karenge?',
+  'Koi aapko galat information de raha hai. Aap kya karenge?',
+  'Aapko ek mushkil decision lena hai jisme risk hai. Aap kya karenge?',
+  'Aap leader hain par team ne aapke against vote diya. Aap kya karenge?',
+  'Aapka equipment fail ho gaya ek critical moment par. Aap kya karenge?',
+  'Senior officer aapko bahar ki duty de raha hai jab aap family ke saath the. Aap kya karenge?',
+  'Aapne galti ki aur uski vajah se mission fail hua. Aap kya karenge?',
+  'Aapko ek unfamiliar area mein command sambhalni hai. Aap kya karenge?',
+  'Ek civilian area mein suspect dikha. Aap kya karenge?',
+  'Exam mein aapka time nahi bacha aur 20 sawaal bache hain. Aap kya karenge?',
+  'Aapko pata chalta hai team member ne jhooth bola. Aap kya karenge?',
+  'Aapke paas 10 minute hain ek presentation ke liye jo abhi tak taiyar nahi. Aap kya karenge?',
+  'Senior ne aapka credit liya. Aap kya karenge?',
+  'Aap bahut thake hue hain par mission incomplete hai. Aap kya karenge?'
+];
+
+/* COURSES DATA */
+const STATIC_COURSES = [
+  {cat:'AFCAT',icon:'✈️',title:'Operation Varun Falcon',desc:'Complete AFCAT preparation with all subjects.',price:1499,isPremium:true},
+  {cat:'AFCAT',icon:'🦅',title:'Operation Garud Wings',desc:'Advanced AFCAT mock series with solutions.',price:1999,isPremium:true},
+  {cat:'CDS',icon:'⚔️',title:'Operation Varun Shield CDS',desc:'IMA, INA, AFA focused complete CDS prep.',price:1999,isPremium:true},
+  {cat:'CDS',icon:'🎖️',title:'Operation Garud Force CDS',desc:'CDS Mathematics & English mastery.',price:1499,isPremium:true},
+  {cat:'AIR FORCE',icon:'🛩️',title:'Operation Sky Warriors X/Y',desc:'Air Force X & Y group complete course.',price:1499,isPremium:true},
+  {cat:'AIR FORCE',icon:'⚡',title:'Operation Air Saber Batch',desc:'Air Force mock test series with solutions.',price:999,isPremium:true},
+  {cat:'NAVY',icon:'🚢',title:'Operation Varun Sea Force',desc:'Complete Navy MR & AA preparation.',price:1299,isPremium:true},
+  {cat:'NAVY',icon:'⚓',title:'Operation Ocean Guard',desc:'Navy advanced Mathematics batch.',price:1199,isPremium:true},
+  {cat:'ARMY',icon:'🪖',title:'Operation Ground Shield',desc:'Army GD complete preparation course.',price:999,isPremium:true},
+  {cat:'ARMY',icon:'💪',title:'Operation Battle Warrior GD',desc:'Army GD fast track 45-day course.',price:799,isPremium:true},
+  {cat:'SSC',icon:'📋',title:'Operation National Strike SSC',desc:'SSC GD complete preparation course.',price:1499,isPremium:true},
+  {cat:'SSC',icon:'🏆',title:'Operation Apex Selection Batch',desc:'SSC advanced mock series.',price:1299,isPremium:true},
+];
 
 /* ============================================================
    INIT
    ============================================================ */
 window.addEventListener('DOMContentLoaded', () => {
-  applyTheme(localStorage.getItem('baaz_theme') || 'military', false);
+  applyTheme(localStorage.getItem('baaz_theme')||'military', false);
+  customCourses = JSON.parse(localStorage.getItem('baaz_custom_courses')||'[]');
   syncAnnouncements();
+  setupCountdown();
   setupAntiCheat();
-  setupModalEscapeKey();
-  
-  const savedEmail = localStorage.getItem('baaz_email');
-  if(savedEmail) {
-    currentUserData = JSON.parse(localStorage.getItem('baaz_userdata') || 'null');
-    if(currentUserData) { loginSuccess(currentUserData); return; }
+  setupEscapeKey();
+
+  const savedData = localStorage.getItem('baaz_userdata');
+  if(savedData) {
+    const u = JSON.parse(savedData);
+    if(u) { loginSuccess(u); return; }
   }
 });
 
-/* RELIABILITY FIX: Escape key closes any open modal so the user
-   is never stuck behind a full-screen overlay. */
-function setupModalEscapeKey() {
+function setupEscapeKey() {
   document.addEventListener('keydown', e => {
-    if (e.key !== 'Escape') return;
-    if (!document.getElementById('payment-modal').classList.contains('hidden')) closePaymentModal();
-    if (!document.getElementById('note-reader-modal').classList.contains('hidden')) closeNoteModal();
-    if (!document.getElementById('mistakes-modal').classList.contains('hidden')) closeMistakesModal();
+    if(e.key !== 'Escape') return;
+    ['payment-modal','note-reader-modal','mistakes-modal'].forEach(id => {
+      const el = document.getElementById(id);
+      if(el && !el.classList.contains('hidden')) el.classList.add('hidden');
+    });
   });
 }
 
 function setupAntiCheat() {
-  // Disable right click
   document.addEventListener('contextmenu', e => { if(testRunningMode) e.preventDefault(); });
-  // Disable copy/paste shortcuts
   document.addEventListener('keydown', e => {
     if(testRunningMode) {
       if((e.ctrlKey||e.metaKey) && ['c','v','u','s','p','a'].includes(e.key.toLowerCase())) e.preventDefault();
-      if(e.key === 'PrintScreen') e.preventDefault();
-      if(e.key === 'F12') e.preventDefault();
+      if(e.key==='PrintScreen'||e.key==='F12') e.preventDefault();
     }
-    // Notes protection
-    if(document.getElementById('note-reader-modal') && !document.getElementById('note-reader-modal').classList.contains('hidden')) {
+    const noteModal = document.getElementById('note-reader-modal');
+    if(noteModal && !noteModal.classList.contains('hidden')) {
       if((e.ctrlKey||e.metaKey) && ['c','s','p','u','a'].includes(e.key.toLowerCase())) e.preventDefault();
     }
   });
@@ -882,28 +1114,83 @@ async function syncAnnouncements() {
     if(d.announcement) {
       document.getElementById('broadcast-text').innerText = d.announcement;
       document.getElementById('global-broadcast').classList.remove('hidden');
-      const homeAnn = document.getElementById('home-announce');
-      if(homeAnn) { homeAnn.innerText = d.announcement; homeAnn.classList.remove('hidden'); }
+      const ha = document.getElementById('home-announce');
+      if(ha){ha.innerText=d.announcement;ha.classList.remove('hidden');}
     }
-  } catch(e){}
+  } catch(e) {}
+}
+
+/* ============================================================
+   COUNTDOWN SYSTEM
+   ============================================================ */
+let cdInterval = null;
+
+function setupCountdown() {
+  const saved = JSON.parse(localStorage.getItem('baaz_countdown')||'null');
+  if(!saved) return startDefaultCountdown();
+  document.getElementById('mega-mock-title').innerText = saved.title || 'All India Mock War';
+  startCountdownTo(new Date(saved.target));
+}
+
+function startDefaultCountdown() {
+  const target = new Date();
+  target.setDate(target.getDate() + 3);
+  target.setHours(10,0,0,0);
+  startCountdownTo(target);
+}
+
+function startCountdownTo(target) {
+  if(cdInterval) clearInterval(cdInterval);
+  function tick() {
+    const diff = target - new Date();
+    if(diff <= 0) {
+      ['cd-days','cd-hours','cd-mins','cd-secs'].forEach(id=>document.getElementById(id).innerText='00');
+      clearInterval(cdInterval); return;
+    }
+    const d = Math.floor(diff/86400000);
+    const h = Math.floor((diff%86400000)/3600000);
+    const m = Math.floor((diff%3600000)/60000);
+    const s = Math.floor((diff%60000)/1000);
+    document.getElementById('cd-days').innerText = String(d).padStart(2,'0');
+    document.getElementById('cd-hours').innerText = String(h).padStart(2,'0');
+    document.getElementById('cd-mins').innerText = String(m).padStart(2,'0');
+    document.getElementById('cd-secs').innerText = String(s).padStart(2,'0');
+  }
+  tick();
+  cdInterval = setInterval(tick, 1000);
+}
+
+function saveCountdown() {
+  const title = document.getElementById('cd-event-title').value.trim();
+  const date = document.getElementById('cd-date').value;
+  const time = document.getElementById('cd-time').value;
+  if(!title||!date||!time){alert("Sabhi fields fill karein.");return;}
+  const target = new Date(`${date}T${time}`);
+  localStorage.setItem('baaz_countdown', JSON.stringify({title, target: target.toISOString()}));
+  document.getElementById('mega-mock-title').innerText = title;
+  startCountdownTo(target);
+  const msg = document.getElementById('cd-save-msg');
+  msg.innerText = '✅ Countdown set ho gaya!';
+  msg.classList.remove('hidden');
+  setTimeout(()=>msg.classList.add('hidden'), 3000);
 }
 
 /* ============================================================
    AUTH
    ============================================================ */
 function showAuthTab(t) {
-  document.getElementById('form-login').classList.toggle('hidden', t !== 'login');
-  document.getElementById('form-signup').classList.toggle('hidden', t !== 'signup');
-  document.getElementById('tab-login').classList.toggle('active', t === 'login');
-  document.getElementById('tab-signup').classList.toggle('active', t === 'signup');
+  document.getElementById('form-login').classList.toggle('hidden', t!=='login');
+  document.getElementById('form-signup').classList.toggle('hidden', t!=='signup');
+  document.getElementById('tab-login').classList.toggle('active', t==='login');
+  document.getElementById('tab-signup').classList.toggle('active', t==='signup');
 }
 
 function handleSuAvatar(e) {
   const file = e.target.files[0]; if(!file) return;
   const reader = new FileReader();
-  reader.onload = function(ev) {
+  reader.onload = ev => {
     const img = new Image();
-    img.onload = function() {
+    img.onload = () => {
       const maxD=128; let w=img.width, h=img.height;
       if(w>h&&w>maxD){h=Math.round(h*(maxD/w));w=maxD;} else if(h>maxD){w=Math.round(w*(maxD/h));h=maxD;}
       const c=document.createElement('canvas'); c.width=w; c.height=h;
@@ -920,7 +1207,7 @@ function handleSuAvatar(e) {
 
 function selectSuGender(g) {
   suGenderSelected = g;
-  document.querySelectorAll('#su-gender-group .gender-pill').forEach(b => b.classList.toggle('active', b.dataset.gender === g));
+  document.querySelectorAll('#su-gender-group .gender-pill').forEach(b=>b.classList.toggle('active',b.dataset.gender===g));
 }
 
 async function doSignup() {
@@ -932,10 +1219,7 @@ async function doSignup() {
   const year=document.getElementById('su-year').value.trim();
   const err=document.getElementById('signup-error');
   err.classList.add('hidden');
-
-  if(!name||!phone||!email||!password||!suGenderSelected||!suAvatarBase64) {
-    err.innerText="Kripya sabhi (*) fields bharein aur photo upload karein."; err.classList.remove('hidden'); return;
-  }
+  if(!name||!phone||!email||!password||!suGenderSelected||!suAvatarBase64){err.innerText="Sabhi (*) fields aur photo required hai.";err.classList.remove('hidden');return;}
   try {
     const res=await fetch(APPS_SCRIPT_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:"signup",name,phone,email,password,gender:suGenderSelected,targetExam:exam,targetYear:year,profileImage:suAvatarBase64})});
     const d=await res.json();
@@ -949,10 +1233,8 @@ async function doLogin() {
   const password=document.getElementById('login-password').value;
   const err=document.getElementById('login-error');
   err.classList.add('hidden');
-
   if(email===ADMIN_EMAIL && password===ADMIN_PASSWORD) {
-    const adminObj={uid:"ADMIN",name:"Admin",email:ADMIN_EMAIL,role:"admin",walletBalance:9999,sessionID:"ROOT",blurStrikes:0,joinDate:new Date().toLocaleDateString()};
-    localStorage.setItem('baaz_email',email);
+    const adminObj={uid:"ADMIN",name:"Admin",email:ADMIN_EMAIL,role:"admin",walletBalance:9999,joinDate:new Date().toLocaleDateString()};
     localStorage.setItem('baaz_userdata',JSON.stringify(adminObj));
     loginSuccess(adminObj); return;
   }
@@ -961,7 +1243,6 @@ async function doLogin() {
     const d=await res.json();
     if(d.status==="success"){
       const user={...d,role:"student"};
-      localStorage.setItem('baaz_email',email);
       localStorage.setItem('baaz_userdata',JSON.stringify(user));
       loginSuccess(user);
     } else {err.innerText=d.message;err.classList.remove('hidden');}
@@ -974,49 +1255,54 @@ function loginSuccess(u) {
   document.getElementById('app-container').classList.remove('hidden');
   document.getElementById('student-name').innerText=u.name;
   document.getElementById('wallet-balance-disp').innerText=u.walletBalance||0;
-  document.getElementById('watermark-text').innerText=`${u.name} [${u.uid}]`;
-
-  if(u.profileImage) {
+  document.getElementById('wm-text').innerText=`${u.name} • ${u.email} • OPERATION BAAZ`;
+  if(u.profileImage){
     document.getElementById('dash-avatar').src=u.profileImage;
     document.getElementById('dash-avatar').classList.remove('hidden');
     document.getElementById('dash-avatar-ph').classList.add('hidden');
   }
-
-  if(u.role==='admin') {
+  if(u.role==='admin'){
     document.getElementById('admin-home-card').style.display='flex';
     document.getElementById('role-badge').innerText="ADMIN CONTROL";
     document.getElementById('role-badge').className="text-[9px] font-bold uppercase px-2 py-0.5 rounded mt-0.5 inline-block bg-amber-500 text-slate-950";
-  } else {
-    document.body.classList.add('student-lock');
   }
-
-  loadProfile();
-  loadTests();
-  loadNotes();
-  renderCourses();
-  updateQuickStats();
-  updateShareLinks();
+  loadTests(); renderNotesTree(); renderCourses(); updateQuickStats(); updateShareLinks();
 }
 
-function logout() { localStorage.clear(); location.reload(); }
+function logout() { localStorage.removeItem('baaz_userdata'); location.reload(); }
 
 /* ============================================================
    SCREEN NAVIGATION
    ============================================================ */
+const ALL_SCREENS=['home','exam','notes','courses','ranking','profile','share','support','admin','results','medical','ssb','pft','ai-doubt'];
+
 function showScreen(name) {
-  const screens=['home','exam','notes','courses','ranking','profile','share','support','admin','results'];
-  screens.forEach(s => {
+  ALL_SCREENS.forEach(s=>{
     const el=document.getElementById(`screen-${s}`);
     if(el) el.classList.toggle('active',s===name);
   });
   if(name==='ranking') loadLeaderboard();
-  if(name==='support' && currentUserData?.role==='admin') loadAdminSupport();
-  if(name==='admin') {
-    if(currentUserData?.role!=='admin') { showInfo('Access Denied','Admin access only.'); showScreen('home'); return; }
-    loadStudentList(); loadAdminNotesList(); loadAdminTestsList(); loadAdminSupport();
+  if(name==='support'&&currentUserData?.role==='admin') loadAdminSupport();
+  if(name==='admin'){
+    if(currentUserData?.role!=='admin'){alert('Admin access only.');showScreen('home');return;}
+    loadStudentList(); loadAdminNotesList(); loadAdminTestsList(); loadAdminSupport(); loadAdminCoursesList();
   }
   if(name==='profile') loadProfile();
-  if(name==='results') showResultsHistory();
+  if(name==='results') renderResultsHistory();
+  if(name==='pft') renderPFTHistory();
+  if(name==='medical') {
+    cbCurrentPlate=0; cbScore=0; cbRunning=false;
+    document.getElementById('cb-final-result').classList.add('hidden');
+    document.getElementById('cb-start-btn').classList.remove('hidden');
+    document.getElementById('cb-answer').value='';
+    document.getElementById('cb-result-msg').classList.add('hidden');
+    document.getElementById('cb-plate-num').innerText='—';
+    document.getElementById('cb-score').innerText='0';
+    document.getElementById('cb-instruction').innerText='Test shuru karne ke liye button dabaiye.';
+    const canvas=document.getElementById('cb-canvas');
+    const ctx=canvas.getContext('2d'); ctx.clearRect(0,0,200,200);
+    ctx.fillStyle='#1a1a2e'; ctx.beginPath(); ctx.arc(100,100,98,0,Math.PI*2); ctx.fill();
+  }
 }
 
 function goHome() {
@@ -1038,32 +1324,25 @@ function loadProfile() {
   document.getElementById('pf-year').innerText=u.targetYear||'—';
   document.getElementById('pf-joined').innerText=u.joinDate||'—';
   document.getElementById('pf-role').innerText=u.role==='admin'?'🛡️ Admin':'🎓 Student';
-
   const picker=document.getElementById('theme-picker');
   if(picker) picker.value=localStorage.getItem('baaz_theme')||'military';
-
-  if(u.profileImage) {
-    const pimg=document.getElementById('profile-avatar-img');
-    if(pimg){pimg.src=u.profileImage;pimg.classList.remove('hidden');document.getElementById('profile-avatar-ph').classList.add('hidden');}
+  if(u.profileImage){
+    const pi=document.getElementById('profile-avatar-img');
+    if(pi){pi.src=u.profileImage;pi.classList.remove('hidden');document.getElementById('profile-avatar-ph').classList.add('hidden');}
   }
-
-  if(u.role==='admin') {
+  if(u.role==='admin'){
     document.getElementById('profile-student-stats').classList.add('hidden');
     document.getElementById('profile-admin-stats').classList.remove('hidden');
     const notes=JSON.parse(localStorage.getItem('baaz_notes')||'[]');
-    const tests=cachedTests||[];
-    const sup=JSON.parse(localStorage.getItem('baaz_support_requests')||'[]');
     document.getElementById('adm-notes').innerText=notes.length;
-    document.getElementById('adm-exams').innerText=tests.length;
-    document.getElementById('adm-support').innerText=sup.length;
-    // Student count from server
+    document.getElementById('adm-exams').innerText=cachedTests.length;
+    document.getElementById('adm-support').innerText=JSON.parse(localStorage.getItem('baaz_support_requests')||'[]').length;
     fetch(APPS_SCRIPT_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:"get_students"})})
       .then(r=>r.json()).then(d=>{document.getElementById('adm-students').innerText=d.length;}).catch(()=>{});
   } else {
-    const hist=getHistoryMap();
-    const tests=Object.keys(hist);
+    const hist=getHistoryMap(); const tests=Object.keys(hist);
     const totalScore=tests.reduce((s,k)=>s+(hist[k].score||0),0);
-    const avg=tests.length>0?Math.round(totalScore/tests.length):0;
+    const avg=tests.length?Math.round(totalScore/tests.length):0;
     document.getElementById('pf-total-tests').innerText=tests.length;
     document.getElementById('pf-total-score').innerText=totalScore;
     document.getElementById('pf-avg').innerText=avg;
@@ -1072,62 +1351,188 @@ function loadProfile() {
 }
 
 function updateQuickStats() {
-  const hist=getHistoryMap();
-  const tests=Object.keys(hist);
-  const totalScore=tests.reduce((s,k)=>s+(hist[k].score||0),0);
+  const hist=getHistoryMap(); const tests=Object.keys(hist);
   document.getElementById('stat-tests').innerText=tests.length;
-  document.getElementById('stat-score').innerText=totalScore;
+  document.getElementById('stat-score').innerText=tests.reduce((s,k)=>s+(hist[k].score||0),0);
   document.getElementById('stat-coins').innerText=currentUserData?.walletBalance||0;
 }
 
 /* ============================================================
-   NOTES SYSTEM
+   DOSSIER EXPORT / IMPORT
+   ============================================================ */
+function exportDossier() {
+  const keys=['baaz_notes','baaz_custom_courses','baaz_support_requests','baaz_announcements','baaz_countdown'];
+  const data={__version:12,__email:currentUserData?.email||'',__exported:new Date().toISOString()};
+  keys.forEach(k=>{ try{data[k]=JSON.parse(localStorage.getItem(k)||'null');}catch(e){} });
+  // Include test history
+  const hKey=`baaz_hist_${currentUserData?.email}`;
+  data[hKey]=JSON.parse(localStorage.getItem(hKey)||'null');
+  const errKey=`baaz_errors_${currentUserData?.email}`;
+  data[errKey]=JSON.parse(localStorage.getItem(errKey)||'null');
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob);
+  a.download=`BaazDossier_${currentUserData?.name||'cadet'}_${new Date().toISOString().slice(0,10)}.baaz`;
+  a.click();
+  alert('✅ Dossier export ho gaya! Safe rakhna — isse aap kabhi bhi restore kar sakte hain.');
+}
+
+function importDossier(e) {
+  const file=e.target.files[0]; if(!file) return;
+  const reader=new FileReader();
+  reader.onload=ev=>{
+    try {
+      const data=JSON.parse(ev.target.result);
+      delete data.__version; delete data.__email; delete data.__exported;
+      Object.keys(data).forEach(k=>{ if(data[k]!==null) localStorage.setItem(k,JSON.stringify(data[k])); });
+      alert('✅ Dossier restore ho gaya! Page reload ho raha hai.');
+      setTimeout(()=>location.reload(),1000);
+    } catch(err){alert('❌ Invalid dossier file.');}
+  };
+  reader.readAsText(file);
+}
+
+/* ============================================================
+   NOTES TREE SYSTEM
    ============================================================ */
 function loadNotes() {
-  allNotes = JSON.parse(localStorage.getItem('baaz_notes') || '[]');
-  renderNotes(allNotes);
+  allNotes = JSON.parse(localStorage.getItem('baaz_notes')||'[]');
 }
 
-function filterNotes() {
-  const exam=document.getElementById('notes-filter-exam').value;
-  const subject=document.getElementById('notes-filter-subject').value;
-  const filtered=allNotes.filter(n=>{
-    return (!exam || n.exam===exam) && (!subject || n.subject===subject);
+function renderNotesTree() {
+  allNotes = JSON.parse(localStorage.getItem('baaz_notes')||'[]');
+  const container=document.getElementById('notes-tree-container'); if(!container) return;
+  // Group by exam > subject
+  const tree={};
+  allNotes.forEach((n,i)=>{
+    const exam=n.exam||'General'; const sub=n.subject||'Mixed';
+    if(!tree[exam]) tree[exam]={};
+    if(!tree[exam][sub]) tree[exam][sub]=[];
+    tree[exam][sub].push({...n,_idx:i});
   });
-  renderNotes(filtered);
-}
-
-function renderNotes(notes) {
-  const container=document.getElementById('notes-list'); if(!container) return;
-  if(!notes.length) { container.innerHTML='<div class="premium-card rounded-xl p-4 text-xs text-muted">No notes available yet.</div>'; return; }
-  container.innerHTML = notes.map((n,i) => `
-    <div class="premium-card rounded-xl p-4 space-y-2">
-      <div class="flex justify-between items-start">
-        <div>
-          <span class="text-[9px] font-bold text-muted uppercase">${escapeHtml(n.exam)} • ${escapeHtml(n.subject)}</span>
-          <h3 class="font-black text-sm text-accent mt-0.5">${escapeHtml(n.title)}</h3>
-        </div>
-        ${currentUserData?.role==='admin'?`<button onclick="deleteNote(${i})" class="btn-danger-outline px-2 py-1 rounded-lg text-[10px] font-bold cursor-pointer"><i class="fas fa-trash"></i></button>`:''}
+  if(!Object.keys(tree).length){
+    container.innerHTML='<div class="premium-card rounded-xl p-4 text-xs text-muted text-center">No notes yet. Admin se request karein.</div>';
+    return;
+  }
+  let html='';
+  Object.keys(tree).forEach(exam=>{
+    const examId=`exam-${exam.replace(/\s/g,'-')}`;
+    html+=`<div class="tree-exam">
+      <div class="tree-exam-header text-accent" onclick="toggleTree('${examId}')">
+        <span><i class="fas fa-chevron-right mr-2 text-xs transition-transform" id="ic-${examId}"></i>📚 ${escH(exam)}</span>
+        <span class="text-[10px] text-muted">${Object.values(tree[exam]).flat().length} notes</span>
       </div>
-      <button onclick="openNoteModal(${i})" class="w-full btn-accent font-bold py-2 rounded-xl text-xs cursor-pointer mt-1"><i class="fas fa-book-open mr-1"></i>Read Note</button>
-    </div>
-  `).join('');
+      <div id="${examId}" class="hidden">`;
+    Object.keys(tree[exam]).forEach(sub=>{
+      const subId=`sub-${exam}-${sub}`.replace(/\s/g,'-');
+      html+=`<div class="tree-subject text-muted" onclick="toggleTree('${subId}')">
+        <span><i class="fas fa-folder mr-2 text-xs text-amber-500"></i>${escH(sub)}</span>
+        <span class="text-[10px]">${tree[exam][sub].length}</span>
+      </div>
+      <div id="${subId}" class="hidden">`;
+      tree[exam][sub].forEach(note=>{
+        html+=`<div class="tree-mock" onclick="openNoteModal(${note._idx})">
+          <span><i class="fas fa-file-lines mr-2 text-xs"></i>${escH(note.title)}</span>
+          <div class="flex gap-2 items-center">
+            ${note.pdfLink?'<span class="text-[9px] text-blue-400 font-bold"><i class="fas fa-file-pdf mr-1"></i>PDF</span>':''}
+            ${currentUserData?.role==='admin'?`<button onclick="event.stopPropagation();deleteNote(${note._idx})" class="text-red-400 text-[10px] font-bold cursor-pointer hover:text-red-300"><i class="fas fa-trash"></i></button>`:''}
+          </div>
+        </div>`;
+      });
+      html+=`</div>`;
+    });
+    html+=`</div></div>`;
+  });
+  container.innerHTML=html;
 }
 
-function adminAddNote() {
-  const title=document.getElementById('note-title').value.trim();
-  const exam=document.getElementById('note-exam').value;
-  const subject=document.getElementById('note-subject').value;
-  const content=document.getElementById('note-content').value.trim();
-  if(!title || !content) { alert("Title aur Content dono required hain."); return; }
-  const notes=JSON.parse(localStorage.getItem('baaz_notes')||'[]');
-  notes.push({title,exam,subject,content,createdAt:new Date().toLocaleDateString()});
-  localStorage.setItem('baaz_notes',JSON.stringify(notes));
-  allNotes=notes;
-  renderNotes(allNotes);
-  document.getElementById('note-title').value='';
-  document.getElementById('note-content').value='';
-  alert("Note published successfully!");
+function toggleTree(id) {
+  const el=document.getElementById(id); if(!el) return;
+  el.classList.toggle('hidden');
+  const ic=document.getElementById(`ic-${id}`);
+  if(ic) ic.style.transform=el.classList.contains('hidden')?'':'rotate(90deg)';
+}
+
+/* ============================================================
+   EXAM TREE SYSTEM
+   ============================================================ */
+function renderExamTree() {
+  const container=document.getElementById('exam-tree-container'); if(!container) return;
+  const hist=getHistoryMap();
+  if(!cachedTests.length){container.innerHTML='<div class="premium-card rounded-xl p-4 text-xs text-muted text-center">No tests yet.</div>';return;}
+  // Group by exam > subject
+  const tree={};
+  cachedTests.forEach((t,i)=>{
+    const exam=t.exam||'General'; const sub=t.subject||'Mixed';
+    if(!tree[exam]) tree[exam]={};
+    if(!tree[exam][sub]) tree[exam][sub]=[];
+    tree[exam][sub].push({...t,_idx:i});
+  });
+  let html='';
+  Object.keys(tree).forEach(exam=>{
+    const examId=`texam-${exam.replace(/\s/g,'-')}`;
+    const total=Object.values(tree[exam]).flat().length;
+    html+=`<div class="tree-exam">
+      <div class="tree-exam-header text-accent" onclick="toggleTree('${examId}')">
+        <span><i class="fas fa-chevron-right mr-2 text-xs" id="ic-${examId}"></i>🎯 ${escH(exam)}</span>
+        <span class="text-[10px] text-muted">${total} mocks</span>
+      </div>
+      <div id="${examId}" class="hidden">`;
+    Object.keys(tree[exam]).forEach(sub=>{
+      const subId=`tsub-${exam}-${sub}`.replace(/\s/g,'-');
+      html+=`<div class="tree-subject text-muted" onclick="toggleTree('${subId}')">
+        <span><i class="fas fa-folder mr-2 text-xs text-amber-500"></i>${escH(sub)}</span>
+        <span class="text-[10px]">${tree[exam][sub].length}</span>
+      </div>
+      <div id="${subId}" class="hidden">`;
+      tree[exam][sub].forEach(t=>{
+        const done=hist[t.title];
+        const isPrem=t.isPremium && currentUserData?.role!=='admin';
+        let actionBtn='';
+        if(done) actionBtn=`<button onclick="event.stopPropagation();viewLockedResult('${escH(t.title)}')" class="text-[10px] font-black text-muted px-2 py-1 rounded-lg surface cursor-pointer"><i class="fas fa-lock mr-1"></i>Result</button>`;
+        else if(isPrem) actionBtn=`<button onclick="event.stopPropagation();buyPremiumTest('${escH(t.title)}')" class="text-[10px] font-black text-amber-500 px-2 py-1 rounded-lg surface cursor-pointer"><i class="fas fa-crown mr-1"></i>Unlock</button>`;
+        else actionBtn=`<button onclick="event.stopPropagation();launchExamEngine('${escH(t.title)}')" class="text-[10px] font-black text-emerald-400 px-2 py-1 rounded-lg surface cursor-pointer">🚀 Start</button>`;
+        html+=`<div class="tree-mock">
+          <span><i class="fas fa-file-alt mr-2 text-xs"></i>${escH(t.title)} <span class="text-[9px] text-muted">(${t.parsedQuestions?.length||0} Qs)</span></span>
+          <div class="flex gap-2 items-center">
+            ${actionBtn}
+            ${currentUserData?.role==='admin'?`<button onclick="event.stopPropagation();adminDeleteTest(${t._idx})" class="text-red-400 text-[10px] cursor-pointer hover:text-red-300"><i class="fas fa-trash"></i></button>`:''}
+          </div>
+        </div>`;
+      });
+      html+=`</div>`;
+    });
+    html+=`</div></div>`;
+  });
+  container.innerHTML=html;
+}
+
+/* ============================================================
+   NOTES OPERATIONS
+   ============================================================ */
+function openNoteModal(i) {
+  const note=allNotes[i]; if(!note) return;
+  document.getElementById('note-modal-title').innerText=note.title||'Note';
+  document.getElementById('note-modal-content').innerText=note.content||'';
+  const pdfArea=document.getElementById('note-pdf-area');
+  const pdfFrame=document.getElementById('note-pdf-iframe');
+  if(note.pdfLink) {
+    let embedUrl=note.pdfLink;
+    if(embedUrl.includes('drive.google.com/file/d/')) {
+      const match=embedUrl.match(/\/d\/([^/]+)/);
+      if(match) embedUrl=`https://drive.google.com/file/d/${match[1]}/preview`;
+    }
+    pdfFrame.src=embedUrl;
+    pdfArea.classList.remove('hidden');
+  } else {
+    pdfArea.classList.add('hidden');
+    pdfFrame.src='';
+  }
+  document.getElementById('note-reader-modal').classList.remove('hidden');
+}
+
+function closeNoteModal() {
+  document.getElementById('note-reader-modal').classList.add('hidden');
+  document.getElementById('note-pdf-iframe').src='';
 }
 
 function adminAddNoteFromPanel() {
@@ -1135,14 +1540,16 @@ function adminAddNoteFromPanel() {
   const exam=document.getElementById('anote-exam').value;
   const subject=document.getElementById('anote-subject').value;
   const content=document.getElementById('anote-content').value.trim();
-  if(!title || !content) { alert("Title aur Content required hain."); return; }
+  const pdfLink=document.getElementById('anote-pdf').value.trim();
+  if(!title||!content){alert("Title aur Content required hain.");return;}
   const notes=JSON.parse(localStorage.getItem('baaz_notes')||'[]');
-  notes.push({title,exam,subject,content,createdAt:new Date().toLocaleDateString()});
+  notes.push({title,exam,subject,content,pdfLink,createdAt:new Date().toLocaleDateString()});
   localStorage.setItem('baaz_notes',JSON.stringify(notes));
   allNotes=notes;
   document.getElementById('anote-title').value='';
   document.getElementById('anote-content').value='';
-  loadAdminNotesList();
+  document.getElementById('anote-pdf').value='';
+  renderNotesTree(); loadAdminNotesList();
   alert("Note published!");
 }
 
@@ -1152,53 +1559,29 @@ function deleteNote(i) {
   notes.splice(i,1);
   localStorage.setItem('baaz_notes',JSON.stringify(notes));
   allNotes=notes;
-  renderNotes(allNotes);
-  loadAdminNotesList();
+  renderNotesTree(); loadAdminNotesList();
 }
 
 function loadAdminNotesList() {
-  const container=document.getElementById('admin-notes-list'); if(!container) return;
+  const c=document.getElementById('admin-notes-list'); if(!c) return;
   const notes=JSON.parse(localStorage.getItem('baaz_notes')||'[]');
-  if(!notes.length){container.innerHTML='<p class="text-xs text-muted">No notes yet.</p>';return;}
-  container.innerHTML=notes.map((n,i)=>`
+  if(!notes.length){c.innerHTML='<p class="text-xs text-muted">No notes yet.</p>';return;}
+  c.innerHTML=notes.map((n,i)=>`
     <div class="surface rounded-xl p-2 flex justify-between items-center">
-      <span class="text-xs font-bold">${escapeHtml(n.title)} <span class="text-muted">(${escapeHtml(n.exam)})</span></span>
+      <span class="text-xs font-bold">${escH(n.title)} <span class="text-muted">(${escH(n.exam)})</span></span>
       <button onclick="deleteNote(${i})" class="btn-danger-outline px-2 py-1 rounded-lg text-[10px] cursor-pointer"><i class="fas fa-trash"></i></button>
-    </div>
-  `).join('');
-}
-
-function openNoteModal(i) {
-  const note=allNotes[i]; if(!note) return;
-  const title=note.title||'';
-  const body=note.content||'';
-  if(!title.trim() || !body.trim()) return;
-  document.getElementById('note-modal-title').innerText=title;
-  document.getElementById('note-modal-content').innerText=body;
-  document.getElementById('note-reader-modal').classList.remove('hidden');
-  document.body.classList.add('notes-open');
-}
-
-function closeNoteModal() {
-  document.getElementById('note-reader-modal').classList.add('hidden');
-  document.body.classList.remove('notes-open');
+    </div>`).join('');
 }
 
 function openMistakesLedger() {
   const logs=JSON.parse(localStorage.getItem('baaz_errors_'+currentUserData?.email)||'[]');
-  const container=document.getElementById('mistakes-list');
-  if(!logs.length){container.innerHTML='<p class="text-xs text-muted text-center py-4">Koi galat sawaal nahi mila abhi tak!</p>';}
-  else{
-    container.innerHTML=logs.map((item,i)=>`
-      <div class="surface rounded-xl p-3 border-l-2 border-red-500">
-        <span class="text-[9px] font-black text-red-400 uppercase">Error #${i+1} — ${escapeHtml(item.testTitle)}</span>
-        <p class="font-bold text-xs mt-1">${escapeHtml(item.text)}</p>
-        <div class="grid grid-cols-2 gap-1 mt-1 text-[10px] text-muted">
-          <div>A: ${escapeHtml(item.A)}</div><div>B: ${escapeHtml(item.B)}</div>
-        </div>
-      </div>
-    `).join('');
-  }
+  const c=document.getElementById('mistakes-list');
+  if(!logs.length){c.innerHTML='<p class="text-xs text-muted text-center py-4">Koi galat sawaal nahi abhi tak!</p>';return;}
+  c.innerHTML=logs.map((item,i)=>`
+    <div class="surface rounded-xl p-3 border-l-2 border-red-500">
+      <span class="text-[9px] font-black text-red-400 uppercase">Error #${i+1} — ${escH(item.testTitle||'')}</span>
+      <p class="font-bold text-xs mt-1">${escH(item.text||'')}</p>
+    </div>`).join('');
   document.getElementById('mistakes-modal').classList.remove('hidden');
 }
 
@@ -1207,73 +1590,27 @@ function closeMistakesModal() { document.getElementById('mistakes-modal').classL
 /* ============================================================
    COURSES SYSTEM
    ============================================================ */
-const COURSES_DATA = [
-  // AFCAT
-  {cat:'AFCAT',icon:'✈️',title:'Operation Varun Falcon',desc:'Complete AFCAT preparation with all subjects covered.',price:1499},
-  {cat:'AFCAT',icon:'🦅',title:'Operation Garud Wings',desc:'Advanced AFCAT mock series with detailed solutions.',price:1999},
-  {cat:'AFCAT',icon:'⚓',title:'Operation Marcos Strike',desc:'Focus on EKT + AFCAT combined preparation.',price:1799},
-  {cat:'AFCAT',icon:'🎯',title:'Operation Sky Hunter AFCAT',desc:'Speed & accuracy focused AFCAT crash course.',price:1299},
-  {cat:'AFCAT',icon:'🌊',title:'Operation Air Titan',desc:'Full AFCAT syllabus with live sessions.',price:2499},
-  {cat:'AFCAT',icon:'🦁',title:'Operation Blue Hawk',desc:'AFCAT interview + written complete package.',price:2999},
-  // CDS
-  {cat:'CDS',icon:'⚔️',title:'Operation Varun Shield CDS',desc:'IMA, INA, AFA focused complete CDS preparation.',price:1999},
-  {cat:'CDS',icon:'🎖️',title:'Operation Garud Force CDS',desc:'CDS Mathematics & English mastery course.',price:1499},
-  {cat:'CDS',icon:'🛡️',title:'Operation Marcos Vanguard CDS',desc:'OTA special batch with GK focus.',price:1299},
-  {cat:'CDS',icon:'🔥',title:'Operation Iron Command CDS',desc:'CDS advanced test series with analytics.',price:1799},
-  {cat:'CDS',icon:'💥',title:'Operation Battle Apex CDS',desc:'120-day CDS crash course.',price:2499},
-  {cat:'CDS',icon:'🌟',title:'Operation Defence Alpha CDS',desc:'CDS complete package with interview prep.',price:2999},
-  // AIR FORCE
-  {cat:'AIR FORCE',icon:'🛩️',title:'Operation Sky Warriors X/Y',desc:'Air Force X & Y group complete course.',price:1499},
-  {cat:'AIR FORCE',icon:'💨',title:'Operation Garud Flight',desc:'Reasoning & Math focus for Air Force.',price:1299},
-  {cat:'AIR FORCE',icon:'⚡',title:'Operation Air Saber Batch',desc:'Air Force mock test series with solutions.',price:999},
-  {cat:'AIR FORCE',icon:'🌩️',title:'Operation Thunder Wing',desc:'Air Force English + Science special batch.',price:1199},
-  {cat:'AIR FORCE',icon:'🎯',title:'Operation Sky Commando',desc:'Air Force crash course 60-day.',price:1799},
-  {cat:'AIR FORCE',icon:'🌅',title:'Operation Horizon Force',desc:'Air Force X Group technical preparation.',price:1999},
-  // NAVY
-  {cat:'NAVY',icon:'🚢',title:'Operation Varun Sea Force',desc:'Complete Navy MR & AA preparation.',price:1299},
-  {cat:'NAVY',icon:'🌊',title:'Operation Marcos Navy Shield',desc:'Navy SSR & MR combined course.',price:1499},
-  {cat:'NAVY',icon:'⚓',title:'Operation Ocean Guard',desc:'Navy advanced Mathematics batch.',price:1199},
-  {cat:'NAVY',icon:'🔱',title:'Operation Blue Depths Batch',desc:'Navy mock test series premium.',price:999},
-  {cat:'NAVY',icon:'🛳️',title:'Operation Sea Hunter',desc:'Navy complete 90-day preparation.',price:1799},
-  {cat:'NAVY',icon:'🏆',title:'Operation Naval Titan',desc:'Navy full package with interview tips.',price:2499},
-  // ARMY
-  {cat:'ARMY',icon:'🪖',title:'Operation Ground Shield',desc:'Army GD complete preparation course.',price:999},
-  {cat:'ARMY',icon:'🔫',title:'Operation Iron Infantry',desc:'Army Clerk & GD combined batch.',price:1199},
-  {cat:'ARMY',icon:'💪',title:'Operation Battle Warrior GD',desc:'Army GD fast track 45-day course.',price:799},
-  {cat:'ARMY',icon:'🎖️',title:'Operation Army Vanguard',desc:'Army GD mock test series with analytics.',price:899},
-  {cat:'ARMY',icon:'⭐',title:'Operation Soldier Prime Batch',desc:'Army Clerk/SKT special preparation.',price:1099},
-  {cat:'ARMY',icon:'🏅',title:'Operation Combat Force',desc:'Army complete package all trades.',price:1799},
-  // SSC
-  {cat:'SSC',icon:'📋',title:'Operation National Strike SSC',desc:'SSC GD complete preparation course.',price:1499},
-  {cat:'SSC',icon:'✏️',title:'Operation Varun Edge SSC',desc:'SSC CGL/CHSL combined batch.',price:1999},
-  {cat:'SSC',icon:'🏆',title:'Operation Apex Selection Batch',desc:'SSC advanced mock series.',price:1299},
-  {cat:'SSC',icon:'💡',title:'Operation Skill Force SSC',desc:'SSC MTS & Stenographer course.',price:999},
-  {cat:'SSC',icon:'🌟',title:'Operation Elite Selection Drive',desc:'SSC complete package with interview.',price:2499},
-];
+function getAllCourses() {
+  return [...STATIC_COURSES, ...customCourses];
+}
 
 function renderCourses(cat='ALL') {
   const grid=document.getElementById('courses-grid'); if(!grid) return;
-  const filtered=cat==='ALL'?COURSES_DATA:COURSES_DATA.filter(c=>c.cat===cat);
+  const all=getAllCourses();
+  const filtered=cat==='ALL'?all:all.filter(c=>c.cat===cat);
+  if(!filtered.length){grid.innerHTML='<div class="premium-card rounded-xl p-4 text-xs text-muted">No courses in this category.</div>';return;}
   grid.innerHTML=filtered.map((c,i)=>`
     <div class="course-card relative">
-      <span class="locked-badge"><i class="fas fa-lock mr-1"></i>LOCKED</span>
-      <div class="text-2xl mb-2">${c.icon}</div>
+      ${c.isPremium?'<span class="locked-badge"><i class="fas fa-lock mr-1"></i>LOCKED</span>':'<span class="locked-badge" style="background:var(--success)">FREE</span>'}
+      <div class="text-2xl mb-2">${c.icon||'📚'}</div>
       <span class="text-[9px] font-bold text-muted uppercase">${c.cat}</span>
-      <h3 class="font-black text-sm text-accent mt-1 mb-1">${escapeHtml(c.title)}</h3>
-      <p class="text-xs text-muted mb-3">${escapeHtml(c.desc)}</p>
+      <h3 class="font-black text-sm text-accent mt-1 mb-1">${escH(c.title)}</h3>
+      <p class="text-xs text-muted mb-3">${escH(c.desc)}</p>
       <div class="flex items-center justify-between mt-auto">
         <span class="font-black text-amber-400 text-base">₹${c.price}</span>
-        <button onclick="openPaymentModalByCat('${cat}',${i})" data-cat="${cat}" data-idx="${i}" class="btn-success px-4 py-2 rounded-xl text-xs font-bold cursor-pointer"><i class="fas fa-shopping-cart mr-1"></i>Join Now</button>
+        <button onclick="openPaymentModal('${escH(c.title)}',${c.price})" class="btn-success px-4 py-2 rounded-xl text-xs font-bold cursor-pointer"><i class="fas fa-shopping-cart mr-1"></i>Join Now</button>
       </div>
-    </div>
-  `).join('');
-}
-
-function openPaymentModalByCat(cat, idx) {
-  const filtered = cat==='ALL' ? COURSES_DATA : COURSES_DATA.filter(c=>c.cat===cat);
-  const c = filtered[idx];
-  if(!c) return;
-  openPaymentModal(c.title, c.price);
+    </div>`).join('');
 }
 
 function filterCourses(cat) {
@@ -1281,37 +1618,64 @@ function filterCourses(cat) {
   renderCourses(cat);
 }
 
+function adminAddCourse() {
+  const cat=document.getElementById('acourse-cat').value;
+  const icon=document.getElementById('acourse-icon').value.trim()||'📚';
+  const title=document.getElementById('acourse-title').value.trim();
+  const price=parseInt(document.getElementById('acourse-price').value)||0;
+  const desc=document.getElementById('acourse-desc').value.trim();
+  const pdfLink=document.getElementById('acourse-pdf').value.trim();
+  const isPremium=document.getElementById('acourse-type').value==='TRUE';
+  if(!title||!price){alert("Title aur Price required hain.");return;}
+  customCourses.push({cat,icon,title,price,desc,pdfLink,isPremium});
+  localStorage.setItem('baaz_custom_courses',JSON.stringify(customCourses));
+  loadAdminCoursesList();
+  ['acourse-title','acourse-icon','acourse-desc','acourse-pdf','acourse-price'].forEach(id=>document.getElementById(id).value='');
+  alert("Course added!");
+}
+
+function loadAdminCoursesList() {
+  const c=document.getElementById('admin-courses-list'); if(!c) return;
+  if(!customCourses.length){c.innerHTML='<p class="text-xs text-muted">No custom courses yet. Static courses are always visible.</p>';return;}
+  c.innerHTML=customCourses.map((course,i)=>`
+    <div class="surface rounded-xl p-2 flex justify-between items-center">
+      <span class="text-xs font-bold">${course.icon} ${escH(course.title)} <span class="text-muted">(₹${course.price})</span></span>
+      <button onclick="deleteCustomCourse(${i})" class="btn-danger-outline px-2 py-1 rounded-lg text-[10px] cursor-pointer"><i class="fas fa-trash"></i></button>
+    </div>`).join('');
+}
+
+function deleteCustomCourse(i) {
+  if(!confirm("Delete this course?")) return;
+  customCourses.splice(i,1);
+  localStorage.setItem('baaz_custom_courses',JSON.stringify(customCourses));
+  loadAdminCoursesList();
+}
+
 /* ============================================================
    PAYMENT MODAL
    ============================================================ */
 function openPaymentModal(courseName, price) {
-  if(!courseName || !courseName.trim()) return;
   document.getElementById('pay-course-name').innerText=courseName;
   document.getElementById('pay-course-price').innerText=`₹${price}`;
-  // Update QR with amount
-  const qrImg=document.querySelector('#payment-modal .qr-box img');
-  if(qrImg) {
-    const upiData=`upi://pay?pa=${UPI_ID}&pn=${encodeURIComponent(UPI_NAME)}&am=${price}&cu=INR&tn=${encodeURIComponent('Course: '+courseName)}`;
-    qrImg.src=`https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(upiData)}&size=160x160&margin=10`;
-  }
+  const upiData=`upi://pay?pa=${UPI_ID}&pn=${encodeURIComponent(UPI_NAME)}&am=${price}&cu=INR&tn=${encodeURIComponent('Course: '+courseName)}`;
+  document.getElementById('pay-qr-img').src=`https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(upiData)}&size=160x160&margin=10`;
   document.getElementById('payment-modal').classList.remove('hidden');
 }
 
 function closePaymentModal() { document.getElementById('payment-modal').classList.add('hidden'); }
 
 function copyUPI() {
-  navigator.clipboard.writeText(UPI_ID).then(()=>alert('UPI ID copied: ' + UPI_ID)).catch(()=>alert('UPI ID: ' + UPI_ID));
+  navigator.clipboard.writeText(UPI_ID).then(()=>alert('UPI ID copied: '+UPI_ID)).catch(()=>alert('UPI ID: '+UPI_ID));
 }
 
 /* ============================================================
-   SHARE SYSTEM
+   SHARE
    ============================================================ */
 function updateShareLinks() {
-  const ref=currentUserData?.referralCode||'';
-  const refEl=document.getElementById('share-ref-code');
-  if(refEl) refEl.innerText=ref||'Login karein';
-
-  const msg=`🚀 Operation Baaz pe join karo — India ka best Defence prep platform!\n\nMera referral code use karo: *${ref}*\n\nJoin here: https://operationbaaz.com`;
+  const ref=currentUserData?.referralCode||currentUserData?.uid||'';
+  const el=document.getElementById('share-ref-code');
+  if(el) el.innerText=ref||'—';
+  const msg=`🚀 Operation Baaz pe join karo!\nCode: *${ref}*\nhttps://operationbaaz.com`;
   const wa=document.getElementById('whatsapp-share-btn');
   const tg=document.getElementById('telegram-share-btn');
   if(wa) wa.href=`https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`;
@@ -1319,13 +1683,12 @@ function updateShareLinks() {
 }
 
 function copyReferral() {
-  const ref=currentUserData?.referralCode||'';
-  if(!ref) { alert('Referral code milane ke liye login karein.'); return; }
-  navigator.clipboard.writeText(ref).then(()=>alert('Referral code copied: '+ref)).catch(()=>alert('Code: '+ref));
+  const ref=currentUserData?.referralCode||currentUserData?.uid||'';
+  navigator.clipboard.writeText(ref).then(()=>alert('Code copied: '+ref)).catch(()=>alert('Code: '+ref));
 }
 
 /* ============================================================
-   SUPPORT SYSTEM
+   SUPPORT
    ============================================================ */
 function submitSupport() {
   const name=document.getElementById('sup-name').value.trim();
@@ -1333,59 +1696,42 @@ function submitSupport() {
   const type=document.getElementById('sup-type').value;
   const message=document.getElementById('sup-message').value.trim();
   if(!name||!contact||!type||!message){alert("Sabhi fields fill karein.");return;}
-  
   const requests=JSON.parse(localStorage.getItem('baaz_support_requests')||'[]');
   requests.push({name,contact,type,message,status:'Pending',timestamp:new Date().toLocaleString(),email:currentUserData?.email||''});
   localStorage.setItem('baaz_support_requests',JSON.stringify(requests));
-  
-  document.getElementById('sup-name').value='';
-  document.getElementById('sup-contact').value='';
+  ['sup-name','sup-contact','sup-message'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('sup-type').value='';
-  document.getElementById('sup-message').value='';
-  
   const msg=document.getElementById('sup-msg');
-  msg.innerText='✅ Request submitted! Admin 24 ghante mein reply karega.';
-  msg.classList.remove('hidden');
+  msg.innerText='✅ Request submitted!';msg.classList.remove('hidden');
   setTimeout(()=>msg.classList.add('hidden'),4000);
 }
 
 function loadAdminSupport() {
   const requests=JSON.parse(localStorage.getItem('baaz_support_requests')||'[]');
-  const render=(container)=>{
-    if(!container) return;
-    if(!requests.length){container.innerHTML='<p class="text-xs text-muted">No requests yet.</p>';return;}
-    container.innerHTML=requests.map((r,i)=>`
+  const render=c=>{
+    if(!c) return;
+    if(!requests.length){c.innerHTML='<p class="text-xs text-muted">No requests.</p>';return;}
+    c.innerHTML=requests.map((r,i)=>`
       <div class="surface rounded-xl p-3 space-y-1">
-        <div class="flex justify-between items-center">
-          <span class="text-xs font-bold">${escapeHtml(r.name)} — <span class="text-muted">${escapeHtml(r.type)}</span></span>
-          <span class="text-[9px] px-2 py-0.5 rounded font-bold ${r.status==='Resolved'?'bg-green-800 text-green-300':'bg-amber-900 text-amber-300'}">${r.status}</span>
-        </div>
-        <p class="text-xs text-muted">${escapeHtml(r.message)}</p>
-        <div class="text-[10px] text-muted">${escapeHtml(r.contact)} • ${r.timestamp}</div>
+        <div class="flex justify-between items-center"><span class="text-xs font-bold">${escH(r.name)} — ${escH(r.type)}</span><span class="text-[9px] px-2 py-0.5 rounded font-bold ${r.status==='Resolved'?'bg-green-800 text-green-300':'bg-amber-900 text-amber-300'}">${r.status}</span></div>
+        <p class="text-xs text-muted">${escH(r.message)}</p>
+        <div class="text-[10px] text-muted">${escH(r.contact)} • ${r.timestamp}</div>
         <div class="flex gap-2 mt-1">
-          ${r.status!=='Resolved'?`<button onclick="resolveSupport(${i})" class="btn-success px-2 py-1 text-[10px] font-bold rounded-lg cursor-pointer">Resolve</button>`:''}
-          <button onclick="deleteSupport(${i})" class="btn-danger-outline px-2 py-1 text-[10px] font-bold rounded-lg cursor-pointer">Delete</button>
+          ${r.status!=='Resolved'?`<button onclick="resolveSupport(${i})" class="btn-success px-2 py-1 text-[10px] rounded-lg cursor-pointer">Resolve</button>`:''}
+          <button onclick="deleteSupport(${i})" class="btn-danger-outline px-2 py-1 text-[10px] rounded-lg cursor-pointer">Delete</button>
         </div>
-      </div>
-    `).join('');
+      </div>`).join('');
   };
   render(document.getElementById('admin-support-list'));
-  render(document.getElementById('support-requests-list'));
-  if(currentUserData?.role==='admin') {
-    const asv=document.getElementById('admin-support-viewer');
-    if(asv) asv.classList.remove('hidden');
-  }
 }
 
 function resolveSupport(i) {
-  const requests=JSON.parse(localStorage.getItem('baaz_support_requests')||'[]');
-  if(requests[i]) { requests[i].status='Resolved'; localStorage.setItem('baaz_support_requests',JSON.stringify(requests)); loadAdminSupport(); }
+  const r=JSON.parse(localStorage.getItem('baaz_support_requests')||'[]');
+  if(r[i]){r[i].status='Resolved';localStorage.setItem('baaz_support_requests',JSON.stringify(r));loadAdminSupport();}
 }
 function deleteSupport(i) {
-  const requests=JSON.parse(localStorage.getItem('baaz_support_requests')||'[]');
-  requests.splice(i,1);
-  localStorage.setItem('baaz_support_requests',JSON.stringify(requests));
-  loadAdminSupport();
+  const r=JSON.parse(localStorage.getItem('baaz_support_requests')||'[]');
+  r.splice(i,1);localStorage.setItem('baaz_support_requests',JSON.stringify(r));loadAdminSupport();
 }
 
 /* ============================================================
@@ -1399,62 +1745,46 @@ async function loadLeaderboard() {
   try {
     const res=await fetch(APPS_SCRIPT_URL+"?action=get_leaderboard");
     const d=await res.json();
-    // Also add local results
-    const localRankers=getLocalRankers();
-    const merged=mergeLeaderboard(d,localRankers);
-
-    // Podium top 3
-    if(podium) {
-      const top=merged.slice(0,3);
-      const medals=['🥇','🥈','🥉'];
-      const colors=['rank-gold','rank-silver','rank-bronze'];
-      podium.innerHTML=top.map((r,i)=>`
-        <div class="premium-card rounded-xl p-3 text-center ${colors[i]} border">
+    const local=getLocalRankers();
+    const merged=mergeLeaderboard(d,local);
+    if(podium){
+      const medals=['🥇','🥈','🥉'], cols=['rank-gold','rank-silver','rank-bronze'];
+      podium.innerHTML=merged.slice(0,3).map((r,i)=>`
+        <div class="premium-card rounded-xl p-3 text-center ${cols[i]} border">
           <div class="text-2xl">${medals[i]}</div>
-          <div class="font-black text-xs mt-1">${escapeHtml(r.name)}</div>
+          <div class="font-black text-xs mt-1">${escH(r.name)}</div>
           <div class="text-accent font-black text-sm">${r.totalScore||0}</div>
           <div class="text-[9px] text-muted">${r.totalTests||0} tests</div>
-        </div>
-      `).join('');
+        </div>`).join('');
     }
-
-    // Full table
-    if(!merged.length){table.innerHTML='<p class="text-xs text-muted text-center py-4">Koi data nahi hai abhi.</p>';return;}
+    if(!merged.length){table.innerHTML='<p class="text-xs text-muted text-center py-4">No data.</p>';return;}
     table.innerHTML=`<div class="overflow-x-auto"><table class="w-full text-xs text-left">
-      <thead><tr class="border-b border-slate-800 text-muted font-bold uppercase text-[9px]">
-        <th class="p-2">Rank</th><th class="p-2">Name</th><th class="p-2 text-center">Tests</th>
-        <th class="p-2 text-center">Score</th><th class="p-2 text-center">Exam</th>
-      </tr></thead><tbody>
-      ${merged.map((r,i)=>`
+      <thead><tr class="border-b border-slate-800 text-muted font-bold uppercase text-[9px]"><th class="p-2">Rank</th><th class="p-2">Name</th><th class="p-2 text-center">Tests</th><th class="p-2 text-center">Score</th><th class="p-2 text-center">Exam</th></tr></thead>
+      <tbody>${merged.map((r,i)=>`
         <tr class="border-b border-slate-800/40 ${i<3?'font-bold':''}">
           <td class="p-2 font-black ${i===0?'text-amber-400':i===1?'text-slate-300':i===2?'text-amber-700':'text-accent'}">#${i+1}</td>
-          <td class="p-2">${escapeHtml(r.name)}</td>
+          <td class="p-2">${escH(r.name)}</td>
           <td class="p-2 text-center text-muted">${r.totalTests||0}</td>
           <td class="p-2 text-center font-black text-emerald-400">${r.totalScore||0}</td>
-          <td class="p-2 text-center text-muted text-[9px]">${escapeHtml(r.exam||'—')}</td>
-        </tr>
-      `).join('')}
-      </tbody></table></div>`;
-    document.getElementById('stat-rank').innerText = '#'+(merged.findIndex(r=>r.email===currentUserData?.email)+1 || '—');
+          <td class="p-2 text-center text-muted text-[9px]">${escH(r.exam||'—')}</td>
+        </tr>`).join('')}</tbody></table></div>`;
+    document.getElementById('stat-rank').innerText='#'+(merged.findIndex(r=>r.email===currentUserData?.email)+1||'—');
   } catch(e){table.innerHTML='<p class="text-xs text-muted text-center">Data load error.</p>';}
 }
 
 function getLocalRankers() {
-  const hist=getHistoryMap();
-  const tests=Object.keys(hist);
+  const hist=getHistoryMap(); const tests=Object.keys(hist);
   if(!tests.length) return [];
   const totalScore=tests.reduce((s,k)=>s+(hist[k].score||0),0);
   return [{name:currentUserData?.name||'Me',email:currentUserData?.email||'',totalScore,totalTests:tests.length,exam:currentUserData?.targetExam||'—'}];
 }
 
-function mergeLeaderboard(serverData,local) {
-  const merged=[...serverData];
+function mergeLeaderboard(server,local) {
+  const merged=[...server];
   local.forEach(l=>{
-    if(!merged.find(r=>r.email===l.email)) merged.push(l);
-    else {
-      const idx=merged.findIndex(r=>r.email===l.email);
-      if(l.totalScore>merged[idx].totalScore) merged[idx]=l;
-    }
+    const idx=merged.findIndex(r=>r.email===l.email);
+    if(idx===-1) merged.push(l);
+    else if(l.totalScore>merged[idx].totalScore) merged[idx]=l;
   });
   return merged.sort((a,b)=>(b.totalScore||0)-(a.totalScore||0));
 }
@@ -1466,46 +1796,223 @@ async function loadTests() {
   try {
     const res=await fetch(APPS_SCRIPT_URL,{method:"GET"});
     cachedTests=await res.json();
-    renderTestsList();
-    loadAdminTestsList();
-  } catch(e){renderTestsList();}
+  } catch(e){ cachedTests=[]; }
+  renderExamTree();
+  loadAdminTestsList();
 }
 
-function getHistoryMap() { return JSON.parse(localStorage.getItem(`baaz_hist_${currentUserData?.email}`) || '{}'); }
+function getHistoryMap() { return JSON.parse(localStorage.getItem(`baaz_hist_${currentUserData?.email}`)||'{}'); }
 
-function renderTestsList() {
-  const container=document.getElementById('tests-list'); if(!container) return;
+function launchExamEngine(title) {
+  const test=cachedTests.find(x=>x.title===title); if(!test) return;
+  activeTest=test; currentTestQuestions=test.parsedQuestions||[];
+  totalQuestionsCount=currentTestQuestions.length;
+  if(!totalQuestionsCount){alert("Is test mein koi question nahi hai.");return;}
   const hist=getHistoryMap();
-  if(!cachedTests.length){container.innerHTML='<p class="text-xs text-muted p-4 surface rounded-xl">No tests available yet. Admin se request karein.</p>';return;}
-  container.innerHTML=cachedTests.map((t,i)=>{
-    const done=hist[t.title];
-    let btn='';
-    if(done) btn=`<button onclick="viewLockedResultByIdx(${i})" class="w-full mt-3 btn-neutral font-bold py-2 rounded-xl text-xs uppercase cursor-pointer"><i class="fas fa-lock mr-1"></i>View Result</button>`;
-    else if(t.isPremium && currentUserData?.role!=='admin') btn=`<button onclick="buyPremiumTestByIdx(${i})" class="w-full mt-3 btn-accent font-black py-2 rounded-xl text-xs uppercase cursor-pointer animate-pulse"><i class="fas fa-crown mr-1"></i>UNLOCK (100 Coins)</button>`;
-    else btn=`<button onclick="launchExamEngineByIdx(${i})" class="w-full mt-3 btn-success font-bold py-2 rounded-xl text-xs uppercase cursor-pointer">🚀 Start Test</button>`;
-    return `<div class="premium-card rounded-2xl p-4 border-t-2" style="border-top-color:var(--accent)">
-      <div class="text-[9px] text-muted font-black uppercase">${escapeHtml(t.exam)} • ${escapeHtml(t.subject)}</div>
-      <h3 class="font-black text-sm text-accent mt-0.5">${escapeHtml(t.title)}</h3>
-      <p class="text-xs text-muted mt-1">${escapeHtml(t.description)}</p>
-      <span class="text-[10px] text-emerald-400 mt-2 font-bold block">+${t.positiveMarks} / -${t.negativeMarks} Marks • ${t.parsedQuestions?.length||0} Qs</span>
-      ${btn}
-    </div>`;
-  }).join('');
+  if(hist[title]){alert("Yeh test already diya ja chuka hai. Result dekho.");viewLockedResult(title);return;}
+  studentResponses={}; flaggedQuestions={}; visitedQuestions={};
+  currentIndex=1; qTimeLeft=2700; testRunningMode=true; tabViolationsCount=0;
+  document.getElementById('disp-total-count').innerText=totalQuestionsCount;
+  document.getElementById('app-container').classList.add('hidden');
+  document.getElementById('exam-engine-container').classList.remove('hidden');
+  document.getElementById('result-screen').classList.add('hidden');
+  buildPaletteGrid(); loadQuestionNode(1);
+  setupVisibilityProctoring();
+  try{document.documentElement.requestFullscreen();}catch(e){}
 }
 
-function viewLockedResultByIdx(i) { const t=cachedTests[i]; if(t) viewLockedResult(t.title); }
-function buyPremiumTestByIdx(i) { const t=cachedTests[i]; if(t) buyPremiumTest(t.title); }
-function launchExamEngineByIdx(i) { const t=cachedTests[i]; if(t) launchExamEngine(t.title); }
+function viewLockedResult(title) {
+  const h=getHistoryMap();
+  if(h[title]){
+    document.getElementById('app-container').classList.add('hidden');
+    document.getElementById('result-screen').classList.remove('hidden');
+    displayResultScreen(h[title]);
+  } else alert("Is test ka result nahi mila.");
+}
+
+function setupVisibilityProctoring() {
+  document.addEventListener('visibilitychange', handleBlurEvent);
+  window.addEventListener('blur', handleWindowBlur);
+}
+
+function handleBlurEvent() { if(testRunningMode&&document.visibilityState==='hidden') triggerWarning(); }
+function handleWindowBlur() { if(testRunningMode) triggerWarning(); }
+
+async function triggerWarning() {
+  tabViolationsCount++;
+  document.getElementById('blur-count-disp').innerText=`${tabViolationsCount}/3`;
+  try{await fetch(APPS_SCRIPT_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:"update_blur_strikes",email:currentUserData?.email,strikes:tabViolationsCount})});}catch(e){}
+  if(tabViolationsCount>=3){alert("⛔ 3 Warnings! Test auto-submit ho raha hai.");calculateFinalResults();}
+  else alert(`⚠️ Warning ${tabViolationsCount}/3: Tab switch detected!`);
+}
+
+function buildPaletteGrid() {
+  const g=document.getElementById('palette-grid'); if(!g) return;
+  g.innerHTML='';
+  for(let i=1;i<=totalQuestionsCount;i++){
+    g.innerHTML+=`<button id="pal-node-${i}" onclick="loadQuestionNode(${i})" class="h-8 text-[11px] font-bold rounded-lg surface cursor-pointer flex items-center justify-center">${i}</button>`;
+  }
+  for(let i=1;i<=totalQuestionsCount;i++) syncPaletteNode(i);
+}
+
+function syncPaletteNode(n) {
+  const el=document.getElementById(`pal-node-${n}`); if(!el) return;
+  el.className="h-8 text-[11px] font-bold rounded-lg surface cursor-pointer flex items-center justify-center";
+  if(n===currentIndex) el.style.border="1px solid var(--accent)";
+  else el.style.border="";
+  if(flaggedQuestions[n]) el.classList.add('flagged-node');
+  else if(studentResponses[n]) el.classList.add('answered-node');
+}
+
+function loadQuestionNode(n) {
+  const old=currentIndex; currentIndex=n; visitedQuestions[n]=true;
+  clearInterval(singleQTimer); syncPaletteNode(old); syncPaletteNode(n);
+  const q=currentTestQuestions[n-1]; if(!q) return;
+  document.getElementById('digital-question-text').innerText=`Q${n}. ${q.text}`;
+  ['A','B','C','D'].forEach(l=>{document.getElementById(`lbl-opt-${l}`).innerText=q[l]||'—';});
+  ['A','B','C','D'].forEach(l=>{
+    const el=document.getElementById(`opt-${l}`);
+    el.className="w-full text-left input-field p-3 rounded-xl font-semibold flex items-center gap-2 cursor-pointer";
+  });
+  if(studentResponses[n]){
+    const sel=document.getElementById(`opt-${studentResponses[n]}`);
+    if(sel) sel.className="w-full text-left p-3 rounded-xl font-semibold flex items-center gap-2 cursor-pointer active-opt";
+  }
+  singleQTimer=setInterval(()=>{
+    qTimeLeft--; const mm=Math.floor(qTimeLeft/60), ss=qTimeLeft%60;
+    const el=document.getElementById('stopwatch');
+    if(el){el.innerText=`${String(mm).padStart(2,'0')}:${String(ss).padStart(2,'0')}`;el.classList.toggle('timer-critical',qTimeLeft<300);}
+    if(qTimeLeft<=0){clearInterval(singleQTimer);alert("⏱️ Time up! Auto-submit.");calculateFinalResults();}
+  },1000);
+}
+
+function selectAnswer(ans) { studentResponses[currentIndex]=ans; loadQuestionNode(currentIndex); }
+function clearAnswer() { delete studentResponses[currentIndex]; loadQuestionNode(currentIndex); }
+function prevQuestion() { if(currentIndex>1) loadQuestionNode(currentIndex-1); }
+function nextQuestion() { if(currentIndex<totalQuestionsCount) loadQuestionNode(currentIndex+1); }
+function toggleFlagQuestion() { flaggedQuestions[currentIndex]=!flaggedQuestions[currentIndex]; syncPaletteNode(currentIndex); }
+function confirmSubmitTest() { if(confirm("Test submit karna chahte hain?")) calculateFinalResults(); }
+function setPaletteFilter(f) { buildPaletteGrid(); }
+
+async function calculateFinalResults() {
+  testRunningMode=false; clearInterval(singleQTimer);
+  document.removeEventListener('visibilitychange',handleBlurEvent);
+  window.removeEventListener('blur',handleWindowBlur);
+  try{document.exitFullscreen();}catch(e){}
+  const resp={};
+  for(let i=1;i<=totalQuestionsCount;i++) resp[i]=studentResponses[i]||"Skipped";
+  document.getElementById('exam-engine-container').classList.add('hidden');
+  document.getElementById('result-screen').classList.remove('hidden');
+  document.getElementById('review-matrix-container').innerHTML='<div class="spinner my-4"></div>';
+  const payload={action:"submit_score",student:currentUserData?.name,email:currentUserData?.email,testTitle:activeTest?.title,responses:resp,profileImage:currentUserData?.profileImage,blurViolations:tabViolationsCount};
+  try {
+    const res=await fetch(APPS_SCRIPT_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(payload)});
+    const d=await res.json();
+    if(d.status==="success"){
+      const h=getHistoryMap(); h[activeTest.title]=d;
+      localStorage.setItem(`baaz_hist_${currentUserData?.email}`,JSON.stringify(h));
+      displayResultScreen(d);
+    } else document.getElementById('review-matrix-container').innerText='Submission error.';
+  } catch(e){ document.getElementById('review-matrix-container').innerText='Server connection failed.'; }
+}
+
+function displayResultScreen(d) {
+  document.getElementById('res-total').innerText=d.total||0;
+  document.getElementById('res-right').innerText=d.right||0;
+  document.getElementById('res-wrong').innerText=d.wrong||0;
+  document.getElementById('res-accuracy').innerText=(d.accuracy||0)+'%';
+  document.getElementById('res-score').innerText=d.score||0;
+  document.getElementById('rank-badge-text').innerText=d.rankBadge||'—';
+  const cont=document.getElementById('review-matrix-container'); if(!cont) return;
+  cont.innerHTML='';
+  const errCache=JSON.parse(localStorage.getItem('baaz_errors_'+(currentUserData?.email))||'[]');
+  (d.reviewData||[]).forEach(item=>{
+    const cardClass=item.selected==="Skipped"?'':item.isCorrect?'review-correct':'review-wrong';
+    const statusText=item.selected==="Skipped"?'➖ Skipped':item.isCorrect?'✅ Correct':'❌ Wrong';
+    if(!item.isCorrect&&item.selected!=="Skipped"){
+      if(!errCache.find(e=>e.text===item.text)) errCache.push({testTitle:activeTest?.title||'Exam',text:item.text,A:item.A,B:item.B});
+    }
+    const optsHtml=['A','B','C','D'].map(l=>{
+      let sty='';
+      if(l===item.correct) sty='background:rgba(16,185,129,0.15);border:1px solid var(--success2);border-radius:6px;';
+      if(l===item.selected&&!item.isCorrect) sty='background:rgba(244,63,94,0.15);border:1px solid var(--danger2);border-radius:6px;';
+      return `<div class="p-2 text-xs flex gap-1" style="${sty}"><b>${l}</b> ${escH(item[l]||'')}</div>`;
+    }).join('');
+    cont.innerHTML+=`<div class="surface rounded-xl p-3 space-y-2 ${cardClass}">
+      <div class="flex justify-between font-black text-[10px] text-muted"><span>Q#${item.id}</span><span>${statusText}</span></div>
+      <p class="font-bold text-xs">${escH(item.text||'')}</p>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-1.5">${optsHtml}</div>
+    </div>`;
+  });
+  localStorage.setItem('baaz_errors_'+(currentUserData?.email),JSON.stringify(errCache));
+  updateQuickStats();
+}
+
+function renderResultsHistory() {
+  const hist=getHistoryMap(); const keys=Object.keys(hist);
+  const c=document.getElementById('results-history-list'); if(!c) return;
+  if(!keys.length){c.innerHTML='<div class="premium-card rounded-xl p-4 text-xs text-muted text-center">Koi test attempt nahi kiya.</div>';return;}
+  window.__baazResultKeys=keys;
+  c.innerHTML=keys.map((t,i)=>`
+    <div class="premium-card rounded-xl p-4 flex justify-between items-center">
+      <div>
+        <div class="font-black text-sm text-accent">${escH(t)}</div>
+        <div class="text-xs text-muted mt-1">Score: <span class="text-emerald-400 font-bold">${hist[t].score||0}</span> • Accuracy: ${hist[t].accuracy||0}% • Badge: ${hist[t].rankBadge||'—'}</div>
+      </div>
+      <button onclick="viewLockedResult('${escH(t)}')" class="btn-neutral px-3 py-2 rounded-xl text-xs font-bold cursor-pointer"><i class="fas fa-eye mr-1"></i>View</button>
+    </div>`).join('');
+}
+
+function returnToPortal() {
+  document.getElementById('result-screen').classList.add('hidden');
+  document.getElementById('app-container').classList.remove('hidden');
+  showScreen('home'); loadTests();
+}
+
+/* ============================================================
+   ADMIN FUNCTIONS
+   ============================================================ */
+async function setTestByAdmin() {
+  const rawText=document.getElementById('local-ai-text').value.trim();
+  const exam=document.getElementById('admin-exam-name').value.trim()||"General";
+  const subject=document.getElementById('admin-subject-name').value.trim()||"Mixed";
+  const title=document.getElementById('admin-test-title').value.trim();
+  const desc=document.getElementById('admin-test-desc').value.trim()||"Test paper.";
+  const posM=document.getElementById('admin-pos-marks').value||3;
+  const negM=document.getElementById('admin-neg-marks').value||1;
+  const premium=document.getElementById('admin-is-premium').value==="TRUE";
+  const status=document.getElementById('admin-publish-status');
+  if(!exam||!subject||!title||rawText.length<25){alert("Exam, Subject, Title aur Questions required hain.");return;}
+  status.innerText="Deploying...";
+  try {
+    const res=await fetch(APPS_SCRIPT_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:"publish_test",exam,subject,title,description:desc,positiveMarks:posM,negativeMarks:negM,isPremium:premium,rawText})});
+    const d=await res.json();
+    status.innerText=`✅ Deployed! ${d.questionCount||0} questions.`;
+    document.getElementById('local-ai-text').value='';
+    document.getElementById('admin-test-title').value='';
+    loadTests();
+  } catch(e){status.innerText="❌ Deploy failed.";}
+}
+
+function adminDeleteTest(idx) {
+  if(!confirm("Is test ko delete karein?")) return;
+  // Delete from server by title
+  const t=cachedTests[idx]; if(!t) return;
+  fetch(APPS_SCRIPT_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:"delete_test",title:t.title})})
+    .then(r=>r.json()).then(d=>{alert(d.message||"Done");loadTests();}).catch(()=>{alert("Server error — reload karein.");});
+}
 
 function loadAdminTestsList() {
-  const container=document.getElementById('admin-tests-list'); if(!container) return;
-  if(!cachedTests.length){container.innerHTML='<p class="text-xs text-muted">No tests deployed yet.</p>';return;}
-  container.innerHTML=cachedTests.map(t=>`
+  const c=document.getElementById('admin-tests-list'); if(!c) return;
+  if(!cachedTests.length){c.innerHTML='<p class="text-xs text-muted">No tests deployed yet.</p>';return;}
+  c.innerHTML=cachedTests.map((t,i)=>`
     <div class="surface rounded-xl p-2 flex justify-between items-center">
-      <span class="text-xs font-bold">${escapeHtml(t.title)} <span class="text-muted">(${t.parsedQuestions?.length||0} Qs)</span></span>
-      <span class="text-[9px] font-bold ${t.isPremium?'text-amber-500':'text-emerald-400'}">${t.isPremium?'VIP':'FREE'}</span>
-    </div>
-  `).join('');
+      <span class="text-xs font-bold">${escH(t.title)} <span class="text-muted">(${t.parsedQuestions?.length||0} Qs • ${escH(t.exam||'')} / ${escH(t.subject||'')})</span></span>
+      <div class="flex gap-2 items-center">
+        <span class="text-[9px] font-bold ${t.isPremium?'text-amber-500':'text-emerald-400'}">${t.isPremium?'VIP':'FREE'}</span>
+        <button onclick="adminDeleteTest(${i})" class="btn-danger-outline px-2 py-1 text-[10px] rounded-lg cursor-pointer"><i class="fas fa-trash"></i></button>
+      </div>
+    </div>`).join('');
 }
 
 async function buyPremiumTest(title) {
@@ -1522,260 +2029,27 @@ async function buyPremiumTest(title) {
   } catch(e){}
 }
 
-function launchExamEngine(title) {
-  const test=cachedTests.find(x=>x.title===title);
-  if(!test) return;
-  activeTest=test; currentTestQuestions=test.parsedQuestions||[];
-  totalQuestionsCount=currentTestQuestions.length;
-  if(!totalQuestionsCount){alert("Is test mein koi question nahi hai.");return;}
-  studentResponses={}; flaggedQuestions={}; visitedQuestions={};
-  currentIndex=1; qTimeLeft=2700; testRunningMode=true; tabViolationsCount=0;
-
-  document.getElementById('disp-total-count').innerText=totalQuestionsCount;
-  document.getElementById('app-container').classList.add('hidden');
-  document.getElementById('exam-engine-container').classList.remove('hidden');
-  document.getElementById('result-screen').classList.add('hidden');
-
-  buildPaletteGrid();
-  loadQuestionNode(1);
-  setupVisibilityProctoring();
-  requestFullscreen();
-}
-
-function requestFullscreen() {
-  try { document.documentElement.requestFullscreen(); } catch(e){}
-}
-
-function setupVisibilityProctoring() {
-  document.addEventListener('visibilitychange', handleBlurEvent);
-  window.addEventListener('blur', handleWindowBlur);
-}
-
-function handleBlurEvent() {
-  if(!testRunningMode || document.visibilityState !== 'hidden') return;
-  triggerWarning();
-}
-function handleWindowBlur() {
-  if(!testRunningMode) return;
-  triggerWarning();
-}
-
-async function triggerWarning() {
-  tabViolationsCount++;
-  document.getElementById('blur-count-disp').innerText=`${tabViolationsCount}/3`;
-  try { await fetch(APPS_SCRIPT_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:"update_blur_strikes",email:currentUserData?.email,strikes:tabViolationsCount})}); } catch(e){}
-  if(tabViolationsCount>=3) { alert("⛔ 3 Warnings! Test auto-submit ho raha hai."); calculateFinalResults(); }
-  else alert(`⚠️ Warning ${tabViolationsCount}/3: Tab switch ya window blur detected!`);
-}
-
-function buildPaletteGrid() {
-  const g=document.getElementById('palette-grid'); if(!g) return;
-  g.innerHTML='';
-  for(let i=1;i<=totalQuestionsCount;i++) {
-    g.innerHTML+=`<button id="pal-node-${i}" onclick="loadQuestionNode(${i})" class="h-8 text-[11px] font-bold rounded-lg surface transition cursor-pointer flex items-center justify-center">${i}</button>`;
-  }
-  for(let i=1;i<=totalQuestionsCount;i++) syncPaletteStatusNode(i);
-}
-
-function syncPaletteStatusNode(n) {
-  const el=document.getElementById(`pal-node-${n}`); if(!el) return;
-  el.className="h-8 text-[11px] font-bold rounded-lg surface transition cursor-pointer flex items-center justify-center";
-  el.style.border = n===currentIndex ? "1px solid var(--accent)" : "";
-  if(flaggedQuestions[n]) el.classList.add('flagged-node');
-  else if(studentResponses[n]) el.classList.add('answered-node');
-}
-
-function loadQuestionNode(n) {
-  const old=currentIndex; currentIndex=n; visitedQuestions[n]=true;
-  clearInterval(singleQTimer); syncPaletteStatusNode(old); syncPaletteStatusNode(n);
-
-  const q=currentTestQuestions[n-1]; if(!q) return;
-  document.getElementById('digital-question-text').innerText=`Q${n}: ${q.text}`;
-  document.getElementById('lbl-opt-A').innerText=q.A||'—';
-  document.getElementById('lbl-opt-B').innerText=q.B||'—';
-  document.getElementById('lbl-opt-C').innerText=q.C||'—';
-  document.getElementById('lbl-opt-D').innerText=q.D||'—';
-
-  ['A','B','C','D'].forEach(l=>{
-    const el=document.getElementById(`opt-${l}`);
-    el.className="w-full text-left input-field p-3 rounded-xl font-semibold flex items-center gap-2 cursor-pointer transition";
-  });
-  if(studentResponses[n]) {
-    const sel=document.getElementById(`opt-${studentResponses[n]}`);
-    if(sel) sel.className="w-full text-left p-3 rounded-xl font-semibold flex items-center gap-2 cursor-pointer active-opt transition";
-  }
-
-  singleQTimer=setInterval(()=>{
-    qTimeLeft--;
-    const mm=Math.floor(qTimeLeft/60), ss=qTimeLeft%60;
-    const disp=document.getElementById('stopwatch');
-    if(disp) { disp.innerText=`${String(mm).padStart(2,'0')}:${String(ss).padStart(2,'0')}`; disp.classList.toggle('timer-critical',qTimeLeft<300); }
-    if(qTimeLeft<=0){clearInterval(singleQTimer);alert("⏱️ Time up! Auto-submit.");calculateFinalResults();}
-  },1000);
-}
-
-function selectAnswer(ans) { studentResponses[currentIndex]=ans; loadQuestionNode(currentIndex); }
-function clearAnswer() { delete studentResponses[currentIndex]; loadQuestionNode(currentIndex); }
-function prevQuestion() { if(currentIndex>1) loadQuestionNode(currentIndex-1); }
-function nextQuestion() { if(currentIndex<totalQuestionsCount) loadQuestionNode(currentIndex+1); }
-function toggleFlagQuestion() { flaggedQuestions[currentIndex]=!flaggedQuestions[currentIndex]; syncPaletteStatusNode(currentIndex); }
-function confirmSubmitTest() { if(confirm("Test submit karna chahte hain? Sab jawab check kar lein!")) calculateFinalResults(); }
-
-async function calculateFinalResults() {
-  testRunningMode=false; clearInterval(singleQTimer);
-  document.removeEventListener('visibilitychange',handleBlurEvent);
-  window.removeEventListener('blur',handleWindowBlur);
-  try { document.exitFullscreen(); } catch(e){}
-
-  const resp={};
-  for(let i=1;i<=totalQuestionsCount;i++) resp[i]=studentResponses[i]||"Skipped";
-
-  document.getElementById('exam-engine-container').classList.add('hidden');
-  document.getElementById('result-screen').classList.remove('hidden');
-  document.getElementById('review-matrix-container').innerHTML='<div class="spinner my-4"></div>';
-
-  const payload={action:"submit_score",student:currentUserData?.name,email:currentUserData?.email,testTitle:activeTest?.title,responses:resp,profileImage:currentUserData?.profileImage,blurViolations:tabViolationsCount};
-  try {
-    const res=await fetch(APPS_SCRIPT_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(payload)});
-    const d=await res.json();
-    if(d.status==="success"){
-      const h=getHistoryMap(); h[activeTest.title]=d;
-      localStorage.setItem(`baaz_hist_${currentUserData?.email}`,JSON.stringify(h));
-      displayResultScreen(d);
-    } else document.getElementById('review-matrix-container').innerText='Submission error.';
-  } catch(e){ document.getElementById('review-matrix-container').innerText='Server connection failed.'; }
-}
-
-function viewLockedResult(title) {
-  const h=getHistoryMap();
-  if(h[title]){
-    document.getElementById('app-container').classList.add('hidden');
-    document.getElementById('result-screen').classList.remove('hidden');
-    displayResultScreen(h[title]);
-  }
-}
-
-function displayResultScreen(d) {
-  document.getElementById('res-total').innerText=d.total||0;
-  document.getElementById('res-right').innerText=d.right||0;
-  document.getElementById('res-wrong').innerText=d.wrong||0;
-  document.getElementById('res-accuracy').innerText=(d.accuracy||0)+'%';
-  document.getElementById('res-score').innerText=d.score||0;
-  document.getElementById('rank-badge-text').innerText=d.rankBadge||'—';
-
-  const cont=document.getElementById('review-matrix-container'); if(!cont) return;
-  cont.innerHTML='';
-  const errCache=JSON.parse(localStorage.getItem('baaz_errors_'+(currentUserData?.email))||'[]');
-
-  (d.reviewData||[]).forEach(item=>{
-    const cardClass=item.selected==="Skipped"?'':item.isCorrect?'review-correct':'review-wrong';
-    const statusText=item.selected==="Skipped"?'➖ Skipped':item.isCorrect?'✅ Correct':'❌ Wrong';
-
-    if(!item.isCorrect && item.selected!=="Skipped") {
-      if(!errCache.find(e=>e.text===item.text)) errCache.push({testTitle:activeTest?.title||'Exam',text:item.text,A:item.A,B:item.B});
-    }
-
-    const optsHtml=['A','B','C','D'].map(l=>{
-      let style='';
-      if(l===item.correct) style='background:rgba(16,185,129,0.15);border:1px solid var(--success2);border-radius:6px;';
-      if(l===item.selected&&!item.isCorrect) style='background:rgba(244,63,94,0.15);border:1px solid var(--danger2);border-radius:6px;';
-      return `<div class="p-2 text-xs flex gap-1" style="${style}"><b>${l}</b> ${escapeHtml(item[l]||'')}</div>`;
-    }).join('');
-
-    cont.innerHTML+=`<div class="surface rounded-xl p-3 space-y-2 ${cardClass}">
-      <div class="flex justify-between font-black text-[10px] text-muted"><span>Q#${item.id}</span><span>${statusText}</span></div>
-      <p class="font-bold text-xs">${escapeHtml(item.text||'')}</p>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-1.5">${optsHtml}</div>
-    </div>`;
-  });
-  localStorage.setItem('baaz_errors_'+(currentUserData?.email),JSON.stringify(errCache));
-  updateQuickStats();
-}
-
-function showResultsHistory() {
-  showScreen('results');
-  const hist=getHistoryMap();
-  const container=document.getElementById('results-history-list'); if(!container) return;
-  const tests=Object.keys(hist);
-  if(!tests.length){container.innerHTML='<div class="premium-card rounded-xl p-4 text-xs text-muted text-center">Koi test attempt nahi kiya abhi tak.</div>';return;}
-  container.innerHTML=tests.map((t,i)=>`
-    <div class="premium-card rounded-xl p-4 flex justify-between items-center">
-      <div>
-        <div class="font-black text-sm text-accent">${escapeHtml(t)}</div>
-        <div class="text-xs text-muted mt-1">Score: <span class="text-emerald-400 font-bold">${hist[t].score||0}</span> • Accuracy: ${hist[t].accuracy||0}% • Badge: ${hist[t].rankBadge||'—'}</div>
-      </div>
-      <button onclick="viewLockedResultFromHistory(${i})" class="btn-neutral px-3 py-2 rounded-xl text-xs font-bold cursor-pointer"><i class="fas fa-eye mr-1"></i>View</button>
-    </div>
-  `).join('');
-  window.__baazResultTitles = tests;
-}
-
-function viewLockedResultFromHistory(i) {
-  const titles = window.__baazResultTitles || [];
-  if(titles[i]) viewLockedResult(titles[i]);
-}
-
-function returnToPortal() {
-  document.getElementById('result-screen').classList.add('hidden');
-  document.getElementById('app-container').classList.remove('hidden');
-  showScreen('home');
-  loadTests();
-}
-
-/* ============================================================
-   ADMIN FUNCTIONS
-   ============================================================ */
-async function setTestByAdmin() {
-  const rawText=document.getElementById('local-ai-text').value.trim();
-  const exam=document.getElementById('admin-exam-name').value.trim()||"General";
-  const subject=document.getElementById('admin-subject-name').value.trim()||"Mixed";
-  const title=document.getElementById('admin-test-title').value.trim();
-  const desc=document.getElementById('admin-test-desc').value.trim()||"Test paper.";
-  const posM=document.getElementById('admin-pos-marks').value.trim()||3;
-  const negM=document.getElementById('admin-neg-marks').value.trim()||1;
-  const premium=document.getElementById('admin-is-premium').value==="TRUE";
-  const status=document.getElementById('admin-publish-status');
-
-  if(!title||rawText.length<25){alert("Title aur questions required hain.");return;}
-  status.innerText="Deploying...";
-  try {
-    const res=await fetch(APPS_SCRIPT_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:"publish_test",exam,subject,title,description:desc,positiveMarks:posM,negativeMarks:negM,isPremium:premium,rawText})});
-    const d=await res.json();
-    status.innerText=`✅ Deployed! ${d.questionCount||0} questions.`;
-    loadTests();
-  } catch(e){status.innerText="❌ Deploy failed.";}
-}
-
 async function loadStudentList() {
-  const container=document.getElementById('student-list-container'); if(!container) return;
-  container.innerHTML='<div class="spinner my-4"></div>';
+  const c=document.getElementById('student-list-container'); if(!c) return;
+  c.innerHTML='<div class="spinner my-4"></div>';
   try {
     const res=await fetch(APPS_SCRIPT_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:"get_students"})});
     const data=await res.json();
-    if(!data.length){container.innerHTML='<p class="text-xs text-muted">No students registered.</p>';return;}
-    container.innerHTML=data.map((u,i)=>`
+    window.__baazStudents=data;
+    if(!data.length){c.innerHTML='<p class="text-xs text-muted">No students.</p>';return;}
+    c.innerHTML=data.map((u,i)=>`
       <div class="surface p-2 rounded-xl flex flex-wrap gap-2 items-center justify-between">
-        <div>
-          <span class="font-bold text-xs">${escapeHtml(u.name)}</span>
-          <span class="text-muted text-[10px] ml-1">(${escapeHtml(u.email)})</span>
-          <span class="text-[10px] text-muted ml-2">Tests: ${u.totalTests||0} • Score: ${u.totalScore||0}</span>
-        </div>
-        <button onclick="toggleUserBanByIdx(${i},${!u.blocked})" class="px-2.5 py-1 text-[10px] font-bold rounded-lg cursor-pointer ${u.blocked?'btn-success':'btn-danger-outline'}">${u.blocked?'Unban':'Ban'}</button>
-      </div>
-    `).join('');
-    window.__baazStudentList = data;
-  } catch(e){container.innerHTML='<p class="text-xs text-muted">Load failed.</p>';}
+        <div><span class="font-bold text-xs">${escH(u.name)}</span><span class="text-muted text-[10px] ml-1">(${escH(u.email)})</span></div>
+        <button onclick="toggleBan(${i})" class="px-2.5 py-1 text-[10px] font-bold rounded-lg cursor-pointer ${u.blocked?'btn-success':'btn-danger-outline'}">${u.blocked?'Unban':'Ban'}</button>
+      </div>`).join('');
+  } catch(e){c.innerHTML='<p class="text-xs text-muted">Load failed.</p>';}
 }
 
-function toggleUserBanByIdx(i, ban) {
-  const list = window.__baazStudentList || [];
-  const u = list[i];
-  if(u) toggleUserBan(u.email, ban);
-}
-
-async function toggleUserBan(email, ban) {
+async function toggleBan(i) {
+  const u=(window.__baazStudents||[])[i]; if(!u) return;
+  const ban=!u.blocked;
   try {
-    const res=await fetch(APPS_SCRIPT_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:ban?"ban_student":"unban_student",email})});
+    const res=await fetch(APPS_SCRIPT_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:ban?"ban_student":"unban_student",email:u.email})});
     const d=await res.json(); alert(d.message); loadStudentList();
   } catch(e){}
 }
@@ -1783,34 +2057,28 @@ async function toggleUserBan(email, ban) {
 function saveAnnouncement() {
   const text=document.getElementById('announce-text').value.trim();
   if(!text){alert("Message likhein.");return;}
-  const announcements=JSON.parse(localStorage.getItem('baaz_announcements')||'[]');
-  announcements.unshift({text,timestamp:new Date().toLocaleString()});
-  localStorage.setItem('baaz_announcements',JSON.stringify(announcements));
+  const list=JSON.parse(localStorage.getItem('baaz_announcements')||'[]');
+  list.unshift({text,timestamp:new Date().toLocaleString()});
+  localStorage.setItem('baaz_announcements',JSON.stringify(list));
   document.getElementById('broadcast-text').innerText=text;
   document.getElementById('global-broadcast').classList.remove('hidden');
   document.getElementById('announce-text').value='';
   loadAnnouncementsHistory();
-  alert("Announcement broadcast ho gaya!");
-  // Also try server
   fetch(APPS_SCRIPT_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:"save_announcement",message:text})}).catch(()=>{});
+  alert("Announcement broadcast ho gaya!");
 }
 
 function loadAnnouncementsHistory() {
-  const container=document.getElementById('announce-history'); if(!container) return;
-  const announcements=JSON.parse(localStorage.getItem('baaz_announcements')||'[]');
-  if(!announcements.length){container.innerHTML='<p class="text-xs text-muted">No announcements yet.</p>';return;}
-  container.innerHTML=`<div class="text-[10px] font-bold text-muted uppercase mb-1">Recent</div>`+
-    announcements.slice(0,5).map(a=>`
-      <div class="surface rounded-lg p-2 text-xs">
-        <div class="text-muted text-[9px]">${a.timestamp}</div>
-        <div class="font-bold mt-0.5">${escapeHtml(a.text)}</div>
-      </div>
-    `).join('');
+  const c=document.getElementById('announce-history'); if(!c) return;
+  const list=JSON.parse(localStorage.getItem('baaz_announcements')||'[]');
+  if(!list.length){c.innerHTML='<p class="text-xs text-muted">No announcements.</p>';return;}
+  c.innerHTML=list.slice(0,5).map(a=>`
+    <div class="surface rounded-lg p-2 text-xs"><div class="text-muted text-[9px]">${a.timestamp}</div><div class="font-bold mt-0.5">${escH(a.text)}</div></div>`).join('');
 }
 
 function switchAdminTab(tab) {
   document.querySelectorAll('.admin-tab[data-atab]').forEach(b=>b.classList.toggle('active',b.dataset.atab===tab));
-  ['exams','notes','students','support-admin','announce'].forEach(t=>{
+  ['exams','notes','courses-admin','students','support-admin','announce','countdown-admin'].forEach(t=>{
     const el=document.getElementById(`atab-${t}`);
     if(el) el.classList.toggle('hidden',t!==tab);
   });
@@ -1818,58 +2086,346 @@ function switchAdminTab(tab) {
   if(tab==='notes') loadAdminNotesList();
   if(tab==='support-admin') loadAdminSupport();
   if(tab==='announce') loadAnnouncementsHistory();
+  if(tab==='courses-admin') loadAdminCoursesList();
 }
 
-function parseRawTestText(txt) {
-  const tempKeys={};
-  const cleanText=txt.toUpperCase().replace(/\n/g,' ');
-  const ansIdx=cleanText.indexOf("ANSWER KEY:");
-  if(ansIdx!==-1) {
-    const ansPart=cleanText.substring(ansIdx);
-    const pairs=ansPart.match(/Q?\d+\s*-\s*[A-D]/gi)||ansPart.match(/\d+-[A-D]/g);
-    if(pairs) pairs.forEach(p=>{const pts=p.replace(/Q/g,'').split(/[-\|]/);if(pts.length>=2)tempKeys[parseInt(pts[0].trim())]=pts[pts.length-1].trim();});
+/* ============================================================
+   COLOR BLINDNESS TEST
+   ============================================================ */
+function startColorBlindTest() {
+  cbCurrentPlate=0; cbScore=0; cbRunning=true;
+  document.getElementById('cb-start-btn').classList.add('hidden');
+  document.getElementById('cb-final-result').classList.add('hidden');
+  document.getElementById('cb-result-msg').classList.add('hidden');
+  document.getElementById('cb-answer').value='';
+  renderCBPlate();
+}
+
+function renderCBPlate() {
+  if(cbCurrentPlate>=CB_PLATES.length){showCBFinalResult();return;}
+  const plate=CB_PLATES[cbCurrentPlate];
+  document.getElementById('cb-plate-num').innerText=cbCurrentPlate+1;
+  document.getElementById('cb-score').innerText=cbScore;
+  document.getElementById('cb-instruction').innerText=`Plate ${cbCurrentPlate+1}/8: Is plate mein koi number dikhta hai?`;
+  document.getElementById('cb-answer').value='';
+  document.getElementById('cb-result-msg').classList.add('hidden');
+  const canvas=document.getElementById('cb-canvas');
+  const ctx=canvas.getContext('2d');
+  const cx=100, cy=100, r=95;
+  // Background circle
+  ctx.clearRect(0,0,200,200);
+  ctx.beginPath(); ctx.arc(cx,cy,r,0,Math.PI*2);
+  ctx.fillStyle=plate.bg; ctx.fill();
+  // Scatter random background dots
+  for(let i=0;i<320;i++){
+    const angle=Math.random()*Math.PI*2;
+    const dist=Math.random()*90;
+    const x=cx+Math.cos(angle)*dist, y=cy+Math.sin(angle)*dist;
+    const s=3+Math.random()*5;
+    const shades=['#c8a070','#d4b080','#b89060','#e0c090','#a07840'];
+    ctx.beginPath(); ctx.arc(x,y,s,0,Math.PI*2);
+    ctx.fillStyle=shades[Math.floor(Math.random()*shades.length)]; ctx.fill();
   }
-  const lines=txt.split("\n"); let block=""; let col=false;
-  for(const l of lines){const lt=l.trim();if(/^(Q\d+|1\b|2\b|3\b)/i.test(lt))col=true;if(lt.toUpperCase().includes("ANSWER KEY:"))col=false;if(col)block+=l+"\n";}
-  const parts=block.split(/(?:Q(?:uestion)?\s*\d+[\.\s\-:\)]+|\b\d+[\.\)\-]\s+)/gi);
-  const questions=[];let ptr=1;
-  parts.forEach(b=>{
-    const trimmed=b.trim();if(trimmed.length>5){
-      const ls=trimmed.split('\n').map(x=>x.trim()).filter(Boolean);
-      let qText="",A="",B="",C="",D="";
-      ls.forEach(line=>{const u=line.toUpperCase();
-        if(u.startsWith('(A)')||u.startsWith('A.')||u.startsWith('A)'))A=line.replace(/^\s*[\(\[A-D\u2022\-\.\)]+\s*/i,'').trim();
-        else if(u.startsWith('(B)')||u.startsWith('B.')||u.startsWith('B)'))B=line.replace(/^\s*[\(\[A-D\u2022\-\.\)]+\s*/i,'').trim();
-        else if(u.startsWith('(C)')||u.startsWith('C.')||u.startsWith('C)'))C=line.replace(/^\s*[\(\[A-D\u2022\-\.\)]+\s*/i,'').trim();
-        else if(u.startsWith('(D)')||u.startsWith('D.')||u.startsWith('D)'))D=line.replace(/^\s*[\(\[A-D\u2022\-\.\)]+\s*/i,'').trim();
-        else qText+=" "+line;
-      });
-      questions.push({id:ptr,text:qText.trim(),A,B,C,D});
-      if(!tempKeys[ptr])tempKeys[ptr]="A";
-      ptr++;
-    }
+  // Draw number using colored dots
+  const numStr=String(plate.number);
+  const positions=getNumberDotPositions(numStr, cx, cy);
+  positions.forEach(pos=>{
+    ctx.beginPath(); ctx.arc(pos.x,pos.y,pos.r||5,0,Math.PI*2);
+    ctx.fillStyle=pos.c; ctx.fill();
   });
-  return {questions,keys:tempKeys};
 }
 
-function setPaletteFilter(f) { currentPaletteFilter=f; buildPaletteGrid(); }
+function getNumberDotPositions(numStr, cx, cy) {
+  // Simplified 7-segment-like dot patterns
+  const SEG_MAP={
+    '1':[[5,0],[5,10],[5,20],[5,30],[5,40]],
+    '2':[[0,0],[10,0],[10,10],[0,20],[10,20],[0,30],[0,40],[10,40]],
+    '3':[[0,0],[10,0],[10,10],[10,20],[10,30],[0,40],[10,40]],
+    '4':[[0,0],[0,10],[0,20],[10,0],[10,10],[10,20],[10,30],[10,40]],
+    '5':[[10,0],[0,0],[0,10],[0,20],[10,20],[10,30],[0,40],[10,40]],
+    '6':[[10,0],[0,0],[0,10],[0,20],[10,20],[0,30],[10,30],[0,40],[10,40]],
+    '7':[[0,0],[10,0],[10,10],[10,20],[10,30],[10,40]],
+    '8':[[0,0],[10,0],[0,10],[10,10],[0,20],[10,20],[0,30],[10,30],[0,40],[10,40]],
+    '9':[[0,0],[10,0],[0,10],[10,10],[0,20],[10,20],[10,30],[10,40]],
+    '0':[[0,0],[10,0],[0,10],[10,10],[0,20],[10,20],[0,30],[10,30],[0,40],[10,40]],
+  };
+  const colors=['#228b22','#2e8b57','#006400','#4169e1','#dc143c'];
+  const dots=[];
+  const totalW=numStr.length*20;
+  let startX=cx-totalW/2;
+  numStr.split('').forEach(ch=>{
+    const segs=SEG_MAP[ch]||[];
+    segs.forEach(([dx,dy])=>{
+      for(let i=0;i<3;i++){
+        dots.push({
+          x:startX+dx+Math.random()*6-3,
+          y:cy-20+dy+Math.random()*6-3,
+          r:4+Math.random()*3,
+          c:colors[Math.floor(Math.random()*colors.length)]
+        });
+      }
+    });
+    startX+=22;
+  });
+  return dots;
+}
+
+function checkCBAnswer() {
+  if(!cbRunning) return;
+  const ans=parseInt(document.getElementById('cb-answer').value);
+  const correct=CB_PLATES[cbCurrentPlate].number;
+  const msg=document.getElementById('cb-result-msg');
+  if(ans===correct){
+    cbScore++;
+    msg.innerText=`✅ Sahi! Number tha ${correct}`;
+    msg.style.background='rgba(16,185,129,0.15)'; msg.style.color='var(--success2)';
+  } else {
+    msg.innerText=`❌ Galat! Number tha ${correct}. Aapne ${ans||'kuch nahi'} likha.`;
+    msg.style.background='rgba(244,63,94,0.1)'; msg.style.color='var(--danger2)';
+  }
+  msg.classList.remove('hidden');
+  cbCurrentPlate++;
+  setTimeout(()=>renderCBPlate(), 1200);
+}
+
+function showCBFinalResult() {
+  cbRunning=false;
+  const fr=document.getElementById('cb-final-result'); fr.classList.remove('hidden');
+  document.getElementById('cb-score').innerText=cbScore;
+  const pct=cbScore/CB_PLATES.length;
+  let icon,text,sub;
+  if(pct>=0.875){icon='✅';text='Normal Color Vision!';sub='Aap medical test mein pass ho jayenge. Color vision bilkul theek hai!';}
+  else if(pct>=0.625){icon='⚠️';text='Mild Issue — Dobara Check Karwao';sub='Kuch plates galat huin. Official Ishihara test zaroor karwao.';}
+  else{icon='❌';text='Color Blindness Detected';sub='Multiple plates galat huin. Doctor se checkup karwao before applying.';}
+  document.getElementById('cb-final-icon').innerText=icon;
+  document.getElementById('cb-final-text').innerText=text;
+  document.getElementById('cb-final-sub').innerText=`Score: ${cbScore}/8. ${sub}`;
+}
+
+/* ============================================================
+   SSB SIMULATOR
+   ============================================================ */
+function startWAT() {
+  ssbMode='WAT'; ssbCurrentQ=0; ssbResponses=[];
+  const shuffled=[...WAT_WORDS].sort(()=>Math.random()-.5).slice(0,20);
+  ssbWords=shuffled;
+  document.getElementById('ssb-menu').classList.add('hidden');
+  document.getElementById('ssb-results').classList.add('hidden');
+  const act=document.getElementById('ssb-active'); act.classList.remove('hidden');
+  document.getElementById('ssb-test-type').innerText='WAT — Word Association Test';
+  document.getElementById('ssb-q-total').innerText=ssbWords.length;
+  showSSBQuestion();
+}
+
+function startSRT() {
+  ssbMode='SRT'; ssbCurrentQ=0; ssbResponses=[];
+  const shuffled=[...SRT_SITUATIONS].sort(()=>Math.random()-.5).slice(0,15);
+  ssbSituations=shuffled;
+  document.getElementById('ssb-menu').classList.add('hidden');
+  document.getElementById('ssb-results').classList.add('hidden');
+  const act=document.getElementById('ssb-active'); act.classList.remove('hidden');
+  document.getElementById('ssb-test-type').innerText='SRT — Situation Reaction Test';
+  document.getElementById('ssb-q-total').innerText=ssbSituations.length;
+  showSSBQuestion();
+}
+
+function showSSBQuestion() {
+  if(ssbTimer) clearInterval(ssbTimer);
+  const total=ssbMode==='WAT'?ssbWords.length:ssbSituations.length;
+  if(ssbCurrentQ>=total){endSSBTest();return;}
+  document.getElementById('ssb-q-num').innerText=ssbCurrentQ+1;
+  document.getElementById('ssb-response').value='';
+  document.getElementById('ssb-response').focus();
+  const stimulus=ssbMode==='WAT'?ssbWords[ssbCurrentQ]:ssbSituations[ssbCurrentQ];
+  document.getElementById('ssb-stimulus').innerText=stimulus;
+  document.getElementById('ssb-stimulus').style.fontSize=ssbMode==='WAT'?'2rem':'1.1rem';
+  ssbTimeLeft=ssbMode==='WAT'?15:30;
+  updateSSBTimer();
+  ssbTimer=setInterval(()=>{
+    ssbTimeLeft--;
+    updateSSBTimer();
+    if(ssbTimeLeft<=0){clearInterval(ssbTimer);autoNextSSB();}
+  },1000);
+}
+
+function updateSSBTimer() {
+  const ring=document.getElementById('ssb-timer-ring');
+  const total=ssbMode==='WAT'?15:30;
+  const pct=Math.round((ssbTimeLeft/total)*100);
+  ring.style.setProperty('--pct',pct);
+  ring.innerText=ssbTimeLeft;
+}
+
+function submitSSBAnswer() {
+  const resp=document.getElementById('ssb-response').value.trim();
+  const q=ssbMode==='WAT'?ssbWords[ssbCurrentQ]:ssbSituations[ssbCurrentQ];
+  ssbResponses.push({q,response:resp||'(Skipped)'});
+  ssbCurrentQ++;
+  clearInterval(ssbTimer);
+  showSSBQuestion();
+}
+
+function skipSSBAnswer() {
+  const q=ssbMode==='WAT'?ssbWords[ssbCurrentQ]:ssbSituations[ssbCurrentQ];
+  ssbResponses.push({q,response:'(Skipped)'});
+  ssbCurrentQ++;
+  clearInterval(ssbTimer);
+  showSSBQuestion();
+}
+
+function autoNextSSB() {
+  const q=ssbMode==='WAT'?ssbWords[ssbCurrentQ]:ssbSituations[ssbCurrentQ];
+  const resp=document.getElementById('ssb-response').value.trim();
+  ssbResponses.push({q,response:resp||'(Time Up)'});
+  ssbCurrentQ++;
+  showSSBQuestion();
+}
+
+function endSSBTest() {
+  if(ssbTimer) clearInterval(ssbTimer);
+  document.getElementById('ssb-active').classList.add('hidden');
+  document.getElementById('ssb-results').classList.remove('hidden');
+  const c=document.getElementById('ssb-results-list');
+  c.innerHTML=ssbResponses.map((r,i)=>`
+    <div class="surface rounded-xl p-3 space-y-1">
+      <div class="text-[10px] font-black text-amber-400">${ssbMode} #${i+1}: <span class="text-accent">${escH(r.q)}</span></div>
+      <div class="text-xs font-bold">${escH(r.response)}</div>
+    </div>`).join('');
+}
+
+function resetSSB() {
+  document.getElementById('ssb-active').classList.add('hidden');
+  document.getElementById('ssb-results').classList.add('hidden');
+  document.getElementById('ssb-menu').classList.remove('hidden');
+}
+
+/* ============================================================
+   PFT LOGGER
+   ============================================================ */
+function logPFT() {
+  const runMin=parseInt(document.getElementById('pft-run-min').value)||0;
+  const runSec=parseInt(document.getElementById('pft-run-sec').value)||0;
+  const pushups=parseInt(document.getElementById('pft-pushups').value)||0;
+  const situps=parseInt(document.getElementById('pft-situps').value)||0;
+  const pullups=parseInt(document.getElementById('pft-pullups').value)||0;
+  const notes=document.getElementById('pft-notes').value.trim();
+  const totalRunSec=runMin*60+runSec;
+  if(!totalRunSec&&!pushups){alert("Kuch to enter karein.");return;}
+  // Badge calculation
+  let badge,color,feedback;
+  if(totalRunSec>0 && totalRunSec<=330 && pushups>=40){badge='ALPHA FIT';color='badge-alpha';feedback='🔥 Mast! Army ke Alpha standard pe ho. Aise hi chalte raho!';}
+  else if(totalRunSec<=390 && pushups>=30){badge='BRAVO FIT';color='badge-bravo';feedback='💪 Achha hai! Bravo level par ho. Aur mehnat karo — Alpha level target karo.';}
+  else{badge='CHARLIE FIT';color='badge-charlie';feedback='📈 Shuruaat ho gayi! Consistency banao — roz ek improvement karo.';}
+  // Show badge
+  const ba=document.getElementById('pft-badge-area'); ba.classList.remove('hidden');
+  const pb=document.getElementById('pft-badge'); pb.className=`pft-badge ${color}`;
+  pb.innerText=badge;
+  document.getElementById('pft-feedback').innerText=feedback;
+  // Save log
+  const history=JSON.parse(localStorage.getItem(`pft_log_${currentUserData?.email}`)||'[]');
+  history.unshift({date:new Date().toLocaleDateString(),runMin,runSec,pushups,situps,pullups,notes,badge});
+  localStorage.setItem(`pft_log_${currentUserData?.email}`,JSON.stringify(history.slice(0,50)));
+  // Clear form
+  ['pft-run-min','pft-run-sec','pft-pushups','pft-situps','pft-pullups','pft-notes'].forEach(id=>document.getElementById(id).value='');
+  renderPFTHistory();
+}
+
+function renderPFTHistory() {
+  const c=document.getElementById('pft-history'); if(!c) return;
+  const history=JSON.parse(localStorage.getItem(`pft_log_${currentUserData?.email}`)||'[]');
+  if(!history.length){c.innerHTML='<p class="text-xs text-muted text-center">Koi log nahi hai abhi.</p>';return;}
+  c.innerHTML=history.map((h,i)=>`
+    <div class="surface rounded-xl p-3 space-y-1">
+      <div class="flex justify-between items-center">
+        <span class="text-[10px] text-muted font-bold">${h.date}</span>
+        <span class="pft-badge ${h.badge==='ALPHA FIT'?'badge-alpha':h.badge==='BRAVO FIT'?'badge-bravo':'badge-charlie'}">${h.badge||'—'}</span>
+      </div>
+      <div class="text-xs font-bold">Run: ${h.runMin}:${String(h.runSec).padStart(2,'0')} • PU: ${h.pushups} • SU: ${h.situps} • Pullups: ${h.pullups}</div>
+      ${h.notes?`<div class="text-[10px] text-muted italic">${escH(h.notes)}</div>`:''}
+    </div>`).join('');
+}
+
+function clearPFTHistory() {
+  if(!confirm("PFT history delete karein?")) return;
+  localStorage.removeItem(`pft_log_${currentUserData?.email}`);
+  renderPFTHistory();
+  document.getElementById('pft-badge-area').classList.add('hidden');
+}
+
+/* ============================================================
+   AI DOUBT COMMAND
+   ============================================================ */
+const AI_CHAT_HISTORY = [];
+const ANTHROPIC_URL = "https://api.anthropic.com/v1/messages";
+
+function appendAIMessage(role, text) {
+  const box = document.getElementById('ai-chat-box');
+  const isUser = role === 'user';
+  const div = document.createElement('div');
+  div.className = `flex ${isUser ? 'justify-end' : 'justify-start'} mb-2`;
+  div.innerHTML = `<div class="max-w-[85%] px-4 py-2.5 rounded-2xl text-xs font-medium whitespace-pre-wrap" style="background:${isUser ? 'var(--accent)' : 'var(--card)'};color:${isUser ? 'var(--accent-text)' : 'var(--text)'};border:0.5px solid var(--border)">${isUser ? escH(text) : text}</div>`;
+  box.appendChild(div);
+  box.scrollTop = box.scrollHeight;
+}
+
+async function sendAIDoubt() {
+  const input = document.getElementById('ai-doubt-input');
+  const question = input.value.trim();
+  if (!question) return;
+  input.value = '';
+  const btn = document.getElementById('ai-send-btn');
+  btn.disabled = true; btn.innerHTML = '<div class="spinner" style="width:16px;height:16px;border-width:2px"></div>';
+  appendAIMessage('user', question);
+  AI_CHAT_HISTORY.push({ role: 'user', content: question });
+  // Loading message
+  const loadDiv = document.createElement('div');
+  loadDiv.id = 'ai-loading';
+  loadDiv.className = 'flex justify-start mb-2';
+  loadDiv.innerHTML = `<div class="px-4 py-2.5 rounded-2xl text-xs" style="background:var(--card);border:0.5px solid var(--border)">Soch raha hoon... <span class="ai-typing"></span></div>`;
+  document.getElementById('ai-chat-box').appendChild(loadDiv);
+  document.getElementById('ai-chat-box').scrollTop = 9999;
+  try {
+    const res = await fetch(ANTHROPIC_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 1000,
+        system: `Aap Operation Baaz ka AI tutor hain — ek expert defence exam coach. Aap sirf Indian defence exams (NDA, CDS, AFCAT, Army GD, Navy, Air Force, SSC) ke topics par help karte hain: Mathematics, English, GK/Science/History/Geography, Reasoning. Student ki question ko step-by-step Hindi-English mix mein solve karo. Formulas clearly likho. Exam tricks bhi batao.`,
+        messages: AI_CHAT_HISTORY
+      })
+    });
+    const data = await res.json();
+    const reply = data.content?.[0]?.text || 'Koi response nahi mila. Dobara try karo.';
+    loadDiv.remove();
+    AI_CHAT_HISTORY.push({ role: 'assistant', content: reply });
+    appendAIMessage('assistant', reply.replace(/\n/g,'<br>'));
+  } catch(e) {
+    loadDiv.remove();
+    appendAIMessage('assistant', '❌ Network error. Internet check karo aur dobara try karo.');
+  }
+  btn.disabled = false; btn.innerHTML = '<i class="fas fa-paper-plane"></i>';
+}
+
+function clearAIChat() {
+  AI_CHAT_HISTORY.length = 0;
+  document.getElementById('ai-chat-box').innerHTML = '';
+  document.getElementById('ai-doubt-input').placeholder = 'Question yahan likho ya paste karo...';
+}
 
 /* ============================================================
    UTILITY
    ============================================================ */
-function applyTheme(n,p) {
-  document.documentElement.setAttribute('data-theme',n);
-  if(p) localStorage.setItem('baaz_theme',n);
+function applyTheme(n, p) {
+  document.documentElement.setAttribute('data-theme', n);
+  if(p) localStorage.setItem('baaz_theme', n);
 }
 
-function escapeHtml(s) {
+function escH(s) {
   return String(s||"").replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
 
-function showInfo(title, body) {
-  if(!title||!body||!title.trim()||!body.trim()) return;
-  alert(`${title}\n\n${body}`);
-}
+function showResultsHistory() { showScreen('results'); renderResultsHistory(); }
 </script>
 </body>
 </html>
