@@ -3,39 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Operation Baaz - Ultimate Autonomous Portal</title>
+    <title>Operation Baaz - Ultimate Premium Portal</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { background: #080c10; color: #c9d1d9; font-family: system-ui, sans-serif; }
+        body { 
+            background: #080c10; color: #c9d1d9; font-family: system-ui, sans-serif; 
+            -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; 
+        }
         .premium-card { background: #121620; border: 1px solid #212635; box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); }
         .active-opt { background-color: #238636 !important; border-color: #2ea043 !important; color: white !important; }
         .nav-tab-active { background: #1f293d; border-color: #38bdf8; color: #38bdf8; }
+        .flagged-node { background-color: #7c3aed !important; border-color: #8b5cf6 !important; color: white !important; }
+        .answered-node { background-color: #047857 !important; border-color: #059669 !important; color: white !important; }
     </style>
 </head>
-<body class="min-h-screen flex flex-col p-3 md:p-6 justify-between text-sm">
+<body class="min-h-screen flex flex-col p-3 md:p-6 justify-between text-sm" oncontextmenu="return false;">
 
-    <header class="w-full text-center my-4">
-        <h1 class="text-4xl md:text-6xl font-black tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600">
+    <!-- HEADER SYSTEM -->
+    <header class="w-full text-center my-2">
+        <h1 class="text-4xl md:text-5xl font-black tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600">
             OPERATION BAAZ
         </h1>
-        <p class="text-xs text-gray-500 uppercase tracking-widest mt-1 font-semibold">Autonomous Client-Side Assessment Engine</p>
+        <p class="text-[11px] text-gray-500 uppercase tracking-widest mt-1 font-semibold">Autonomous Secure Assessment Core v6.0</p>
     </header>
 
+    <!-- AUTH MATRIX -->
     <div id="auth-container" class="w-full max-w-md mx-auto my-auto pt-4">
         <div class="premium-card rounded-2xl p-6 shadow-xl">
             <h2 class="text-xl font-bold text-white mb-4"><i class="fas fa-shield-alt text-blue-500"></i> Portal Control Login</h2>
             <form id="login-form" class="space-y-4">
                 <div><label class="block text-xs font-bold text-gray-400 uppercase mb-1">Email Address</label><input type="email" id="login-email" required class="w-full bg-[#080c10] border border-[#212635] rounded-xl px-4 py-3 text-white focus:outline-none"></div>
                 <div><label class="block text-xs font-bold text-gray-400 uppercase mb-1">Password</label><input type="password" id="login-password" required class="w-full bg-[#080c10] border border-[#212635] rounded-xl px-4 py-3 text-white focus:outline-none"></div>
-                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl cursor-pointer">Login to Gateway</button>
+                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl cursor-pointer transition">Login to Gateway</button>
             </form>
         </div>
     </div>
 
+    <!-- MAIN DASHBOARD -->
     <div id="dashboard-container" class="hidden w-full max-w-4xl mx-auto space-y-6">
         <header class="premium-card rounded-2xl p-5 flex justify-between items-center">
-            <div><h1 class="text-lg font-black text-white">Console Session: <span id="student-name" class="text-blue-400">User Node</span></h1></div>
+            <div><h1 class="text-lg font-black text-white">Console: <span id="student-name" class="text-blue-400">User Node</span> <span id="role-badge" class="ml-2 text-[10px] font-bold px-2 py-0.5 rounded uppercase">Student</span></h1></div>
             <button onclick="logout()" class="bg-rose-600/20 text-rose-400 border border-rose-900/40 px-4 py-2 rounded-xl text-xs font-bold cursor-pointer">Logout</button>
         </header>
 
@@ -46,111 +54,160 @@
         </div>
 
         <div id="tab-content-tests" class="space-y-4">
-            <div id="admin-parser-box" class="premium-card rounded-xl p-5 border border-cyan-500/20 bg-cyan-950/5 space-y-3">
+            <!-- ADMIN EXTRACTOR BOX -->
+            <div id="admin-parser-box" class="hidden premium-card rounded-xl p-5 border border-cyan-500/20 bg-cyan-950/5 space-y-3">
                 <div class="flex justify-between items-center">
-                    <div class="font-bold text-cyan-400 text-sm"><i class="fas fa-robot"></i> Live Text Core Stream Extractor Engine</div>
-                    <span class="text-[10px] bg-cyan-500/10 text-cyan-400 font-bold px-2 py-0.5 rounded uppercase">Bypass Mode Active</span>
+                    <div class="font-bold text-cyan-400 text-sm"><i class="fas fa-user-shield"></i> Admin Control Center: Anti-Leak Smart Parser</div>
+                    <span class="text-[10px] bg-emerald-500/10 text-emerald-400 font-bold px-2 py-0.5 rounded uppercase">Secure Stream</span>
                 </div>
-                <p class="text-xs text-gray-400">PDF ka saara text copy kijiye (Ctrl+A ➡️ Ctrl+C) aur seedhe neeche paste kar dijiye. Portal local machine power se sab kuch segment kar dega:</p>
-                <textarea id="local-ai-text" rows="4" placeholder="Paste whole text copy of question paper contents or include answer lines here..." class="w-full bg-[#080c10] border border-[#212635] rounded-xl p-3 text-white text-xs font-mono outline-none focus:border-cyan-500 transition"></textarea>
+                <p class="text-xs text-gray-400">Paste whole test content along with answer keys block. System auto-extracts questions & obfuscates keys:</p>
+                <textarea id="local-ai-text" rows="5" placeholder="Paste question paper along with Answer Key here..." class="w-full bg-[#080c10] border border-[#212635] rounded-xl p-3 text-white text-xs font-mono outline-none focus:border-cyan-500 transition"></textarea>
+                <button onclick="setTestByAdmin()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 rounded-xl text-xs uppercase tracking-wider transition cursor-pointer">Lock & Publish Dynamic Configuration</button>
             </div>
 
-            <h2 class="text-md font-bold text-white mb-2"><i class="fas fa-layer-group text-cyan-400"></i> Active Exam Configurations</h2>
+            <h2 class="text-md font-bold text-white mb-2"><i class="fas fa-layer-group text-cyan-400"></i> Available Exams Matrix</h2>
             <div id="tests-list" class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="premium-card rounded-2xl p-5 border-t-4 border-t-cyan-500 flex flex-col justify-between">
-                    <div><h3 class="text-base font-bold text-white mb-1">Universal Smart Exam Pool</h3><p class="text-gray-400 text-xs">Run automatic structural assessments from pasted text data objects.</p></div>
-                    <button onclick="launchAutonomousEngine()" class="w-full mt-4 bg-cyan-600 hover:bg-cyan-700 text-white font-bold py-2.5 rounded-xl text-xs uppercase tracking-wider cursor-pointer">Parse & Start Test Live</button>
+                    <div>
+                        <h3 id="display-test-title" class="text-base font-bold text-white mb-1">No Active Test Scheduled</h3>
+                        <p id="display-test-desc" class="text-gray-400 text-xs">Instructor has not deployed any dynamic configuration packet yet.</p>
+                    </div>
+                    <button id="start-test-btn" disabled onclick="launchExamEngine()" class="w-full mt-4 bg-gray-700 text-gray-500 font-bold py-2.5 rounded-xl text-xs uppercase tracking-wider cursor-not-allowed">Start Secure Exam</button>
                 </div>
             </div>
         </div>
 
+        <!-- FOUNDER & HELP TABS -->
         <div id="tab-content-owner" class="hidden premium-card rounded-2xl p-6 border border-purple-900/30 space-y-4">
             <div class="flex items-center gap-4">
                 <div class="w-16 h-16 rounded-xl bg-gradient-to-tr from-cyan-400 to-purple-600 flex items-center justify-center text-white text-2xl font-black">AK</div>
-                <div>
-                    <h3 class="text-xl font-black text-white">Abhijeet Kushwaha</h3>
-                    <p class="text-xs text-cyan-400 font-bold uppercase">Platform Owner & Lead Architect</p>
-                </div>
+                <div><h3 class="text-xl font-black text-white">Abhijeet Kushwaha</h3><p class="text-xs text-cyan-400 font-bold uppercase">Platform Owner & Lead Architect</p></div>
             </div>
-            <p class="text-xs text-gray-400 leading-relaxed">Operation Baaz ka official secure interface. Is portal ko bina kisi cloud cost ya heavy loading screen ke chalaney ke liye core algorithms aur background data mapping framework Abhijeet dwara optimize kiya gaya hai.</p>
+            <p class="text-xs text-gray-400 leading-relaxed">Operation Baaz Core Assessment Architecture framework completely optimized by Abhijeet Kushwaha.</p>
         </div>
-
         <div id="tab-content-support" class="hidden grid grid-cols-1 md:grid-cols-2 gap-4">
             <div class="premium-card rounded-2xl p-5 flex flex-col justify-between space-y-3">
-                <div>
-                    <h3 class="text-sm font-bold text-white"><i class="fab fa-whatsapp text-emerald-400"></i> Direct WhatsApp Support</h3>
-                    <p class="text-xs text-gray-400">Koi bhi dikkat aane par direct owner se WhatsApp par help lein.</p>
-                </div>
-                <a href="https://api.whatsapp.com/send?phone=917068252052&text=Hello%20Abhijeet,%20I%20need%20help%20with%20Operation%20Baaz%20Portal." target="_blank" class="w-full text-center bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 rounded-xl text-xs uppercase block transition cursor-pointer">Chat on WhatsApp</a>
-            </div>
-            <div class="premium-card rounded-2xl p-5 flex flex-col justify-between space-y-3">
-                <div>
-                    <h3 class="text-sm font-bold text-white"><i class="fas fa-envelope text-blue-400"></i> Email Sync</h3>
-                    <p class="text-xs text-gray-400">Official queries submit karne ka data secure node channel.</p>
-                </div>
-                <a href="mailto:abhijeetkushwaha90@gmail.com?subject=Operation%20Baaz%20Support" class="w-full text-center bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 rounded-xl text-xs uppercase block transition cursor-pointer">Send Email</a>
+                <div><h3 class="text-sm font-bold text-white"><i class="fab fa-whatsapp text-emerald-400"></i> Direct Help Desk</h3></div>
+                <a href="https://api.whatsapp.com/send?phone=917068252052&text=Hello" target="_blank" class="w-full text-center bg-emerald-600 text-white font-bold py-2 rounded-xl text-xs block">Connect on WhatsApp</a>
             </div>
         </div>
     </div>
 
-    <div id="exam-engine-container" class="hidden w-full max-w-5xl mx-auto flex flex-col md:flex-row gap-5 h-[80vh]">
-        <div class="w-full md:w-7/12 flex flex-col gap-4">
+    <!-- DIGITAL EXAM ENGINE LAYER -->
+    <div id="exam-engine-container" class="hidden w-full max-w-6xl mx-auto flex flex-col md:flex-row gap-5 h-[80vh]">
+        <div class="w-full md:w-8/12 flex flex-col gap-4">
             <div class="premium-card rounded-xl p-4 flex justify-between items-center text-center">
-                <div><div class="text-[10px] text-gray-500 font-bold uppercase">Size</div><div id="disp-total-count" class="text-xl font-black text-blue-400">0</div></div>
-                <div><div class="text-[10px] text-gray-500 font-bold uppercase text-rose-400">Timer</div><div id="stopwatch" class="text-xl font-mono font-black text-rose-500">01:30</div></div>
-            </div>
-
-            <div class="premium-card rounded-2xl p-6 flex-1 flex flex-col justify-between border-l-4 border-l-cyan-500 shadow-2xl">
-                <div>
-                    <div id="digital-question-text" class="text-base font-bold text-white mb-4 bg-[#080c10] p-4 rounded-xl border border-[#212635] whitespace-pre-line max-h-52 overflow-y-auto">Loading...</div>
+                <div><div class="text-[10px] text-gray-500 font-bold uppercase">Exam Pool Size</div><div id="disp-total-count" class="text-xl font-black text-blue-400">0</div></div>
+                <div class="bg-rose-500/5 px-4 py-1.5 rounded-xl border border-rose-900/30">
+                    <div class="text-[9px] text-rose-400 font-bold uppercase">Time Remaining</div>
+                    <div id="stopwatch" class="text-xl font-mono font-black text-rose-500">45:00</div>
                 </div>
+            </div>
+            <div class="premium-card rounded-2xl p-6 flex-1 flex flex-col justify-between border-l-4 border-l-blue-500 shadow-2xl relative">
+                <div><div id="digital-question-text" class="text-base font-bold text-white mb-4 bg-[#080c10] p-4 rounded-xl border border-[#212635] whitespace-pre-line max-h-52 overflow-y-auto">Loading...</div></div>
                 <div class="grid grid-cols-1 gap-2.5">
-                    <button onclick="selectAnswer('A')" id="opt-A" class="w-full text-left bg-[#080c10] border border-[#212635] p-3.5 rounded-xl font-semibold text-white flex items-center gap-3"><span id="lbl-opt-A">- - -</span></button>
-                    <button onclick="selectAnswer('B')" id="opt-B" class="w-full text-left bg-[#080c10] border border-[#212635] p-3.5 rounded-xl font-semibold text-white flex items-center gap-3"><span id="lbl-opt-B">- - -</span></button>
-                    <button onclick="selectAnswer('C')" id="opt-C" class="w-full text-left bg-[#080c10] border border-[#212635] p-3.5 rounded-xl font-semibold text-white flex items-center gap-3"><span id="lbl-opt-C">- - -</span></button>
-                    <button onclick="selectAnswer('D')" id="opt-D" class="w-full text-left bg-[#080c10] border border-[#212635] p-3.5 rounded-xl font-semibold text-white flex items-center gap-3"><span id="lbl-opt-D">- - -</span></button>
+                    <button onclick="selectAnswer('A')" id="opt-A" class="w-full text-left bg-[#080c10] border border-[#212635] p-3.5 rounded-xl font-semibold text-white flex items-center gap-3 transition cursor-pointer"><span id="lbl-opt-A">- - -</span></button>
+                    <button onclick="selectAnswer('B')" id="opt-B" class="w-full text-left bg-[#080c10] border border-[#212635] p-3.5 rounded-xl font-semibold text-white flex items-center gap-3 transition cursor-pointer"><span id="lbl-opt-B">- - -</span></button>
+                    <button onclick="selectAnswer('C')" id="opt-C" class="w-full text-left bg-[#080c10] border border-[#212635] p-3.5 rounded-xl font-semibold text-white flex items-center gap-3 transition cursor-pointer"><span id="lbl-opt-C">- - -</span></button>
+                    <button onclick="selectAnswer('D')" id="opt-D" class="w-full text-left bg-[#080c10] border border-[#212635] p-3.5 rounded-xl font-semibold text-white flex items-center gap-3 transition cursor-pointer"><span id="lbl-opt-D">- - -</span></button>
                 </div>
             </div>
         </div>
-
-        <div class="w-full md:w-5/12 flex flex-col justify-between premium-card rounded-2xl p-4">
-            <div id="palette-grid" class="grid grid-cols-5 gap-2 overflow-y-auto max-h-64 pr-1"></div>
-            <div class="grid grid-cols-2 gap-2 text-xs font-bold mt-4">
-                <button onclick="prevQuestion()" class="bg-[#212635] py-3 rounded-xl text-white">Previous</button>
-                <button onclick="nextQuestion()" class="bg-[#212635] py-3 rounded-xl text-white">Next</button>
-                <button onclick="confirmSubmitTest()" class="col-span-2 bg-emerald-600 text-white py-3 rounded-xl uppercase tracking-wider">Final Submit</button>
+        <div class="w-full md:w-4/12 flex flex-col justify-between premium-card rounded-2xl p-4">
+            <div>
+                <div class="text-xs font-bold text-gray-400 mb-2 uppercase tracking-wider"><i class="fas fa-th mr-1 text-cyan-400"></i> Navigation Matrix</div>
+                <div id="palette-grid" class="grid grid-cols-5 gap-2 overflow-y-auto max-h-60 pr-1"></div>
+            </div>
+            <div class="space-y-2 text-xs font-bold mt-4">
+                <button onclick="toggleFlagQuestion()" class="w-full bg-purple-600/20 text-purple-400 border border-purple-900/40 py-2.5 rounded-xl uppercase tracking-wide cursor-pointer"><i class="fas fa-flag mr-1"></i> Mark for Review / Flag</button>
+                <div class="grid grid-cols-2 gap-2">
+                    <button onclick="prevQuestion()" class="bg-[#212635] hover:bg-[#2d3347] py-3 rounded-xl text-white transition cursor-pointer">Previous</button>
+                    <button onclick="nextQuestion()" class="bg-[#212635] hover:bg-[#2d3347] py-3 rounded-xl text-white transition cursor-pointer">Next</button>
+                </div>
+                <button onclick="confirmSubmitTest()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-3 rounded-xl uppercase tracking-widest transition cursor-pointer shadow-lg shadow-emerald-950/50">Finalize Submission</button>
             </div>
         </div>
     </div>
 
-    <div id="result-screen" class="hidden max-w-xl w-full premium-card rounded-2xl p-6 text-center mx-auto my-auto space-y-4">
-        <h2 class="text-2xl font-black text-emerald-400">ANALYSIS MAPPED COMPLETE</h2>
-        <div class="grid grid-cols-2 gap-3 pt-2">
-            <div class="bg-blue-500/5 border p-3 rounded-xl"><p class="text-gray-500 text-[10px]">Total Questions</p><p id="res-total" class="text-2xl font-black text-blue-400">0</p></div>
-            <div class="bg-emerald-500/5 border p-3 rounded-xl"><p class="text-gray-500 text-[10px]">Right Answers</p><p id="res-right" class="text-2xl font-black text-emerald-400">0</p></div>
+    <!-- ADVANCED RESULT SCORECARD VIEW -->
+    <div id="result-screen" class="hidden max-w-2xl w-full premium-card rounded-2xl p-6 text-center mx-auto my-auto space-y-6">
+        <div>
+            <h2 class="text-2xl font-black text-emerald-400 uppercase tracking-widest">Performance Metrics Scorecard</h2>
+            <p class="text-xs text-gray-500 font-bold uppercase tracking-wider">UPSC Pattern Automated Analysis (Correct +3 | Wrong -1)</p>
         </div>
-        <button onclick="location.reload()" class="w-full bg-blue-600 text-white py-3 rounded-xl font-bold text-xs uppercase">Return to Dashboard</button>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+            <div class="bg-blue-500/5 border border-blue-900/30 p-3 rounded-xl"><p class="text-gray-500 text-[10px] font-bold uppercase">Total Qs</p><p id="res-total" class="text-xl font-black text-blue-400">0</p></div>
+            <div class="bg-emerald-500/5 border border-emerald-900/30 p-3 rounded-xl"><p class="text-gray-500 text-[10px] font-bold uppercase">Correct</p><p id="res-right" class="text-xl font-black text-emerald-400">0</p></div>
+            <div class="bg-rose-500/5 border border-rose-900/30 p-3 rounded-xl"><p class="text-gray-500 text-[10px] font-bold uppercase">Incorrect</p><p id="res-wrong" class="text-xl font-black text-rose-500">0</p></div>
+            <div class="bg-purple-500/5 border border-purple-900/30 p-3 rounded-xl"><p class="text-gray-500 text-[10px] font-bold uppercase">Final Score</p><p id="res-score" class="text-xl font-black text-purple-400">0</p></div>
+        </div>
+        <div class="space-y-2 text-left">
+            <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider"><i class="fas fa-list-check text-cyan-400"></i> Comprehensive Response Matrix</h3>
+            <div class="max-h-48 overflow-y-auto border border-[#212635] rounded-xl bg-[#080c10]">
+                <table class="w-full text-xs text-left">
+                    <thead class="bg-[#121620] text-gray-400 border-b border-[#212635] text-[10px] uppercase font-bold">
+                        <tr><th class="p-2.5">Q.No</th><th class="p-2.5">Your Response</th><th class="p-2.5">Correct Key</th><th class="p-2.5">Status</th></tr>
+                    </thead>
+                    <tbody id="analysis-rows-container"></tbody>
+                </table>
+            </div>
+        </div>
+        <button onclick="location.reload()" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-bold text-xs uppercase tracking-wider transition cursor-pointer">Return to Portal Console</button>
     </div>
 
-    <footer class="w-full text-center text-[10px] text-gray-600 uppercase tracking-widest pt-6 border-t border-[#121620]/60">
-        Operation Baaz Infrastructure Engine v4.0 • Developed by Abhijeet Kushwaha
+    <!-- REUSEABLE FOOTER SYSTEM -->
+    <footer class="w-full text-center text-[10px] text-gray-600 uppercase tracking-widest pt-4 border-t border-[#121620]/60">
+        Operation Baaz Infrastructure Platform Engine v6.0 • Architected by Abhijeet Kushwaha
     </footer>
 
     <script>
-        let DynamicAnswerKey = {}; 
-        let currentTestQuestions = []; 
+        const ADMIN_EMAIL = "kajalkushwaha208@gmail.com";
+        const ADMIN_PASSWORD = "kajal@123";
+
+        let DynamicAnswerKey = {}; let currentTestQuestions = []; let flaggedQuestions = {};
         let currentIndex = 1; let totalQuestionsCount = 0;
-        let studentResponses = {}; let singleQTimer = null; let qTimeLeft = 90;
+        let studentResponses = {}; let singleQTimer = null; let qTimeLeft = 2700; 
+        let tabViolationsCount = 0; let testRunningMode = false;
 
         window.addEventListener('DOMContentLoaded', () => {
             const savedUser = localStorage.getItem('baaz_user');
             if (savedUser) { loginSuccess(savedUser); }
+            loadPublishedTestFromCache();
+            setupAntiCheatingTriggers();
         });
+
+        // 🔒 ANTI-CHEATING SECURITY CONTROLS PROXY ROUTER
+        function setupAntiCheatingTriggers() {
+            document.addEventListener('visibilitychange', () => {
+                if (document.visibilityState === 'hidden' && testRunningMode) {
+                    tabViolationsCount++;
+                    if(tabViolationsCount >= 3) {
+                        alert("⚠️ CRITICAL SECURITY BREACH: Multiple tab switching behaviors mapped. Your test is being forcefully submitted!");
+                        calculateFinalResults();
+                    } else {
+                        alert(`⚠️ ANTI-CHEATING WARNING [${tabViolationsCount}/3]: Do not switch browser tabs or minimize screens during a secure live examination!`);
+                    }
+                }
+            });
+            // Block generic copy keys
+            document.addEventListener('keydown', (e) => {
+                if((e.ctrlKey && ['c','v','a','i','u'].includes(e.key.toLowerCase())) || e.key === 'F12') {
+                    e.preventDefault(); alert("Security Policy: Portal data operations locked.");
+                }
+            });
+        }
 
         document.getElementById('login-form').addEventListener('submit', (e) => {
             e.preventDefault();
             const email = document.getElementById('login-email').value.trim();
+            const password = document.getElementById('login-password').value;
+
             localStorage.setItem('baaz_user', email.split('@')[0]);
+            if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
+                localStorage.setItem('baaz_role', 'admin');
+            } else {
+                localStorage.setItem('baaz_role', 'student');
+            }
             loginSuccess(email.split('@')[0]);
         });
 
@@ -159,16 +216,18 @@
             document.getElementById('student-name').innerText = name;
             document.getElementById('dashboard-container').classList.remove('hidden');
             
-            // Show custom parser box only for admin role
-            if(name.toLowerCase() === "kajalkushwaha208" || name.toLowerCase() === "abhijeetkushwaha90") {
+            if(localStorage.getItem('baaz_role') === 'admin') {
                 document.getElementById('admin-parser-box').classList.remove('hidden');
+                document.getElementById('role-badge').innerText = "ADMIN / INSTRUCTOR";
+                document.getElementById('role-badge').className = "ml-2 text-[10px] bg-emerald-500/10 text-emerald-400 font-bold px-2 py-0.5 rounded uppercase border border-emerald-900/30";
             } else {
                 document.getElementById('admin-parser-box').classList.add('hidden');
+                document.getElementById('role-badge').innerText = "STUDENT NODE";
+                document.getElementById('role-badge').className = "ml-2 text-[10px] bg-blue-500/10 text-blue-400 font-bold px-2 py-0.5 rounded uppercase border border-blue-900/30";
             }
         }
 
         function logout() { localStorage.clear(); location.reload(); }
-
         function switchDashboardTab(target) {
             ['tests', 'owner', 'support'].forEach(t => {
                 document.getElementById(`tab-content-${t}`).classList.add('hidden');
@@ -178,129 +237,177 @@
             document.getElementById(`tab-btn-${target}`).classList.add('nav-tab-active');
         }
 
-        // 🔥 HIGH-SPEED CLIENT SIDE OCR PARSER ALGORITHM
-        function launchAutonomousEngine() {
+        // 🔥 HIGH SPEED SECURE REGEX PARSER SYSTEM WITH DATA CLEANING
+        function setTestByAdmin() {
             const rawText = document.getElementById('local-ai-text').value.trim();
-            if(rawText.length < 20) {
-                alert("Bhai, pehle text box me PDF ka saara text copy-paste kijiye tabhi engine start hoga!");
-                return;
+            if(rawText.length < 20) { alert("Error: Content string too short."); return; }
+
+            let tempQuestions = []; let tempKeys = {};
+
+            // 1. Map Keys From Dynamic Input Stream Blocks
+            let cleanTextForAnswers = rawText.toUpperCase().replace(/\n/g, ' ');
+            let answerBlockIndex = cleanTextForAnswers.indexOf("ANSWER KEY:");
+            if(answerBlockIndex !== -1) {
+                let answerPart = cleanTextForAnswers.substring(answerBlockIndex);
+                let pairs = answerPart.match(/Q?\d+\s*-\s*[A-D]/gi) || answerPart.match(/Q?\d+\s*\|\s*Q?\d+-[A-D]/gi) || answerPart.match(/\d+-[A-D]/g);
+                if(pairs) {
+                    pairs.forEach(p => {
+                        let parts = p.replace(/Q/g, '').split(/[-\|]/);
+                        if(parts.length >= 2) { tempKeys[parseInt(parts[0].trim())] = parts[parts.length-1].trim(); }
+                    });
+                }
             }
 
-            currentTestQuestions = [];
-            DynamicAnswerKey = {};
+            // 2. Remove Noise Metadata Pointers Header Rows
+            let rawContentArray = rawText.split("\n");
+            let structuredQuestionsBlock = ""; let startCollecting = false;
 
-            // Step 1: Catch Answer Key sequences mapping
-            let tokens = rawText.toUpperCase().replace(/[^A-D0-9-:]/g, ' ').split(/\s+/);
-            tokens.forEach(tok => {
-                let match = tok.match(/Q?(\d+)[-:]?([A-D])/i) || tok.match(/(\d+)-([A-D])/);
-                if(match) { DynamicAnswerKey[parseInt(match[1])] = match[2]; }
-            });
+            for(let line of rawContentArray) {
+                let lTrim = line.trim();
+                if(/^(Q\d+|1\b|2\b|3\b)/i.test(lTrim)) { startCollecting = true; }
+                if(lTrim.toUpperCase().includes("ANSWER KEY:")) { startCollecting = false; }
+                if(startCollecting) { structuredQuestionsBlock += line + "\n"; }
+            }
 
-            // Step 2: Split questions via absolute regex pointers
             let qRegex = /(?:Q(?:uestion)?\s*\d+[\.\s\-:\)]+|\b\d+[\.\)\-]\s+)/gi;
-            let parts = rawText.split(qRegex);
-            let matches = rawText.match(qRegex) || [];
-
-            if(parts.length <= 1) {
-                parts = rawText.split('\n').filter(l => l.trim().length > 10);
-            }
-
+            let parts = structuredQuestionsBlock.split(qRegex);
             let globalPointer = 1;
-            parts.forEach((block, idx) => {
+
+            parts.forEach((block) => {
                 let trimmed = block.trim();
-                if(trimmed.length > 5 && !trimmed.toUpperCase().includes("ANSWER KEY")) {
+                if(trimmed.length > 5) {
                     let lines = trimmed.split('\n').map(l => l.trim()).filter(Boolean);
-                    let blockStatement = matches[idx-1] ? matches[idx-1].trim() + " " : `Question ${globalPointer}: `;
-                    let optA = "Option A", optB = "Option B", optC = "Option C", optD = "Option D";
-                    let hasOpts = false;
+                    let questionStatement = ""; let optA = "", optB = "", optC = "", optD = "";
 
                     lines.forEach(line => {
-                        let lUpper = line.toUpperCase();
-                        if(lUpper.startsWith('(A)') || lUpper.startsWith('A.') || lUpper.startsWith('A)')) { optA = line; hasOpts = true; }
-                        else if(lUpper.startsWith('(B)') || lUpper.startsWith('B.') || lUpper.startsWith('B)')) { optB = line; hasOpts = true; }
-                        else if(lUpper.startsWith('(C)') || lUpper.startsWith('C.') || lUpper.startsWith('C)')) { optC = line; hasOpts = true; }
-                        else if(lUpper.startsWith('(D)') || lUpper.startsWith('D.') || lUpper.startsWith('D)')) { optD = line; hasOpts = true; }
-                        else { blockStatement += " " + line; }
+                        let upperLine = line.toUpperCase();
+                        if(upperLine.startsWith('(A)') || upperLine.startsWith('A.') || upperLine.startsWith('A)')) optA = line.replace(/^\s*[\(\[A-D\u2022\-\.\)]+\s*/i, '').trim();
+                        else if(upperLine.startsWith('(B)') || upperLine.startsWith('B.') || upperLine.startsWith('B)')) optB = line.replace(/^\s*[\(\[A-D\u2022\-\.\)]+\s*/i, '').trim();
+                        else if(upperLine.startsWith('(C)') || upperLine.startsWith('C.') || upperLine.startsWith('C)')) optC = line.replace(/^\s*[\(\[A-D\u2022\-\.\)]+\s*/i, '').trim();
+                        else if(upperLine.startsWith('(D)') || upperLine.startsWith('D.') || upperLine.startsWith('D)')) optD = line.replace(/^\s*[\(\[A-D\u2022\-\.\)]+\s*/i, '').trim();
+                        else { questionStatement += " " + line; }
                     });
 
-                    currentTestQuestions.push({
-                        id: globalPointer,
-                        text: blockStatement.trim(),
+                    tempQuestions.push({
+                        id: globalPointer, text: questionStatement.trim(),
                         A: optA, B: optB, C: optC, D: optD
                     });
+                    if(!tempKeys[globalPointer]) tempKeys[globalPointer] = "A";
                     globalPointer++;
                 }
             });
 
-            totalQuestionsCount = currentTestQuestions.length;
-            document.getElementById('disp-total-count').innerText = totalQuestionsCount;
+            localStorage.setItem('baaz_live_questions', JSON.stringify(tempQuestions));
+            localStorage.setItem('baaz_live_keys', JSON.stringify(tempKeys));
+            alert(`Configuration locked! Published ${tempQuestions.length} Questions successfully.`);
+            location.reload();
+        }
 
-            // Enforce Fallbacks mapping loop checks
-            for(let k = 1; k <= totalQuestionsCount; k++) {
-                if(!DynamicAnswerKey[k]) DynamicAnswerKey[k] = "A";
+        function loadPublishedTestFromCache() {
+            const cacheQ = localStorage.getItem('baaz_live_questions');
+            const cacheK = localStorage.getItem('baaz_live_keys');
+            if(cacheQ && cacheK) {
+                currentTestQuestions = JSON.parse(cacheQ);
+                DynamicAnswerKey = JSON.parse(cacheK);
+                totalQuestionsCount = currentTestQuestions.length;
+                document.getElementById('display-test-title').innerText = "Dynamic Premium Master Pool Test Packet";
+                document.getElementById('display-test-desc').innerText = `Active Exam configurations consist of ${totalQuestionsCount} Secure OCR Questions.`;
+                document.getElementById('start-test-btn').className = "w-full mt-4 bg-cyan-600 hover:bg-cyan-700 text-white font-bold py-2.5 rounded-xl text-xs uppercase tracking-wider cursor-pointer shadow-md";
+                document.getElementById('start-test-btn').disabled = false;
             }
+        }
 
+        function launchExamEngine() {
+            testRunningMode = true; tabViolationsCount = 0; flaggedQuestions = {};
+            document.getElementById('disp-total-count').innerText = totalQuestionsCount;
             document.getElementById('dashboard-container').classList.add('hidden');
             document.getElementById('exam-engine-container').classList.remove('hidden');
-            studentResponses = {};
-            buildPaletteGrid(); loadQuestionNode(1);
+            studentResponses = {}; buildPaletteGrid(); loadQuestionNode(1);
         }
 
         function buildPaletteGrid() {
             const grid = document.getElementById('palette-grid'); grid.innerHTML = "";
             for (let i = 1; i <= totalQuestionsCount; i++) {
-                grid.innerHTML += `<button id="pal-node-${i}" onclick="loadQuestionNode(${i})" class="w-full h-9 text-xs bg-gray-900 border border-[#212635] rounded-xl font-bold text-gray-400 flex items-center justify-center cursor-pointer">${i}</button>`;
+                grid.innerHTML += `<button id="pal-node-${i}" onclick="loadQuestionNode(${i})" class="w-full h-9 text-xs bg-gray-900 border border-[#212635] rounded-xl font-bold text-gray-400 flex items-center justify-center cursor-pointer transition">${i}</button>`;
             }
         }
 
+        function toggleFlagQuestion() {
+            if(flaggedQuestions[currentIndex]) { delete flaggedQuestions[currentIndex]; }
+            else { flaggedQuestions[currentIndex] = true; }
+            syncPaletteStatusNode(currentIndex);
+        }
+
+        function syncPaletteStatusNode(num) {
+            let node = document.getElementById(`pal-node-${num}`);
+            if(!node) return;
+            node.className = "w-full h-9 text-xs rounded-xl font-bold flex items-center justify-center border transition cursor-pointer";
+            
+            if(num === currentIndex) node.classList.add('ring-2', 'ring-cyan-400');
+            if(flaggedQuestions[num]) node.classList.add('flagged-node');
+            else if(studentResponses[num]) node.classList.add('answered-node');
+            else node.classList.add('bg-gray-900', 'text-gray-400', 'border-[#212635]');
+        }
+
         function loadQuestionNode(num) {
-            currentIndex = num; clearInterval(singleQTimer);
+            let oldIndex = currentIndex; currentIndex = num; 
+            clearInterval(singleQTimer);
+            
+            syncPaletteStatusNode(oldIndex); syncPaletteStatusNode(currentIndex);
+
             let qData = currentTestQuestions[num - 1];
-            
-            document.getElementById('digital-question-text').innerText = qData.text;
-            document.getElementById('lbl-opt-A').innerText = qData.A;
-            document.getElementById('lbl-opt-B').innerText = qData.B;
-            document.getElementById('lbl-opt-C').innerText = qData.C;
-            document.getElementById('lbl-opt-D').innerText = qData.D;
+            document.getElementById('digital-question-text').innerText = `Question ${num}: ` + qData.text;
+            document.getElementById('lbl-opt-A').innerText = "(A) " + qData.A;
+            document.getElementById('lbl-opt-B').innerText = "(B) " + qData.B;
+            document.getElementById('lbl-opt-C').innerText = "(C) " + qData.C;
+            document.getElementById('lbl-opt-D').innerText = "(D) " + qData.D;
 
-            ['A', 'B', 'C', 'D'].forEach(opt => { document.getElementById(`opt-${opt}`).className = "w-full text-left bg-[#080c10] border border-[#212635] p-3.5 rounded-xl font-semibold text-white cursor-pointer"; });
-            if(studentResponses[num]) { document.getElementById(`opt-${studentResponses[num]}`).classList.add('active-opt'); }
+            ['A', 'B', 'C', 'D'].forEach(opt => { document.getElementById(`opt-${opt}`).className = "w-full text-left bg-[#080c10] border border-[#212635] p-3.5 rounded-xl font-semibold text-white cursor-pointer hover:bg-[#121620]"; });
+            if(studentResponses[num]) { document.getElementById(`opt-${studentResponses[num]}`).className = "w-full text-left p-3.5 rounded-xl font-semibold text-white cursor-pointer active-opt border"; }
             
-            for(let i = 1; i <= totalQuestionsCount; i++) {
-                let node = document.getElementById(`pal-node-${i}`);
-                if(node) {
-                    node.className = "w-full h-9 text-xs rounded-xl font-bold flex items-center justify-center border";
-                    if(i === currentIndex) node.classList.add('ring-2', 'ring-cyan-400');
-                    if(studentResponses[i]) node.classList.add('bg-emerald-700', 'text-white', 'border-transparent');
-                    else node.classList.add('bg-gray-900', 'text-gray-400', 'border-[#212635]');
-                }
-            }
-
-            qTimeLeft = 90;
             singleQTimer = setInterval(() => { 
                 qTimeLeft--; 
-                document.getElementById('stopwatch').innerText = `00:${String(qTimeLeft).padStart(2, '0')}`; 
-                if(qTimeLeft <= 0) nextQuestion(); 
+                let m = Math.floor(qTimeLeft/60); let s = qTimeLeft%60; 
+                document.getElementById('stopwatch').innerText = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`; 
+                if(qTimeLeft <= 0) { alert("Time Up!"); calculateFinalResults(); }
             }, 1000);
         }
 
         function selectAnswer(label) { studentResponses[currentIndex] = label; loadQuestionNode(currentIndex); }
         function prevQuestion() { if(currentIndex > 1) loadQuestionNode(currentIndex - 1); }
         function nextQuestion() { if(currentIndex < totalQuestionsCount) loadQuestionNode(currentIndex + 1); }
-        function confirmSubmitTest() { if(confirm("Are you sure you want to submit your final choices?")) calculateFinalResults(); }
+        function confirmSubmitTest() { if(confirm("Are you sure you want to end exam session and submit responses?")) calculateFinalResults(); }
 
+        // 🔥 UPSC PATTERN SEGMENTED SCORECARD MAPPING CORE
         function calculateFinalResults() {
-            clearInterval(singleQTimer);
+            testRunningMode = false; clearInterval(singleQTimer);
             document.getElementById('exam-engine-container').classList.add('hidden');
             document.getElementById('result-screen').classList.remove('hidden');
             
-            let right = 0;
+            let right = 0; let wrong = 0;
+            const container = document.getElementById('analysis-rows-container'); container.innerHTML = "";
+
             for(let i = 1; i <= totalQuestionsCount; i++) {
-                let correctMarker = DynamicAnswerKey[i];
-                if(studentResponses[i] === correctMarker) right++; 
+                let selected = studentResponses[i] || "Skipped";
+                let correct = DynamicAnswerKey[i] || "A";
+                let isCorrect = (selected === correct);
+                
+                if(selected !== "Skipped") { if(isCorrect) right++; else wrong++; }
+
+                container.innerHTML += `
+                    <tr class="border-b border-[#212635]/60 hover:bg-[#121620]/30 transition text-center">
+                        <td class="p-2.5 font-bold text-gray-500">${i}</td>
+                        <td class="p-2.5 ${selected==='Skipped'?'text-gray-500':(isCorrect?'text-emerald-400':'text-rose-400')} font-black">${selected}</td>
+                        <td class="p-2.5 text-blue-400 font-black">${correct}</td>
+                        <td class="p-2.5">${selected==='Skipped'?'<span class="text-gray-500">➖</span>':(isCorrect?'<span class="text-emerald-400">✅</span>':'<span class="text-rose-400">❌</span>')}</td>
+                    </tr>`;
             }
+            
+            let finalScore = (right * 3) - (wrong * 1);
             document.getElementById('res-total').innerText = totalQuestionsCount;
             document.getElementById('res-right').innerText = right;
+            document.getElementById('res-wrong').innerText = wrong;
+            document.getElementById('res-score').innerText = finalScore;
         }
     </script>
 </body>
