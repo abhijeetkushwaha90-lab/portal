@@ -1,515 +1,1088 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="deepspace">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Operation Baaz - Enterprise Ultimate Master Core</title>
-    
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <style>
-        body { 
-            background: #080c10; 
-            color: #c9d1d9; 
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        }
-        
-        .premium-card { 
-            background: #121620; 
-            border: 1px solid #212635; 
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.45); 
-        }
-        
-        .active-opt { 
-            background-color: #238636 !important; 
-            border-color: #2ea043 !important; 
-            color: #ffffff !important; 
-        }
-        
-        .nav-tab-active { 
-            background: #1f293d; 
-            border-color: #38bdf8; 
-            color: #38bdf8; 
-        }
-        
-        .flagged-node { 
-            background-color: #7c3aed !important; 
-            border-color: #8b5cf6 !important; 
-            color: #ffffff !important; 
-        }
-        
-        .answered-node { 
-            background-color: #047857 !important; 
-            border-color: #059669 !important; 
-            color: #ffffff !important; 
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Operation Baaz - Enterprise Ultimate Master Core</title>
 
-        .student-lock {
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-        }
-    </style>
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+  /* ============================================================
+     PILLAR 3: 5-THEME DYNAMIC CONFIGURATOR MATRIX (CSS variables)
+     ============================================================ */
+  html[data-theme="deepspace"] {
+    --bg:#080c10; --card:#121620; --border:#212635;
+    --text:#c9d1d9; --text-dim:#7d8590;
+    --accent:#38bdf8; --accent2:#3b82f6; --accent-text:#ffffff;
+    --success:#059669; --success2:#10b981;
+    --danger:#e11d48; --danger2:#f43f5e;
+    --flag:#7c3aed; --flag2:#8b5e34;
+    --grad1:#22d3ee; --grad2:#3b82f6; --grad3:#9333ea;
+  }
+  html[data-theme="oceanic"] {
+    --bg:#0a192f; --card:#172a45; --border:#233554;
+    --text:#ccd6e6; --text-dim:#8892b0;
+    --accent:#2dd4bf; --accent2:#10b981; --accent-text:#03241c;
+    --success:#0d9488; --success2:#14b8a6;
+    --danger:#fb7185; --danger2:#f43f5e;
+    --flag:#22d3ee; --flag2:#0e7490;
+    --grad1:#2dd4bf; --grad2:#22d3ee; --grad3:#10b981;
+  }
+  html[data-theme="stealth"] {
+    --bg:#000000; --card:#0d0d0d; --border:#1a1a1a;
+    --text:#ffffff; --text-dim:#9a9a9a;
+    --accent:#ffffff; --accent2:#cfcfcf; --accent-text:#000000;
+    --success:#22c55e; --success2:#16a34a;
+    --danger:#ef4444; --danger2:#dc2626;
+    --flag:#a78bfa; --flag2:#7c3aed;
+    --grad1:#ffffff; --grad2:#9a9a9a; --grad3:#5a5a5a;
+  }
+  html[data-theme="sepia"] {
+    --bg:#f4ecd8; --card:#fbf7ed; --border:#d8c7a1;
+    --text:#433422; --text-dim:#7a6852;
+    --accent:#8b5e34; --accent2:#a8784a; --accent-text:#ffffff;
+    --success:#4d7c0f; --success2:#65a30d;
+    --danger:#b91c1c; --danger2:#dc2626;
+    --flag:#7c5295; --flag2:#5b3d70;
+    --grad1:#8b5e34; --grad2:#a8784a; --grad3:#7c5295;
+  }
+  html[data-theme="twilight"] {
+    --bg:#1e1b4b; --card:#2e2a72; --border:#3f3a8a;
+    --text:#e0d8ff; --text-dim:#a89cd6;
+    --accent:#fb923c; --accent2:#f472b6; --accent-text:#1e1b4b;
+    --success:#34d399; --success2:#10b981;
+    --danger:#fb7185; --danger2:#e11d48;
+    --flag:#f472b6; --flag2:#db2777;
+    --grad1:#fb923c; --grad2:#f472b6; --grad3:#a78bfa;
+  }
+
+  * { transition: background-color .25s ease, border-color .25s ease, color .25s ease; }
+
+  body { background: var(--bg); color: var(--text); font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+
+  .premium-card { background: var(--card); border: 1px solid var(--border); box-shadow: 0 8px 32px 0 rgba(0,0,0,0.45); }
+  .surface { background: var(--bg); border: 1px solid var(--border); }
+  .text-muted { color: var(--text-dim); }
+  .text-accent { color: var(--accent); }
+  .border-theme { border-color: var(--border); }
+
+  .brand-gradient { background-image: linear-gradient(90deg, var(--grad1), var(--grad2), var(--grad3)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+  .btn-accent { background: var(--accent2); color: var(--accent-text); }
+  .btn-accent:hover { filter: brightness(1.1); }
+  .btn-success { background: var(--success); color: #ffffff; }
+  .btn-success:hover { background: var(--success2); }
+  .btn-danger-outline { background: color-mix(in srgb, var(--danger) 15%, transparent); color: var(--danger2); border: 1px solid color-mix(in srgb, var(--danger) 35%, transparent); }
+  .btn-danger-outline:hover { background: color-mix(in srgb, var(--danger) 30%, transparent); }
+  .btn-flag-outline { background: color-mix(in srgb, var(--flag) 15%, transparent); color: var(--flag); border: 1px solid color-mix(in srgb, var(--flag) 35%, transparent); }
+  .btn-flag-outline:hover { background: color-mix(in srgb, var(--flag) 30%, transparent); }
+  .btn-neutral { background: var(--border); color: var(--text); }
+  .btn-neutral:hover { filter: brightness(1.25); }
+
+  .input-field { background: var(--bg); border: 1px solid var(--border); color: var(--text); }
+  .input-field:focus { outline: none; border-color: var(--accent); }
+
+  .nav-tab-active { background: color-mix(in srgb, var(--accent) 18%, var(--card)); border-color: var(--accent); color: var(--accent); }
+  .active-opt { background-color: var(--success) !important; border-color: var(--success2) !important; color: #ffffff !important; }
+  .flagged-node { background-color: var(--flag) !important; border-color: var(--flag2) !important; color: #ffffff !important; }
+  .answered-node { background-color: var(--success) !important; border-color: var(--success2) !important; color: #ffffff !important; }
+  .filter-tab-active { background: var(--accent); color: var(--accent-text); border-color: var(--accent); }
+
+  .student-lock { -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
+
+  .timer-critical { color: var(--danger2) !important; animation: pulse 1.4s cubic-bezier(0.4,0,0.6,1) infinite; }
+  @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:.45; } }
+
+  .watermark-overlay {
+    position: absolute; inset: 0; pointer-events: none; overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+    z-index: 5; border-radius: 0.75rem;
+  }
+  .watermark-overlay span {
+    display: block; white-space: nowrap; font-size: 1.1rem; font-weight: 800;
+    color: var(--text); opacity: 0.035; transform: rotate(-28deg) scale(2.4);
+    letter-spacing: 0.1em;
+  }
+
+  .gender-pill { background: var(--bg); border: 1px solid var(--border); color: var(--text-dim); }
+  .gender-pill.active { background: var(--accent2); color: var(--accent-text); border-color: var(--accent2); }
+
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
+</style>
 </head>
 <body class="min-h-screen flex flex-col p-3 md:p-6 justify-between text-sm">
 
-    <header class="w-full text-center my-2">
-        <h1 class="text-4xl md:text-5xl font-black tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600">
-            OPERATION BAAZ
-        </h1>
-        <p class="text-[11px] text-gray-500 uppercase tracking-widest mt-1 font-semibold">Autonomous Secure Assessment Core v7.0</p>
-    </header>
+<header class="w-full text-center my-2">
+  <h1 class="text-4xl md:text-5xl font-black tracking-widest brand-gradient">OPERATION BAAZ</h1>
+  <p class="text-[11px] text-muted uppercase tracking-widest mt-1 font-semibold">Autonomous Secure Assessment Core v8.0</p>
+</header>
 
-    <div id="auth-container" class="w-full max-w-md mx-auto my-auto pt-4">
-        <div class="premium-card rounded-2xl p-6 shadow-xl">
-            <h2 class="text-xl font-bold text-white mb-4"><i class="fas fa-shield-alt text-blue-500"></i> Portal Control Login</h2>
-            <form id="login-form" class="space-y-4">
-                <div>
-                    <label class="block text-xs font-bold text-gray-400 uppercase mb-1">Email Address</label>
-                    <input type="email" id="login-email" required class="w-full bg-[#080c10] border border-[#212635] rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition">
-                </div>
-                <div>
-                    <label class="block text-xs font-bold text-gray-400 uppercase mb-1">Password</label>
-                    <input type="password" id="login-password" required class="w-full bg-[#080c10] border border-[#212635] rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition">
-                </div>
-                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl cursor-pointer transition shadow-lg">Login to Gateway</button>
-            </form>
-        </div>
+<div id="auth-container" class="w-full max-w-md mx-auto my-auto pt-4">
+  <div class="premium-card rounded-2xl p-6 shadow-xl">
+    <h2 class="text-xl font-bold mb-4"><i class="fas fa-shield-alt text-accent"></i> Portal Control Login</h2>
+    <form id="login-form" class="space-y-4">
+      <div>
+        <label class="block text-xs font-bold text-muted uppercase mb-1">Email Address</label>
+        <input type="email" id="login-email" required class="w-full input-field rounded-xl px-4 py-3 transition">
+      </div>
+      <div>
+        <label class="block text-xs font-bold text-muted uppercase mb-1">Password</label>
+        <input type="password" id="login-password" required class="w-full input-field rounded-xl px-4 py-3 transition">
+      </div>
+      <button type="submit" class="w-full btn-accent font-bold py-3 rounded-xl cursor-pointer transition shadow-lg">Login to Gateway</button>
+    </form>
+    <p id="login-error" class="hidden text-xs text-center mt-3 font-bold" style="color:var(--danger2)"></p>
+  </div>
+</div>
+
+<div id="dashboard-container" class="hidden w-full max-w-4xl mx-auto space-y-6">
+
+  <header class="premium-card rounded-2xl p-5 flex flex-wrap gap-3 justify-between items-center">
+    <div>
+      <h1 class="text-lg font-black">Console:
+        <span id="student-name" class="text-accent">User Node</span>
+        <span id="role-badge" class="ml-2 text-[10px] font-bold px-2 py-0.5 rounded uppercase">Student</span>
+      </h1>
+    </div>
+    <div class="flex items-center gap-2">
+      <button id="sync-failed-btn" onclick="retryFailedSync()" class="hidden btn-danger-outline px-3 py-2 rounded-xl text-[11px] font-bold cursor-pointer transition">
+        <i class="fas fa-triangle-exclamation"></i> Sync Unsubmitted Records
+      </button>
+      <button onclick="logout()" class="btn-danger-outline px-4 py-2 rounded-xl text-xs font-bold cursor-pointer transition">Logout</button>
+    </div>
+  </header>
+
+  <div id="dashboard-tabs" class="grid grid-cols-2 md:grid-cols-4 gap-2 p-1 premium-card rounded-xl text-xs font-bold text-center">
+    <button id="tab-btn-tests" onclick="switchDashboardTab('tests')" class="py-2.5 rounded-lg text-muted transition cursor-pointer nav-tab-active"><i class="fas fa-layer-group mr-1.5"></i> Exam Pools</button>
+    <button id="tab-btn-profile" onclick="switchDashboardTab('profile')" class="py-2.5 rounded-lg text-muted transition cursor-pointer"><i class="fas fa-id-card mr-1.5"></i> My Profile</button>
+    <button id="tab-btn-owner" onclick="switchDashboardTab('owner')" class="py-2.5 rounded-lg text-muted transition cursor-pointer"><i class="fas fa-crown mr-1.5"></i> Platform Founder</button>
+    <button id="tab-btn-support" onclick="switchDashboardTab('support')" class="py-2.5 rounded-lg text-muted transition cursor-pointer"><i class="fas fa-headset mr-1.5"></i> Help Desk</button>
+  </div>
+
+  <div id="tab-content-tests" class="space-y-4">
+    <div id="admin-parser-box" class="hidden premium-card rounded-xl p-5 space-y-3" style="border:1px solid color-mix(in srgb, var(--accent) 30%, transparent);">
+      <div class="flex justify-between items-center">
+        <div class="font-bold text-accent text-sm"><i class="fas fa-user-shield"></i> Admin Control Center (Full Unlocked Permissions)</div>
+        <span class="text-[10px] btn-success px-2 py-0.5 rounded uppercase font-bold">Master Stream</span>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
+        <input id="admin-exam-name" placeholder="Exam (e.g. UPSC Prelims)" class="input-field rounded-xl px-3 py-2 text-xs">
+        <input id="admin-subject-name" placeholder="Subject (e.g. GS Paper 1)" class="input-field rounded-xl px-3 py-2 text-xs">
+        <input id="admin-test-title" placeholder="Test Title" class="input-field rounded-xl px-3 py-2 text-xs">
+      </div>
+      <input id="admin-test-desc" placeholder="Short description for students" class="w-full input-field rounded-xl px-3 py-2 text-xs">
+      <p class="text-xs text-muted">Paste whole test content along with answer key block. System auto-extracts questions &amp; obfuscates keys:</p>
+      <textarea id="local-ai-text" rows="6" placeholder="Paste question paper along with Answer Key here... (Full Copy/Paste/Right-Click Unlocked for Admin)" class="w-full input-field rounded-xl p-3 text-xs font-mono outline-none transition"></textarea>
+      <button onclick="setTestByAdmin()" class="w-full btn-success font-bold py-2.5 rounded-xl text-xs uppercase tracking-wider transition cursor-pointer">Lock &amp; Publish Dynamic Configuration</button>
+      <p id="admin-publish-status" class="text-[10px] text-muted"></p>
     </div>
 
-    <div id="dashboard-container" class="hidden w-full max-w-4xl mx-auto space-y-6">
-        <header class="premium-card rounded-2xl p-5 flex justify-between items-center">
-            <div>
-                <h1 class="text-lg font-black text-white">Console: 
-                    <span id="student-name" class="text-blue-400">User Node</span> 
-                    <span id="role-badge" class="ml-2 text-[10px] font-bold px-2 py-0.5 rounded uppercase">Student</span>
-                </h1>
-            </div>
-            <button onclick="logout()" class="bg-rose-600/20 text-rose-400 border border-rose-900/40 px-4 py-2 rounded-xl text-xs font-bold cursor-pointer hover:bg-rose-600/40 transition">Logout</button>
-        </header>
-
-        <div class="grid grid-cols-3 gap-2 p-1 bg-[#121620] border border-[#212635] rounded-xl text-xs font-bold text-center">
-            <button id="tab-btn-tests" onclick="switchDashboardTab('tests')" class="py-2.5 rounded-lg text-gray-400 hover:text-white transition cursor-pointer nav-tab-active"><i class="fas fa-layer-group mr-1.5"></i> Exam Pools</button>
-            <button id="tab-btn-owner" onclick="switchDashboardTab('owner')" class="py-2.5 rounded-lg text-gray-400 hover:text-white transition cursor-pointer"><i class="fas fa-crown mr-1.5"></i> Platform Founder</button>
-            <button id="tab-btn-support" onclick="switchDashboardTab('support')" class="py-2.5 rounded-lg text-gray-400 hover:text-white transition cursor-pointer"><i class="fas fa-headset mr-1.5"></i> Help Desk</button>
-        </div>
-
-        <div id="tab-content-tests" class="space-y-4">
-            
-            <div id="admin-parser-box" class="hidden premium-card rounded-xl p-5 border border-cyan-500/20 bg-cyan-950/5 space-y-3">
-                <div class="flex justify-between items-center">
-                    <div class="font-bold text-cyan-400 text-sm"><i class="fas fa-user-shield"></i> Admin Control Center (Full Unlocked Permissions)</div>
-                    <span class="text-[10px] bg-emerald-500/10 text-emerald-400 font-bold px-2 py-0.5 rounded uppercase">Master Stream</span>
-                </div>
-                <p class="text-xs text-gray-400">Paste whole test content along with answer keys block. System auto-extracts questions & obfuscates keys:</p>
-                <textarea id="local-ai-text" rows="6" placeholder="Paste question paper along with Answer Key here... (Full Copy/Paste/Right-Click Unlocked for Admin)" class="w-full bg-[#080c10] border border-[#212635] rounded-xl p-3 text-white text-xs font-mono outline-none focus:border-cyan-500 transition"></textarea>
-                <button onclick="setTestByAdmin()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 rounded-xl text-xs uppercase tracking-wider transition cursor-pointer">Lock & Publish Dynamic Configuration</button>
-            </div>
-
-            <h2 class="text-md font-bold text-white mb-2"><i class="fas fa-layer-group text-cyan-400"></i> Available Exams Matrix</h2>
-            <div id="tests-list" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div class="premium-card rounded-2xl p-5 border-t-4 border-t-cyan-500 flex flex-col justify-between">
-                    <div>
-                        <h3 id="display-test-title" class="text-base font-bold text-white mb-1">No Active Test Scheduled</h3>
-                        <p id="display-test-desc" class="text-gray-400 text-xs">Instructor has not deployed any dynamic configuration packet yet.</p>
-                    </div>
-                    <button id="start-test-btn" disabled onclick="checkAndLaunchExam()" class="w-full mt-4 bg-gray-700 text-gray-500 font-bold py-2.5 rounded-xl text-xs uppercase tracking-wider cursor-not-allowed">Start Secure Exam</button>
-                </div>
-            </div>
-        </div>
-
-        <div id="tab-content-owner" class="hidden premium-card rounded-2xl p-6 border border-purple-900/30 space-y-4">
-            <div class="flex items-center gap-4">
-                <div class="w-16 h-16 rounded-xl bg-gradient-to-tr from-cyan-400 to-purple-600 flex items-center justify-center text-white text-2xl font-black">AK</div>
-                <div><h3 class="text-xl font-black text-white">Abhijeet Kushwaha</h3><p class="text-xs text-cyan-400 font-bold uppercase">Platform Owner & Lead Architect</p></div>
-            </div>
-            <p class="text-xs text-gray-400">Operation Baaz Core Architecture framework completely optimized by Abhijeet Kushwaha.</p>
-        </div>
-        
-        <div id="tab-content-support" class="hidden grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div class="premium-card rounded-2xl p-5 flex flex-col justify-between space-y-3">
-                <div><h3 class="text-sm font-bold text-white"><i class="fab fa-whatsapp text-emerald-400"></i> Direct Help Desk</h3></div>
-                <a href="https://api.whatsapp.com/send?phone=917068252052&text=Hello" target="_blank" class="w-full text-center bg-emerald-600 text-white font-bold py-2.5 rounded-xl text-xs block hover:bg-emerald-700 transition">Connect on WhatsApp</a>
-            </div>
-        </div>
-    </div>
-
-    <div id="exam-engine-container" class="hidden w-full max-w-6xl mx-auto flex flex-col md:flex-row gap-5 h-[80vh]">
-        <div class="w-full md:w-8/12 flex flex-col gap-4">
-            <div class="premium-card rounded-xl p-4 flex justify-between items-center text-center">
-                <div><div class="text-[10px] text-gray-500 font-bold uppercase">Exam Pool Size</div><div id="disp-total-count" class="text-xl font-black text-blue-400">0</div></div>
-                <div class="bg-rose-500/5 px-4 py-1.5 rounded-xl border border-rose-900/30">
-                    <div class="text-[9px] text-rose-400 font-bold uppercase">Time Remaining</div>
-                    <div id="stopwatch" class="text-xl font-mono font-black text-rose-500">45:00</div>
-                </div>
-            </div>
-            <div class="premium-card rounded-2xl p-6 flex-1 flex flex-col justify-between border-l-4 border-l-blue-500 shadow-2xl relative">
-                <div><div id="digital-question-text" class="text-base font-bold text-white mb-4 bg-[#080c10] p-4 rounded-xl border border-[#212635] whitespace-pre-line max-h-52 overflow-y-auto">Loading Assessment...</div></div>
-                <div class="grid grid-cols-1 gap-2.5">
-                    <button onclick="selectAnswer('A')" id="opt-A" class="w-full text-left bg-[#080c10] border border-[#212635] p-3.5 rounded-xl font-semibold text-white flex items-center gap-3 transition cursor-pointer"><span id="lbl-opt-A">- - -</span></button>
-                    <button onclick="selectAnswer('B')" id="opt-B" class="w-full text-left bg-[#080c10] border border-[#212635] p-3.5 rounded-xl font-semibold text-white flex items-center gap-3 transition cursor-pointer"><span id="lbl-opt-B">- - -</span></button>
-                    <button onclick="selectAnswer('C')" id="opt-C" class="w-full text-left bg-[#080c10] border border-[#212635] p-3.5 rounded-xl font-semibold text-white flex items-center gap-3 transition cursor-pointer"><span id="lbl-opt-C">- - -</span></button>
-                    <button onclick="selectAnswer('D')" id="opt-D" class="w-full text-left bg-[#080c10] border border-[#212635] p-3.5 rounded-xl font-semibold text-white flex items-center gap-3 transition cursor-pointer"><span id="lbl-opt-D">- - -</span></button>
-                </div>
-            </div>
-        </div>
-        <div class="w-full md:w-4/12 flex flex-col justify-between premium-card rounded-2xl p-4">
-            <div>
-                <div class="text-xs font-bold text-gray-400 mb-2 uppercase tracking-wider"><i class="fas fa-th mr-1 text-cyan-400"></i> Navigation Matrix</div>
-                <div id="palette-grid" class="grid grid-cols-5 gap-2 overflow-y-auto max-h-60 pr-1"></div>
-            </div>
-            <div class="space-y-2 text-xs font-bold mt-4">
-                <button onclick="toggleFlagQuestion()" class="w-full bg-purple-600/20 text-purple-400 border border-purple-900/40 py-2.5 rounded-xl uppercase tracking-wide cursor-pointer hover:bg-purple-600/30 transition"><i class="fas fa-flag mr-1"></i> Mark for Review / Flag</button>
-                <div class="grid grid-cols-2 gap-2">
-                    <button onclick="prevQuestion()" class="bg-[#212635] hover:bg-[#2d3347] py-3 rounded-xl text-white transition cursor-pointer text-center">Previous</button>
-                    <button onclick="nextQuestion()" class="bg-[#212635] hover:bg-[#2d3347] py-3 rounded-xl text-white transition cursor-pointer text-center">Next</button>
-                </div>
-                <button onclick="confirmSubmitTest()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-3 rounded-xl uppercase tracking-widest transition cursor-pointer shadow-lg">Finalize Submission</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="result-screen" class="hidden max-w-2xl w-full premium-card rounded-2xl p-6 text-center mx-auto my-auto space-y-6">
+    <h2 class="text-md font-bold"><i class="fas fa-layer-group text-accent"></i> Available Exams Matrix</h2>
+    <div id="tests-list" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="premium-card rounded-2xl p-5 flex flex-col justify-between" style="border-top:4px solid var(--accent);">
         <div>
-            <h2 class="text-2xl font-black text-emerald-400 uppercase tracking-widest">Performance Metrics Scorecard</h2>
-            <p class="text-xs text-gray-500 font-bold uppercase tracking-wider">UPSC Pattern Automated Analysis (Correct +3 | Wrong -1)</p>
-            <div id="attempt-lock-msg" class="text-[10px] text-amber-400 font-bold uppercase mt-1 hidden"><i class="fas fa-lock"></i> First Attempt Rank Locked Permanently</div>
+          <h3 class="text-base font-bold mb-1">No Active Test Scheduled</h3>
+          <p class="text-muted text-xs">Instructor has not deployed any dynamic configuration packet yet.</p>
         </div>
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-            <div class="bg-blue-500/5 border border-blue-900/30 p-3 rounded-xl"><p class="text-gray-500 text-[10px] font-bold uppercase">Total Qs</p><p id="res-total" class="text-xl font-black text-blue-400">0</p></div>
-            <div class="bg-emerald-500/5 border border-emerald-900/30 p-3 rounded-xl"><p class="text-gray-500 text-[10px] font-bold uppercase">Correct</p><p id="res-right" class="text-xl font-black text-emerald-400">0</p></div>
-            <div class="bg-rose-500/5 border border-rose-900/30 p-3 rounded-xl"><p class="text-gray-500 text-[10px] font-bold uppercase">Incorrect</p><p id="res-wrong" class="text-xl font-black text-rose-500">0</p></div>
-            <div class="bg-purple-500/5 border border-purple-900/30 p-3 rounded-xl"><p class="text-gray-500 text-[10px] font-bold uppercase">Final Score</p><p id="res-score" class="text-xl font-black text-purple-400">0</p></div>
-        </div>
-        <div class="space-y-2 text-left">
-            <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider"><i class="fas fa-list-check text-cyan-400"></i> Comprehensive Response Matrix</h3>
-            <div class="max-h-48 overflow-y-auto border border-[#212635] rounded-xl bg-[#080c10]">
-                <table class="w-full text-xs text-left">
-                    <thead class="bg-[#121620] text-gray-400 border-b border-[#212635] text-[10px] uppercase font-bold">
-                        <tr><th class="p-2.5 text-center">Q.No</th><th class="p-2.5 text-center">Your Response</th><th class="p-2.5 text-center">Correct Key</th><th class="p-2.5 text-center">Status</th></tr>
-                    </thead>
-                    <tbody id="analysis-rows-container"></tbody>
-                </table>
-            </div>
-        </div>
-        <button onclick="location.reload()" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-bold text-xs uppercase tracking-wider transition cursor-pointer">Return to Portal Console</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="tab-content-profile" class="hidden premium-card rounded-2xl p-6 space-y-6">
+    <div class="flex items-center gap-4">
+      <div class="relative">
+        <img id="avatar-preview" src="" class="hidden w-20 h-20 rounded-2xl object-cover border-2" style="border-color:var(--accent);">
+        <div id="avatar-placeholder" class="w-20 h-20 rounded-2xl flex items-center justify-center text-2xl font-black surface"><i class="fas fa-user text-muted"></i></div>
+      </div>
+      <div>
+        <label class="btn-neutral text-[11px] font-bold px-3 py-2 rounded-xl cursor-pointer inline-block">
+          <i class="fas fa-camera mr-1"></i> Upload Photo
+          <input type="file" id="avatar-input" accept="image/*" class="hidden" onchange="handleAvatarUpload(event)">
+        </label>
+        <p class="text-[10px] text-muted mt-1">Auto-compressed &amp; stored as Base64</p>
+      </div>
     </div>
 
-    <footer class="w-full text-center text-[10px] text-gray-600 uppercase tracking-widest pt-4 border-t border-[#121620]/60">
-        Operation Baaz Infrastructure Platform Engine v7.0 • Architected by Abhijeet Kushwaha
-    </footer>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div>
+        <label class="block text-xs font-bold text-muted uppercase mb-1">Full Name</label>
+        <input id="profile-name" class="w-full input-field rounded-xl px-4 py-2.5">
+      </div>
+      <div>
+        <label class="block text-xs font-bold text-muted uppercase mb-1">Mobile Number</label>
+        <input id="profile-mobile" type="tel" class="w-full input-field rounded-xl px-4 py-2.5">
+      </div>
+      <div>
+        <label class="block text-xs font-bold text-muted uppercase mb-1">Target Exam Year</label>
+        <input id="profile-year" type="number" min="2024" max="2040" placeholder="e.g. 2027" class="w-full input-field rounded-xl px-4 py-2.5">
+      </div>
+      <div>
+        <label class="block text-xs font-bold text-muted uppercase mb-1">Appearance Theme</label>
+        <select id="theme-picker" onchange="applyTheme(this.value, true)" class="w-full input-field rounded-xl px-4 py-2.5 cursor-pointer">
+          <option value="deepspace">🪐 Deep Space</option>
+          <option value="oceanic">🌊 Oceanic Cyber</option>
+          <option value="stealth">🕶️ Stealth Mono</option>
+          <option value="sepia">🪵 Classic Sepia</option>
+          <option value="twilight">🌅 Twilight Solarized</option>
+        </select>
+      </div>
+    </div>
 
-    <script>
-        const ADMIN_EMAIL = "kajalkushwaha208@gmail.com";
-        const ADMIN_PASSWORD = "kajal@123";
+    <div>
+      <label class="block text-xs font-bold text-muted uppercase mb-2">Gender</label>
+      <div class="grid grid-cols-3 gap-2" id="gender-group">
+        <button type="button" onclick="selectGender('Male')" data-gender="Male" class="gender-pill py-2.5 rounded-xl text-xs font-bold cursor-pointer transition"><i class="fas fa-mars mr-1"></i> Male</button>
+        <button type="button" onclick="selectGender('Female')" data-gender="Female" class="gender-pill py-2.5 rounded-xl text-xs font-bold cursor-pointer transition"><i class="fas fa-venus mr-1"></i> Female</button>
+        <button type="button" onclick="selectGender('Other')" data-gender="Other" class="gender-pill py-2.5 rounded-xl text-xs font-bold cursor-pointer transition"><i class="fas fa-genderless mr-1"></i> Other</button>
+      </div>
+    </div>
 
-        let DynamicAnswerKey = {}; let currentTestQuestions = []; let flaggedQuestions = {};
-        let currentIndex = 1; let totalQuestionsCount = 0;
-        let studentResponses = {}; let singleQTimer = null; let qTimeLeft = 2700; 
-        let tabViolationsCount = 0; let testRunningMode = false;
+    <button onclick="saveProfile()" class="w-full btn-accent font-bold py-3 rounded-xl text-xs uppercase tracking-wider transition cursor-pointer">Save Profile</button>
+    <p id="profile-save-status" class="text-[10px] text-muted text-center"></p>
+  </div>
 
-        window.addEventListener('DOMContentLoaded', () => {
-            const savedUser = localStorage.getItem('baaz_user');
-            if (savedUser) { loginSuccess(savedUser); }
-            loadPublishedTestFromCache();
-            setupAntiCheatingTriggers();
+  <div id="tab-content-owner" class="hidden premium-card rounded-2xl p-6 space-y-4">
+    <div class="flex items-center gap-4">
+      <div class="w-16 h-16 rounded-xl flex items-center justify-center text-2xl font-black text-white" style="background-image:linear-gradient(135deg, var(--grad1), var(--grad3));">AK</div>
+      <div><h3 class="text-xl font-black">Abhijeet Kushwaha</h3><p class="text-xs text-accent font-bold uppercase">Platform Owner &amp; Lead Architect</p></div>
+    </div>
+    <p class="text-xs text-muted">Operation Baaz Core Architecture framework completely optimized by Abhijeet Kushwaha.</p>
+  </div>
+
+  <div id="tab-content-support" class="hidden grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div class="premium-card rounded-2xl p-5 flex flex-col justify-between space-y-3">
+      <div><h3 class="text-sm font-bold"><i class="fab fa-whatsapp" style="color:var(--success2)"></i> Direct Help Desk</h3></div>
+      <a href="https://api.whatsapp.com/send?phone=917068252052&text=Hello" target="_blank" class="w-full text-center btn-success font-bold py-2.5 rounded-xl text-xs block transition">Connect on WhatsApp</a>
+    </div>
+    <div class="premium-card rounded-2xl p-5 flex flex-col justify-between space-y-3">
+      <div><h3 class="text-sm font-bold"><i class="fas fa-cloud-arrow-up text-accent"></i> Sync Status</h3></div>
+      <p id="support-sync-status" class="text-xs text-muted">All records synced.</p>
+    </div>
+  </div>
+</div>
+
+<div id="exam-engine-container" class="hidden w-full max-w-6xl mx-auto flex flex-col md:flex-row gap-5 h-[80vh]">
+  <div class="w-full md:w-8/12 flex flex-col gap-4">
+    <div class="premium-card rounded-xl p-4 flex justify-between items-center text-center">
+      <div><div class="text-[10px] text-muted font-bold uppercase">Exam Pool Size</div><div id="disp-total-count" class="text-xl font-black text-accent">0</div></div>
+      <div id="stopwatch-box" class="px-4 py-1.5 rounded-xl" style="background:color-mix(in srgb, var(--danger) 8%, transparent); border:1px solid color-mix(in srgb, var(--danger) 30%, transparent);">
+        <div class="text-[9px] font-bold uppercase" style="color:var(--danger2)">Time Remaining</div>
+        <div id="stopwatch" class="text-xl font-mono font-black" style="color:var(--danger2)">45:00</div>
+      </div>
+    </div>
+    <div class="premium-card rounded-2xl p-6 flex-1 flex flex-col justify-between relative overflow-hidden" style="border-left:4px solid var(--accent);">
+      <div id="watermark-overlay" class="watermark-overlay"><span id="watermark-text">student</span></div>
+      <div class="relative z-10">
+        <div id="digital-question-text" class="text-base font-bold mb-4 surface p-4 rounded-xl whitespace-pre-line max-h-52 overflow-y-auto">Loading Assessment...</div>
+      </div>
+      <div class="grid grid-cols-1 gap-2.5 relative z-10">
+        <button onclick="selectAnswer('A')" id="opt-A" class="w-full text-left input-field p-3.5 rounded-xl font-semibold flex items-center gap-3 transition cursor-pointer"><span id="lbl-opt-A">- - -</span></button>
+        <button onclick="selectAnswer('B')" id="opt-B" class="w-full text-left input-field p-3.5 rounded-xl font-semibold flex items-center gap-3 transition cursor-pointer"><span id="lbl-opt-B">- - -</span></button>
+        <button onclick="selectAnswer('C')" id="opt-C" class="w-full text-left input-field p-3.5 rounded-xl font-semibold flex items-center gap-3 transition cursor-pointer"><span id="lbl-opt-C">- - -</span></button>
+        <button onclick="selectAnswer('D')" id="opt-D" class="w-full text-left input-field p-3.5 rounded-xl font-semibold flex items-center gap-3 transition cursor-pointer"><span id="lbl-opt-D">- - -</span></button>
+        <button onclick="clearAnswer()" class="w-full btn-neutral font-bold py-2 rounded-xl text-[11px] uppercase tracking-wider transition cursor-pointer"><i class="fas fa-eraser mr-1"></i> Clear Selection</button>
+      </div>
+    </div>
+  </div>
+  <div class="w-full md:w-4/12 flex flex-col justify-between premium-card rounded-2xl p-4">
+    <div>
+      <div class="text-xs font-bold text-muted mb-2 uppercase tracking-wider"><i class="fas fa-th mr-1 text-accent"></i> Navigation Matrix</div>
+      <div id="palette-filter-row" class="grid grid-cols-5 gap-1 mb-2 text-[9px] font-bold text-center">
+        <button onclick="setPaletteFilter('all')" data-filter="all" class="palette-filter-btn py-1.5 rounded-lg surface cursor-pointer uppercase">All</button>
+        <button onclick="setPaletteFilter('answered')" data-filter="answered" class="palette-filter-btn py-1.5 rounded-lg surface cursor-pointer uppercase">Done</button>
+        <button onclick="setPaletteFilter('unanswered')" data-filter="unanswered" class="palette-filter-btn py-1.5 rounded-lg surface cursor-pointer uppercase">Not</button>
+        <button onclick="setPaletteFilter('flagged')" data-filter="flagged" class="palette-filter-btn py-1.5 rounded-lg surface cursor-pointer uppercase">Marked</button>
+        <button onclick="setPaletteFilter('unvisited')" data-filter="unvisited" class="palette-filter-btn py-1.5 rounded-lg surface cursor-pointer uppercase">New</button>
+      </div>
+      <div id="palette-grid" class="grid grid-cols-5 gap-2 overflow-y-auto max-h-60 pr-1"></div>
+    </div>
+    <div class="space-y-2 text-xs font-bold mt-4">
+      <button onclick="toggleFlagQuestion()" class="w-full btn-flag-outline py-2.5 rounded-xl uppercase tracking-wide cursor-pointer transition"><i class="fas fa-flag mr-1"></i> Mark for Review / Flag</button>
+      <div class="grid grid-cols-2 gap-2">
+        <button onclick="prevQuestion()" class="btn-neutral py-3 rounded-xl transition cursor-pointer text-center">Previous</button>
+        <button onclick="nextQuestion()" class="btn-neutral py-3 rounded-xl transition cursor-pointer text-center">Next</button>
+      </div>
+      <button onclick="confirmSubmitTest()" class="w-full btn-success py-3 rounded-xl uppercase tracking-widest transition cursor-pointer shadow-lg">Finalize Submission</button>
+    </div>
+  </div>
+</div>
+
+<div id="result-screen" class="hidden max-w-2xl w-full premium-card rounded-2xl p-6 text-center mx-auto my-auto space-y-6">
+  <div>
+    <h2 class="text-2xl font-black uppercase tracking-widest" style="color:var(--success2)">Performance Metrics Scorecard</h2>
+    <p class="text-xs text-muted font-bold uppercase tracking-wider">UPSC Pattern Automated Analysis (Correct +3 | Wrong -1)</p>
+    <div id="attempt-lock-msg" class="text-[10px] font-bold uppercase mt-1 hidden" style="color:var(--accent)"><i class="fas fa-lock"></i> First Attempt Rank Locked Permanently</div>
+  </div>
+
+  <div id="rank-badge-box" class="rounded-xl p-3 font-black text-sm uppercase tracking-wider" style="background:color-mix(in srgb, var(--accent) 12%, transparent); border:1px solid color-mix(in srgb, var(--accent) 35%, transparent); color:var(--accent);">
+    <span id="rank-badge-text">—</span>
+  </div>
+
+  <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
+    <div class="surface p-3 rounded-xl"><p class="text-muted text-[10px] font-bold uppercase">Total Qs</p><p id="res-total" class="text-xl font-black text-accent">0</p></div>
+    <div class="surface p-3 rounded-xl"><p class="text-muted text-[10px] font-bold uppercase">Correct</p><p id="res-right" class="text-xl font-black" style="color:var(--success2)">0</p></div>
+    <div class="surface p-3 rounded-xl"><p class="text-muted text-[10px] font-bold uppercase">Incorrect</p><p id="res-wrong" class="text-xl font-black" style="color:var(--danger2)">0</p></div>
+    <div class="surface p-3 rounded-xl"><p class="text-muted text-[10px] font-bold uppercase">Accuracy</p><p id="res-accuracy" class="text-xl font-black text-accent">0%</p></div>
+    <div class="surface p-3 rounded-xl"><p class="text-muted text-[10px] font-bold uppercase">Final Score</p><p id="res-score" class="text-xl font-black" style="color:var(--flag)">0</p></div>
+  </div>
+
+  <div class="space-y-2 text-left">
+    <h3 class="text-xs font-bold text-muted uppercase tracking-wider"><i class="fas fa-list-check text-accent"></i> Comprehensive Response Matrix</h3>
+    <div class="max-h-48 overflow-y-auto surface rounded-xl">
+      <table class="w-full text-xs text-left">
+        <thead class="text-[10px] uppercase font-bold text-muted" style="border-bottom:1px solid var(--border);">
+          <tr><th class="p-2.5 text-center">Q.No</th><th class="p-2.5 text-center">Your Response</th><th class="p-2.5 text-center">Correct Key</th><th class="p-2.5 text-center">Status</th></tr>
+        </thead>
+        <tbody id="analysis-rows-container"></tbody>
+      </table>
+    </div>
+  </div>
+  <button onclick="returnToPortal()" class="w-full btn-accent py-3 rounded-xl font-bold text-xs uppercase tracking-wider transition cursor-pointer">Return to Portal Console</button>
+</div>
+
+<footer class="w-full text-center text-[10px] text-muted uppercase tracking-widest pt-4" style="border-top:1px solid var(--border);">
+  Operation Baaz Infrastructure Platform Engine v8.0 • Architected by Abhijeet Kushwaha
+</footer>
+
+<script>
+/* ================================================================
+   CONFIG WITH ACTIVE BACKEND SYNC AND ADMIN PERMISSIONS
+   ================================================================ */
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx1Y9uVEex5kaNyE_DZ1au36QL2RcoSH_CUWAcI__XBYTmiAch0pauZiEJxvFjEA3KLqw/exec";
+const BACKEND_CONFIGURED = !!APPS_SCRIPT_URL && APPS_SCRIPT_URL.indexOf("PASTE_") === -1;
+
+const ADMIN_EMAIL = "kajalkushwaha208@gmail.com";
+const ADMIN_PASSWORD = "kajal@123";
+
+/* ================================================================
+   STATE
+   ================================================================ */
+let cachedTests = [];
+let activeTest = null;
+let DynamicAnswerKey = {};
+let currentTestQuestions = [];
+let flaggedQuestions = {};
+let visitedQuestions = {};
+let currentIndex = 1;
+let totalQuestionsCount = 0;
+let studentResponses = {};
+let singleQTimer = null;
+let qTimeLeft = 2700;
+let tabViolationsCount = 0;
+let testRunningMode = false;
+let currentPaletteFilter = 'all';
+
+/* ================================================================
+   BOOT
+   ================================================================ */
+window.addEventListener('DOMContentLoaded', () => {
+  applyTheme(localStorage.getItem('baaz_theme') || 'deepspace', false);
+  const savedUser = localStorage.getItem('baaz_user');
+  if (savedUser) loginSuccess(savedUser);
+  refreshSyncIndicator();
+  setupAntiCheatingTriggers();
+  loadTests();
+});
+
+/* ================================================================
+   PILLAR 3: THEME ENGINE
+   ================================================================ */
+function applyTheme(name, persist) {
+  document.documentElement.setAttribute('data-theme', name);
+  const picker = document.getElementById('theme-picker');
+  if (picker) picker.value = name;
+  if (persist) {
+    localStorage.setItem('baaz_theme', name);
+    const status = document.getElementById('profile-save-status');
+    if (status) { status.innerText = "Theme applied & saved."; status.style.color = 'var(--success2)'; }
+  }
+}
+
+/* ================================================================
+   ANTI-CHEAT
+   ================================================================ */
+function setupAntiCheatingTriggers() {
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'hidden' && testRunningMode) {
+      tabViolationsCount++;
+      if (tabViolationsCount >= 3) {
+        alert("⚠️ CRITICAL SECURITY BREACH: Multiple tab switching behaviors mapped. Your test is being forcefully submitted!");
+        calculateFinalResults();
+      } else {
+        alert(`⚠️ ANTI-CHEATING WARNING [${tabViolationsCount}/3]: Do not switch browser tabs during a live examination!`);
+      }
+    }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (localStorage.getItem('baaz_role') === 'admin') return;
+    if ((e.ctrlKey && ['c', 'v', 'a', 'i', 'u'].includes(e.key.toLowerCase())) || e.key === 'F12') {
+      e.preventDefault();
+      alert("Security Policy: Locked for secure student layout.");
+    }
+  });
+
+  document.addEventListener('contextmenu', (e) => {
+    if (localStorage.getItem('baaz_role') !== 'admin') e.preventDefault();
+  });
+
+  window.addEventListener('beforeunload', () => { if (testRunningMode) persistExamState(); });
+}
+
+/* ================================================================
+   AUTH
+   ================================================================ */
+document.getElementById('login-form').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const email = document.getElementById('login-email').value.trim();
+  const password = document.getElementById('login-password').value;
+  const errBox = document.getElementById('login-error');
+
+  if (!email.includes('@')) {
+    errBox.innerText = "Please enter a valid email address.";
+    errBox.classList.remove('hidden');
+    return;
+  }
+
+  const username = email.split('@')[0];
+  localStorage.setItem('baaz_user', username);
+  localStorage.setItem('baaz_email', email);
+
+  if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
+    localStorage.setItem('baaz_role', 'admin');
+  } else {
+    localStorage.setItem('baaz_role', 'student');
+  }
+  errBox.classList.add('hidden');
+  loginSuccess(username);
+});
+
+function loginSuccess(name) {
+  document.getElementById('auth-container').classList.add('hidden');
+  document.getElementById('student-name').innerText = name;
+  document.getElementById('dashboard-container').classList.remove('hidden');
+  document.getElementById('watermark-text').innerText = localStorage.getItem('baaz_email') || name;
+
+  if (localStorage.getItem('baaz_role') === 'admin') {
+    document.getElementById('admin-parser-box').classList.remove('hidden');
+    document.getElementById('role-badge').innerText = "ADMIN / INSTRUCTOR";
+    document.getElementById('role-badge').className = "ml-2 text-[10px] font-bold px-2 py-0.5 rounded uppercase btn-success";
+    document.body.classList.remove('student-lock');
+  } else {
+    document.getElementById('admin-parser-box').classList.add('hidden');
+    document.getElementById('role-badge').innerText = "STUDENT NODE";
+    document.getElementById('role-badge').className = "ml-2 text-[10px] font-bold px-2 py-0.5 rounded uppercase";
+    document.getElementById('role-badge').style.background = "color-mix(in srgb, var(--accent) 18%, transparent)";
+    document.getElementById('role-badge').style.color = "var(--accent)";
+    document.body.classList.add('student-lock');
+  }
+
+  loadProfile();
+  renderTestsList();
+  checkForResumableSession();
+}
+
+function logout() {
+  localStorage.removeItem('baaz_user');
+  localStorage.removeItem('baaz_role');
+  localStorage.removeItem('baaz_email');
+  location.reload();
+}
+
+function switchDashboardTab(target) {
+  ['tests', 'profile', 'owner', 'support'].forEach(t => {
+    document.getElementById(`tab-content-${t}`).classList.add('hidden');
+    document.getElementById(`tab-btn-${t}`).classList.remove('nav-tab-active');
+  });
+  document.getElementById(`tab-content-${target}`).classList.remove('hidden');
+  document.getElementById(`tab-btn-${target}`).classList.add('nav-tab-active');
+}
+
+/* ================================================================
+   PILLAR 2: PROFILE MODULE
+   ================================================================ */
+function profileKey() { return `baaz_profile_${localStorage.getItem('baaz_user')}`; }
+
+function loadProfile() {
+  const raw = localStorage.getItem(profileKey());
+  const p = raw ? JSON.parse(raw) : { name: "", mobile: "", year: "", gender: "", avatar: "" };
+  document.getElementById('profile-name').value = p.name || "";
+  document.getElementById('profile-mobile').value = p.mobile || "";
+  document.getElementById('profile-year').value = p.year || "";
+  selectGender(p.gender || "", false);
+  if (p.avatar) {
+    document.getElementById('avatar-preview').src = p.avatar;
+    document.getElementById('avatar-preview').classList.remove('hidden');
+    document.getElementById('avatar-placeholder').classList.add('hidden');
+  }
+}
+
+function selectGender(g, persist) {
+  document.querySelectorAll('.gender-pill').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.gender === g);
+  });
+  document.getElementById('gender-group').dataset.selected = g;
+}
+
+function handleAvatarUpload(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function (e) {
+    const img = new Image();
+    img.onload = function () {
+      const maxDim = 256;
+      let w = img.width, h = img.height;
+      if (w > h && w > maxDim) { h = Math.round(h * (maxDim / w)); w = maxDim; }
+      else if (h > maxDim) { w = Math.round(w * (maxDim / h)); h = maxDim; }
+      const canvas = document.createElement('canvas');
+      canvas.width = w; canvas.height = h;
+      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+      const base64 = canvas.toDataURL('image/jpeg', 0.7);
+
+      document.getElementById('avatar-preview').src = base64;
+      document.getElementById('avatar-preview').classList.remove('hidden');
+      document.getElementById('avatar-placeholder').classList.add('hidden');
+      document.getElementById('avatar-preview').dataset.pendingBase64 = base64;
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+function saveProfile() {
+  const avatarEl = document.getElementById('avatar-preview');
+  const profile = {
+    name: document.getElementById('profile-name').value.trim(),
+    mobile: document.getElementById('profile-mobile').value.trim(),
+    year: document.getElementById('profile-year').value.trim(),
+    gender: document.getElementById('gender-group').dataset.selected || "",
+    avatar: avatarEl.dataset.pendingBase64 || (avatarEl.classList.contains('hidden') ? "" : avatarEl.src)
+  };
+  localStorage.setItem(profileKey(), JSON.stringify(profile));
+  const status = document.getElementById('profile-save-status');
+  status.innerText = "Profile cached locally. It will sync with your next submission.";
+  status.style.color = 'var(--success2)';
+}
+
+function getProfile() {
+  const raw = localStorage.getItem(profileKey());
+  return raw ? JSON.parse(raw) : { name: "", mobile: "", year: "", gender: "", avatar: "" };
+}
+
+/* ================================================================
+   TEST PARSING
+   ================================================================ */
+function parseRawTestText(rawText) {
+  const tempQuestions = [];
+  const tempKeys = {};
+
+  const cleanTextForAnswers = rawText.toUpperCase().replace(/\n/g, ' ');
+  const answerBlockIndex = cleanTextForAnswers.indexOf("ANSWER KEY:");
+  if (answerBlockIndex !== -1) {
+    const answerPart = cleanTextForAnswers.substring(answerBlockIndex);
+    const pairs = answerPart.match(/Q?\d+\s*-\s*[A-D]/gi) || answerPart.match(/Q?\d+\s*\|\s*Q?\d+-[A-D]/gi) || answerPart.match(/\d+-[A-D]/g);
+    if (pairs) {
+      pairs.forEach(p => {
+        const parts = p.replace(/Q/g, '').split(/[-\|]/);
+        if (parts.length >= 2) tempKeys[parseInt(parts[0].trim())] = parts[parts.length - 1].trim();
+      });
+    }
+  }
+
+  const rawContentArray = rawText.split("\n");
+  let structuredQuestionsBlock = "";
+  let startCollecting = false;
+  for (const line of rawContentArray) {
+    const lTrim = line.trim();
+    if (/^(Q\d+|1\b|2\b|3\b)/i.test(lTrim)) startCollecting = true;
+    if (lTrim.toUpperCase().includes("ANSWER KEY:")) startCollecting = false;
+    if (startCollecting) structuredQuestionsBlock += line + "\n";
+  }
+
+  const qRegex = /(?:Q(?:uestion)?\s*\d+[\.\s\-:\)]+|\b\d+[\.\)\-]\s+)/gi;
+  const parts = structuredQuestionsBlock.split(qRegex);
+  let globalPointer = 1;
+
+  parts.forEach((block) => {
+    const trimmed = block.trim();
+    if (trimmed.length > 5) {
+      const lines = trimmed.split('\n').map(l => l.trim()).filter(Boolean);
+      let questionStatement = "";
+      let optA = "", optB = "", optC = "", optD = "";
+      lines.forEach(line => {
+        const upperLine = line.toUpperCase();
+        if (upperLine.startsWith('(A)') || upperLine.startsWith('A.') || upperLine.startsWith('A)')) optA = line.replace(/^\s*[\(\[A-D\u2022\-\.\)]+\s*/i, '').trim();
+        else if (upperLine.startsWith('(B)') || upperLine.startsWith('B.') || upperLine.startsWith('B)')) optB = line.replace(/^\s*[\(\[A-D\u2022\-\.\)]+\s*/i, '').trim();
+        else if (upperLine.startsWith('(C)') || upperLine.startsWith('C.') || upperLine.startsWith('C)')) optC = line.replace(/^\s*[\(\[A-D\u2022\-\.\)]+\s*/i, '').trim();
+        else if (upperLine.startsWith('(D)') || upperLine.startsWith('D.') || upperLine.startsWith('D)')) optD = line.replace(/^\s*[\(\[A-D\u2022\-\.\)]+\s*/i, '').trim();
+        else questionStatement += " " + line;
+      });
+      tempQuestions.push({ id: globalPointer, text: questionStatement.trim(), A: optA, B: optB, C: optC, D: optD });
+      if (!tempKeys[globalPointer]) tempKeys[globalPointer] = "A";
+      globalPointer++;
+    }
+  });
+
+  return { questions: tempQuestions, keys: tempKeys };
+}
+
+/* ================================================================
+   ADMIN: PUBLISH TEST
+   ================================================================ */
+async function setTestByAdmin() {
+  const rawText = document.getElementById('local-ai-text').value.trim();
+  const examName = document.getElementById('admin-exam-name').value.trim() || "General";
+  const subjectName = document.getElementById('admin-subject-name').value.trim() || "Mixed";
+  const title = document.getElementById('admin-test-title').value.trim();
+  const desc = document.getElementById('admin-test-desc').value.trim() || "Instructor deployed exam packet.";
+  const statusEl = document.getElementById('admin-publish-status');
+
+  if (rawText.length < 20) { alert("Error: Content string too short."); return; }
+  if (!title) { alert("Error: Please give this test a Title before publishing."); return; }
+
+  const parsed = parseRawTestText(rawText);
+  if (parsed.questions.length === 0) { alert("Error: No questions could be parsed from this text. Check formatting."); return; }
+
+  const testObj = { exam: examName, subject: subjectName, title, description: desc, parsedQuestions: parsed.questions, keys: parsed.keys };
+
+  cachedTests = cachedTests.filter(t => t.title !== title);
+  cachedTests.push(testObj);
+  persistLocalTests();
+  renderTestsList();
+
+  statusEl.innerText = `Published locally: ${parsed.questions.length} questions.`;
+
+  if (BACKEND_CONFIGURED) {
+    statusEl.innerText += " Syncing to Google Sheet…";
+    try {
+      await fetch(APPS_SCRIPT_URL, {
+        method: "POST",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify({ action: "publish_test", exam: examName, subject: subjectName, title, description: desc, rawText })
+      });
+      await loadTests();
+      statusEl.innerText = `Published & synced to Google Sheet: ${parsed.questions.length} questions.`;
+    } catch (err) {
+      statusEl.innerText = "Published locally, but Sheet sync failed (offline?). It will retry next load.";
+    }
+  } else {
+    statusEl.innerText += " (Backend URL not configured — local-only mode.)";
+  }
+
+  document.getElementById('local-ai-text').value = "";
+}
+
+/* ================================================================
+   LOAD / RENDER TESTS
+   ================================================================ */
+function persistLocalTests() { localStorage.setItem('baaz_live_tests', JSON.stringify(cachedTests)); }
+
+async function loadTests() {
+  const local = localStorage.getItem('baaz_live_tests');
+  cachedTests = local ? JSON.parse(local) : [];
+
+  if (BACKEND_CONFIGURED) {
+    try {
+      const res = await fetch(APPS_SCRIPT_URL, { method: "GET" });
+      const backendTests = await res.json();
+      if (Array.isArray(backendTests)) {
+        backendTests.forEach(bt => {
+          const keys = {};
+          (bt.parsedQuestions || []).forEach(q => { keys[q.id] = q.correctKey || "A"; });
+          const merged = { exam: bt.exam, subject: bt.subject, title: bt.title, description: bt.description, parsedQuestions: bt.parsedQuestions || [], keys };
+          cachedTests = cachedTests.filter(t => t.title !== merged.title);
+          cachedTests.push(merged);
         });
+        persistLocalTests();
+      }
+    } catch (err) {}
+  }
+  renderTestsList();
+}
 
-        // 🔒 SECURITY GATE ENGINE BLOCK
-        function setupAntiCheatingTriggers() {
-            document.addEventListener('visibilitychange', () => {
-                if (document.visibilityState === 'hidden' && testRunningMode) {
-                    tabViolationsCount++;
-                    if(tabViolationsCount >= 3) {
-                        alert("⚠️ CRITICAL SECURITY BREACH: Multiple tab switching behaviors mapped. Your test is being forcefully submitted!");
-                        calculateFinalResults();
-                    } else {
-                        alert(`⚠️ ANTI-CHEATING WARNING [${tabViolationsCount}/3]: Do not switch browser tabs during a live examination!`);
-                    }
-                }
-            });
+function historyKey() { return `baaz_history_${localStorage.getItem('baaz_user')}`; }
+function getHistoryMap() { const raw = localStorage.getItem(historyKey()); return raw ? JSON.parse(raw) : {}; }
+function saveHistoryRecord(title, record) {
+  const map = getHistoryMap();
+  map[title] = record;
+  localStorage.setItem(historyKey(), JSON.stringify(map));
+}
 
-            document.addEventListener('keydown', (e) => {
-                if (localStorage.getItem('baaz_role') === 'admin') return; // Admin Exempted
-                if((e.ctrlKey && ['c','v','a','i','u'].includes(e.key.toLowerCase())) || e.key === 'F12') {
-                    e.preventDefault(); alert("Security Policy: Locked for secure student layout.");
-                }
-            });
-            
-            document.addEventListener('contextmenu', (e) => {
-                if (localStorage.getItem('baaz_role') !== 'admin') e.preventDefault();
-            });
-        }
+function renderTestsList() {
+  const container = document.getElementById('tests-list');
+  const role = localStorage.getItem('baaz_role');
+  const history = getHistoryMap();
 
-        document.getElementById('login-form').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const email = document.getElementById('login-email').value.trim();
-            const password = document.getElementById('login-password').value;
+  if (!cachedTests.length) {
+    container.innerHTML = `
+      <div class="premium-card rounded-2xl p-5 flex flex-col justify-between" style="border-top:4px solid var(--accent);">
+        <div>
+          <h3 class="text-base font-bold mb-1">No Active Test Scheduled</h3>
+          <p class="text-muted text-xs">Instructor has not deployed any dynamic configuration packet yet.</p>
+        </div>
+      </div>`;
+    return;
+  }
 
-            localStorage.setItem('baaz_user', email.split('@')[0]);
-            if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
-                localStorage.setItem('baaz_role', 'admin');
-            } else {
-                localStorage.setItem('baaz_role', 'student');
-            }
-            loginSuccess(email.split('@')[0]);
-        });
+  container.innerHTML = "";
+  cachedTests.forEach(test => {
+    const qCount = (test.parsedQuestions || []).length;
+    const done = history[test.title];
+    let actionHtml;
+    if (role !== 'admin' && done) {
+      actionHtml = `<button onclick='viewLockedResult(${JSON.stringify(test.title)})' class="w-full mt-4 btn-neutral font-bold py-2.5 rounded-xl text-xs uppercase tracking-wider cursor-pointer"><i class="fas fa-lock mr-1"></i> View Locked Scorecard</button>`;
+    } else {
+      actionHtml = `<button onclick='checkAndLaunchExam(${JSON.stringify(test.title)})' class="w-full mt-4 btn-accent font-bold py-2.5 rounded-xl text-xs uppercase tracking-wider cursor-pointer">Start Secure Exam</button>`;
+    }
+    container.innerHTML += `
+      <div class="premium-card rounded-2xl p-5 flex flex-col justify-between" style="border-top:4px solid var(--accent);">
+        <div>
+          <div class="text-[10px] text-muted font-bold uppercase mb-1">${escapeHtml(test.exam)} • ${escapeHtml(test.subject)}</div>
+          <h3 class="text-base font-bold mb-1">${escapeHtml(test.title)}</h3>
+          <p class="text-muted text-xs">${escapeHtml(test.description)}</p>
+          <p class="text-[10px] text-accent font-bold mt-2 uppercase">${qCount} Questions</p>
+        </div>
+        ${actionHtml}
+      </div>`;
+  });
+}
 
-        function loginSuccess(name) {
-            document.getElementById('auth-container').classList.add('hidden');
-            document.getElementById('student-name').innerText = name;
-            document.getElementById('dashboard-container').classList.remove('hidden');
-            
-            if(localStorage.getItem('baaz_role') === 'admin') {
-                document.getElementById('admin-parser-box').classList.remove('hidden');
-                document.getElementById('role-badge').innerText = "ADMIN / INSTRUCTOR";
-                document.getElementById('role-badge').className = "ml-2 text-[10px] bg-emerald-500/10 text-emerald-400 font-bold px-2 py-0.5 rounded uppercase border border-emerald-900/30";
-                document.body.classList.remove('student-lock');
-            } else {
-                document.getElementById('admin-parser-box').classList.add('hidden');
-                document.getElementById('role-badge').innerText = "STUDENT NODE";
-                document.getElementById('role-badge').className = "ml-2 text-[10px] bg-blue-500/10 text-blue-400 font-bold px-2 py-0.5 rounded uppercase border border-blue-900/30";
-                document.body.classList.add('student-lock');
-            }
-        }
+function escapeHtml(s) {
+  return String(s || "").replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
 
-        function logout() { localStorage.clear(); location.reload(); }
-        function switchDashboardTab(target) {
-            ['tests', 'owner', 'support'].forEach(t => {
-                document.getElementById(`tab-content-${t}`).classList.add('hidden');
-                document.getElementById(`tab-btn-${t}`).classList.remove('nav-tab-active');
-            });
-            document.getElementById(`tab-content-${target}`).classList.remove('hidden');
-            document.getElementById(`tab-btn-${target}`).classList.add('nav-tab-active');
-        }
+/* ================================================================
+   EXAM LAUNCH / LOCK CHECK
+   ================================================================ */
+function checkAndLaunchExam(testTitle) {
+  const role = localStorage.getItem('baaz_role');
+  const history = getHistoryMap();
+  if (role !== 'admin' && history[testTitle]) {
+    alert("⚠️ ACCESS DENIED: Aap ye test pehle hie de chuke hain! Operation Baaz rules ke mutabik aapki rank pehle attempt par freeze ho chuki hai.");
+    showSavedResultsScreen(history[testTitle], testTitle);
+    return;
+  }
+  const test = cachedTests.find(t => t.title === testTitle);
+  if (!test) { alert("Error: Test not found."); return; }
+  launchExamEngine(test);
+}
 
-        // 🔥 ADMIN HIGHSPEED FULLY UNLOCKED PARSER RULES
-        function setTestByAdmin() {
-            const rawText = document.getElementById('local-ai-text').value.trim();
-            if(rawText.length < 20) { alert("Error: Content string too short."); return; }
+function viewLockedResult(testTitle) {
+  const history = getHistoryMap();
+  if (history[testTitle]) showSavedResultsScreen(history[testTitle], testTitle);
+}
 
-            let tempQuestions = []; let tempKeys = {};
+function checkForResumableSession() {
+  if (localStorage.getItem('baaz_role') === 'admin') return;
+  const stateRaw = localStorage.getItem(examStateKey());
+  if (!stateRaw) return;
+  const state = JSON.parse(stateRaw);
+  const history = getHistoryMap();
+  if (history[state.testTitle]) { localStorage.removeItem(examStateKey()); return; }
+  const test = cachedTests.find(t => t.title === state.testTitle);
+  if (!test) return;
+  if (confirm(`You have an unfinished attempt for "${state.testTitle}". Resume exactly where you left off?`)) {
+    launchExamEngine(test, state);
+  } else {
+    localStorage.removeItem(examStateKey());
+  }
+}
 
-            let cleanTextForAnswers = rawText.toUpperCase().replace(/\n/g, ' ');
-            let answerBlockIndex = cleanTextForAnswers.indexOf("ANSWER KEY:");
-            if(answerBlockIndex !== -1) {
-                let answerPart = cleanTextForAnswers.substring(answerBlockIndex);
-                let pairs = answerPart.match(/Q?\d+\s*-\s*[A-D]/gi) || answerPart.match(/Q?\d+\s*\|\s*Q?\d+-[A-D]/gi) || answerPart.match(/\d+-[A-D]/g);
-                if(pairs) {
-                    pairs.forEach(p => {
-                        let parts = p.replace(/Q/g, '').split(/[-\|]/);
-                        if(parts.length >= 2) { tempKeys[parseInt(parts[0].trim())] = parts[parts.length-1].trim(); }
-                    });
-                }
-            }
+function examStateKey() { return `baaz_exam_state_${localStorage.getItem('baaz_user')}`; }
 
-            let rawContentArray = rawText.split("\n");
-            let structuredQuestionsBlock = ""; let startCollecting = false;
+function persistExamState() {
+  if (!testRunningMode || !activeTest) return;
+  const state = {
+    testTitle: activeTest.title,
+    responses: studentResponses,
+    flagged: flaggedQuestions,
+    visited: visitedQuestions,
+    currentIndex,
+    qTimeLeft,
+    tabViolationsCount
+  };
+  localStorage.setItem(examStateKey(), JSON.stringify(state));
+}
 
-            for(let line of rawContentArray) {
-                let lTrim = line.trim();
-                if(/^(Q\d+|1\b|2\b|3\b)/i.test(lTrim)) { startCollecting = true; }
-                if(lTrim.toUpperCase().includes("ANSWER KEY:")) { startCollecting = false; }
-                if(startCollecting) { structuredQuestionsBlock += line + "\n"; }
-            }
+function launchExamEngine(test, resumeState) {
+  activeTest = test;
+  currentTestQuestions = test.parsedQuestions;
+  DynamicAnswerKey = test.keys || {};
+  totalQuestionsCount = currentTestQuestions.length;
 
-            let qRegex = /(?:Q(?:uestion)?\s*\d+[\.\s\-:\)]+|\b\d+[\.\)\-]\s+)/gi;
-            let parts = structuredQuestionsBlock.split(qRegex);
-            let globalPointer = 1;
+  if (resumeState) {
+    studentResponses = resumeState.responses || {};
+    flaggedQuestions = resumeState.flagged || {};
+    visitedQuestions = resumeState.visited || {};
+    currentIndex = resumeState.currentIndex || 1;
+    qTimeLeft = typeof resumeState.qTimeLeft === 'number' ? resumeState.qTimeLeft : 2700;
+    tabViolationsCount = resumeState.tabViolationsCount || 0;
+  } else {
+    studentResponses = {}; flaggedQuestions = {}; visitedQuestions = {};
+    currentIndex = 1; qTimeLeft = 2700; tabViolationsCount = 0;
+  }
 
-            parts.forEach((block) => {
-                let trimmed = block.trim();
-                if(trimmed.length > 5) {
-                    let lines = trimmed.split('\n').map(l => l.trim()).filter(Boolean);
-                    let questionStatement = ""; let optA = "", optB = "", optC = "", optD = "";
+  testRunningMode = true;
+  document.getElementById('disp-total-count').innerText = totalQuestionsCount;
+  document.getElementById('dashboard-container').classList.add('hidden');
+  document.getElementById('exam-engine-container').classList.remove('hidden');
+  currentPaletteFilter = 'all';
+  buildPaletteGrid();
+  loadQuestionNode(currentIndex);
+  persistExamState();
+}
 
-                    lines.forEach(line => {
-                        let upperLine = line.toUpperCase();
-                        if(upperLine.startsWith('(A)') || upperLine.startsWith('A.') || upperLine.startsWith('A)')) optA = line.replace(/^\s*[\(\[A-D\u2022\-\.\)]+\s*/i, '').trim();
-                        else if(upperLine.startsWith('(B)') || upperLine.startsWith('B.') || upperLine.startsWith('B)')) optB = line.replace(/^\s*[\(\[A-D\u2022\-\.\)]+\s*/i, '').trim();
-                        else if(upperLine.startsWith('(C)') || upperLine.startsWith('C.') || upperLine.startsWith('C)')) optC = line.replace(/^\s*[\(\[A-D\u2022\-\.\)]+\s*/i, '').trim();
-                        else if(upperLine.startsWith('(D)') || upperLine.startsWith('D.') || upperLine.startsWith('D)')) optD = line.replace(/^\s*[\(\[A-D\u2022\-\.\)]+\s*/i, '').trim();
-                        else { questionStatement += " " + line; }
-                    });
+/* ================================================================
+   PALETTE
+   ================================================================ */
+function buildPaletteGrid() {
+  const grid = document.getElementById('palette-grid');
+  grid.innerHTML = "";
+  for (let i = 1; i <= totalQuestionsCount; i++) {
+    grid.innerHTML += `<button id="pal-node-${i}" onclick="loadQuestionNode(${i})" class="w-full h-9 text-xs rounded-xl font-bold flex items-center justify-center cursor-pointer transition">${i}</button>`;
+  }
+  for (let i = 1; i <= totalQuestionsCount; i++) syncPaletteStatusNode(i);
+  refreshPaletteFilterButtons();
+}
 
-                    tempQuestions.push({
-                        id: globalPointer, text: questionStatement.trim(),
-                        A: optA, B: optB, C: optC, D: optD
-                    });
-                    if(!tempKeys[globalPointer]) tempKeys[globalPointer] = "A";
-                    globalPointer++;
-                }
-            });
+function toggleFlagQuestion() {
+  if (flaggedQuestions[currentIndex]) delete flaggedQuestions[currentIndex];
+  else flaggedQuestions[currentIndex] = true;
+  syncPaletteStatusNode(currentIndex);
+  persistExamState();
+}
 
-            // Wipe out old locks for a fresh master test deployment session
-            localStorage.removeItem('baaz_submission_history');
-            localStorage.setItem('baaz_live_questions', JSON.stringify(tempQuestions));
-            localStorage.setItem('baaz_live_keys', JSON.stringify(tempKeys));
-            alert(`Configuration locked! Published ${tempQuestions.length} Questions successfully. Old student histories reset.`);
-            location.reload();
-        }
+function syncPaletteStatusNode(num) {
+  const node = document.getElementById(`pal-node-${num}`);
+  if (!node) return;
+  node.className = "w-full h-9 text-xs rounded-xl font-bold flex items-center justify-center transition cursor-pointer surface";
+  if (num === currentIndex) node.classList.add('ring-2');
+  if (flaggedQuestions[num]) node.classList.add('flagged-node');
+  else if (studentResponses[num]) node.classList.add('answered-node');
+  applyPaletteFilterToNode(num);
+}
 
-        function loadPublishedTestFromCache() {
-            const cacheQ = localStorage.getItem('baaz_live_questions');
-            const cacheK = localStorage.getItem('baaz_live_keys');
-            if(cacheQ && cacheK) {
-                currentTestQuestions = JSON.parse(cacheQ);
-                DynamicAnswerKey = JSON.parse(cacheK);
-                totalQuestionsCount = currentTestQuestions.length;
-                document.getElementById('display-test-title').innerText = "Dynamic Premium Master Pool Test Packet";
-                document.getElementById('display-test-desc').innerText = `Active Exam configurations consist of ${totalQuestionsCount} Secure OCR Questions.`;
-                document.getElementById('start-test-btn').className = "w-full mt-4 bg-cyan-600 hover:bg-cyan-700 text-white font-bold py-2.5 rounded-xl text-xs uppercase tracking-wider cursor-pointer shadow-md transition";
-                document.getElementById('start-test-btn').disabled = false;
-            }
-        }
+function setPaletteFilter(type) {
+  currentPaletteFilter = type;
+  refreshPaletteFilterButtons();
+  for (let i = 1; i <= totalQuestionsCount; i++) applyPaletteFilterToNode(i);
+}
 
-        // 🔥 SECURE BLOCKER: CHECKS IF STUDENT HAS ALREADY ATTEMPTED EXAM
-        function checkAndLaunchExam() {
-            const role = localStorage.getItem('baaz_role');
-            const currentStudentNode = localStorage.getItem('baaz_user');
-            const history = localStorage.getItem('baaz_submission_history');
+function refreshPaletteFilterButtons() {
+  document.querySelectorAll('.palette-filter-btn').forEach(btn => {
+    btn.classList.toggle('filter-tab-active', btn.dataset.filter === currentPaletteFilter);
+  });
+}
 
-            if(role !== 'admin' && history) {
-                let historyData = JSON.parse(history);
-                if(historyData.student === currentStudentNode) {
-                    alert("⚠️ ACCESS DENIED: Aap ye test pehle hie de chuke hain! Operation Baaz rules ke mutabik aapki rank pehle attempt par freeze ho chuki hai.");
-                    showSavedResultsScreen(historyData);
-                    return;
-                }
-            }
-            launchExamEngine();
-        }
+function applyPaletteFilterToNode(num) {
+  const node = document.getElementById(`pal-node-${num}`);
+  if (!node) return;
+  let visible = true;
+  if (currentPaletteFilter === 'answered') visible = !!studentResponses[num];
+  else if (currentPaletteFilter === 'unanswered') visible = !studentResponses[num];
+  else if (currentPaletteFilter === 'flagged') visible = !!flaggedQuestions[num];
+  else if (currentPaletteFilter === 'unvisited') visible = !visitedQuestions[num];
+  node.style.display = visible ? 'flex' : 'none';
+}
 
-        function launchExamEngine() {
-            testRunningMode = true; tabViolationsCount = 0; flaggedQuestions = {};
-            document.getElementById('disp-total-count').innerText = totalQuestionsCount;
-            document.getElementById('dashboard-container').classList.add('hidden');
-            document.getElementById('exam-engine-container').classList.remove('hidden');
-            studentResponses = {}; buildPaletteGrid(); loadQuestionNode(1);
-        }
+/* ================================================================
+   QUESTION NAVIGATION
+   ================================================================ */
+function loadQuestionNode(num) {
+  const oldIndex = currentIndex;
+  currentIndex = num;
+  visitedQuestions[num] = true;
+  clearInterval(singleQTimer);
+  syncPaletteStatusNode(oldIndex);
+  syncPaletteStatusNode(currentIndex);
 
-        function buildPaletteGrid() {
-            const grid = document.getElementById('palette-grid'); grid.innerHTML = "";
-            for (let i = 1; i <= totalQuestionsCount; i++) {
-                grid.innerHTML += `<button id="pal-node-${i}" onclick="loadQuestionNode(${i})" class="w-full h-9 text-xs bg-gray-900 border border-[#212635] rounded-xl font-bold text-gray-400 flex items-center justify-center cursor-pointer transition">${i}</button>`;
-            }
-        }
+  const qData = currentTestQuestions[num - 1];
+  document.getElementById('digital-question-text').innerText = `Question ${num}: ` + qData.text;
+  document.getElementById('lbl-opt-A').innerText = "(A) " + qData.A;
+  document.getElementById('lbl-opt-B').innerText = "(B) " + qData.B;
+  document.getElementById('lbl-opt-C').innerText = "(C) " + qData.C;
+  document.getElementById('lbl-opt-D').innerText = "(D) " + qData.D;
 
-        function toggleFlagQuestion() {
-            if(flaggedQuestions[currentIndex]) { delete flaggedQuestions[currentIndex]; }
-            else { flaggedQuestions[currentIndex] = true; }
-            syncPaletteStatusNode(currentIndex);
-        }
+  ['A', 'B', 'C', 'D'].forEach(opt => {
+    document.getElementById(`opt-${opt}`).className = "w-full text-left input-field p-3.5 rounded-xl font-semibold cursor-pointer transition";
+  });
+  if (studentResponses[num]) {
+    document.getElementById(`opt-${studentResponses[num]}`).className = "w-full text-left p-3.5 rounded-xl font-semibold cursor-pointer active-opt transition";
+  }
 
-        function syncPaletteStatusNode(num) {
-            let node = document.getElementById(`pal-node-${num}`);
-            if(!node) return;
-            node.className = "w-full h-9 text-xs rounded-xl font-bold flex items-center justify-center border transition cursor-pointer";
-            
-            if(num === currentIndex) node.classList.add('ring-2', 'ring-cyan-400');
-            if(flaggedQuestions[num]) node.classList.add('flagged-node');
-            else if(studentResponses[num]) node.classList.add('answered-node');
-            else node.classList.add('bg-gray-900', 'text-gray-400', 'border-[#212635]');
-        }
+  singleQTimer = setInterval(() => {
+    qTimeLeft--;
+    const m = Math.floor(qTimeLeft / 60), s = qTimeLeft % 60;
+    document.getElementById('stopwatch').innerText = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+    document.getElementById('stopwatch').classList.toggle('timer-critical', qTimeLeft < 300);
+    if (qTimeLeft % 5 === 0) persistExamState();
+    if (qTimeLeft <= 0) { alert("Time Up!"); calculateFinalResults(); }
+  }, 1000);
 
-        function loadQuestionNode(num) {
-            let oldIndex = currentIndex; currentIndex = num; clearInterval(singleQTimer);
-            syncPaletteStatusNode(oldIndex); syncPaletteStatusNode(currentIndex);
+  persistExamState();
+}
 
-            let qData = currentTestQuestions[num - 1];
-            document.getElementById('digital-question-text').innerText = `Question ${num}: ` + qData.text;
-            document.getElementById('lbl-opt-A').innerText = "(A) " + qData.A;
-            document.getElementById('lbl-opt-B').innerText = "(B) " + qData.B;
-            document.getElementById('lbl-opt-C').innerText = "(C) " + qData.C;
-            document.getElementById('lbl-opt-D').innerText = "(D) " + qData.D;
+function selectAnswer(label) { studentResponses[currentIndex] = label; loadQuestionNode(currentIndex); }
+function clearAnswer() { delete studentResponses[currentIndex]; loadQuestionNode(currentIndex); }
+function prevQuestion() { if (currentIndex > 1) loadQuestionNode(currentIndex - 1); }
+function nextQuestion() { if (currentIndex < totalQuestionsCount) loadQuestionNode(currentIndex + 1); }
+function confirmSubmitTest() { if (confirm("Are you sure you want to end exam session and submit responses?")) calculateFinalResults(); }
 
-            ['A', 'B', 'C', 'D'].forEach(opt => { 
-                document.getElementById(`opt-${opt}`).className = "w-full text-left bg-[#080c10] border border-[#212635] p-3.5 rounded-xl font-semibold text-white cursor-pointer hover:bg-[#121620] transition"; 
-            });
-            if(studentResponses[num]) { 
-                document.getElementById(`opt-${studentResponses[num]}`).className = "w-full text-left p-3.5 rounded-xl font-semibold text-white cursor-pointer active-opt border transition"; 
-            }
-            
-            singleQTimer = setInterval(() => { 
-                qTimeLeft--; 
-                let m = Math.floor(qTimeLeft/60); let s = qTimeLeft%60; 
-                document.getElementById('stopwatch').innerText = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`; 
-                if(qTimeLeft <= 0) { alert("Time Up!"); calculateFinalResults(); }
-            }, 1000);
-        }
+/* ================================================================
+   SCORING + RESULT
+   ================================================================ */
+function rankBadgeFor(percent) {
+  if (percent >= 80) return "🏅 UPSC Mastermind";
+  if (percent >= 50) return "🎖️ Competent Officer";
+  return "📘 Aspirant (Needs Review)";
+}
 
-        function selectAnswer(label) { studentResponses[currentIndex] = label; loadQuestionNode(currentIndex); }
-        function prevQuestion() { if(currentIndex > 1) loadQuestionNode(currentIndex - 1); }
-        function nextQuestion() { if(currentIndex < totalQuestionsCount) loadQuestionNode(currentIndex + 1); }
-        function confirmSubmitTest() { if(confirm("Are you sure you want to end exam session and submit responses?")) calculateFinalResults(); }
+async function calculateFinalResults() {
+  testRunningMode = false;
+  clearInterval(singleQTimer);
 
-        // 🔥 SCORE CALCULATION & STORAGE ATTEMPT FREEZER
-        function calculateFinalResults() {
-            testRunningMode = false; clearInterval(singleQTimer);
-            
-            let right = 0; let wrong = 0;
-            let currentStudentNode = localStorage.getItem('baaz_user');
-            let responsesSnapshot = {};
+  let right = 0, wrong = 0, attempted = 0;
+  const currentStudentNode = localStorage.getItem('baaz_user');
+  const responsesSnapshot = {};
 
-            for(let i = 1; i <= totalQuestionsCount; i++) {
-                let selected = studentResponses[i] || "Skipped";
-                let correct = DynamicAnswerKey[i] || "A";
-                responsesSnapshot[i] = selected;
-                if(selected !== "Skipped") { if(selected === correct) right++; else wrong++; }
-            }
-            
-            let finalScore = (right * 3) - (wrong * 1);
+  for (let i = 1; i <= totalQuestionsCount; i++) {
+    const selected = studentResponses[i] || "Skipped";
+    const correct = DynamicAnswerKey[i] || "A";
+    responsesSnapshot[i] = selected;
+    if (selected !== "Skipped") {
+      attempted++;
+      if (selected === correct) right++; else wrong++;
+    }
+  }
 
-            // Create Master Frozen Attempt Log
-            let submissionHistoryRecord = {
-                student: currentStudentNode,
-                total: totalQuestionsCount,
-                right: right,
-                wrong: wrong,
-                score: finalScore,
-                responses: responsesSnapshot
-            };
+  const finalScore = (right * 3) - (wrong * 1);
+  const accuracy = attempted > 0 ? Math.round((right / attempted) * 1000) / 10 : 0;
+  const percentOfTotal = totalQuestionsCount > 0 ? (right / totalQuestionsCount) * 100 : 0;
 
-            // Rank freezer rule target initialization exclusively for students
-            if(localStorage.getItem('baaz_role') !== 'admin') {
-                localStorage.setItem('baaz_submission_history', JSON.stringify(submissionHistoryRecord));
-            }
+  const record = {
+    student: currentStudentNode,
+    testTitle: activeTest ? activeTest.title : "Untitled Test",
+    total: totalQuestionsCount,
+    right, wrong, score: finalScore, accuracy,
+    rankBadge: rankBadgeFor(percentOfTotal),
+    responses: responsesSnapshot,
+    keys: DynamicAnswerKey
+  };
 
-            showSavedResultsScreen(submissionHistoryRecord);
-        }
+  if (localStorage.getItem('baaz_role') !== 'admin') {
+    saveHistoryRecord(record.testTitle, record);
+    localStorage.removeItem(examStateKey());
+  }
 
-        function showSavedResultsScreen(record) {
-            document.getElementById('dashboard-container').classList.add('hidden');
-            document.getElementById('exam-engine-container').classList.add('hidden');
-            document.getElementById('result-screen').classList.remove('hidden');
-            
-            if(localStorage.getItem('baaz_role') !== 'admin') {
-                document.getElementById('attempt-lock-msg').classList.remove('hidden');
-            }
+  showSavedResultsScreen(record, record.testTitle);
+  await syncSubmissionToBackend(record);
+}
 
-            document.getElementById('res-total').innerText = record.total;
-            document.getElementById('res-right').innerText = record.right;
-            document.getElementById('res-wrong').innerText = record.wrong;
-            document.getElementById('res-score').innerText = record.score;
+async function syncSubmissionToBackend(record) {
+  const profile = getProfile();
+  const payload = {
+    action: "submit_score",
+    student: record.student,
+    testTitle: record.testTitle,
+    score: record.score,
+    correct: record.right,
+    wrong: record.wrong,
+    gender: profile.gender || "",
+    phone: profile.mobile || "",
+    targetYear: profile.year || "",
+    profileImage: profile.avatar || ""
+  };
 
-            const container = document.getElementById('analysis-rows-container'); container.innerHTML = "";
-            for(let i = 1; i <= record.total; i++) {
-                let selected = record.responses[i] || "Skipped";
-                let correct = DynamicAnswerKey[i] || "A";
-                let isCorrect = (selected === correct);
+  if (!BACKEND_CONFIGURED) { queueFailedSync(payload); return; }
 
-                container.innerHTML += `
-                    <tr class="border-b border-[#212635]/60 hover:bg-[#121620]/30 transition text-center">
-                        <td class="p-2.5 font-bold text-gray-400">${i}</td>
-                        <td class="p-2.5 ${selected==='Skipped'?'text-gray-500':(isCorrect?'text-emerald-400':'text-rose-400')} font-black">${selected}</td>
-                        <td class="p-2.5 text-blue-400 font-black">${correct}</td>
-                        <td class="p-2.5">${selected==='Skipped'?'<span class="text-gray-500">➖</span>':(isCorrect?'<span class="text-emerald-400">✅</span>':'<span class="text-rose-400">❌</span>')}</td>
-                    </tr>`;
-            }
-        }
-    </script>
+  try {
+    await fetch(APPS_SCRIPT_URL, {
+      method: "POST",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify(payload)
+    });
+  } catch (err) {
+    queueFailedSync(payload);
+  }
+}
+
+function queueFailedSync(payload) {
+  const queue = JSON.parse(localStorage.getItem('baaz_failed_sync') || "[]");
+  queue.push(JSON.stringify(payload));
+  localStorage.setItem('baaz_failed_sync', JSON.stringify(queue));
+  refreshSyncIndicator();
+}
+
+function refreshSyncIndicator() {
+  const queue = JSON.parse(localStorage.getItem('baaz_failed_sync') || "[]");
+  const btn = document.getElementById('sync-failed-btn');
+  const status = document.getElementById('support-sync-status');
+  if (btn) btn.classList.toggle('hidden', queue.length === 0);
+  if (status) status.innerText = queue.length === 0 ? "All records synced." : `${queue.length} record(s) pending sync to the Google Sheet.`;
+}
+
+async function retryFailedSync() {
+  if (!BACKEND_CONFIGURED) { alert("Backend URL is not configured yet — nothing to sync to."); return; }
+  let queue = JSON.parse(localStorage.getItem('baaz_failed_sync') || "[]");
+  if (!queue.length) { alert("No pending records."); return; }
+
+  const stillFailed = [];
+  for (const payloadStr of queue) {
+    try {
+      await fetch(APPS_SCRIPT_URL, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: payloadStr });
+    } catch (err) {
+      stillFailed.push(payloadStr);
+    }
+  }
+  localStorage.setItem('baaz_failed_sync', JSON.stringify(stillFailed));
+  refreshSyncIndicator();
+  alert(stillFailed.length === 0 ? "✅ All pending records synced successfully." : `${stillFailed.length} record(s) still failed — will retry later.`);
+}
+
+function showSavedResultsScreen(record, testTitle) {
+  document.getElementById('dashboard-container').classList.add('hidden');
+  document.getElementById('exam-engine-container').classList.add('hidden');
+  document.getElementById('result-screen').classList.remove('hidden');
+
+  if (localStorage.getItem('baaz_role') !== 'admin') {
+    document.getElementById('attempt-lock-msg').classList.remove('hidden');
+  } else {
+    document.getElementById('attempt-lock-msg').classList.add('hidden');
+  }
+
+  document.getElementById('res-total').innerText = record.total;
+  document.getElementById('res-right').innerText = record.right;
+  document.getElementById('res-wrong').innerText = record.wrong;
+  document.getElementById('res-accuracy').innerText = (record.accuracy || 0) + "%";
+  document.getElementById('res-score').innerText = record.score;
+  document.getElementById('rank-badge-text').innerText = record.rankBadge || rankBadgeFor(record.total ? (record.right / record.total) * 100 : 0);
+
+  const keys = record.keys || DynamicAnswerKey;
+  const container = document.getElementById('analysis-rows-container');
+  container.innerHTML = "";
+  for (let i = 1; i <= record.total; i++) {
+    const selected = record.responses[i] || "Skipped";
+    const correct = keys[i] || "A";
+    const isCorrect = selected === correct;
+    container.innerHTML += `
+      <tr style="border-bottom:1px solid var(--border);" class="text-center">
+        <td class="p-2.5 font-bold text-muted">${i}</td>
+        <td class="p-2.5 font-black" style="color:${selected === 'Skipped' ? 'var(--text-dim)' : (isCorrect ? 'var(--success2)' : 'var(--danger2)')}">${selected}</td>
+        <td class="p-2.5 font-black text-accent">${correct}</td>
+        <td class="p-2.5">${selected === 'Skipped' ? '➖' : (isCorrect ? '✅' : '❌')}</td>
+      </tr>`;
+  }
+}
+
+function returnToPortal() {
+  document.getElementById('result-screen').classList.add('hidden');
+  document.getElementById('dashboard-container').classList.remove('hidden');
+  renderTestsList();
+}
+</script>
 </body>
 </html>
