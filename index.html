@@ -20,7 +20,6 @@
 </head>
 <body class="min-h-screen flex flex-col p-3 md:p-6 justify-between text-sm" oncontextmenu="return false;">
 
-    <!-- HEADER SYSTEM -->
     <header class="w-full text-center my-2">
         <h1 class="text-4xl md:text-5xl font-black tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600">
             OPERATION BAAZ
@@ -28,7 +27,6 @@
         <p class="text-[11px] text-gray-500 uppercase tracking-widest mt-1 font-semibold">Autonomous Secure Assessment Core v6.0</p>
     </header>
 
-    <!-- AUTH MATRIX -->
     <div id="auth-container" class="w-full max-w-md mx-auto my-auto pt-4">
         <div class="premium-card rounded-2xl p-6 shadow-xl">
             <h2 class="text-xl font-bold text-white mb-4"><i class="fas fa-shield-alt text-blue-500"></i> Portal Control Login</h2>
@@ -40,7 +38,6 @@
         </div>
     </div>
 
-    <!-- MAIN DASHBOARD -->
     <div id="dashboard-container" class="hidden w-full max-w-4xl mx-auto space-y-6">
         <header class="premium-card rounded-2xl p-5 flex justify-between items-center">
             <div><h1 class="text-lg font-black text-white">Console: <span id="student-name" class="text-blue-400">User Node</span> <span id="role-badge" class="ml-2 text-[10px] font-bold px-2 py-0.5 rounded uppercase">Student</span></h1></div>
@@ -54,7 +51,6 @@
         </div>
 
         <div id="tab-content-tests" class="space-y-4">
-            <!-- ADMIN EXTRACTOR BOX -->
             <div id="admin-parser-box" class="hidden premium-card rounded-xl p-5 border border-cyan-500/20 bg-cyan-950/5 space-y-3">
                 <div class="flex justify-between items-center">
                     <div class="font-bold text-cyan-400 text-sm"><i class="fas fa-user-shield"></i> Admin Control Center: Anti-Leak Smart Parser</div>
@@ -77,7 +73,6 @@
             </div>
         </div>
 
-        <!-- FOUNDER & HELP TABS -->
         <div id="tab-content-owner" class="hidden premium-card rounded-2xl p-6 border border-purple-900/30 space-y-4">
             <div class="flex items-center gap-4">
                 <div class="w-16 h-16 rounded-xl bg-gradient-to-tr from-cyan-400 to-purple-600 flex items-center justify-center text-white text-2xl font-black">AK</div>
@@ -93,7 +88,6 @@
         </div>
     </div>
 
-    <!-- DIGITAL EXAM ENGINE LAYER -->
     <div id="exam-engine-container" class="hidden w-full max-w-6xl mx-auto flex flex-col md:flex-row gap-5 h-[80vh]">
         <div class="w-full md:w-8/12 flex flex-col gap-4">
             <div class="premium-card rounded-xl p-4 flex justify-between items-center text-center">
@@ -129,7 +123,6 @@
         </div>
     </div>
 
-    <!-- ADVANCED RESULT SCORECARD VIEW -->
     <div id="result-screen" class="hidden max-w-2xl w-full premium-card rounded-2xl p-6 text-center mx-auto my-auto space-y-6">
         <div>
             <h2 class="text-2xl font-black text-emerald-400 uppercase tracking-widest">Performance Metrics Scorecard</h2>
@@ -155,7 +148,6 @@
         <button onclick="location.reload()" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-bold text-xs uppercase tracking-wider transition cursor-pointer">Return to Portal Console</button>
     </div>
 
-    <!-- REUSEABLE FOOTER SYSTEM -->
     <footer class="w-full text-center text-[10px] text-gray-600 uppercase tracking-widest pt-4 border-t border-[#121620]/60">
         Operation Baaz Infrastructure Platform Engine v6.0 • Architected by Abhijeet Kushwaha
     </footer>
@@ -176,7 +168,6 @@
             setupAntiCheatingTriggers();
         });
 
-        // 🔒 ANTI-CHEATING SECURITY CONTROLS PROXY ROUTER
         function setupAntiCheatingTriggers() {
             document.addEventListener('visibilitychange', () => {
                 if (document.visibilityState === 'hidden' && testRunningMode) {
@@ -189,7 +180,6 @@
                     }
                 }
             });
-            // Block generic copy keys
             document.addEventListener('keydown', (e) => {
                 if((e.ctrlKey && ['c','v','a','i','u'].includes(e.key.toLowerCase())) || e.key === 'F12') {
                     e.preventDefault(); alert("Security Policy: Portal data operations locked.");
@@ -237,14 +227,12 @@
             document.getElementById(`tab-btn-${target}`).classList.add('nav-tab-active');
         }
 
-        // 🔥 HIGH SPEED SECURE REGEX PARSER SYSTEM WITH DATA CLEANING
         function setTestByAdmin() {
             const rawText = document.getElementById('local-ai-text').value.trim();
             if(rawText.length < 20) { alert("Error: Content string too short."); return; }
 
             let tempQuestions = []; let tempKeys = {};
 
-            // 1. Map Keys From Dynamic Input Stream Blocks
             let cleanTextForAnswers = rawText.toUpperCase().replace(/\n/g, ' ');
             let answerBlockIndex = cleanTextForAnswers.indexOf("ANSWER KEY:");
             if(answerBlockIndex !== -1) {
@@ -258,7 +246,6 @@
                 }
             }
 
-            // 2. Remove Noise Metadata Pointers Header Rows
             let rawContentArray = rawText.split("\n");
             let structuredQuestionsBlock = ""; let startCollecting = false;
 
@@ -378,7 +365,6 @@
         function nextQuestion() { if(currentIndex < totalQuestionsCount) loadQuestionNode(currentIndex + 1); }
         function confirmSubmitTest() { if(confirm("Are you sure you want to end exam session and submit responses?")) calculateFinalResults(); }
 
-        // 🔥 UPSC PATTERN SEGMENTED SCORECARD MAPPING CORE
         function calculateFinalResults() {
             testRunningMode = false; clearInterval(singleQTimer);
             document.getElementById('exam-engine-container').classList.add('hidden');
@@ -396,7 +382,7 @@
 
                 container.innerHTML += `
                     <tr class="border-b border-[#212635]/60 hover:bg-[#121620]/30 transition text-center">
-                        <td class="p-2.5 font-bold text-gray-500">${i}</td>
+                        <td class="p-2.5 font-bold text-gray-400">${i}</td>
                         <td class="p-2.5 ${selected==='Skipped'?'text-gray-500':(isCorrect?'text-emerald-400':'text-rose-400')} font-black">${selected}</td>
                         <td class="p-2.5 text-blue-400 font-black">${correct}</td>
                         <td class="p-2.5">${selected==='Skipped'?'<span class="text-gray-500">➖</span>':(isCorrect?'<span class="text-emerald-400">✅</span>':'<span class="text-rose-400">❌</span>')}</td>
