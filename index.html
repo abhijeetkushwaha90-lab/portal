@@ -3,132 +3,159 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Operation Baaz — Secure Core Engine v10.0</title>
+<title>Operation Baaz — Complete Learning Platform v11.0</title>
 <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
-  /* ======================================================
-     PREMIUM MILITARY CYBER & SYSTEM THEME MANAGEMENT
-     ====================================================== */
-  html[data-theme="military"] {
-    --bg: #0a0f18; --card: #131a26; --border: rgba(33, 38, 53, 0.65);
-    --text: #c9d1d9; --text-dim: #7d8590;
-    --accent: #f59e0b; --accent2: #d97706; --accent-text: #ffffff;
-    --success: #059669; --success2: #10b981;
-    --danger: #e11d48; --danger2: #f43f5e;
-    --flag: #7c3aed; --flag2: #5b21b6;
-    --grad1: #f59e0b; --grad2: #ef4444; --grad3: #7c3aed;
-  }
-  html[data-theme="midnight"] {
-    --bg: #0b0c10; --card: #1f2833; --border: rgba(90, 90, 90, 0.3);
-    --text: #c5a059; --text-dim: #9a9a9a;
-    --accent: #66fcf1; --accent2: #45a29e; --accent-text: #0b0c10;
-    --success: #22c55e; --success2: #16a34a;
-    --danger: #ef4444; --danger2: #dc2626;
-    --flag: #a78bfa; --flag2: #7c3aed;
-    --grad1: #66fcf1; --grad2: #45a29e; --grad3: #c5a059;
-  }
-  html[data-theme="minimalist"] {
-    --bg: #f8fafc; --card: #ffffff; --border: #e2e8f0;
-    --text: #0f172a; --text-dim: #64748b;
-    --accent: #2563eb; --accent2: #1d4ed8; --accent-text: #ffffff;
-    --success: #16a34a; --success2: #15803d;
-    --danger: #dc2626; --danger2: #b91c1c;
-    --flag: #4f46e5; --flag2: #4338ca;
-    --grad1: #2563eb; --grad2: #4f46e5; --grad3: #131a26;
-  }
+/* ============================================================
+   THEME SYSTEM
+   ============================================================ */
+html[data-theme="military"] {
+  --bg:#0a0f18;--card:#131a26;--border:rgba(33,38,53,0.65);
+  --text:#c9d1d9;--text-dim:#7d8590;
+  --accent:#f59e0b;--accent2:#d97706;--accent-text:#ffffff;
+  --success:#059669;--success2:#10b981;
+  --danger:#e11d48;--danger2:#f43f5e;
+  --flag:#7c3aed;--flag2:#5b21b6;
+  --grad1:#f59e0b;--grad2:#ef4444;--grad3:#7c3aed;
+}
+html[data-theme="midnight"] {
+  --bg:#0b0c10;--card:#1f2833;--border:rgba(90,90,90,0.3);
+  --text:#c5a059;--text-dim:#9a9a9a;
+  --accent:#66fcf1;--accent2:#45a29e;--accent-text:#0b0c10;
+  --success:#22c55e;--success2:#16a34a;
+  --danger:#ef4444;--danger2:#dc2626;
+  --flag:#a78bfa;--flag2:#7c3aed;
+  --grad1:#66fcf1;--grad2:#45a29e;--grad3:#c5a059;
+}
+html[data-theme="minimalist"] {
+  --bg:#f8fafc;--card:#ffffff;--border:#e2e8f0;
+  --text:#0f172a;--text-dim:#64748b;
+  --accent:#2563eb;--accent2:#1d4ed8;--accent-text:#ffffff;
+  --success:#16a34a;--success2:#15803d;
+  --danger:#dc2626;--danger2:#b91c1c;
+  --flag:#4f46e5;--flag2:#4338ca;
+  --grad1:#2563eb;--grad2:#4f46e5;--grad3:#131a26;
+}
 
-  * { transition: background-color .2s ease, border-color .2s ease, color .2s ease; }
-  body { background: var(--bg); color: var(--text); font-family: system-ui, -apple-system, sans-serif; }
-  .premium-card { background: var(--card); border: 0.5px solid var(--border); box-shadow: 0 12px 40px rgba(0,0,0,.6); backdrop-filter: blur(12px); }
-  .surface { background: var(--bg); border: 0.5px solid var(--border); }
-  .text-muted { color: var(--text-dim); }
-  .text-accent { color: var(--accent); }
-  .brand-gradient { background-image: linear-gradient(90deg, var(--grad1), var(--grad2), var(--grad3)); -webkit-background-clip: text; background-clip: text; color: transparent; }
-  .btn-accent { background: var(--accent); color: var(--accent-text); }
-  .btn-accent:hover { filter: brightness(1.15); }
-  .btn-success { background: var(--success); color: #fff; }
-  .btn-success:hover { background: var(--success2); }
-  .btn-danger-outline { background: color-mix(in srgb, var(--danger) 12%, transparent); color: var(--danger2); border: 0.5px solid var(--danger); }
-  .btn-danger-outline:hover { background: color-mix(in srgb, var(--danger) 25%, transparent); }
-  .btn-flag-outline { background: color-mix(in srgb, var(--flag) 12%, transparent); color: var(--flag); border: 0.5px solid var(--flag); }
-  .btn-neutral { background: var(--border); color: var(--text); }
-  .btn-neutral:hover { filter: brightness(1.25); }
-  .input-field { background: var(--bg); border: 0.5px solid var(--border); color: var(--text); }
-  .input-field:focus { outline: none; border-color: var(--accent); }
-  .nav-tab-active { background: color-mix(in srgb, var(--accent) 12%, var(--card)); border-color: var(--accent); color: var(--accent); }
-  .active-opt { background-color: var(--success) !important; border-color: var(--success2) !important; color: #fff !important; }
-  .flagged-node { background-color: var(--flag) !important; border-color: var(--flag2) !important; color: #fff !important; }
-  .answered-node { background-color: var(--success) !important; border-color: var(--success2) !important; color: #fff !important; }
-  .filter-tab-active { background: var(--accent); color: var(--accent-text); border-color: var(--accent); }
-  .student-lock { -webkit-user-select: none; user-select: none; }
-  .timer-critical { color: var(--danger2) !important; animation: pulse 1.4s infinite; }
-  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .4; } }
+*{transition:background-color .2s ease,border-color .2s ease,color .2s ease;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,sans-serif;min-height:100vh;}
+.premium-card{background:var(--card);border:0.5px solid var(--border);box-shadow:0 12px 40px rgba(0,0,0,.6);backdrop-filter:blur(12px);}
+.surface{background:var(--bg);border:0.5px solid var(--border);}
+.text-muted{color:var(--text-dim);}
+.text-accent{color:var(--accent);}
+.brand-gradient{background-image:linear-gradient(90deg,var(--grad1),var(--grad2),var(--grad3));-webkit-background-clip:text;background-clip:text;color:transparent;}
+.btn-accent{background:var(--accent);color:var(--accent-text);}
+.btn-accent:hover{filter:brightness(1.15);}
+.btn-success{background:var(--success);color:#fff;}
+.btn-success:hover{background:var(--success2);}
+.btn-danger-outline{background:color-mix(in srgb,var(--danger) 12%,transparent);color:var(--danger2);border:0.5px solid var(--danger);}
+.btn-danger-outline:hover{background:color-mix(in srgb,var(--danger) 25%,transparent);}
+.btn-flag-outline{background:color-mix(in srgb,var(--flag) 12%,transparent);color:var(--flag);border:0.5px solid var(--flag);}
+.btn-neutral{background:var(--border);color:var(--text);}
+.btn-neutral:hover{filter:brightness(1.25);}
+.input-field{background:var(--bg);border:0.5px solid var(--border);color:var(--text);}
+.input-field:focus{outline:none;border-color:var(--accent);}
+.nav-tab-active{background:color-mix(in srgb,var(--accent) 12%,var(--card));border-color:var(--accent);color:var(--accent);}
+.active-opt{background-color:var(--success)!important;border-color:var(--success2)!important;color:#fff!important;}
+.flagged-node{background-color:var(--flag)!important;border-color:var(--flag2)!important;color:#fff!important;}
+.answered-node{background-color:var(--success)!important;border-color:var(--success2)!important;color:#fff!important;}
+.student-lock{-webkit-user-select:none;user-select:none;}
+.timer-critical{color:var(--danger2)!important;animation:pulse 1.4s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.4;}}
+.watermark-overlay{position:absolute;inset:0;pointer-events:none;overflow:hidden;display:flex;align-items:center;justify-content:center;z-index:5;}
+.watermark-overlay span{display:block;white-space:nowrap;font-size:1.1rem;font-weight:800;color:var(--text);opacity:.03;transform:rotate(-28deg) scale(2.2);letter-spacing:.1em;}
+.gender-pill{background:var(--bg);border:0.5px solid var(--border);color:var(--text-dim);}
+.gender-pill.active{background:var(--accent);color:var(--accent-text);border-color:var(--accent);}
+.vip-card{border:0.5px solid rgba(245,158,11,0.4);background:linear-gradient(135deg,rgba(245,158,11,0.05),rgba(239,68,68,0.05));}
+.vip-badge{background:linear-gradient(90deg,#f59e0b,#ef4444);color:#fff;font-size:9px;font-weight:900;padding:2px 8px;border-radius:999px;}
+.lock-overlay{position:absolute;inset:0;background:rgba(0,0,0,.75);border-radius:inherit;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;}
+.review-correct{background:rgba(16,185,129,0.08);}
+.review-wrong{background:rgba(244,63,94,0.08);}
+.spinner{border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;width:28px;height:28px;animation:spin .7s linear infinite;margin:auto;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.auth-tab{padding:.5rem 1.25rem;border-radius:.75rem;font-weight:700;font-size:.75rem;cursor:pointer;color:var(--text-dim);flex:1;}
+.auth-tab.active{background:var(--accent);color:var(--accent-text);}
+.broadcast-banner{background:linear-gradient(90deg,#1e293b,var(--card));border-bottom:1px solid var(--border);animation:flashBorder 3s infinite alternate;}
+@keyframes flashBorder{from{border-color:var(--border);}to{border-color:var(--accent);}}
 
-  .watermark-overlay { position: absolute; inset: 0; pointer-events: none; overflow: hidden; display: flex; align-items: center; justify-content: center; z-index: 5; }
-  .watermark-overlay span { display: block; white-space: nowrap; font-size: 1.1rem; font-weight: 800; color: var(--text); opacity: .03; transform: rotate(-28deg) scale(2.2); letter-spacing: .1em; }
-  .gender-pill { background: var(--bg); border: 0.5px solid var(--border); color: var(--text-dim); }
-  .gender-pill.active { background: var(--accent); color: var(--accent-text); border-color: var(--accent); }
-  
-  .vip-card { border: 0.5px solid rgba(245, 158, 11, 0.4); background: linear-gradient(135deg, rgba(245, 158, 11, 0.05), rgba(239, 68, 68, 0.05)); }
-  .vip-badge { background: linear-gradient(90deg, #f59e0b, #ef4444); color: #fff; font-size: 9px; font-weight: 900; padding: 2px 8px; border-radius: 999px; }
-  .lock-overlay { position: absolute; inset: 0; background: rgba(0,0,0,.75); border-radius: inherit; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; }
-  
-  .review-correct { background: rgba(16, 185, 129, 0.08); }
-  .review-wrong { background: rgba(244, 63, 94, 0.08); }
-  .spinner { border: 3px solid var(--border); border-top-color: var(--accent); border-radius: 50%; width: 28px; height: 28px; animation: spin .7s linear infinite; margin: auto; }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  .auth-tab { padding: .5rem 1.25rem; border-radius: .75rem; font-weight: 700; font-size: .75rem; cursor: pointer; color: var(--text-dim); flex: 1; }
-  .auth-tab.active { background: var(--accent); color: var(--accent-text); }
-  
-  .broadcast-banner { background: linear-gradient(90deg, #1e293b, var(--card)); border-bottom: 1px solid var(--border); animation: flashBorder 3s infinite alternate; }
-  @keyframes flashBorder { from { border-color: var(--border); } to { border-color: var(--accent); } }
+/* HOME DASHBOARD GRID */
+.home-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:8px;}
+@media(min-width:640px){.home-grid{grid-template-columns:repeat(4,1fr);}}
+@media(min-width:768px){.home-grid{grid-template-columns:repeat(3,1fr);}}
+.home-card{background:var(--card);border:0.5px solid var(--border);border-radius:18px;padding:20px 12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;cursor:pointer;transition:all .25s ease;position:relative;overflow:hidden;min-height:110px;text-align:center;}
+.home-card:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(0,0,0,.5);border-color:var(--accent);}
+.home-card:active{transform:scale(0.96);}
+.home-card .card-icon{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin-bottom:2px;}
+.home-card .card-label{font-size:11px;font-weight:800;color:var(--text);letter-spacing:.03em;line-height:1.2;}
+.home-card .card-sub{font-size:9px;color:var(--text-dim);font-weight:600;margin-top:2px;}
+.home-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,0.03),transparent);pointer-events:none;}
 
-  /* ======================================================
-     v11.0 ADDITIONS — HOME GRID, MODALS, COURSES, ADMIN PANEL
-     ====================================================== */
-  .app-card { background: var(--card); border: 0.5px solid var(--border); border-radius: 1.25rem; padding: 1.1rem .8rem; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:.5rem; cursor:pointer; text-align:center; transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease; position:relative; overflow:hidden; }
-  .app-card:hover { transform: translateY(-4px) scale(1.02); box-shadow: 0 14px 30px rgba(0,0,0,.45); border-color: var(--accent); }
-  .app-card:active { transform: translateY(-1px) scale(.99); }
-  .app-card-icon { width:46px; height:46px; border-radius:14px; display:flex; align-items:center; justify-content:center; font-size:1.15rem; color:#fff; box-shadow:0 6px 16px rgba(0,0,0,.35); }
-  .app-card-label { font-size:.68rem; font-weight:800; letter-spacing:.03em; text-transform:uppercase; }
-  .g1 { background:linear-gradient(135deg,#f59e0b,#ef4444); }
-  .g2 { background:linear-gradient(135deg,#3b82f6,#6366f1); }
-  .g3 { background:linear-gradient(135deg,#10b981,#059669); }
-  .g4 { background:linear-gradient(135deg,#22c55e,#16a34a); }
-  .g5 { background:linear-gradient(135deg,#eab308,#f59e0b); }
-  .g6 { background:linear-gradient(135deg,#a855f7,#7c3aed); }
-  .g7 { background:linear-gradient(135deg,#06b6d4,#0891b2); }
-  .g8 { background:linear-gradient(135deg,#ec4899,#db2777); }
-  .g9 { background:linear-gradient(135deg,#ef4444,#b91c1c); }
+/* GRADIENT CARD COLORS */
+.card-g1{background:linear-gradient(135deg,#1a1a2e,#16213e);}
+.card-g2{background:linear-gradient(135deg,#0f1b12,#1a2f1d);}
+.card-g3{background:linear-gradient(135deg,#1a0a0a,#2d1515);}
+.card-g4{background:linear-gradient(135deg,#0a1a2a,#0f2640);}
+.card-g5{background:linear-gradient(135deg,#150a2a,#220f40);}
+.card-g6{background:linear-gradient(135deg,#1a1500,#2d2500);}
+.card-g7{background:linear-gradient(135deg,#001a1a,#002d2d);}
+.card-g8{background:linear-gradient(135deg,#1a0a1a,#2d152d);}
+.card-g9{background:linear-gradient(135deg,#0a0a0a,#1a0000);}
 
-  .modal-backdrop { position:fixed; inset:0; background:rgba(0,0,0,.7); z-index:90; display:flex; align-items:center; justify-content:center; padding:1rem; backdrop-filter: blur(3px); }
-  .modal-box { max-width:32rem; width:100%; max-height:85vh; overflow-y:auto; }
+/* MODAL SYSTEM */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:1000;display:flex;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(8px);}
+.modal-box{background:var(--card);border:0.5px solid var(--border);border-radius:20px;padding:24px;max-width:520px;width:100%;max-height:90vh;overflow-y:auto;position:relative;}
 
-  .protected-note { -webkit-user-select:none; user-select:none; }
-  .course-locked-badge { background: rgba(0,0,0,.55); color:#fbbf24; font-size:9px; font-weight:900; padding:2px 8px; border-radius:999px; border:1px solid rgba(251,191,36,.4); }
-  .category-pill { display:inline-block; font-size:9px; font-weight:900; letter-spacing:.05em; text-transform:uppercase; padding:3px 10px; border-radius:999px; background: color-mix(in srgb, var(--accent) 18%, transparent); color: var(--accent); margin-bottom: .5rem; }
-  .admin-subtab { padding:.55rem .9rem; border-radius:.7rem; font-size:.68rem; font-weight:800; cursor:pointer; background:var(--bg); border:0.5px solid var(--border); color:var(--text-dim); white-space:nowrap; }
-  .admin-subtab.active { background:var(--accent); color:var(--accent-text); border-color:var(--accent); }
-  .ticket-row { border-left:3px solid var(--accent); }
-  .ticket-row.resolved { border-left-color: var(--success2); opacity:.65; }
-  .badge-top1 { background:linear-gradient(135deg,#fde047,#f59e0b); color:#1c1300; }
-  .badge-top2 { background:linear-gradient(135deg,#e5e7eb,#9ca3af); color:#1c1300; }
-  .badge-top3 { background:linear-gradient(135deg,#fb923c,#c2410c); color:#fff; }
-  .access-denied-box { border:1px dashed var(--danger); background: color-mix(in srgb, var(--danger) 8%, transparent); }
+/* PAYMENT SECTION */
+.payment-card{background:linear-gradient(135deg,#0a2000,#001a00);border:1px solid rgba(16,185,129,0.3);border-radius:20px;padding:20px;}
+.upi-display{background:var(--bg);border:1px solid rgba(16,185,129,0.4);border-radius:12px;padding:16px;font-family:monospace;letter-spacing:.05em;}
+.qr-box{background:#fff;border-radius:12px;padding:12px;display:inline-block;}
+
+/* NOTES SYSTEM */
+.notes-reader{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;}
+
+/* COURSE CARDS */
+.course-card{background:var(--card);border:0.5px solid var(--border);border-radius:16px;padding:16px;position:relative;transition:all .2s ease;}
+.course-card:hover{border-color:var(--accent);transform:translateY(-2px);}
+.locked-badge{position:absolute;top:10px;right:10px;background:linear-gradient(90deg,#f59e0b,#ef4444);color:#fff;font-size:8px;font-weight:900;padding:3px 8px;border-radius:999px;}
+
+/* RANKING */
+.rank-gold{background:linear-gradient(135deg,rgba(245,158,11,0.15),rgba(245,158,11,0.05));border-color:rgba(245,158,11,0.4)!important;}
+.rank-silver{background:linear-gradient(135deg,rgba(148,163,184,0.1),transparent);border-color:rgba(148,163,184,0.3)!important;}
+.rank-bronze{background:linear-gradient(135deg,rgba(180,83,9,0.1),transparent);border-color:rgba(180,83,9,0.3)!important;}
+
+/* ANTI-SELECT (Notes) */
+body.notes-open{-webkit-user-select:none;user-select:none;}
+@media print{.no-print{display:none!important;}.print-block{display:block!important;}}
+
+/* SCREEN VIEWS */
+#screen-home,#screen-exam,#screen-notes,#screen-courses,
+#screen-ranking,#screen-profile,#screen-share,#screen-support,
+#screen-admin,#screen-results{display:none;}
+#screen-home.active,#screen-exam.active,#screen-notes.active,
+#screen-courses.active,#screen-ranking.active,#screen-profile.active,
+#screen-share.active,#screen-support.active,#screen-admin.active,
+#screen-results.active{display:block;}
+
+/* EXAM ENGINE */
+.exam-container{min-height:85vh;}
+
+/* Tab system for admin */
+.admin-tab{padding:8px 16px;border-radius:10px;font-weight:700;font-size:11px;cursor:pointer;color:var(--text-dim);border:0.5px solid transparent;}
+.admin-tab.active{background:var(--accent);color:var(--accent-text);}
 </style>
 </head>
-<body class="min-h-screen flex flex-col p-3 md:p-5 justify-between text-sm">
+<body class="min-h-screen flex flex-col p-3 md:p-4">
 
-<!-- ====================== GLOBAL ANNOUNCEMENT BANNER ====================== -->
+<!-- ====================== BROADCAST BANNER ====================== -->
 <div id="global-broadcast" class="broadcast-banner w-full text-center py-2 px-4 rounded-xl hidden mb-3 text-xs font-bold text-accent shadow-md">
-  <i class="fas fa-bullhorn mr-2"></i> <span id="broadcast-text">Loading network system update announcements...</span>
+  <i class="fas fa-bullhorn mr-2"></i><span id="broadcast-text">Loading announcements...</span>
 </div>
 
 <!-- ====================== HEADER ====================== -->
-<header class="w-full text-center my-1 mb-3">
+<header class="w-full text-center mb-3">
   <h1 class="text-3xl md:text-5xl font-black tracking-widest brand-gradient">OPERATION BAAZ</h1>
-  <p class="text-[10px] text-muted uppercase tracking-widest mt-1 font-semibold">Enterprise Dynamic Assessment &amp; Learning Core v10.0</p>
+  <p class="text-[10px] text-muted uppercase tracking-widest mt-1 font-semibold">Complete Defence Learning Platform v11.0</p>
 </header>
 
 <!-- ====================== AUTH SCREEN ====================== -->
@@ -138,8 +165,7 @@
       <button onclick="showAuthTab('login')" id="tab-login" class="auth-tab active"><i class="fas fa-sign-in-alt mr-1"></i>Login</button>
       <button onclick="showAuthTab('signup')" id="tab-signup" class="auth-tab"><i class="fas fa-user-plus mr-1"></i>Sign Up</button>
     </div>
-
-    <!-- LOGIN GRID -->
+    <!-- LOGIN -->
     <div id="form-login" class="space-y-3">
       <h2 class="text-lg font-black"><i class="fas fa-shield-alt text-accent mr-1"></i>Secure Gateway Access</h2>
       <div>
@@ -150,64 +176,48 @@
         <label class="block text-[11px] font-bold text-muted uppercase mb-1">Password</label>
         <input type="password" id="login-password" placeholder="••••••••" class="w-full input-field rounded-xl px-4 py-3 transition">
       </div>
-      <button onclick="doLogin()" class="w-full btn-accent font-bold py-3 rounded-xl cursor-pointer transition shadow-lg flex items-center justify-center gap-2" id="btn-login">
-        <i class="fas fa-unlock-alt"></i> Authenticate Credentials
+      <button onclick="doLogin()" class="w-full btn-accent font-bold py-3 rounded-xl cursor-pointer transition shadow-lg flex items-center justify-center gap-2">
+        <i class="fas fa-unlock-alt"></i> Authenticate
       </button>
       <p id="login-error" class="hidden text-xs text-center mt-1 font-bold" style="color:var(--danger2)"></p>
-      <p class="text-center"><button type="button" onclick="openForgotPassword()" class="text-[11px] font-bold text-accent underline cursor-pointer">Password bhool gaye?</button></p>
     </div>
-
-    <!-- SIGNUP GRID -->
+    <!-- SIGNUP -->
     <div id="form-signup" class="hidden space-y-3">
-      <h2 class="text-lg font-black"><i class="fas fa-user-plus text-accent mr-1"></i>Create Secure Profile</h2>
+      <h2 class="text-lg font-black"><i class="fas fa-user-plus text-accent mr-1"></i>Create Profile</h2>
       <div class="flex items-center gap-3">
         <div class="relative">
-          <img id="su-avatar-preview" src="" class="hidden w-16 h-16 rounded-xl object-cover border-2" style="border-color:var(--accent);">
+          <img id="su-avatar-preview" src="" class="hidden w-16 h-16 rounded-xl object-cover border-2" style="border-color:var(--accent)">
           <div id="su-avatar-placeholder" class="w-16 h-16 rounded-xl flex items-center justify-center text-xl surface"><i class="fas fa-user text-muted"></i></div>
         </div>
-        <div>
-          <label class="btn-neutral text-[11px] font-bold px-3 py-2 rounded-xl cursor-pointer inline-block">
-            <i class="fas fa-camera mr-1"></i> Photo Upload <span style="color:var(--danger2)">*</span>
-            <input type="file" id="su-avatar-input" accept="image/*" class="hidden" onchange="handleSuAvatar(event)">
-          </label>
-        </div>
+        <label class="btn-neutral text-[11px] font-bold px-3 py-2 rounded-xl cursor-pointer inline-block">
+          <i class="fas fa-camera mr-1"></i> Photo *
+          <input type="file" id="su-avatar-input" accept="image/*" class="hidden" onchange="handleSuAvatar(event)">
+        </label>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-        <div>
-          <label class="block text-[11px] font-bold text-muted uppercase mb-1">Full Name *</label>
-          <input id="su-name" class="w-full input-field rounded-xl px-3 py-2.5 transition">
+        <div><label class="block text-[11px] font-bold text-muted uppercase mb-1">Full Name *</label><input id="su-name" class="w-full input-field rounded-xl px-3 py-2.5 transition"></div>
+        <div><label class="block text-[11px] font-bold text-muted uppercase mb-1">Mobile *</label><input id="su-phone" type="tel" class="w-full input-field rounded-xl px-3 py-2.5 transition"></div>
+        <div><label class="block text-[11px] font-bold text-muted uppercase mb-1">Email *</label><input id="su-email" type="email" class="w-full input-field rounded-xl px-3 py-2.5 transition"></div>
+        <div><label class="block text-[11px] font-bold text-muted uppercase mb-1">Password *</label><input id="su-password" type="password" class="w-full input-field rounded-xl px-3 py-2.5 transition"></div>
+        <div><label class="block text-[11px] font-bold text-muted uppercase mb-1">Target Exam</label>
+          <select id="su-exam" class="w-full input-field rounded-xl px-3 py-2.5 cursor-pointer">
+            <option value="">Select Exam</option>
+            <option>AFCAT</option><option>CDS</option><option>AIR FORCE X/Y</option>
+            <option>NAVY</option><option>ARMY GD</option><option>SSC</option><option>NDA</option>
+          </select>
         </div>
-        <div>
-          <label class="block text-[11px] font-bold text-muted uppercase mb-1">Mobile Number *</label>
-          <input id="su-phone" type="tel" class="w-full input-field rounded-xl px-3 py-2.5 transition">
-        </div>
-        <div>
-          <label class="block text-[11px] font-bold text-muted uppercase mb-1">Email *</label>
-          <input id="su-email" type="email" class="w-full input-field rounded-xl px-3 py-2.5 transition">
-        </div>
-        <div>
-          <label class="block text-[11px] font-bold text-muted uppercase mb-1">Password *</label>
-          <input id="su-password" type="password" class="w-full input-field rounded-xl px-3 py-2.5 transition">
-        </div>
-        <div>
-          <label class="block text-[11px] font-bold text-muted uppercase mb-1">Target Year</label>
-          <input id="su-year" type="number" placeholder="2027" class="w-full input-field rounded-xl px-3 py-2.5 transition">
-        </div>
-        <div>
-          <label class="block text-[11px] font-bold text-muted uppercase mb-1">Referral Code</label>
-          <input id="su-referral" class="w-full input-field rounded-xl px-3 py-2.5 transition">
-        </div>
+        <div><label class="block text-[11px] font-bold text-muted uppercase mb-1">Target Year</label><input id="su-year" type="number" placeholder="2027" class="w-full input-field rounded-xl px-3 py-2.5 transition"></div>
       </div>
       <div>
         <label class="block text-[11px] font-bold text-muted uppercase mb-2">Gender *</label>
         <div class="grid grid-cols-3 gap-2" id="su-gender-group">
-          <button type="button" onclick="selectSuGender('Male')" data-gender="Male" class="gender-pill py-2.5 rounded-xl text-xs font-bold cursor-pointer transition">Male</button>
-          <button type="button" onclick="selectSuGender('Female')" data-gender="Female" class="gender-pill py-2.5 rounded-xl text-xs font-bold cursor-pointer transition">Female</button>
-          <button type="button" onclick="selectSuGender('Other')" data-gender="Other" class="gender-pill py-2.5 rounded-xl text-xs font-bold cursor-pointer transition">Other</button>
+          <button type="button" onclick="selectSuGender('Male')" data-gender="Male" class="gender-pill py-2.5 rounded-xl text-xs font-bold cursor-pointer">Male</button>
+          <button type="button" onclick="selectSuGender('Female')" data-gender="Female" class="gender-pill py-2.5 rounded-xl text-xs font-bold cursor-pointer">Female</button>
+          <button type="button" onclick="selectSuGender('Other')" data-gender="Other" class="gender-pill py-2.5 rounded-xl text-xs font-bold cursor-pointer">Other</button>
         </div>
       </div>
-      <button onclick="doSignup()" class="w-full btn-success font-bold py-3 rounded-xl cursor-pointer transition flex items-center justify-center gap-2" id="btn-signup">
-        <i class="fas fa-rocket"></i> Finalize Registration
+      <button onclick="doSignup()" class="w-full btn-success font-bold py-3 rounded-xl cursor-pointer transition flex items-center justify-center gap-2">
+        <i class="fas fa-rocket"></i> Create Account
       </button>
       <p id="signup-error" class="hidden text-xs text-center font-bold" style="color:var(--danger2)"></p>
       <p id="signup-success" class="hidden text-xs text-center font-bold" style="color:var(--success2)"></p>
@@ -215,529 +225,648 @@
   </div>
 </div>
 
-<!-- ====================== DASHBOARD ====================== -->
-<div id="dashboard-container" class="hidden w-full max-w-5xl mx-auto space-y-4">
-  <header class="premium-card rounded-2xl p-4 flex flex-wrap gap-3 justify-between items-center">
+<!-- ====================== MAIN APP ====================== -->
+<div id="app-container" class="hidden w-full max-w-5xl mx-auto space-y-3">
+
+  <!-- TOP HEADER BAR -->
+  <div class="premium-card rounded-2xl p-3 flex flex-wrap gap-2 justify-between items-center">
     <div class="flex items-center gap-3">
-      <img id="dash-avatar" src="" class="hidden w-11 h-11 rounded-xl object-cover border-2" style="border-color:var(--accent);">
-      <div id="dash-avatar-ph" class="w-11 h-11 rounded-xl flex items-center justify-center text-lg surface"><i class="fas fa-user text-muted"></i></div>
+      <img id="dash-avatar" src="" class="hidden w-10 h-10 rounded-xl object-cover border-2" style="border-color:var(--accent)">
+      <div id="dash-avatar-ph" class="w-10 h-10 rounded-xl flex items-center justify-center text-lg surface"><i class="fas fa-user text-muted"></i></div>
       <div>
-        <div class="font-black text-base">Jai Hind, <span id="student-name" class="text-accent">Soldier</span></div>
-        <div id="role-badge" class="text-[10px] font-bold uppercase px-2 py-0.5 rounded mt-0.5 inline-block">STUDENT CONTROL CORE</div>
+        <div class="font-black text-sm">Jai Hind, <span id="student-name" class="text-accent">Soldier</span></div>
+        <div id="role-badge" class="text-[9px] font-bold uppercase px-2 py-0.5 rounded mt-0.5 inline-block bg-slate-800 text-amber-500">STUDENT</div>
       </div>
     </div>
-    
-    <!-- WALLET & REFERRAL CHIPS -->
     <div class="flex gap-2 flex-wrap items-center">
       <div class="text-[11px] font-bold px-3 py-1.5 rounded-xl surface border border-amber-500/30 flex items-center gap-1">
-        <i class="fas fa-coins text-amber-500"></i> Wallet: <span id="wallet-balance-disp" class="text-amber-500">0</span> Coins
+        <i class="fas fa-coins text-amber-500"></i> <span id="wallet-balance-disp" class="text-amber-500">0</span> Coins
       </div>
-      <div id="referral-chip" class="hidden text-[10px] font-bold px-3 py-1.5 rounded-xl surface border cursor-pointer hover:bg-slate-800" onclick="copyReferral()">
-        <i class="fas fa-share-nodes text-accent mr-1"></i> Ref Code: <span id="referral-code-text" class="text-accent">—</span>
-      </div>
-      <button onclick="logout()" class="btn-danger-outline px-4 py-2 rounded-xl text-xs font-bold cursor-pointer transition">Logout</button>
-    </div>
-  </header>
-
-  <!-- NAVIGATION CORE MATRIX TABS -->
-  <div id="dashboard-tabs" class="grid grid-cols-4 md:grid-cols-7 gap-1.5 p-1 premium-card rounded-xl text-[11px] font-bold text-center">
-    <button id="tab-btn-home"       onclick="goHome()"                 class="py-2.5 rounded-lg text-muted transition cursor-pointer nav-tab-active"><i class="fas fa-house mr-1"></i>Home</button>
-    <button id="tab-btn-tests"      onclick="switchTab('tests')"       class="py-2.5 rounded-lg text-muted transition cursor-pointer"><i class="fas fa-layer-group mr-1"></i>Exam Pools</button>
-    <button id="tab-btn-vault"      onclick="switchTab('vault')"       class="py-2.5 rounded-lg text-muted transition cursor-pointer"><i class="fas fa-book-bookmark mr-1"></i>Study Vault</button>
-    <button id="tab-btn-profile"    onclick="switchTab('profile')"     class="py-2.5 rounded-lg text-muted transition cursor-pointer"><i class="fas fa-id-card mr-1"></i>Profile Node</button>
-    <button id="tab-btn-vip"        onclick="switchTab('vip')"         class="py-2.5 rounded-lg text-muted transition cursor-pointer"><i class="fas fa-crown mr-1"></i>VIP Hub</button>
-    <button id="tab-btn-leaderboard" onclick="switchTab('leaderboard')" class="py-2.5 rounded-lg text-muted transition cursor-pointer"><i class="fas fa-trophy mr-1"></i>Rank Board</button>
-    <button id="tab-btn-support"    onclick="switchTab('support')"     class="py-2.5 rounded-lg text-muted transition cursor-pointer"><i class="fas fa-headset mr-1"></i>Support</button>
-  </div>
-
-  <!-- TAB: HOME (9-CARD APP STYLE GRID) -->
-  <div id="tab-content-home" class="space-y-4">
-    <div class="premium-card rounded-2xl p-4">
-      <h2 class="text-sm font-black text-accent uppercase tracking-wider"><i class="fas fa-grip mr-1"></i> Mission Control Dashboard</h2>
-      <p class="text-[11px] text-muted mt-0.5">Sabhi modules ek hi jagah se access karein, Soldier.</p>
-    </div>
-    <div id="home-grid" class="grid grid-cols-3 md:grid-cols-3 gap-3">
-      <div class="app-card" onclick="switchTab('tests')"><div class="app-card-icon g1"><i class="fas fa-pen-to-square"></i></div><div class="app-card-label">Exam</div></div>
-      <div class="app-card" onclick="switchTab('vault')"><div class="app-card-icon g2"><i class="fas fa-book-bookmark"></i></div><div class="app-card-label">Notes</div></div>
-      <div class="app-card" onclick="switchTab('profile')"><div class="app-card-icon g3"><i class="fas fa-id-card"></i></div><div class="app-card-label">Profile</div></div>
-      <div class="app-card" onclick="switchTab('share')"><div class="app-card-icon g4"><i class="fas fa-share-nodes"></i></div><div class="app-card-label">Share</div></div>
-      <div class="app-card" onclick="switchTab('leaderboard')"><div class="app-card-icon g5"><i class="fas fa-trophy"></i></div><div class="app-card-label">Ranking</div></div>
-      <div class="app-card" onclick="switchTab('vip')"><div class="app-card-icon g6"><i class="fas fa-crown"></i></div><div class="app-card-label">Paid Classes</div></div>
-      <div class="app-card" onclick="switchTab('support')"><div class="app-card-icon g7"><i class="fas fa-headset"></i></div><div class="app-card-label">Support</div></div>
-      <div class="app-card" onclick="switchTab('results')"><div class="app-card-icon g8"><i class="fas fa-chart-line"></i></div><div class="app-card-label">Results</div></div>
-      <div id="home-card-admin" class="app-card hidden" onclick="switchTab('adminpanel')"><div class="app-card-icon g9"><i class="fas fa-user-shield"></i></div><div class="app-card-label">Admin Panel</div></div>
+      <button onclick="goHome()" class="btn-neutral px-3 py-1.5 rounded-xl text-xs font-bold cursor-pointer"><i class="fas fa-home mr-1"></i>Home</button>
+      <button onclick="logout()" class="btn-danger-outline px-3 py-1.5 rounded-xl text-xs font-bold cursor-pointer">Logout</button>
     </div>
   </div>
 
-  <!-- TAB: TESTS -->
-  <div id="tab-content-tests" class="hidden space-y-4">
-    <!-- MASTER ADMIN PARSER HUB -->
-    <div id="admin-parser-box" class="hidden premium-card rounded-xl p-5 space-y-3" style="border:1px solid rgba(245,158,11,0.3)">
-      <div class="flex justify-between items-center border-b pb-2 border-slate-800">
-        <div class="font-bold text-accent text-sm"><i class="fas fa-user-shield"></i> Tactical Admin Command Operations</div>
-        <span class="vip-badge">ROOT ACCESS</span>
-      </div>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
-        <input id="admin-exam-name" placeholder="Exam Target (e.g. NDA 2026)" class="input-field rounded-xl px-3 py-2 text-xs">
-        <input id="admin-subject-name" placeholder="Subject Segment (e.g. Mathematics)" class="input-field rounded-xl px-3 py-2 text-xs">
-        <input id="admin-test-title" placeholder="Unique Test Identifier Title" class="input-field rounded-xl px-3 py-2 text-xs">
-      </div>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
-        <input id="admin-pos-marks" type="number" placeholder="Positive Marks (Default 3)" class="input-field rounded-xl px-3 py-2 text-xs">
-        <input id="admin-neg-marks" type="number" placeholder="Negative Marks (Default 1)" class="input-field rounded-xl px-3 py-2 text-xs">
-        <select id="admin-is-premium" class="input-field rounded-xl px-3 py-2 text-xs cursor-pointer">
-          <option value="FALSE">🔓 Free Access Paper</option>
-          <option value="TRUE">👑 VIP Premium Guarded Paper</option>
-        </select>
-      </div>
-      <input id="admin-test-desc" placeholder="Operational briefing notes description for students..." class="w-full input-field rounded-xl px-3 py-2 text-xs">
-      <textarea id="local-ai-text" rows="5" placeholder="Paste structural question layout matrix along with ANSWER KEY block block here..." class="w-full input-field rounded-xl p-3 text-xs font-mono outline-none"></textarea>
-      <button onclick="setTestByAdmin()" class="w-full btn-success font-bold py-2.5 rounded-xl text-xs uppercase tracking-wider cursor-pointer">Lock, Obfuscate &amp; Deploy Configurations</button>
-      <p id="admin-publish-status" class="text-[10px] text-muted"></p>
-
-      <div class="mt-3 pt-3 border-t border-slate-800">
-        <button onclick="loadStudentList()" class="btn-neutral px-4 py-2 rounded-xl text-xs font-bold cursor-pointer transition">Sync System Registered User Logs</button>
-        <div id="student-list-container" class="mt-3 max-h-48 overflow-y-auto space-y-2 text-xs"></div>
-      </div>
-    </div>
-
-    <h2 class="text-md font-bold text-accent"><i class="fas fa-layer-group mr-1"></i>Active Exam Assessment Pools</h2>
-    <div id="tests-list" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <div class="premium-card rounded-2xl p-5"><p class="text-muted text-xs">Syncing available assessment payloads...</p></div>
-    </div>
-  </div>
-
-  <!-- TAB: STUDY VAULT (NOTES HUB) -->
-  <div id="tab-content-vault" class="hidden space-y-4">
-    <div class="premium-card rounded-2xl p-5 border-l-4 border-amber-500">
-      <h2 class="text-lg font-black text-amber-500 mb-1"><i class="fas fa-book-bookmark mr-2"></i>Mission Control Study Vault</h2>
-      <p class="text-xs text-muted">Access Abhijeet Kushwaha's tactical notes notes and premium documentation materials here.</p>
-    </div>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-      <!-- Category Folder 1 -->
-      <div class="premium-card rounded-xl p-4 space-y-3">
-        <div class="flex items-center gap-2 font-black text-sm text-accent"><i class="fas fa-folder-open text-amber-500"></i> NDA Tactical Notes</div>
-        <div class="space-y-2">
-          <button onclick="openNoteView('NDA Mathematics Complete Formula Core', 'https://docs.google.com/viewer?authuser=0&srcid=1_zC6fP-82nSF1U_Pz0aP&pid=explorer&efh=false&a=v&chrome=false&embedded=true')" class="w-full text-left surface p-2.5 rounded-lg text-xs hover:border-amber-500 flex justify-between items-center cursor-pointer"><span>📐 Mathematics Concept Blueprint</span><i class="fas fa-file-pdf text-red-500"></i></button>
-          <button onclick="openNoteView('NDA GAT History Strategic Briefing', '#')" class="w-full text-left surface p-2.5 rounded-lg text-xs hover:border-amber-500 flex justify-between items-center cursor-pointer"><span>⚔️ Modern Indian History Ledger</span><i class="fas fa-file-pdf text-red-500"></i></button>
-        </div>
-      </div>
-      <!-- Category Folder 2 -->
-      <div class="premium-card rounded-xl p-4 space-y-3">
-        <div class="flex items-center gap-2 font-black text-sm text-accent"><i class="fas fa-folder-open text-blue-400"></i> CDS Strategic Files</div>
-        <div class="space-y-2">
-          <button onclick="openNoteView('CDS English Advanced Syntax Matrix', '#')" class="w-full text-left surface p-2.5 rounded-lg text-xs hover:border-blue-400 flex justify-between items-center cursor-pointer"><span>📖 English Grammar Master Hacks</span><i class="fas fa-file-pdf text-red-500"></i></button>
-        </div>
-      </div>
-      <!-- Category Folder 3 (Mistakes Ledger Redirect) -->
-      <div class="premium-card rounded-xl p-4 space-y-3 border border-red-500/20">
-        <div class="flex items-center gap-2 font-black text-sm text-red-400"><i class="fas fa-triangle-exclamation"></i> Personal Weakness Ledger</div>
-        <p class="text-[11px] text-muted">Assessments ke dauran aapse jo sawal galat hote hain, unka database automatically yahan archive hota hai.</p>
-        <button onclick="openMistakesLedger()" class="w-full btn-danger-outline font-bold py-2 rounded-xl text-xs cursor-pointer text-center">Open My Errors Locker</button>
-      </div>
-    </div>
-
-    <!-- DYNAMIC ADMIN-MANAGED NOTES LIBRARY -->
-    <div class="premium-card rounded-2xl p-4 space-y-3">
-      <div class="flex justify-between items-center">
-        <h3 class="text-sm font-black text-accent"><i class="fas fa-database mr-1"></i> Dynamic Notes Library</h3>
-        <button onclick="loadNotesList()" class="text-[10px] font-bold text-muted underline cursor-pointer">Refresh</button>
-      </div>
-      <div id="dynamic-notes-grid" class="grid grid-cols-1 md:grid-cols-3 gap-3">
-        <p class="text-xs text-muted">Syncing notes library...</p>
-      </div>
-    </div>
+  <!-- SCREEN: HOME DASHBOARD -->
+  <div id="screen-home" class="active">
+    <!-- ANNOUNCEMENT if any -->
+    <div id="home-announce" class="hidden premium-card rounded-xl p-3 mb-3 border-l-4 border-amber-500 text-xs font-bold text-amber-400"></div>
     
-    <!-- PDF LIVE EMBED NOTEPAD CONSOLE -->
-    <div id="pdf-view-console" class="premium-card rounded-2xl p-4 hidden grid grid-cols-1 md:grid-cols-3 gap-4">
-      <div class="md:col-span-2 space-y-2">
-        <div class="flex justify-between items-center"><h3 id="pdf-console-title" class="font-black text-xs text-accent">Document Reader</h3><button onclick="document.getElementById('pdf-view-console').classList.add('hidden')" class="text-xs text-red-400 font-bold underline">Close Viewer</button></div>
-        <iframe id="pdf-frame" src="" class="w-full h-96 rounded-xl border border-slate-800" allow="autoplay"></iframe>
+    <div class="home-grid">
+      <!-- 1. Exam -->
+      <div class="home-card card-g1" onclick="showScreen('exam')">
+        <div class="card-icon" style="background:linear-gradient(135deg,#1e40af,#3b82f6)"><i class="fas fa-file-alt text-white"></i></div>
+        <div class="card-label">Exam / Mock Test</div>
+        <div class="card-sub">Practice & Attempt</div>
       </div>
-      <div class="space-y-2 flex flex-col justify-between">
-        <div>
-          <h4 class="font-black text-xs text-muted mb-1"><i class="fas fa-pencil-square mr-1 text-accent"></i> Core Study Notepad Vault</h4>
-          <textarea id="vault-notes-area" class="w-full h-72 input-field rounded-xl p-3 text-xs font-mono outline-none resize-none" placeholder="Padhte waqt apne short-notes yahan type karein. Yeh auto-save honge..."></textarea>
-        </div>
-        <button onclick="localStorage.setItem('baaz_vault_notes_'+(currentUserData?.email), document.getElementById('vault-notes-area').value); alert('Notes saved successfully!')" class="w-full btn-accent font-bold py-2 rounded-xl text-xs cursor-pointer">Save Active Note Frame</button>
+      <!-- 2. Notes -->
+      <div class="home-card card-g2" onclick="showScreen('notes')">
+        <div class="card-icon" style="background:linear-gradient(135deg,#065f46,#10b981)"><i class="fas fa-book-open text-white"></i></div>
+        <div class="card-label">Study Notes</div>
+        <div class="card-sub">Read & Revise</div>
+      </div>
+      <!-- 3. Profile -->
+      <div class="home-card card-g3" onclick="showScreen('profile')">
+        <div class="card-icon" style="background:linear-gradient(135deg,#991b1b,#ef4444)"><i class="fas fa-id-card text-white"></i></div>
+        <div class="card-label">My Profile</div>
+        <div class="card-sub">Stats & Settings</div>
+      </div>
+      <!-- 4. Share -->
+      <div class="home-card card-g4" onclick="showScreen('share')">
+        <div class="card-icon" style="background:linear-gradient(135deg,#0c4a6e,#0ea5e9)"><i class="fas fa-share-nodes text-white"></i></div>
+        <div class="card-label">Share & Refer</div>
+        <div class="card-sub">Earn Coins</div>
+      </div>
+      <!-- 5. Ranking -->
+      <div class="home-card card-g5" onclick="showScreen('ranking')">
+        <div class="card-icon" style="background:linear-gradient(135deg,#4c1d95,#8b5cf6)"><i class="fas fa-trophy text-white"></i></div>
+        <div class="card-label">Leaderboard</div>
+        <div class="card-sub">Top Rankers</div>
+      </div>
+      <!-- 6. Paid Classes -->
+      <div class="home-card card-g6" onclick="showScreen('courses')">
+        <div class="card-icon" style="background:linear-gradient(135deg,#78350f,#f59e0b)"><i class="fas fa-crown text-white"></i></div>
+        <div class="card-label">Paid Classes</div>
+        <div class="card-sub">Premium Courses</div>
+      </div>
+      <!-- 7. Support -->
+      <div class="home-card card-g7" onclick="showScreen('support')">
+        <div class="card-icon" style="background:linear-gradient(135deg,#134e4a,#14b8a6)"><i class="fas fa-headset text-white"></i></div>
+        <div class="card-label">Support</div>
+        <div class="card-sub">Help & Issues</div>
+      </div>
+      <!-- 8. Results -->
+      <div class="home-card card-g8" onclick="showResultsHistory()">
+        <div class="card-icon" style="background:linear-gradient(135deg,#701a75,#d946ef)"><i class="fas fa-chart-bar text-white"></i></div>
+        <div class="card-label">My Results</div>
+        <div class="card-sub">Score History</div>
+      </div>
+      <!-- 9. Admin Panel (admin only) -->
+      <div class="home-card card-g9" id="admin-home-card" onclick="showScreen('admin')" style="display:none">
+        <div class="card-icon" style="background:linear-gradient(135deg,#450a0a,#dc2626)"><i class="fas fa-user-shield text-white"></i></div>
+        <div class="card-label">Admin Panel</div>
+        <div class="card-sub">Root Control</div>
+        <span class="absolute top-2 right-2 text-[8px] font-black px-1.5 py-0.5 rounded" style="background:var(--danger2);color:#fff">ADMIN</span>
+      </div>
+    </div>
+
+    <!-- QUICK STATS -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-3">
+      <div class="premium-card rounded-xl p-3 text-center">
+        <div class="text-2xl font-black text-accent" id="stat-tests">0</div>
+        <div class="text-[10px] text-muted font-bold uppercase mt-1">Tests Given</div>
+      </div>
+      <div class="premium-card rounded-xl p-3 text-center">
+        <div class="text-2xl font-black text-emerald-400" id="stat-score">0</div>
+        <div class="text-[10px] text-muted font-bold uppercase mt-1">Total Score</div>
+      </div>
+      <div class="premium-card rounded-xl p-3 text-center">
+        <div class="text-2xl font-black text-amber-400" id="stat-coins">0</div>
+        <div class="text-[10px] text-muted font-bold uppercase mt-1">Coins Earned</div>
+      </div>
+      <div class="premium-card rounded-xl p-3 text-center">
+        <div class="text-2xl font-black text-violet-400" id="stat-rank">#--</div>
+        <div class="text-[10px] text-muted font-bold uppercase mt-1">Current Rank</div>
       </div>
     </div>
   </div>
 
-  <!-- TAB: PROFILE -->
-  <div id="tab-content-profile" class="hidden premium-card rounded-2xl p-6 space-y-5">
-    <h2 class="text-lg font-black"><i class="fas fa-id-card text-accent mr-1"></i>System Identity Core Management</h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <div><label class="block text-xs font-bold text-muted uppercase mb-1">Full Name</label><input id="profile-name" readonly class="w-full input-field rounded-xl px-4 py-2.5 opacity-60"></div>
-      <div><label class="block text-xs font-bold text-muted uppercase mb-1">Mobile Number</label><input id="profile-mobile" readonly class="w-full input-field rounded-xl px-4 py-2.5 opacity-60"></div>
-      <div><label class="block text-xs font-bold text-muted uppercase mb-1">Target Year</label><input id="profile-year" readonly class="w-full input-field rounded-xl px-4 py-2.5 opacity-60"></div>
-      <div>
-        <label class="block text-xs font-bold text-muted uppercase mb-1">Display Interface Skin Theme</label>
-        <select id="theme-picker" onchange="applyTheme(this.value,true)" class="w-full input-field rounded-xl px-4 py-2.5 cursor-pointer">
-          <option value="military">🎖️ Tactical Military Cyber (Gold/Dark)</option>
-          <option value="midnight">🪐 Deep Midnight Obsidian (Cyan/Dark)</option>
-          <option value="minimalist">❄️ Enterprise Minimalist (Blue/Light)</option>
+  <!-- SCREEN: EXAM / MOCK TESTS -->
+  <div id="screen-exam">
+    <div class="flex items-center gap-3 mb-3">
+      <button onclick="goHome()" class="btn-neutral px-3 py-2 rounded-xl text-xs font-bold cursor-pointer"><i class="fas fa-arrow-left mr-1"></i>Back</button>
+      <h2 class="text-base font-black text-accent"><i class="fas fa-layer-group mr-1"></i>Exam Pools</h2>
+    </div>
+    <div id="tests-list" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="premium-card rounded-xl p-4"><div class="spinner"></div></div>
+    </div>
+  </div>
+
+  <!-- SCREEN: NOTES -->
+  <div id="screen-notes">
+    <div class="flex items-center gap-3 mb-3">
+      <button onclick="goHome()" class="btn-neutral px-3 py-2 rounded-xl text-xs font-bold cursor-pointer"><i class="fas fa-arrow-left mr-1"></i>Back</button>
+      <h2 class="text-base font-black text-accent"><i class="fas fa-book-bookmark mr-1"></i>Study Vault</h2>
+    </div>
+    <!-- Admin Add Note -->
+    <div id="admin-note-adder" class="hidden premium-card rounded-xl p-4 mb-4 space-y-3" style="border:1px solid rgba(245,158,11,0.3)">
+      <div class="font-bold text-amber-500 text-xs uppercase"><i class="fas fa-plus mr-1"></i>Add New Note (Admin)</div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
+        <input id="note-title" placeholder="Note Title *" class="input-field rounded-xl px-3 py-2 text-xs">
+        <select id="note-exam" class="input-field rounded-xl px-3 py-2 text-xs cursor-pointer">
+          <option value="">Select Exam</option>
+          <option>NDA</option><option>CDS</option><option>AFCAT</option>
+          <option>AIR FORCE X/Y</option><option>NAVY</option><option>ARMY GD</option><option>SSC</option>
+        </select>
+        <select id="note-subject" class="input-field rounded-xl px-3 py-2 text-xs cursor-pointer">
+          <option>Mathematics</option><option>English</option><option>History</option>
+          <option>Geography</option><option>Science</option><option>GK/GS</option><option>Reasoning</option>
         </select>
       </div>
+      <textarea id="note-content" rows="6" placeholder="Note content yahan likhein..." class="w-full input-field rounded-xl px-3 py-2 text-xs font-mono outline-none resize-none"></textarea>
+      <button onclick="adminAddNote()" class="btn-success px-6 py-2 rounded-xl text-xs font-bold cursor-pointer"><i class="fas fa-save mr-1"></i>Publish Note</button>
     </div>
-
-    <!-- STUDENT STATS PANEL -->
-    <div id="profile-student-stats" class="hidden grid grid-cols-2 md:grid-cols-4 gap-2.5 pt-2 border-t border-slate-800">
-      <div class="surface p-3 rounded-xl text-center"><p class="text-[9px] text-muted font-bold uppercase">Tests Attempted</p><p id="stat-tests-attempted" class="text-lg font-black text-accent">0</p></div>
-      <div class="surface p-3 rounded-xl text-center"><p class="text-[9px] text-muted font-bold uppercase">Average Score</p><p id="stat-avg-score" class="text-lg font-black text-emerald-400">0</p></div>
-      <div class="surface p-3 rounded-xl text-center"><p class="text-[9px] text-muted font-bold uppercase">Selected Exam</p><p id="stat-selected-exam" class="text-xs font-black text-violet-400 mt-1.5">General</p></div>
-      <div class="surface p-3 rounded-xl text-center"><p class="text-[9px] text-muted font-bold uppercase">Joined Date</p><p id="stat-joined-date" class="text-xs font-black text-amber-400 mt-1.5">—</p></div>
-    </div>
-
-    <!-- ADMIN STATS PANEL -->
-    <div id="profile-admin-stats" class="hidden grid grid-cols-2 md:grid-cols-4 gap-2.5 pt-2 border-t border-slate-800">
-      <div class="surface p-3 rounded-xl text-center"><p class="text-[9px] text-muted font-bold uppercase">Total Students</p><p id="stat-total-students" class="text-lg font-black text-accent">0</p></div>
-      <div class="surface p-3 rounded-xl text-center"><p class="text-[9px] text-muted font-bold uppercase">Total Notes</p><p id="stat-total-notes" class="text-lg font-black text-emerald-400">0</p></div>
-      <div class="surface p-3 rounded-xl text-center"><p class="text-[9px] text-muted font-bold uppercase">Total Exams</p><p id="stat-total-exams" class="text-lg font-black text-violet-400">0</p></div>
-      <div class="surface p-3 rounded-xl text-center"><p class="text-[9px] text-muted font-bold uppercase">Total Courses</p><p id="stat-total-courses" class="text-lg font-black text-amber-400">0</p></div>
-    </div>
-  </div>
-
-  <!-- TAB: VIP HARDCORE GRID HUB -->
-  <div id="tab-content-vip" class="hidden space-y-4">
-    <div class="premium-card rounded-2xl p-5 vip-card">
-      <h2 class="text-lg font-black mb-1">🔥 <span class="brand-gradient">VIP Premium Stream Gateway</span></h2>
-      <p class="text-xs text-muted">Abhijeet Kushwaha's signature premium defense courses panel dashboard view.</p>
-    </div>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <!-- Course 1 -->
-      <div class="premium-card rounded-2xl p-5 vip-card relative flex flex-col justify-between gap-3 min-h-[150px]">
-        <div><div class="flex items-center justify-between mb-1"><span class="text-2xl">⚔️</span><span class="vip-badge">NDA ULTRA PLATINUM</span></div>
-             <h3 class="font-black text-sm text-accent">NDA Complete Strategic Prep Core</h3>
-             <p class="text-xs text-muted">Full dimensional Mathematics modules accompanied by GAT comprehensive ledger archives.</p></div>
-        <div class="lock-overlay"><a href="https://api.whatsapp.com/send?phone=917068252052&text=Hello%2C+I+want+to+unlock+NDA+Premium" target="_blank" class="btn-success px-4 py-2 rounded-xl text-xs font-bold cursor-pointer"><i class="fab fa-whatsapp mr-1"></i> Request Access WhatsApp</a></div>
-      </div>
-      <!-- Course 2 -->
-      <div class="premium-card rounded-2xl p-5 vip-card relative flex flex-col justify-between gap-3 min-h-[150px]">
-        <div><div class="flex items-center justify-between mb-1"><span class="text-2xl">🎖️</span><span class="vip-badge">CDS ELITE FORCE</span></div>
-             <h3 class="font-black text-sm text-accent">CDS Officers Academy Engine</h3>
-             <p class="text-xs text-muted">Dedicated operational configurations mapping OTA, IMA, AFA targets perfectly.</p></div>
-        <div class="lock-overlay"><a href="https://api.whatsapp.com/send?phone=917068252052&text=Hello%2C+I+want+to+unlock+CDS+Premium" target="_blank" class="btn-success px-4 py-2 rounded-xl text-xs font-bold cursor-pointer"><i class="fab fa-whatsapp mr-1"></i> Request Access WhatsApp</a></div>
-      </div>
-    </div>
-
-    <!-- FULL COURSE CATALOGUE (ADMIN MANAGEABLE) -->
-    <div class="premium-card rounded-2xl p-4 flex justify-between items-center">
-      <h3 class="text-sm font-black text-accent"><i class="fas fa-graduation-cap mr-1"></i> Operation Baaz Course Catalogue</h3>
-      <button onclick="loadCourses()" class="text-[10px] font-bold text-muted underline cursor-pointer">Refresh</button>
-    </div>
-    <div id="course-catalogue-container" class="space-y-5"></div>
-  </div>
-
-  <!-- TAB: RANK BOARD LEADERBOARD -->
-  <div id="tab-content-leaderboard" class="hidden space-y-4">
-    <div class="premium-card rounded-2xl p-4 flex items-center justify-between"><h2 class="text-lg font-black"><i class="fas fa-trophy text-accent mr-2"></i>All India Rank Matrix System</h2></div>
-    <div id="leaderboard-container" class="premium-card rounded-2xl p-4"><div class="spinner"></div></div>
-  </div>
-
-  <!-- TAB: SUPPORT -->
-  <div id="tab-content-support" class="hidden space-y-4">
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <div class="premium-card rounded-2xl p-5 space-y-3">
-        <h3 class="text-sm font-bold"><i class="fab fa-whatsapp text-green-500"></i> Direct Command Center Support</h3>
-        <a href="https://api.whatsapp.com/send?phone=917068252052&text=Hello" target="_blank" class="w-full text-center btn-success font-bold py-2.5 rounded-xl text-xs block">Connect WhatsApp Desk</a>
-      </div>
-      <div class="premium-card rounded-2xl p-5 space-y-3">
-        <h3 class="text-sm font-bold"><i class="fas fa-share-nodes text-accent"></i> Affiliate Program Hub</h3>
-        <div id="referral-display-support" class="surface p-3 rounded-xl text-center font-mono font-black text-accent tracking-widest cursor-pointer" onclick="copyReferral()">—</div>
-      </div>
-    </div>
-
-    <!-- SUPPORT TICKET FORM -->
-    <div class="premium-card rounded-2xl p-5 space-y-3">
-      <h3 class="text-sm font-bold"><i class="fas fa-ticket text-accent"></i> Raise a Support Ticket</h3>
-      <p class="text-[11px] text-muted">Apna issue describe karein, hamari team jald se jald resolve karegi.</p>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-2.5">
-        <input id="sup-name" placeholder="Full Name" class="input-field rounded-xl px-3 py-2.5 text-xs">
-        <input id="sup-contact" placeholder="Email / Mobile Number" class="input-field rounded-xl px-3 py-2.5 text-xs">
-      </div>
-      <select id="sup-issue-type" class="w-full input-field rounded-xl px-3 py-2.5 text-xs cursor-pointer">
-        <option value="Login Issue">Login Issue</option>
-        <option value="Test/Exam Issue">Test / Exam Issue</option>
-        <option value="Payment Query">Payment Query</option>
-        <option value="Notes Access">Notes Access</option>
-        <option value="Other">Other</option>
+    <!-- Notes Filter -->
+    <div class="flex gap-2 flex-wrap mb-3">
+      <select id="notes-filter-exam" onchange="filterNotes()" class="input-field rounded-xl px-3 py-2 text-xs cursor-pointer">
+        <option value="">All Exams</option>
+        <option>NDA</option><option>CDS</option><option>AFCAT</option>
+        <option>AIR FORCE X/Y</option><option>NAVY</option><option>ARMY GD</option><option>SSC</option>
       </select>
-      <textarea id="sup-message" rows="3" placeholder="Apna message yahan likhein..." class="w-full input-field rounded-xl px-3 py-2.5 text-xs"></textarea>
-      <button onclick="submitSupportTicket()" class="w-full btn-accent font-bold py-2.5 rounded-xl text-xs uppercase cursor-pointer">Submit Ticket</button>
-      <p id="sup-ticket-status" class="text-[10px] text-muted"></p>
+      <select id="notes-filter-subject" onchange="filterNotes()" class="input-field rounded-xl px-3 py-2 text-xs cursor-pointer">
+        <option value="">All Subjects</option>
+        <option>Mathematics</option><option>English</option><option>History</option>
+        <option>Geography</option><option>Science</option><option>GK/GS</option><option>Reasoning</option>
+      </select>
     </div>
-  </div>
-
-  <!-- TAB: SHARE -->
-  <div id="tab-content-share" class="hidden space-y-4">
-    <div class="premium-card rounded-2xl p-5 vip-card text-center space-y-1">
-      <h2 class="text-lg font-black"><i class="fas fa-share-nodes text-accent mr-1"></i> Refer &amp; Share Operation Baaz</h2>
-      <p class="text-xs text-muted">Apne dosto ko invite karein aur referral rewards kamayein.</p>
+    <div id="notes-list" class="grid grid-cols-1 md:grid-cols-2 gap-3">
+      <div class="premium-card rounded-xl p-4"><div class="spinner"></div></div>
     </div>
-    <div class="premium-card rounded-2xl p-5 text-center space-y-2">
-      <p class="text-[10px] text-muted uppercase font-bold">Aapka Referral Code</p>
-      <div id="share-referral-code" class="text-2xl font-black text-accent tracking-widest">—</div>
-    </div>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-      <a id="share-whatsapp-btn" href="#" target="_blank" class="btn-success font-bold py-3 rounded-xl text-xs uppercase text-center cursor-pointer"><i class="fab fa-whatsapp mr-1"></i> Share on WhatsApp</a>
-      <a id="share-telegram-btn" href="#" target="_blank" class="btn-accent font-bold py-3 rounded-xl text-xs uppercase text-center cursor-pointer"><i class="fab fa-telegram mr-1"></i> Share on Telegram</a>
-      <button onclick="copyShareLink()" class="btn-neutral font-bold py-3 rounded-xl text-xs uppercase cursor-pointer"><i class="fas fa-link mr-1"></i> Copy Invite Link</button>
-    </div>
-  </div>
-
-  <!-- TAB: RESULTS -->
-  <div id="tab-content-results" class="hidden space-y-4">
-    <div class="premium-card rounded-2xl p-4"><h2 class="text-lg font-black"><i class="fas fa-chart-line text-accent mr-2"></i>My Results History</h2></div>
-    <div id="results-history-container" class="space-y-2.5"></div>
-  </div>
-
-  <!-- TAB: ADMIN PANEL -->
-  <div id="tab-content-adminpanel" class="hidden space-y-4">
-    <div id="adminpanel-denied" class="hidden access-denied-box rounded-2xl p-8 text-center space-y-2">
-      <i class="fas fa-ban text-3xl" style="color:var(--danger2)"></i>
-      <h3 class="font-black text-sm uppercase tracking-wider" style="color:var(--danger2)">Access Denied</h3>
-      <p class="text-xs text-muted">Yeh zone sirf Admin ke liye restricted hai. Students ko edit/delete/add access nahi diya jaata.</p>
-    </div>
-    <div id="adminpanel-content" class="hidden space-y-4">
-      <div class="premium-card rounded-2xl p-3 flex gap-2 overflow-x-auto">
-        <button class="admin-subtab active" data-sub="notes" onclick="switchAdminSubtab('notes')">Add Notes</button>
-        <button class="admin-subtab" data-sub="exams" onclick="switchAdminSubtab('exams')">Add Exams</button>
-        <button class="admin-subtab" data-sub="courses" onclick="switchAdminSubtab('courses')">Manage Courses</button>
-        <button class="admin-subtab" data-sub="students" onclick="switchAdminSubtab('students')">Manage Students</button>
-        <button class="admin-subtab" data-sub="support" onclick="switchAdminSubtab('support')">Support Requests</button>
-        <button class="admin-subtab" data-sub="announce" onclick="switchAdminSubtab('announce')">Announcements</button>
+    <!-- Mistakes Ledger -->
+    <div class="premium-card rounded-xl p-4 mt-4 border-l-4 border-red-500">
+      <div class="flex items-center justify-between mb-2">
+        <div class="font-black text-red-400 text-sm"><i class="fas fa-triangle-exclamation mr-1"></i>My Mistakes Ledger</div>
+        <button onclick="openMistakesLedger()" class="btn-danger-outline px-4 py-1.5 rounded-xl text-xs font-bold cursor-pointer">Open</button>
       </div>
+      <p class="text-xs text-muted">Galat jawab wale sawaal automatically yahan save hote hain.</p>
+    </div>
+  </div>
 
-      <!-- SUB: ADD NOTES -->
-      <div id="adminsub-notes" class="premium-card rounded-2xl p-5 space-y-3">
-        <h3 class="font-black text-sm text-accent"><i class="fas fa-book-bookmark mr-1"></i> Add / Manage Notes</h3>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
-          <input id="note-course" placeholder="Course (e.g. NDA)" class="input-field rounded-xl px-3 py-2 text-xs">
-          <input id="note-exam" placeholder="Exam Tag (e.g. AFCAT 2026)" class="input-field rounded-xl px-3 py-2 text-xs">
-          <input id="note-title" placeholder="Note Title" class="input-field rounded-xl px-3 py-2 text-xs">
+  <!-- SCREEN: PROFILE -->
+  <div id="screen-profile">
+    <div class="flex items-center gap-3 mb-3">
+      <button onclick="goHome()" class="btn-neutral px-3 py-2 rounded-xl text-xs font-bold cursor-pointer"><i class="fas fa-arrow-left mr-1"></i>Back</button>
+      <h2 class="text-base font-black text-accent"><i class="fas fa-id-card mr-1"></i>My Profile</h2>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <!-- Student/Admin Info -->
+      <div class="premium-card rounded-2xl p-5 space-y-4">
+        <div class="flex items-center gap-4">
+          <img id="profile-avatar-img" src="" class="hidden w-20 h-20 rounded-2xl object-cover border-2" style="border-color:var(--accent)">
+          <div id="profile-avatar-ph" class="w-20 h-20 rounded-2xl flex items-center justify-center text-3xl surface"><i class="fas fa-user text-muted"></i></div>
+          <div>
+            <div class="font-black text-lg" id="pf-name">—</div>
+            <div class="text-xs text-muted" id="pf-email">—</div>
+            <div class="text-xs text-amber-500 font-bold mt-1" id="pf-role">—</div>
+          </div>
         </div>
-        <textarea id="note-content" rows="5" placeholder="Note content yahan paste/type karein..." class="w-full input-field rounded-xl p-3 text-xs"></textarea>
-        <div class="flex gap-2">
-          <button onclick="addNote()" class="flex-1 btn-success font-bold py-2.5 rounded-xl text-xs uppercase cursor-pointer">Publish Note</button>
-          <button onclick="resetNoteForm()" class="btn-neutral font-bold py-2.5 px-4 rounded-xl text-xs uppercase cursor-pointer">Clear</button>
+        <div class="grid grid-cols-2 gap-3 text-xs">
+          <div class="surface rounded-xl p-3"><div class="text-muted font-bold uppercase mb-1">Mobile</div><div class="font-black" id="pf-phone">—</div></div>
+          <div class="surface rounded-xl p-3"><div class="text-muted font-bold uppercase mb-1">Target Exam</div><div class="font-black" id="pf-exam">—</div></div>
+          <div class="surface rounded-xl p-3"><div class="text-muted font-bold uppercase mb-1">Target Year</div><div class="font-black" id="pf-year">—</div></div>
+          <div class="surface rounded-xl p-3"><div class="text-muted font-bold uppercase mb-1">Joined</div><div class="font-black" id="pf-joined">—</div></div>
         </div>
-        <div id="admin-notes-list" class="space-y-2 max-h-64 overflow-y-auto pt-2 border-t border-slate-800"></div>
-      </div>
-
-      <!-- SUB: ADD EXAMS (shortcut to existing exam parser) -->
-      <div id="adminsub-exams" class="hidden premium-card rounded-2xl p-5 space-y-3 text-center">
-        <h3 class="font-black text-sm text-accent"><i class="fas fa-layer-group mr-1"></i> Add Exams / Mock Tests</h3>
-        <p class="text-xs text-muted">Exam creation tool "Exam Pools" tab ke andar Tactical Admin Command Operations box mein hai.</p>
-        <button onclick="switchTab('tests')" class="btn-accent font-bold py-2.5 px-5 rounded-xl text-xs uppercase cursor-pointer">Open Exam Creation Tool</button>
-      </div>
-
-      <!-- SUB: MANAGE COURSES -->
-      <div id="adminsub-courses" class="hidden premium-card rounded-2xl p-5 space-y-3">
-        <h3 class="font-black text-sm text-accent"><i class="fas fa-graduation-cap mr-1"></i> Add / Manage Courses</h3>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
-          <select id="course-category" class="input-field rounded-xl px-3 py-2 text-xs cursor-pointer">
-            <option>AFCAT</option><option>CDS</option><option>AIR FORCE</option><option>NAVY</option><option>ARMY GD/CLERK</option><option>SSC</option>
+        <div>
+          <label class="block text-xs font-bold text-muted uppercase mb-1">Theme</label>
+          <select id="theme-picker" onchange="applyTheme(this.value,true)" class="w-full input-field rounded-xl px-3 py-2 text-xs cursor-pointer">
+            <option value="military">🎖️ Military Cyber</option>
+            <option value="midnight">🪐 Midnight Dark</option>
+            <option value="minimalist">❄️ Minimalist Light</option>
           </select>
-          <input id="course-title" placeholder="Course Title" class="input-field rounded-xl px-3 py-2 text-xs">
-          <input id="course-icon" placeholder="Emoji Icon (optional, e.g. ⚔️)" class="input-field rounded-xl px-3 py-2 text-xs">
         </div>
-        <input id="course-desc" placeholder="Short description..." class="w-full input-field rounded-xl px-3 py-2 text-xs">
-        <div class="flex gap-2">
-          <button onclick="addCourse()" class="flex-1 btn-success font-bold py-2.5 rounded-xl text-xs uppercase cursor-pointer">Publish Course</button>
-          <button onclick="seedDefaultCourses()" class="btn-neutral font-bold py-2.5 px-4 rounded-xl text-xs uppercase cursor-pointer">Load Default List</button>
+      </div>
+      <!-- Stats Card -->
+      <div class="premium-card rounded-2xl p-5 space-y-3">
+        <div class="font-black text-sm text-accent mb-2"><i class="fas fa-chart-line mr-1"></i>Performance Stats</div>
+        <div id="profile-student-stats" class="space-y-3">
+          <div class="surface rounded-xl p-3 flex justify-between items-center"><span class="text-xs font-bold text-muted">Tests Attempted</span><span class="font-black text-accent" id="pf-total-tests">0</span></div>
+          <div class="surface rounded-xl p-3 flex justify-between items-center"><span class="text-xs font-bold text-muted">Total Score</span><span class="font-black text-emerald-400" id="pf-total-score">0</span></div>
+          <div class="surface rounded-xl p-3 flex justify-between items-center"><span class="text-xs font-bold text-muted">Avg Score/Test</span><span class="font-black text-amber-400" id="pf-avg">0</span></div>
+          <div class="surface rounded-xl p-3 flex justify-between items-center"><span class="text-xs font-bold text-muted">Wallet Coins</span><span class="font-black text-violet-400" id="pf-coins">0</span></div>
         </div>
-        <div id="admin-courses-list" class="space-y-2 max-h-64 overflow-y-auto pt-2 border-t border-slate-800"></div>
-      </div>
-
-      <!-- SUB: MANAGE STUDENTS (reuses existing ban/unban engine) -->
-      <div id="adminsub-students" class="hidden premium-card rounded-2xl p-5 space-y-3">
-        <h3 class="font-black text-sm text-accent"><i class="fas fa-users mr-1"></i> Manage Students</h3>
-        <button onclick="loadStudentList()" class="btn-neutral px-4 py-2 rounded-xl text-xs font-bold cursor-pointer transition">Sync System Registered User Logs</button>
-        <div id="student-list-container-2" class="mt-3 max-h-72 overflow-y-auto space-y-2 text-xs"></div>
-      </div>
-
-      <!-- SUB: SUPPORT REQUESTS -->
-      <div id="adminsub-support" class="hidden premium-card rounded-2xl p-5 space-y-3">
-        <h3 class="font-black text-sm text-accent"><i class="fas fa-headset mr-1"></i> Support Requests</h3>
-        <button onclick="loadSupportTickets()" class="btn-neutral px-4 py-2 rounded-xl text-xs font-bold cursor-pointer transition">Sync Support Tickets</button>
-        <div id="admin-support-list" class="space-y-2 max-h-80 overflow-y-auto pt-2"></div>
-      </div>
-
-      <!-- SUB: ANNOUNCEMENTS -->
-      <div id="adminsub-announce" class="hidden premium-card rounded-2xl p-5 space-y-3">
-        <h3 class="font-black text-sm text-accent"><i class="fas fa-bullhorn mr-1"></i> Announcements</h3>
-        <textarea id="announce-text" rows="2" placeholder="Naya broadcast message likhein..." class="w-full input-field rounded-xl p-3 text-xs"></textarea>
-        <button onclick="publishAnnouncement()" class="w-full btn-success font-bold py-2.5 rounded-xl text-xs uppercase cursor-pointer">Push Live Broadcast</button>
-        <div id="admin-announce-list" class="space-y-2 max-h-56 overflow-y-auto pt-2 border-t border-slate-800"></div>
+        <div id="profile-admin-stats" class="hidden space-y-3">
+          <div class="surface rounded-xl p-3 flex justify-between items-center"><span class="text-xs font-bold text-muted">Total Students</span><span class="font-black text-accent" id="adm-students">—</span></div>
+          <div class="surface rounded-xl p-3 flex justify-between items-center"><span class="text-xs font-bold text-muted">Total Notes</span><span class="font-black text-emerald-400" id="adm-notes">—</span></div>
+          <div class="surface rounded-xl p-3 flex justify-between items-center"><span class="text-xs font-bold text-muted">Total Exams</span><span class="font-black text-amber-400" id="adm-exams">—</span></div>
+          <div class="surface rounded-xl p-3 flex justify-between items-center"><span class="text-xs font-bold text-muted">Support Requests</span><span class="font-black text-violet-400" id="adm-support">—</span></div>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
-<!-- ====================== SECURE ASSESSMENT ENGINE ====================== -->
-<div id="exam-engine-container" class="hidden w-full max-w-6xl mx-auto flex flex-col gap-3" style="min-height:85vh">
-  
-  <!-- ROW 1: STATUS CONTROLS -->
+  <!-- SCREEN: SHARE -->
+  <div id="screen-share">
+    <div class="flex items-center gap-3 mb-3">
+      <button onclick="goHome()" class="btn-neutral px-3 py-2 rounded-xl text-xs font-bold cursor-pointer"><i class="fas fa-arrow-left mr-1"></i>Back</button>
+      <h2 class="text-base font-black text-accent"><i class="fas fa-share-nodes mr-1"></i>Share & Earn</h2>
+    </div>
+    <div class="premium-card rounded-2xl p-6 space-y-5">
+      <div class="text-center">
+        <div class="text-4xl mb-2">🎁</div>
+        <h3 class="font-black text-lg text-accent">Refer & Earn Coins!</h3>
+        <p class="text-xs text-muted mt-1">Har referral par 50 Coins earn karo. Dosto ko invite karo!</p>
+      </div>
+      <div class="surface rounded-xl p-4 text-center">
+        <div class="text-xs text-muted font-bold uppercase mb-2">Your Referral Code</div>
+        <div class="font-mono font-black text-2xl text-accent" id="share-ref-code">—</div>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+        <a id="whatsapp-share-btn" href="#" target="_blank" class="flex items-center justify-center gap-2 py-3 rounded-xl font-bold text-sm text-white cursor-pointer" style="background:#25D366">
+          <i class="fab fa-whatsapp text-xl"></i> WhatsApp
+        </a>
+        <a id="telegram-share-btn" href="#" target="_blank" class="flex items-center justify-center gap-2 py-3 rounded-xl font-bold text-sm text-white cursor-pointer" style="background:#2CA5E0">
+          <i class="fab fa-telegram text-xl"></i> Telegram
+        </a>
+        <button onclick="copyReferral()" class="flex items-center justify-center gap-2 py-3 rounded-xl font-bold text-sm btn-accent cursor-pointer">
+          <i class="fas fa-copy"></i> Copy Link
+        </button>
+      </div>
+      <div class="surface rounded-xl p-3 text-center text-xs text-muted">
+        <i class="fas fa-info-circle text-accent mr-1"></i>
+        Jab koi aapke code se join karega, aapko <span class="text-amber-500 font-bold">50 Coins</span> milenge!
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN: RANKING -->
+  <div id="screen-ranking">
+    <div class="flex items-center gap-3 mb-3">
+      <button onclick="goHome()" class="btn-neutral px-3 py-2 rounded-xl text-xs font-bold cursor-pointer"><i class="fas fa-arrow-left mr-1"></i>Back</button>
+      <h2 class="text-base font-black text-accent"><i class="fas fa-trophy mr-1"></i>Leaderboard</h2>
+    </div>
+    <!-- Top 3 Podium -->
+    <div id="leaderboard-podium" class="grid grid-cols-3 gap-2 mb-4"></div>
+    <!-- Full Table -->
+    <div class="premium-card rounded-2xl p-4">
+      <div id="leaderboard-table"><div class="spinner my-4"></div></div>
+    </div>
+  </div>
+
+  <!-- SCREEN: PAID CLASSES / COURSES -->
+  <div id="screen-courses">
+    <div class="flex items-center gap-3 mb-3">
+      <button onclick="goHome()" class="btn-neutral px-3 py-2 rounded-xl text-xs font-bold cursor-pointer"><i class="fas fa-arrow-left mr-1"></i>Back</button>
+      <h2 class="text-base font-black text-accent"><i class="fas fa-crown mr-1"></i>Paid Classes</h2>
+    </div>
+    <!-- Category Tabs -->
+    <div class="flex gap-2 flex-wrap mb-4" id="course-cat-tabs">
+      <button onclick="filterCourses('ALL')" class="admin-tab active" data-cat="ALL">All</button>
+      <button onclick="filterCourses('AFCAT')" class="admin-tab" data-cat="AFCAT">AFCAT</button>
+      <button onclick="filterCourses('CDS')" class="admin-tab" data-cat="CDS">CDS</button>
+      <button onclick="filterCourses('AIR FORCE')" class="admin-tab" data-cat="AIR FORCE">Air Force</button>
+      <button onclick="filterCourses('NAVY')" class="admin-tab" data-cat="NAVY">Navy</button>
+      <button onclick="filterCourses('ARMY')" class="admin-tab" data-cat="ARMY">Army GD</button>
+      <button onclick="filterCourses('SSC')" class="admin-tab" data-cat="SSC">SSC</button>
+    </div>
+    <div id="courses-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+  </div>
+
+  <!-- SCREEN: SUPPORT -->
+  <div id="screen-support">
+    <div class="flex items-center gap-3 mb-3">
+      <button onclick="goHome()" class="btn-neutral px-3 py-2 rounded-xl text-xs font-bold cursor-pointer"><i class="fas fa-arrow-left mr-1"></i>Back</button>
+      <h2 class="text-base font-black text-accent"><i class="fas fa-headset mr-1"></i>Support</h2>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <!-- Submit Issue Form -->
+      <div class="premium-card rounded-2xl p-5 space-y-3">
+        <h3 class="font-black text-sm"><i class="fas fa-paper-plane text-accent mr-1"></i>Submit Your Issue</h3>
+        <input id="sup-name" placeholder="Your Name *" class="w-full input-field rounded-xl px-3 py-2.5 text-xs">
+        <input id="sup-contact" placeholder="Email / Mobile *" class="w-full input-field rounded-xl px-3 py-2.5 text-xs">
+        <select id="sup-type" class="w-full input-field rounded-xl px-3 py-2.5 text-xs cursor-pointer">
+          <option value="">Issue Type *</option>
+          <option>Login Problem</option><option>Payment Issue</option><option>Notes Access</option>
+          <option>Exam Issue</option><option>Technical Bug</option><option>Other</option>
+        </select>
+        <textarea id="sup-message" rows="4" placeholder="Describe your issue..." class="w-full input-field rounded-xl px-3 py-2.5 text-xs outline-none resize-none"></textarea>
+        <button onclick="submitSupport()" class="w-full btn-success font-bold py-2.5 rounded-xl text-xs cursor-pointer"><i class="fas fa-send mr-1"></i>Submit Request</button>
+        <p id="sup-msg" class="hidden text-xs text-center font-bold text-emerald-400"></p>
+      </div>
+      <!-- Contact & Quick Links -->
+      <div class="space-y-3">
+        <div class="premium-card rounded-xl p-4 space-y-3">
+          <h3 class="font-bold text-sm"><i class="fab fa-whatsapp text-green-500 mr-1"></i>Direct WhatsApp Support</h3>
+          <a href="https://api.whatsapp.com/send?phone=917068252052&text=Hello%20Operation%20Baaz%20Support" target="_blank" class="w-full block text-center btn-success font-bold py-2.5 rounded-xl text-xs">Connect Now</a>
+        </div>
+        <div class="premium-card rounded-xl p-4 space-y-2">
+          <h3 class="font-bold text-sm"><i class="fas fa-clock text-accent mr-1"></i>Support Hours</h3>
+          <p class="text-xs text-muted">Mon - Sat: 9 AM – 9 PM</p>
+          <p class="text-xs text-muted">Sunday: 10 AM – 6 PM</p>
+        </div>
+        <!-- Admin: View Support Requests -->
+        <div id="admin-support-viewer" class="hidden premium-card rounded-xl p-4 space-y-2">
+          <div class="font-bold text-xs text-amber-500 mb-2"><i class="fas fa-inbox mr-1"></i>All Support Requests (Admin)</div>
+          <div id="support-requests-list" class="space-y-2 max-h-60 overflow-y-auto text-xs"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN: ADMIN PANEL -->
+  <div id="screen-admin">
+    <div class="flex items-center gap-3 mb-3">
+      <button onclick="goHome()" class="btn-neutral px-3 py-2 rounded-xl text-xs font-bold cursor-pointer"><i class="fas fa-arrow-left mr-1"></i>Back</button>
+      <h2 class="text-base font-black text-accent"><i class="fas fa-user-shield mr-1"></i>Admin Control Panel</h2>
+      <span class="vip-badge ml-auto">ROOT ACCESS</span>
+    </div>
+    <!-- Admin Tabs -->
+    <div class="flex gap-2 flex-wrap mb-4 p-2 premium-card rounded-xl">
+      <button onclick="switchAdminTab('exams')" class="admin-tab active" data-atab="exams"><i class="fas fa-file-alt mr-1"></i>Add Exam</button>
+      <button onclick="switchAdminTab('notes')" class="admin-tab" data-atab="notes"><i class="fas fa-book mr-1"></i>Add Notes</button>
+      <button onclick="switchAdminTab('students')" class="admin-tab" data-atab="students"><i class="fas fa-users mr-1"></i>Students</button>
+      <button onclick="switchAdminTab('support-admin')" class="admin-tab" data-atab="support-admin"><i class="fas fa-headset mr-1"></i>Support</button>
+      <button onclick="switchAdminTab('announce')" class="admin-tab" data-atab="announce"><i class="fas fa-bullhorn mr-1"></i>Announce</button>
+    </div>
+
+    <!-- Admin Tab: Add Exam -->
+    <div id="atab-exams" class="space-y-3">
+      <div class="premium-card rounded-xl p-5 space-y-3" style="border:1px solid rgba(245,158,11,0.3)">
+        <div class="font-bold text-amber-500 text-sm"><i class="fas fa-plus mr-1"></i>Create New Exam / Mock Test</div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
+          <input id="admin-exam-name" placeholder="Exam (e.g. NDA 2026)" class="input-field rounded-xl px-3 py-2 text-xs">
+          <input id="admin-subject-name" placeholder="Subject (e.g. Mathematics)" class="input-field rounded-xl px-3 py-2 text-xs">
+          <input id="admin-test-title" placeholder="Unique Test Title" class="input-field rounded-xl px-3 py-2 text-xs">
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
+          <input id="admin-pos-marks" type="number" placeholder="Positive Marks (default 3)" class="input-field rounded-xl px-3 py-2 text-xs">
+          <input id="admin-neg-marks" type="number" placeholder="Negative Marks (default 1)" class="input-field rounded-xl px-3 py-2 text-xs">
+          <select id="admin-is-premium" class="input-field rounded-xl px-3 py-2 text-xs cursor-pointer">
+            <option value="FALSE">🔓 Free Access</option>
+            <option value="TRUE">👑 VIP Premium</option>
+          </select>
+        </div>
+        <input id="admin-test-desc" placeholder="Test description for students..." class="w-full input-field rounded-xl px-3 py-2 text-xs">
+        <textarea id="local-ai-text" rows="6" placeholder="Questions + Answer Key paste karein here..." class="w-full input-field rounded-xl p-3 text-xs font-mono outline-none"></textarea>
+        <button onclick="setTestByAdmin()" class="w-full btn-success font-bold py-2.5 rounded-xl text-xs uppercase cursor-pointer"><i class="fas fa-rocket mr-1"></i>Deploy Test</button>
+        <p id="admin-publish-status" class="text-[10px] text-muted"></p>
+      </div>
+      <!-- Existing Tests List for Admin -->
+      <div class="premium-card rounded-xl p-4">
+        <div class="font-bold text-xs text-accent mb-3"><i class="fas fa-list mr-1"></i>Deployed Tests</div>
+        <div id="admin-tests-list" class="space-y-2 max-h-64 overflow-y-auto"></div>
+      </div>
+    </div>
+
+    <!-- Admin Tab: Add Notes -->
+    <div id="atab-notes" class="hidden space-y-3">
+      <div class="premium-card rounded-xl p-5 space-y-3">
+        <div class="font-bold text-amber-500 text-sm"><i class="fas fa-plus mr-1"></i>Add New Note</div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
+          <input id="anote-title" placeholder="Note Title *" class="input-field rounded-xl px-3 py-2 text-xs">
+          <select id="anote-exam" class="input-field rounded-xl px-3 py-2 text-xs cursor-pointer">
+            <option>NDA</option><option>CDS</option><option>AFCAT</option><option>AIR FORCE X/Y</option><option>NAVY</option><option>ARMY GD</option><option>SSC</option>
+          </select>
+          <select id="anote-subject" class="input-field rounded-xl px-3 py-2 text-xs cursor-pointer">
+            <option>Mathematics</option><option>English</option><option>History</option><option>Geography</option><option>Science</option><option>GK/GS</option><option>Reasoning</option>
+          </select>
+        </div>
+        <textarea id="anote-content" rows="8" placeholder="Note content yahan likhein..." class="w-full input-field rounded-xl p-3 text-xs font-mono outline-none resize-none"></textarea>
+        <button onclick="adminAddNoteFromPanel()" class="btn-success px-6 py-2 rounded-xl text-xs font-bold cursor-pointer"><i class="fas fa-save mr-1"></i>Publish Note</button>
+      </div>
+      <!-- Existing Notes -->
+      <div class="premium-card rounded-xl p-4">
+        <div class="font-bold text-xs text-accent mb-3"><i class="fas fa-list mr-1"></i>Published Notes</div>
+        <div id="admin-notes-list" class="space-y-2 max-h-64 overflow-y-auto"></div>
+      </div>
+    </div>
+
+    <!-- Admin Tab: Students -->
+    <div id="atab-students" class="hidden">
+      <div class="premium-card rounded-xl p-4">
+        <div class="flex items-center justify-between mb-3">
+          <div class="font-bold text-xs text-accent"><i class="fas fa-users mr-1"></i>Registered Students</div>
+          <button onclick="loadStudentList()" class="btn-neutral px-3 py-1.5 rounded-xl text-xs font-bold cursor-pointer"><i class="fas fa-sync mr-1"></i>Refresh</button>
+        </div>
+        <div id="student-list-container" class="space-y-2 max-h-80 overflow-y-auto"></div>
+      </div>
+    </div>
+
+    <!-- Admin Tab: Support -->
+    <div id="atab-support-admin" class="hidden">
+      <div class="premium-card rounded-xl p-4">
+        <div class="font-bold text-xs text-accent mb-3"><i class="fas fa-inbox mr-1"></i>Support Requests</div>
+        <div id="admin-support-list" class="space-y-2 max-h-80 overflow-y-auto"></div>
+      </div>
+    </div>
+
+    <!-- Admin Tab: Announcements -->
+    <div id="atab-announce" class="hidden">
+      <div class="premium-card rounded-xl p-5 space-y-3">
+        <div class="font-bold text-amber-500 text-sm"><i class="fas fa-bullhorn mr-1"></i>Send Announcement</div>
+        <textarea id="announce-text" rows="3" placeholder="Announcement message..." class="w-full input-field rounded-xl p-3 text-xs outline-none resize-none"></textarea>
+        <button onclick="saveAnnouncement()" class="btn-accent px-6 py-2 rounded-xl text-xs font-bold cursor-pointer"><i class="fas fa-send mr-1"></i>Broadcast</button>
+        <div id="announce-history" class="space-y-2 max-h-48 overflow-y-auto mt-2"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN: MY RESULTS HISTORY -->
+  <div id="screen-results">
+    <div class="flex items-center gap-3 mb-3">
+      <button onclick="goHome()" class="btn-neutral px-3 py-2 rounded-xl text-xs font-bold cursor-pointer"><i class="fas fa-arrow-left mr-1"></i>Back</button>
+      <h2 class="text-base font-black text-accent"><i class="fas fa-chart-bar mr-1"></i>My Results</h2>
+    </div>
+    <div id="results-history-list" class="space-y-3"></div>
+  </div>
+
+</div><!-- end app-container -->
+
+<!-- ====================== EXAM ENGINE ====================== -->
+<div id="exam-engine-container" class="hidden w-full max-w-6xl mx-auto flex flex-col gap-3 exam-container">
   <div class="premium-card rounded-xl p-3 flex justify-between items-center text-center">
-    <div><div class="text-[9px] text-muted font-bold uppercase">Exam Pool Blocks</div><div id="disp-total-count" class="text-xl font-black text-accent">0</div></div>
+    <div><div class="text-[9px] text-muted font-bold uppercase">Questions</div><div id="disp-total-count" class="text-xl font-black text-accent">0</div></div>
     <div id="stopwatch-box" class="px-5 py-1.5 rounded-xl border border-red-500/20" style="background:rgba(225,29,72,0.05)">
-      <div class="text-[8px] font-bold uppercase text-red-400">Time Remaining Terminal</div>
+      <div class="text-[8px] font-bold uppercase text-red-400">Time Left</div>
       <div id="stopwatch" class="text-xl font-mono font-black text-red-500">45:00</div>
     </div>
-    <div><div class="text-[9px] text-muted font-bold uppercase">Security Strikes</div><div id="blur-count-disp" class="text-xl font-black text-red-400">0/3</div></div>
+    <div><div class="text-[9px] text-muted font-bold uppercase">Warnings</div><div id="blur-count-disp" class="text-xl font-black text-red-400">0/3</div></div>
   </div>
-
-  <!-- ROW 2: CRITICAL NAVIGATION ACTION BUTTONS SWAPPED HIGHER PER INSTRUCTION -->
   <div class="grid grid-cols-3 gap-2 text-xs font-bold">
-    <button onclick="prevQuestion()" class="btn-neutral py-3.5 rounded-xl cursor-pointer transition text-center shadow-md"><i class="fas fa-arrow-left mr-1"></i> PREVIOUS LAYER</button>
-    <button onclick="toggleFlagQuestion()" class="btn-flag-outline py-3.5 rounded-xl cursor-pointer transition text-center shadow-md"><i class="fas fa-flag mr-1"></i> FLAG BLOCK</button>
-    <button onclick="nextQuestion()" class="btn-neutral py-3.5 rounded-xl cursor-pointer transition text-center shadow-md">NEXT LAYER <i class="fas fa-arrow-right ml-1"></i></button>
+    <button onclick="prevQuestion()" class="btn-neutral py-3.5 rounded-xl cursor-pointer"><i class="fas fa-arrow-left mr-1"></i>Previous</button>
+    <button onclick="toggleFlagQuestion()" class="btn-flag-outline py-3.5 rounded-xl cursor-pointer"><i class="fas fa-flag mr-1"></i>Flag</button>
+    <button onclick="nextQuestion()" class="btn-neutral py-3.5 rounded-xl cursor-pointer">Next<i class="fas fa-arrow-right ml-1"></i></button>
   </div>
-
-  <!-- ROW 3: LIVE CORE QUESTION BOARD DISPLAY -->
   <div class="premium-card rounded-2xl p-5 flex-1 flex flex-col justify-between relative overflow-hidden min-h-[220px]" style="border-left:4px solid var(--accent)">
-    <div id="watermark-overlay" class="watermark-overlay"><span id="watermark-text">OPERATION BAAZ SECURE MATRIX</span></div>
-    <div class="relative z-10 mb-3 w-full">
-      <div id="digital-question-text" class="text-sm md:text-base font-bold surface p-4 rounded-xl whitespace-pre-line max-h-40 overflow-y-auto w-full">Syncing Assessment Node Parameters...</div>
-    </div>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-2.5 relative z-10 w-full">
-      <button onclick="selectAnswer('A')" id="opt-A" class="w-full text-left input-field p-3 rounded-xl font-semibold flex items-center gap-2 cursor-pointer transition"><span class="text-accent font-black text-xs">A</span><span id="lbl-opt-A">- - -</span></button>
-      <button onclick="selectAnswer('B')" id="opt-B" class="w-full text-left input-field p-3 rounded-xl font-semibold flex items-center gap-2 cursor-pointer transition"><span class="text-accent font-black text-xs">B</span><span id="lbl-opt-B">- - -</span></button>
-      <button onclick="selectAnswer('C')" id="opt-C" class="w-full text-left input-field p-3 rounded-xl font-semibold flex items-center gap-2 cursor-pointer transition"><span class="text-accent font-black text-xs">C</span><span id="lbl-opt-C">- - -</span></button>
-      <button onclick="selectAnswer('D')" id="opt-D" class="w-full text-left input-field p-3 rounded-xl font-semibold flex items-center gap-2 cursor-pointer transition"><span class="text-accent font-black text-xs">D</span><span id="lbl-opt-D">- - -</span></button>
+    <div class="watermark-overlay"><span id="watermark-text">OPERATION BAAZ</span></div>
+    <div id="digital-question-text" class="text-sm md:text-base font-bold surface p-4 rounded-xl whitespace-pre-line max-h-40 overflow-y-auto w-full relative z-10">Loading...</div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-2.5 relative z-10 mt-3 w-full">
+      <button onclick="selectAnswer('A')" id="opt-A" class="w-full text-left input-field p-3 rounded-xl font-semibold flex items-center gap-2 cursor-pointer transition"><span class="text-accent font-black text-xs">A</span><span id="lbl-opt-A">—</span></button>
+      <button onclick="selectAnswer('B')" id="opt-B" class="w-full text-left input-field p-3 rounded-xl font-semibold flex items-center gap-2 cursor-pointer transition"><span class="text-accent font-black text-xs">B</span><span id="lbl-opt-B">—</span></button>
+      <button onclick="selectAnswer('C')" id="opt-C" class="w-full text-left input-field p-3 rounded-xl font-semibold flex items-center gap-2 cursor-pointer transition"><span class="text-accent font-black text-xs">C</span><span id="lbl-opt-C">—</span></button>
+      <button onclick="selectAnswer('D')" id="opt-D" class="w-full text-left input-field p-3 rounded-xl font-semibold flex items-center gap-2 cursor-pointer transition"><span class="text-accent font-black text-xs">D</span><span id="lbl-opt-D">—</span></button>
     </div>
   </div>
-  
-  <!-- ROW 4: SUBMIT AND CLEAR OPERATIONS -->
   <div class="grid grid-cols-1 md:grid-cols-4 gap-2 text-xs font-bold">
-    <button onclick="clearAnswer()" class="btn-neutral py-2.5 rounded-xl cursor-pointer transition md:col-span-1 uppercase"><i class="fas fa-eraser mr-1"></i> Clear Select</button>
-    <button onclick="confirmSubmitTest()" class="btn-success py-2.5 rounded-xl font-black cursor-pointer shadow-xl transition md:col-span-3 uppercase tracking-widest"><i class="fas fa-paper-plane mr-2"></i> Terminate &amp; Submit Payload Verification</button>
+    <button onclick="clearAnswer()" class="btn-neutral py-2.5 rounded-xl cursor-pointer"><i class="fas fa-eraser mr-1"></i>Clear</button>
+    <button onclick="confirmSubmitTest()" class="btn-success py-2.5 rounded-xl font-black cursor-pointer md:col-span-3 uppercase"><i class="fas fa-paper-plane mr-1"></i>Submit Test</button>
   </div>
-
-  <!-- ROW 5: 1-50 GRID MATRIX PLACED CLEANHL AT THE BOTTOM PER INSTRUCTION -->
   <div class="premium-card rounded-2xl p-4 space-y-2">
     <div class="grid grid-cols-5 gap-1 text-[9px] font-bold text-center">
-      <button onclick="setPaletteFilter('all')" data-filter="all" class="palette-filter-btn py-1.5 rounded-lg surface cursor-pointer">ALL NODES</button>
-      <button onclick="setPaletteFilter('answered')" data-filter="answered" class="palette-filter-btn py-1.5 rounded-lg surface cursor-pointer">DONE</button>
-      <button onclick="setPaletteFilter('unanswered')" data-filter="unanswered" class="palette-filter-btn py-1.5 rounded-lg surface cursor-pointer">SKIPPED</button>
-      <button onclick="setPaletteFilter('flagged')" data-filter="flagged" class="palette-filter-btn py-1.5 rounded-lg surface cursor-pointer">MARKED</button>
-      <button onclick="setPaletteFilter('unvisited')" data-filter="unvisited" class="palette-filter-btn py-1.5 rounded-lg surface cursor-pointer">NEW</button>
+      <button onclick="setPaletteFilter('all')" class="palette-filter-btn py-1.5 rounded-lg surface cursor-pointer">ALL</button>
+      <button onclick="setPaletteFilter('answered')" class="palette-filter-btn py-1.5 rounded-lg surface cursor-pointer">DONE</button>
+      <button onclick="setPaletteFilter('unanswered')" class="palette-filter-btn py-1.5 rounded-lg surface cursor-pointer">SKIP</button>
+      <button onclick="setPaletteFilter('flagged')" class="palette-filter-btn py-1.5 rounded-lg surface cursor-pointer">FLAGGED</button>
+      <button onclick="setPaletteFilter('unvisited')" class="palette-filter-btn py-1.5 rounded-lg surface cursor-pointer">NEW</button>
     </div>
     <div id="palette-grid" class="grid grid-cols-5 md:grid-cols-10 gap-1.5 max-h-32 overflow-y-auto pr-1"></div>
   </div>
 </div>
 
-<!-- ====================== INTERACTIVE DEEP SCORING MATRIX ====================== -->
+<!-- ====================== RESULT SCREEN ====================== -->
 <div id="result-screen" class="hidden max-w-3xl w-full premium-card rounded-2xl p-6 mx-auto my-auto space-y-4">
   <div class="text-center">
-    <h2 class="text-2xl font-black uppercase tracking-widest text-emerald-500" style="color:var(--success2)">Tactical Scorecard Blueprint</h2>
-    <div id="attempt-lock-msg" class="text-[9px] font-bold uppercase mt-1 text-amber-500"><i class="fas fa-lock"></i> Verification Node Locked Permanently</div>
+    <h2 class="text-2xl font-black uppercase tracking-widest" style="color:var(--success2)">Scorecard</h2>
+    <div class="text-[9px] font-bold uppercase mt-1 text-amber-500"><i class="fas fa-lock mr-1"></i>Permanently Locked</div>
   </div>
-
-  <div id="rank-badge-box" class="rounded-xl p-2.5 font-black text-xs uppercase tracking-wider text-center border border-amber-500/20" style="background:rgba(245,158,11,0.05);color:var(--accent);">
-    Rank Allocation Badge: <span id="rank-badge-text">—</span>
+  <div id="rank-badge-box" class="rounded-xl p-2.5 font-black text-xs uppercase tracking-wider text-center border border-amber-500/20 text-accent" style="background:rgba(245,158,11,0.05)">
+    Rank Badge: <span id="rank-badge-text">—</span>
   </div>
-
-  <!-- ANALYTICS SCORE MATRIX SYSTEM -->
   <div class="grid grid-cols-3 md:grid-cols-5 gap-2.5 text-center">
-    <div class="surface p-2.5 rounded-xl"><p class="text-muted text-[9px] font-bold uppercase">Total Items</p><p id="res-total" class="text-lg font-black text-accent">0</p></div>
+    <div class="surface p-2.5 rounded-xl"><p class="text-muted text-[9px] font-bold uppercase">Total</p><p id="res-total" class="text-lg font-black text-accent">0</p></div>
     <div class="surface p-2.5 rounded-xl"><p class="text-muted text-[9px] font-bold uppercase">Correct</p><p id="res-right" class="text-lg font-black text-emerald-400">0</p></div>
-    <div class="surface p-2.5 rounded-xl"><p class="text-muted text-[9px] font-bold uppercase">Incorrect</p><p id="res-wrong" class="text-lg font-black text-rose-500">0</p></div>
-    <div class="surface p-2.5 rounded-xl"><p class="text-muted text-[9px] font-bold uppercase">Accuracy Ratio</p><p id="res-accuracy" class="text-lg font-black text-accent">0%</p></div>
-    <div class="surface p-2.5 rounded-xl"><p class="text-muted text-[9px] font-bold uppercase">Final Metric</p><p id="res-score" class="text-lg font-black text-violet-400">0</p></div>
+    <div class="surface p-2.5 rounded-xl"><p class="text-muted text-[9px] font-bold uppercase">Wrong</p><p id="res-wrong" class="text-lg font-black text-rose-500">0</p></div>
+    <div class="surface p-2.5 rounded-xl"><p class="text-muted text-[9px] font-bold uppercase">Accuracy</p><p id="res-accuracy" class="text-lg font-black text-accent">0%</p></div>
+    <div class="surface p-2.5 rounded-xl"><p class="text-muted text-[9px] font-bold uppercase">Score</p><p id="res-score" class="text-lg font-black text-violet-400">0</p></div>
   </div>
-
-  <!-- INTERACTIVE MATRIX GRAPH DISPLAY -->
-  <div class="space-y-1.5">
-    <h3 class="text-xs font-bold text-muted uppercase tracking-wider"><i class="fas fa-list-check text-accent mr-1"></i>Full Interactive Review Matrix Payload Response</h3>
+  <div>
+    <h3 class="text-xs font-bold text-muted uppercase mb-2"><i class="fas fa-list-check text-accent mr-1"></i>Detailed Review</h3>
     <div id="review-matrix-container" class="space-y-2.5 max-h-72 overflow-y-auto pr-1"></div>
   </div>
-
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs font-bold">
-    <button onclick="window.print()" class="w-full btn-neutral py-3 rounded-xl cursor-pointer transition uppercase"><i class="fas fa-download mr-1"></i> Print / Download PDF Report</button>
-    <button onclick="returnToPortal()" class="w-full btn-accent py-3 rounded-xl cursor-pointer transition uppercase">Return to Operational Core</button>
+  <div class="grid grid-cols-2 gap-2 text-xs font-bold">
+    <button onclick="window.print()" class="w-full btn-neutral py-3 rounded-xl cursor-pointer uppercase no-print"><i class="fas fa-download mr-1"></i>Download PDF</button>
+    <button onclick="returnToPortal()" class="w-full btn-accent py-3 rounded-xl cursor-pointer uppercase">Back to Home</button>
   </div>
 </div>
 
-<!-- ====================== GENERIC INFO MODAL (showInfo/showModal) ====================== -->
-<div id="generic-modal-backdrop" class="modal-backdrop hidden">
-  <div class="modal-box premium-card rounded-2xl p-5 space-y-3">
-    <div class="flex justify-between items-start gap-3">
-      <h3 id="generic-modal-title" class="font-black text-sm text-accent"></h3>
-      <button onclick="closeGenericModal()" class="text-muted hover:text-red-400 cursor-pointer"><i class="fas fa-xmark"></i></button>
+<!-- ====================== NOTE READER MODAL ====================== -->
+<div id="note-reader-modal" class="modal-bg hidden">
+  <div class="modal-box notes-reader" style="max-width:680px">
+    <div class="flex justify-between items-center mb-4 no-print">
+      <h3 id="note-modal-title" class="font-black text-sm text-accent">Note</h3>
+      <button onclick="closeNoteModal()" class="text-red-400 font-bold text-xs uppercase cursor-pointer"><i class="fas fa-times mr-1"></i>Close</button>
     </div>
-    <div id="generic-modal-body" class="text-xs text-muted whitespace-pre-line"></div>
+    <div id="note-modal-content" class="text-sm leading-relaxed whitespace-pre-line surface p-4 rounded-xl max-h-[65vh] overflow-y-auto notes-reader" style="-webkit-user-select:none;user-select:none;"></div>
+    <div class="mt-3 text-[9px] text-muted text-center no-print">⚠️ Copying, printing or downloading is not allowed. For personal study only.</div>
   </div>
 </div>
 
-<!-- ====================== PROTECTED NOTE READER MODAL ====================== -->
-<div id="note-reader-backdrop" class="modal-backdrop hidden">
-  <div class="modal-box premium-card rounded-2xl p-5 space-y-3 protected-note">
-    <div class="flex justify-between items-start gap-3">
-      <h3 id="note-reader-title" class="font-black text-sm text-accent"></h3>
-      <button onclick="closeProtectedNote()" class="text-muted hover:text-red-400 cursor-pointer"><i class="fas fa-xmark"></i></button>
+<!-- ====================== MISTAKES LEDGER MODAL ====================== -->
+<div id="mistakes-modal" class="modal-bg hidden">
+  <div class="modal-box">
+    <div class="flex justify-between items-center mb-4">
+      <h3 class="font-black text-sm text-red-400"><i class="fas fa-triangle-exclamation mr-1"></i>My Mistakes Ledger</h3>
+      <button onclick="closeMistakesModal()" class="text-red-400 font-bold text-xs uppercase cursor-pointer"><i class="fas fa-times mr-1"></i>Close</button>
     </div>
-    <p class="text-[9px] text-amber-500 font-bold uppercase"><i class="fas fa-lock mr-1"></i> Read-only • Download/Copy/Print disabled</p>
-    <div id="note-reader-body" class="text-xs leading-relaxed whitespace-pre-line surface rounded-xl p-4 max-h-[60vh] overflow-y-auto"></div>
+    <div id="mistakes-list" class="space-y-3 max-h-[60vh] overflow-y-auto"></div>
   </div>
 </div>
 
-<!-- ====================== FORGOT PASSWORD MODAL ====================== -->
-<div id="forgot-password-backdrop" class="modal-backdrop hidden">
-  <div class="modal-box premium-card rounded-2xl p-5 space-y-3">
-    <div class="flex justify-between items-start gap-3">
-      <h3 class="font-black text-sm text-accent"><i class="fas fa-key mr-1"></i> Password Recovery</h3>
-      <button onclick="closeForgotPassword()" class="text-muted hover:text-red-400 cursor-pointer"><i class="fas fa-xmark"></i></button>
+<!-- ====================== PAYMENT MODAL ====================== -->
+<div id="payment-modal" class="modal-bg hidden">
+  <div class="modal-box" style="max-width:420px">
+    <div class="flex justify-between items-center mb-4">
+      <h3 class="font-black text-sm text-emerald-400"><i class="fas fa-credit-card mr-1"></i>Pay & Enroll</h3>
+      <button onclick="closePaymentModal()" class="text-red-400 font-bold text-xs uppercase cursor-pointer"><i class="fas fa-times mr-1"></i>Close</button>
     </div>
-    <p class="text-[11px] text-muted">Verification ke liye apna registered Email aur Mobile Number daalein.</p>
-    <input id="fp-email" type="email" placeholder="Registered Email" class="w-full input-field rounded-xl px-3 py-2.5 text-xs">
-    <input id="fp-phone" type="tel" placeholder="Registered Mobile Number" class="w-full input-field rounded-xl px-3 py-2.5 text-xs">
-    <button onclick="submitForgotPassword()" class="w-full btn-accent font-bold py-2.5 rounded-xl text-xs uppercase cursor-pointer">Recover Password</button>
-    <p id="fp-status" class="text-[10px] text-center font-bold"></p>
+    <div class="payment-card space-y-4">
+      <div class="text-center">
+        <div id="pay-course-name" class="font-black text-base text-emerald-400 mb-1">Course Name</div>
+        <div id="pay-course-price" class="text-2xl font-black text-amber-400">₹0</div>
+        <div class="text-xs text-muted mt-1">One-time payment • Lifetime access</div>
+      </div>
+      <!-- QR Code Section -->
+      <div class="text-center">
+        <div class="text-xs font-bold text-muted uppercase mb-2">Scan QR to Pay</div>
+        <div class="flex justify-center">
+          <div class="qr-box">
+            <!-- QR Code for UPI 7068252052@axl -->
+            <img src="https://api.qrserver.com/v1/create-qr-code/?data=upi%3A%2F%2Fpay%3Fpa%3D7068252052%40axl%26pn%3DAbhijeet%2520Kushwaha%26cu%3DINR&size=160x160&margin=10" alt="UPI QR Code" width="160" height="160" style="display:block;border-radius:4px;">
+          </div>
+        </div>
+        <div class="text-xs text-muted mt-2">या नीचे UPI ID copy करें</div>
+      </div>
+      <!-- UPI ID -->
+      <div class="upi-display text-center">
+        <div class="text-[10px] text-muted font-bold uppercase mb-1">UPI ID</div>
+        <div class="text-lg font-black text-emerald-400" id="upi-id-text">7068252052@axl</div>
+        <button onclick="copyUPI()" class="mt-2 btn-success text-xs px-4 py-1.5 rounded-xl font-bold cursor-pointer"><i class="fas fa-copy mr-1"></i>Copy UPI ID</button>
+      </div>
+      <!-- After Payment Instructions -->
+      <div class="surface rounded-xl p-3 text-xs space-y-2">
+        <div class="font-bold text-amber-400"><i class="fas fa-info-circle mr-1"></i>Payment ke baad kya karein?</div>
+        <p class="text-muted">1. Screenshot le lo payment ka</p>
+        <p class="text-muted">2. WhatsApp karo: <span class="text-emerald-400 font-bold">+91 7068252052</span></p>
+        <p class="text-muted">3. Course name + screenshot bhejo</p>
+        <p class="text-muted">4. 2-4 ghante mein access milega</p>
+      </div>
+      <a href="https://api.whatsapp.com/send?phone=917068252052&text=Hello%20Abhijeet%20ji%2C%20maine%20course%20ke%20liye%20payment%20kar%20di%20hai.%20Screenshot%20attach%20kar%20raha%20hoon." target="_blank" class="block text-center w-full btn-success font-bold py-3 rounded-xl text-sm">
+        <i class="fab fa-whatsapp mr-2"></i>WhatsApp Payment Proof
+      </a>
+    </div>
   </div>
 </div>
 
 <footer class="w-full text-center text-[9px] text-muted uppercase tracking-widest pt-3 mt-4 border-t border-slate-800">
-  Operation Baaz Framework Engine v10.0 • Architecture Infrastructure Engineered by Abhijeet Kushwaha
+  Operation Baaz Platform v11.0 • Architected by Abhijeet Kushwaha • UPI: 7068252052@axl
 </footer>
 
-<!-- ==================== RUNTIME LOGIC ENGINE ==================== -->
+<!-- ==================== MAIN LOGIC ENGINE ==================== -->
 <script>
+/* ============================================================
+   CONFIG & STATE
+   ============================================================ */
 const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz94_WMrpCCh6w98LcV4G1lkRCKl7Ls0GELPvqA0YuS2pYLPQ1R-3ezuhMriteqg8Us/exec";
-const BACKEND_CONFIGURED = true;
-
 const ADMIN_EMAIL = "kajalkushwaha208@gmail.com";
 const ADMIN_PASSWORD = "Kajal@123";
+const UPI_ID = "7068252052@axl";
+const UPI_NAME = "Abhijeet Kushwaha";
 
-let cachedTests = [], activeTest = null, DynamicAnswerKey = {}, currentTestQuestions = [];
-let flaggedQuestions = {}, visitedQuestions = {}, currentIndex = 1, totalQuestionsCount = 0;
-let studentResponses = {}, singleQTimer = null, qTimeLeft = 2700, tabViolationsCount = 0;
-let testRunningMode = false, currentPaletteFilter = 'all', currentUserData = null;
-let suAvatarBase64 = "", suGenderSelected = "";
+let cachedTests=[], activeTest=null, currentTestQuestions=[];
+let flaggedQuestions={}, visitedQuestions={}, studentResponses={};
+let currentIndex=1, totalQuestionsCount=0, qTimeLeft=2700;
+let tabViolationsCount=0, testRunningMode=false, currentPaletteFilter='all';
+let currentUserData=null, singleQTimer=null;
+let suAvatarBase64="", suGenderSelected="";
+let allNotes=[], allCourses=[], currentPayCourse=null;
 
+/* ============================================================
+   INIT
+   ============================================================ */
 window.addEventListener('DOMContentLoaded', () => {
   applyTheme(localStorage.getItem('baaz_theme') || 'military', false);
-  syncLiveAnnouncements();
+  syncAnnouncements();
+  setupAntiCheat();
+  
   const savedEmail = localStorage.getItem('baaz_email');
-  if (savedEmail) {
+  if(savedEmail) {
     currentUserData = JSON.parse(localStorage.getItem('baaz_userdata') || 'null');
-    if (currentUserData) { loginSuccess(currentUserData); return; }
+    if(currentUserData) { loginSuccess(currentUserData); return; }
   }
-  refreshSyncIndicator();
 });
 
-async function syncLiveAnnouncements() {
+function setupAntiCheat() {
+  // Disable right click
+  document.addEventListener('contextmenu', e => { if(testRunningMode) e.preventDefault(); });
+  // Disable copy/paste shortcuts
+  document.addEventListener('keydown', e => {
+    if(testRunningMode) {
+      if((e.ctrlKey||e.metaKey) && ['c','v','u','s','p','a'].includes(e.key.toLowerCase())) e.preventDefault();
+      if(e.key === 'PrintScreen') e.preventDefault();
+      if(e.key === 'F12') e.preventDefault();
+    }
+    // Notes protection
+    if(document.getElementById('note-reader-modal') && !document.getElementById('note-reader-modal').classList.contains('hidden')) {
+      if((e.ctrlKey||e.metaKey) && ['c','s','p','u','a'].includes(e.key.toLowerCase())) e.preventDefault();
+    }
+  });
+}
+
+async function syncAnnouncements() {
   try {
-    const res = await fetch(APPS_SCRIPT_URL + "?action=get_announcements");
-    const d = await res.json();
+    const r = await fetch(APPS_SCRIPT_URL + "?action=get_announcements");
+    const d = await r.json();
     if(d.announcement) {
       document.getElementById('broadcast-text').innerText = d.announcement;
       document.getElementById('global-broadcast').classList.remove('hidden');
+      const homeAnn = document.getElementById('home-announce');
+      if(homeAnn) { homeAnn.innerText = d.announcement; homeAnn.classList.remove('hidden'); }
     }
   } catch(e){}
 }
 
+/* ============================================================
+   AUTH
+   ============================================================ */
 function showAuthTab(t) {
   document.getElementById('form-login').classList.toggle('hidden', t !== 'login');
   document.getElementById('form-signup').classList.toggle('hidden', t !== 'signup');
@@ -745,23 +874,22 @@ function showAuthTab(t) {
   document.getElementById('tab-signup').classList.toggle('active', t === 'signup');
 }
 
-function handleSuAvatar(event) {
-  const file = event.target.files[0]; if (!file) return;
+function handleSuAvatar(e) {
+  const file = e.target.files[0]; if(!file) return;
   const reader = new FileReader();
-  reader.onload = function(e) {
+  reader.onload = function(ev) {
     const img = new Image();
     img.onload = function() {
-      const maxDim = 128; let w = img.width, h = img.height;
-      if (w > h && w > maxDim) { h = Math.round(h*(maxDim/w)); w = maxDim; }
-      else if (h > maxDim) { w = Math.round(w*(maxDim/h)); h = maxDim; }
-      const canvas = document.createElement('canvas'); canvas.width = w; canvas.height = h;
-      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-      suAvatarBase64 = canvas.toDataURL('image/jpeg', 0.6);
+      const maxD=128; let w=img.width, h=img.height;
+      if(w>h&&w>maxD){h=Math.round(h*(maxD/w));w=maxD;} else if(h>maxD){w=Math.round(w*(maxD/h));h=maxD;}
+      const c=document.createElement('canvas'); c.width=w; c.height=h;
+      c.getContext('2d').drawImage(img,0,0,w,h);
+      suAvatarBase64 = c.toDataURL('image/jpeg',0.6);
       document.getElementById('su-avatar-preview').src = suAvatarBase64;
       document.getElementById('su-avatar-preview').classList.remove('hidden');
       document.getElementById('su-avatar-placeholder').classList.add('hidden');
     };
-    img.src = e.target.result;
+    img.src = ev.target.result;
   };
   reader.readAsDataURL(file);
 }
@@ -772,441 +900,928 @@ function selectSuGender(g) {
 }
 
 async function doSignup() {
-  const name = document.getElementById('su-name').value.trim();
-  const phone = document.getElementById('su-phone').value.trim();
-  const email = document.getElementById('su-email').value.trim();
-  const password = document.getElementById('su-password').value;
-  const year = document.getElementById('su-year').value.trim();
-  const refCode = document.getElementById('su-referral').value.trim();
-  const err = document.getElementById('signup-error');
+  const name=document.getElementById('su-name').value.trim();
+  const phone=document.getElementById('su-phone').value.trim();
+  const email=document.getElementById('su-email').value.trim();
+  const password=document.getElementById('su-password').value;
+  const exam=document.getElementById('su-exam').value;
+  const year=document.getElementById('su-year').value.trim();
+  const err=document.getElementById('signup-error');
   err.classList.add('hidden');
 
-  if (!name || !phone || !email || !password || !suGenderSelected || !suAvatarBase64) {
-    err.innerText = "Kripya sabhi anivarya (*) fields ko bharein aur photo dalein.";
-    err.classList.remove('hidden'); return;
+  if(!name||!phone||!email||!password||!suGenderSelected||!suAvatarBase64) {
+    err.innerText="Kripya sabhi (*) fields bharein aur photo upload karein."; err.classList.remove('hidden'); return;
   }
-
-  const payload = { action:"signup", name, phone, email, password, gender:suGenderSelected, targetYear:year, referralCode:refCode, profileImage:suAvatarBase64 };
   try {
-    const res = await fetch(APPS_SCRIPT_URL, { method:"POST", headers:{"Content-Type":"text/plain;charset=utf-8"}, body:JSON.stringify(payload) });
-    const data = await res.json();
-    if(data.status === "success") { alert(data.message); showAuthTab('login'); } else { err.innerText = data.message; err.classList.remove('hidden'); }
-  } catch(e){ err.innerText = "Server sync failed."; err.classList.remove('hidden'); }
+    const res=await fetch(APPS_SCRIPT_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:"signup",name,phone,email,password,gender:suGenderSelected,targetExam:exam,targetYear:year,profileImage:suAvatarBase64})});
+    const d=await res.json();
+    if(d.status==="success"){document.getElementById('signup-success').innerText=d.message;document.getElementById('signup-success').classList.remove('hidden');showAuthTab('login');}
+    else{err.innerText=d.message;err.classList.remove('hidden');}
+  } catch(e){err.innerText="Server error. Try again.";err.classList.remove('hidden');}
 }
 
 async function doLogin() {
-  const email = document.getElementById('login-email').value.trim();
-  const password = document.getElementById('login-password').value;
-  const err = document.getElementById('login-error');
+  const email=document.getElementById('login-email').value.trim();
+  const password=document.getElementById('login-password').value;
+  const err=document.getElementById('login-error');
   err.classList.add('hidden');
 
-  if(email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
-    const adminObj = { uid:"ADMIN", name:"Master Admin", email:ADMIN_EMAIL, role:"admin", walletBalance:9999, sessionID:"ROOT", blurStrikes:0 };
-    localStorage.setItem('baaz_email', email);
-    localStorage.setItem('baaz_userdata', JSON.stringify(adminObj));
+  if(email===ADMIN_EMAIL && password===ADMIN_PASSWORD) {
+    const adminObj={uid:"ADMIN",name:"Admin",email:ADMIN_EMAIL,role:"admin",walletBalance:9999,sessionID:"ROOT",blurStrikes:0,joinDate:new Date().toLocaleDateString()};
+    localStorage.setItem('baaz_email',email);
+    localStorage.setItem('baaz_userdata',JSON.stringify(adminObj));
     loginSuccess(adminObj); return;
   }
-
   try {
-    const res = await fetch(APPS_SCRIPT_URL, { method:"POST", headers:{"Content-Type":"text/plain;charset=utf-8"}, body:JSON.stringify({ action:"login", email, password }) });
-    const data = await res.json();
-    if(data.status === "success") {
-      const user = { ...data, role:"student" };
-      localStorage.setItem('baaz_email', email);
-      localStorage.setItem('baaz_userdata', JSON.stringify(user));
+    const res=await fetch(APPS_SCRIPT_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:"login",email,password})});
+    const d=await res.json();
+    if(d.status==="success"){
+      const user={...d,role:"student"};
+      localStorage.setItem('baaz_email',email);
+      localStorage.setItem('baaz_userdata',JSON.stringify(user));
       loginSuccess(user);
-    } else { err.innerText = data.message; err.classList.remove('hidden'); }
-  } catch(e){ err.innerText = "Handshake authorization authentication error."; err.classList.remove('hidden'); }
+    } else {err.innerText=d.message;err.classList.remove('hidden');}
+  } catch(e){err.innerText="Login error. Check connection.";err.classList.remove('hidden');}
 }
 
 function loginSuccess(u) {
-  currentUserData = u;
+  currentUserData=u;
   document.getElementById('auth-container').classList.add('hidden');
-  document.getElementById('dashboard-container').classList.remove('hidden');
-  document.getElementById('student-name').innerText = u.name;
-  document.getElementById('wallet-balance-disp').innerText = u.walletBalance;
-  document.getElementById('watermark-text').innerText = `${u.name} [${u.uid}]`;
-  
-  if(u.referralCode) {
-    document.getElementById('referral-code-text').innerText = u.referralCode;
-    document.getElementById('referral-chip').classList.remove('hidden');
-    document.getElementById('referral-display-support').innerText = u.referralCode;
-  }
+  document.getElementById('app-container').classList.remove('hidden');
+  document.getElementById('student-name').innerText=u.name;
+  document.getElementById('wallet-balance-disp').innerText=u.walletBalance||0;
+  document.getElementById('watermark-text').innerText=`${u.name} [${u.uid}]`;
+
   if(u.profileImage) {
-    document.getElementById('dash-avatar').src = u.profileImage;
+    document.getElementById('dash-avatar').src=u.profileImage;
     document.getElementById('dash-avatar').classList.remove('hidden');
     document.getElementById('dash-avatar-ph').classList.add('hidden');
   }
 
-  if(u.role === 'admin') {
-    document.getElementById('admin-parser-box').classList.remove('hidden');
-    document.getElementById('role-badge').innerText = "TACTICAL CHIEF MONITOR";
-    document.getElementById('role-badge').className = "text-[10px] font-bold uppercase px-2 py-0.5 rounded mt-0.5 bg-amber-500 text-slate-950 inline-block";
-    document.body.classList.remove('student-lock');
+  if(u.role==='admin') {
+    document.getElementById('admin-home-card').style.display='flex';
+    document.getElementById('role-badge').innerText="ADMIN CONTROL";
+    document.getElementById('role-badge').className="text-[9px] font-bold uppercase px-2 py-0.5 rounded mt-0.5 inline-block bg-amber-500 text-slate-950";
   } else {
-    document.getElementById('role-badge').className = "text-[10px] font-bold uppercase px-2 py-0.5 rounded mt-0.5 bg-slate-800 text-amber-500 inline-block";
     document.body.classList.add('student-lock');
-    tabViolationsCount = u.blurStrikes || 0;
-    setInterval(verifyDeviceBindingSession, 12000);
   }
-  loadProfile(); loadTests();
-}
 
-async function verifyDeviceBindingSession() {
-  if(!testRunningMode) return;
-  try {
-    const res = await fetch(APPS_SCRIPT_URL, { method:"POST", headers:{"Content-Type":"text/plain;charset=utf-8"}, body:JSON.stringify({ action:"check_session", email:currentUserData.email, sessionID:currentUserData.sessionID }) });
-    const d = await res.json();
-    if(!d.valid) { alert("⚠️ DUAL SESSION INTERACTION TERMINATED: Ek aur browser/device par login detect hua hai!"); logout(); }
-  } catch(e){}
+  loadProfile();
+  loadTests();
+  loadNotes();
+  renderCourses();
+  updateQuickStats();
+  updateShareLinks();
 }
 
 function logout() { localStorage.clear(); location.reload(); }
 
-function applyTheme(n, p) {
-  document.documentElement.setAttribute('data-theme', n);
-  if(p) localStorage.setItem('baaz_theme', n);
-}
-
-function switchTab(t) {
-  ['tests','vault','profile','vip','leaderboard','support'].forEach(x => {
-    document.getElementById(`tab-content-${x}`).classList.add('hidden');
-    document.getElementById(`tab-btn-${x}`).classList.remove('nav-tab-active');
+/* ============================================================
+   SCREEN NAVIGATION
+   ============================================================ */
+function showScreen(name) {
+  const screens=['home','exam','notes','courses','ranking','profile','share','support','admin','results'];
+  screens.forEach(s => {
+    const el=document.getElementById(`screen-${s}`);
+    if(el) el.classList.toggle('active',s===name);
   });
-  document.getElementById(`tab-content-${t}`).classList.remove('hidden');
-  document.getElementById(`tab-btn-${t}`).classList.add('nav-tab-active');
-  if(t==='leaderboard') loadLeaderboard();
+  if(name==='ranking') loadLeaderboard();
+  if(name==='support' && currentUserData?.role==='admin') loadAdminSupport();
+  if(name==='admin') {
+    if(currentUserData?.role!=='admin') { showInfo('Access Denied','Admin access only.'); showScreen('home'); return; }
+    loadStudentList(); loadAdminNotesList(); loadAdminTestsList(); loadAdminSupport();
+  }
+  if(name==='profile') loadProfile();
+  if(name==='results') showResultsHistory();
 }
 
+function goHome() {
+  document.getElementById('exam-engine-container').classList.add('hidden');
+  document.getElementById('result-screen').classList.add('hidden');
+  document.getElementById('app-container').classList.remove('hidden');
+  showScreen('home');
+}
+
+/* ============================================================
+   PROFILE
+   ============================================================ */
 function loadProfile() {
-  document.getElementById('profile-name').value = currentUserData.name;
-  document.getElementById('profile-mobile').value = currentUserData.phone;
-  document.getElementById('profile-year').value = currentUserData.targetYear || "2027";
+  const u=currentUserData; if(!u) return;
+  document.getElementById('pf-name').innerText=u.name||'—';
+  document.getElementById('pf-email').innerText=u.email||'—';
+  document.getElementById('pf-phone').innerText=u.phone||'—';
+  document.getElementById('pf-exam').innerText=u.targetExam||'—';
+  document.getElementById('pf-year').innerText=u.targetYear||'—';
+  document.getElementById('pf-joined').innerText=u.joinDate||'—';
+  document.getElementById('pf-role').innerText=u.role==='admin'?'🛡️ Admin':'🎓 Student';
+
+  const picker=document.getElementById('theme-picker');
+  if(picker) picker.value=localStorage.getItem('baaz_theme')||'military';
+
+  if(u.profileImage) {
+    const pimg=document.getElementById('profile-avatar-img');
+    if(pimg){pimg.src=u.profileImage;pimg.classList.remove('hidden');document.getElementById('profile-avatar-ph').classList.add('hidden');}
+  }
+
+  if(u.role==='admin') {
+    document.getElementById('profile-student-stats').classList.add('hidden');
+    document.getElementById('profile-admin-stats').classList.remove('hidden');
+    const notes=JSON.parse(localStorage.getItem('baaz_notes')||'[]');
+    const tests=cachedTests||[];
+    const sup=JSON.parse(localStorage.getItem('baaz_support_requests')||'[]');
+    document.getElementById('adm-notes').innerText=notes.length;
+    document.getElementById('adm-exams').innerText=tests.length;
+    document.getElementById('adm-support').innerText=sup.length;
+    // Student count from server
+    fetch(APPS_SCRIPT_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:"get_students"})})
+      .then(r=>r.json()).then(d=>{document.getElementById('adm-students').innerText=d.length;}).catch(()=>{});
+  } else {
+    const hist=getHistoryMap();
+    const tests=Object.keys(hist);
+    const totalScore=tests.reduce((s,k)=>s+(hist[k].score||0),0);
+    const avg=tests.length>0?Math.round(totalScore/tests.length):0;
+    document.getElementById('pf-total-tests').innerText=tests.length;
+    document.getElementById('pf-total-score').innerText=totalScore;
+    document.getElementById('pf-avg').innerText=avg;
+    document.getElementById('pf-coins').innerText=u.walletBalance||0;
+  }
 }
 
-function openNoteView(title, url) {
-  document.getElementById('pdf-console-title').innerText = title;
-  document.getElementById('pdf-frame').src = url;
-  document.getElementById('pdf-view-console').classList.remove('hidden');
-  document.getElementById('vault-notes-area').value = localStorage.getItem('baaz_vault_notes_'+(currentUserData?.email)) || "";
+function updateQuickStats() {
+  const hist=getHistoryMap();
+  const tests=Object.keys(hist);
+  const totalScore=tests.reduce((s,k)=>s+(hist[k].score||0),0);
+  document.getElementById('stat-tests').innerText=tests.length;
+  document.getElementById('stat-score').innerText=totalScore;
+  document.getElementById('stat-coins').innerText=currentUserData?.walletBalance||0;
+}
+
+/* ============================================================
+   NOTES SYSTEM
+   ============================================================ */
+function loadNotes() {
+  allNotes = JSON.parse(localStorage.getItem('baaz_notes') || '[]');
+  renderNotes(allNotes);
+}
+
+function filterNotes() {
+  const exam=document.getElementById('notes-filter-exam').value;
+  const subject=document.getElementById('notes-filter-subject').value;
+  const filtered=allNotes.filter(n=>{
+    return (!exam || n.exam===exam) && (!subject || n.subject===subject);
+  });
+  renderNotes(filtered);
+}
+
+function renderNotes(notes) {
+  const container=document.getElementById('notes-list'); if(!container) return;
+  if(!notes.length) { container.innerHTML='<div class="premium-card rounded-xl p-4 text-xs text-muted">No notes available yet.</div>'; return; }
+  container.innerHTML = notes.map((n,i) => `
+    <div class="premium-card rounded-xl p-4 space-y-2">
+      <div class="flex justify-between items-start">
+        <div>
+          <span class="text-[9px] font-bold text-muted uppercase">${escapeHtml(n.exam)} • ${escapeHtml(n.subject)}</span>
+          <h3 class="font-black text-sm text-accent mt-0.5">${escapeHtml(n.title)}</h3>
+        </div>
+        ${currentUserData?.role==='admin'?`<button onclick="deleteNote(${i})" class="btn-danger-outline px-2 py-1 rounded-lg text-[10px] font-bold cursor-pointer"><i class="fas fa-trash"></i></button>`:''}
+      </div>
+      <button onclick="openNoteModal(${i})" class="w-full btn-accent font-bold py-2 rounded-xl text-xs cursor-pointer mt-1"><i class="fas fa-book-open mr-1"></i>Read Note</button>
+    </div>
+  `).join('');
+}
+
+function adminAddNote() {
+  const title=document.getElementById('note-title').value.trim();
+  const exam=document.getElementById('note-exam').value;
+  const subject=document.getElementById('note-subject').value;
+  const content=document.getElementById('note-content').value.trim();
+  if(!title || !content) { alert("Title aur Content dono required hain."); return; }
+  const notes=JSON.parse(localStorage.getItem('baaz_notes')||'[]');
+  notes.push({title,exam,subject,content,createdAt:new Date().toLocaleDateString()});
+  localStorage.setItem('baaz_notes',JSON.stringify(notes));
+  allNotes=notes;
+  renderNotes(allNotes);
+  document.getElementById('note-title').value='';
+  document.getElementById('note-content').value='';
+  alert("Note published successfully!");
+}
+
+function adminAddNoteFromPanel() {
+  const title=document.getElementById('anote-title').value.trim();
+  const exam=document.getElementById('anote-exam').value;
+  const subject=document.getElementById('anote-subject').value;
+  const content=document.getElementById('anote-content').value.trim();
+  if(!title || !content) { alert("Title aur Content required hain."); return; }
+  const notes=JSON.parse(localStorage.getItem('baaz_notes')||'[]');
+  notes.push({title,exam,subject,content,createdAt:new Date().toLocaleDateString()});
+  localStorage.setItem('baaz_notes',JSON.stringify(notes));
+  allNotes=notes;
+  document.getElementById('anote-title').value='';
+  document.getElementById('anote-content').value='';
+  loadAdminNotesList();
+  alert("Note published!");
+}
+
+function deleteNote(i) {
+  if(!confirm("Is note ko delete karein?")) return;
+  const notes=JSON.parse(localStorage.getItem('baaz_notes')||'[]');
+  notes.splice(i,1);
+  localStorage.setItem('baaz_notes',JSON.stringify(notes));
+  allNotes=notes;
+  renderNotes(allNotes);
+  loadAdminNotesList();
+}
+
+function loadAdminNotesList() {
+  const container=document.getElementById('admin-notes-list'); if(!container) return;
+  const notes=JSON.parse(localStorage.getItem('baaz_notes')||'[]');
+  if(!notes.length){container.innerHTML='<p class="text-xs text-muted">No notes yet.</p>';return;}
+  container.innerHTML=notes.map((n,i)=>`
+    <div class="surface rounded-xl p-2 flex justify-between items-center">
+      <span class="text-xs font-bold">${escapeHtml(n.title)} <span class="text-muted">(${escapeHtml(n.exam)})</span></span>
+      <button onclick="deleteNote(${i})" class="btn-danger-outline px-2 py-1 rounded-lg text-[10px] cursor-pointer"><i class="fas fa-trash"></i></button>
+    </div>
+  `).join('');
+}
+
+function openNoteModal(i) {
+  const note=allNotes[i]; if(!note) return;
+  const title=note.title||'';
+  const body=note.content||'';
+  if(!title.trim() || !body.trim()) return;
+  document.getElementById('note-modal-title').innerText=title;
+  document.getElementById('note-modal-content').innerText=body;
+  document.getElementById('note-reader-modal').classList.remove('hidden');
+  document.body.classList.add('notes-open');
+}
+
+function closeNoteModal() {
+  document.getElementById('note-reader-modal').classList.add('hidden');
+  document.body.classList.remove('notes-open');
 }
 
 function openMistakesLedger() {
-  const container = document.getElementById('pdf-view-console');
-  document.getElementById('pdf-console-title').innerText = "❌ Personal Mistakes Revision Locker";
-  const logs = JSON.parse(localStorage.getItem('baaz_errors_'+currentUserData.email) || '[]');
-  if(!logs.length) { alert("Abhi is vault mein koi galat sawal jama nahi hue!"); return; }
-  
-  let html = "<div class='p-3 space-y-3 h-96 overflow-y-auto surface rounded-xl'>";
-  logs.forEach((item, index) => {
-    html += `<div class='p-3 surface rounded-lg border-l-2 border-red-500'>
-      <span class='text-[10px] uppercase font-bold text-red-400'>Error Item #${index+1} — ${escapeHtml(item.testTitle)}</span>
-      <p class='font-bold text-xs mt-0.5'>${escapeHtml(item.text)}</p>
-      <div class='mt-1 text-[11px] text-muted grid grid-cols-2 gap-1'>
-        <div>A: ${escapeHtml(item.A)}</div><div>B: ${escapeHtml(item.B)}</div>
+  const logs=JSON.parse(localStorage.getItem('baaz_errors_'+currentUserData?.email)||'[]');
+  const container=document.getElementById('mistakes-list');
+  if(!logs.length){container.innerHTML='<p class="text-xs text-muted text-center py-4">Koi galat sawaal nahi mila abhi tak!</p>';}
+  else{
+    container.innerHTML=logs.map((item,i)=>`
+      <div class="surface rounded-xl p-3 border-l-2 border-red-500">
+        <span class="text-[9px] font-black text-red-400 uppercase">Error #${i+1} — ${escapeHtml(item.testTitle)}</span>
+        <p class="font-bold text-xs mt-1">${escapeHtml(item.text)}</p>
+        <div class="grid grid-cols-2 gap-1 mt-1 text-[10px] text-muted">
+          <div>A: ${escapeHtml(item.A)}</div><div>B: ${escapeHtml(item.B)}</div>
+        </div>
       </div>
-    </div>`;
-  });
-  html += "</div>";
-  document.getElementById('pdf-view-console').classList.remove('hidden');
-  document.getElementById('pdf-view-console').innerHTML = `<div class='col-span-3 space-y-2'>
-    <div class='flex justify-between items-center'><h3 class='font-black text-xs text-red-400'>Errors Library</h3><button onclick='location.reload()' class='text-xs underline text-accent font-bold'>Close Matrix</button></div>
-    ${html}
-  </div>`;
+    `).join('');
+  }
+  document.getElementById('mistakes-modal').classList.remove('hidden');
 }
 
+function closeMistakesModal() { document.getElementById('mistakes-modal').classList.add('hidden'); }
+
+/* ============================================================
+   COURSES SYSTEM
+   ============================================================ */
+const COURSES_DATA = [
+  // AFCAT
+  {cat:'AFCAT',icon:'✈️',title:'Operation Varun Falcon',desc:'Complete AFCAT preparation with all subjects covered.',price:1499},
+  {cat:'AFCAT',icon:'🦅',title:'Operation Garud Wings',desc:'Advanced AFCAT mock series with detailed solutions.',price:1999},
+  {cat:'AFCAT',icon:'⚓',title:'Operation Marcos Strike',desc:'Focus on EKT + AFCAT combined preparation.',price:1799},
+  {cat:'AFCAT',icon:'🎯',title:'Operation Sky Hunter AFCAT',desc:'Speed & accuracy focused AFCAT crash course.',price:1299},
+  {cat:'AFCAT',icon:'🌊',title:'Operation Air Titan',desc:'Full AFCAT syllabus with live sessions.',price:2499},
+  {cat:'AFCAT',icon:'🦁',title:'Operation Blue Hawk',desc:'AFCAT interview + written complete package.',price:2999},
+  // CDS
+  {cat:'CDS',icon:'⚔️',title:'Operation Varun Shield CDS',desc:'IMA, INA, AFA focused complete CDS preparation.',price:1999},
+  {cat:'CDS',icon:'🎖️',title:'Operation Garud Force CDS',desc:'CDS Mathematics & English mastery course.',price:1499},
+  {cat:'CDS',icon:'🛡️',title:'Operation Marcos Vanguard CDS',desc:'OTA special batch with GK focus.',price:1299},
+  {cat:'CDS',icon:'🔥',title:'Operation Iron Command CDS',desc:'CDS advanced test series with analytics.',price:1799},
+  {cat:'CDS',icon:'💥',title:'Operation Battle Apex CDS',desc:'120-day CDS crash course.',price:2499},
+  {cat:'CDS',icon:'🌟',title:'Operation Defence Alpha CDS',desc:'CDS complete package with interview prep.',price:2999},
+  // AIR FORCE
+  {cat:'AIR FORCE',icon:'🛩️',title:'Operation Sky Warriors X/Y',desc:'Air Force X & Y group complete course.',price:1499},
+  {cat:'AIR FORCE',icon:'💨',title:'Operation Garud Flight',desc:'Reasoning & Math focus for Air Force.',price:1299},
+  {cat:'AIR FORCE',icon:'⚡',title:'Operation Air Saber Batch',desc:'Air Force mock test series with solutions.',price:999},
+  {cat:'AIR FORCE',icon:'🌩️',title:'Operation Thunder Wing',desc:'Air Force English + Science special batch.',price:1199},
+  {cat:'AIR FORCE',icon:'🎯',title:'Operation Sky Commando',desc:'Air Force crash course 60-day.',price:1799},
+  {cat:'AIR FORCE',icon:'🌅',title:'Operation Horizon Force',desc:'Air Force X Group technical preparation.',price:1999},
+  // NAVY
+  {cat:'NAVY',icon:'🚢',title:'Operation Varun Sea Force',desc:'Complete Navy MR & AA preparation.',price:1299},
+  {cat:'NAVY',icon:'🌊',title:'Operation Marcos Navy Shield',desc:'Navy SSR & MR combined course.',price:1499},
+  {cat:'NAVY',icon:'⚓',title:'Operation Ocean Guard',desc:'Navy advanced Mathematics batch.',price:1199},
+  {cat:'NAVY',icon:'🔱',title:'Operation Blue Depths Batch',desc:'Navy mock test series premium.',price:999},
+  {cat:'NAVY',icon:'🛳️',title:'Operation Sea Hunter',desc:'Navy complete 90-day preparation.',price:1799},
+  {cat:'NAVY',icon:'🏆',title:'Operation Naval Titan',desc:'Navy full package with interview tips.',price:2499},
+  // ARMY
+  {cat:'ARMY',icon:'🪖',title:'Operation Ground Shield',desc:'Army GD complete preparation course.',price:999},
+  {cat:'ARMY',icon:'🔫',title:'Operation Iron Infantry',desc:'Army Clerk & GD combined batch.',price:1199},
+  {cat:'ARMY',icon:'💪',title:'Operation Battle Warrior GD',desc:'Army GD fast track 45-day course.',price:799},
+  {cat:'ARMY',icon:'🎖️',title:'Operation Army Vanguard',desc:'Army GD mock test series with analytics.',price:899},
+  {cat:'ARMY',icon:'⭐',title:'Operation Soldier Prime Batch',desc:'Army Clerk/SKT special preparation.',price:1099},
+  {cat:'ARMY',icon:'🏅',title:'Operation Combat Force',desc:'Army complete package all trades.',price:1799},
+  // SSC
+  {cat:'SSC',icon:'📋',title:'Operation National Strike SSC',desc:'SSC GD complete preparation course.',price:1499},
+  {cat:'SSC',icon:'✏️',title:'Operation Varun Edge SSC',desc:'SSC CGL/CHSL combined batch.',price:1999},
+  {cat:'SSC',icon:'🏆',title:'Operation Apex Selection Batch',desc:'SSC advanced mock series.',price:1299},
+  {cat:'SSC',icon:'💡',title:'Operation Skill Force SSC',desc:'SSC MTS & Stenographer course.',price:999},
+  {cat:'SSC',icon:'🌟',title:'Operation Elite Selection Drive',desc:'SSC complete package with interview.',price:2499},
+];
+
+function renderCourses(cat='ALL') {
+  const grid=document.getElementById('courses-grid'); if(!grid) return;
+  const filtered=cat==='ALL'?COURSES_DATA:COURSES_DATA.filter(c=>c.cat===cat);
+  grid.innerHTML=filtered.map(c=>`
+    <div class="course-card relative">
+      <span class="locked-badge"><i class="fas fa-lock mr-1"></i>LOCKED</span>
+      <div class="text-2xl mb-2">${c.icon}</div>
+      <span class="text-[9px] font-bold text-muted uppercase">${c.cat}</span>
+      <h3 class="font-black text-sm text-accent mt-1 mb-1">${escapeHtml(c.title)}</h3>
+      <p class="text-xs text-muted mb-3">${escapeHtml(c.desc)}</p>
+      <div class="flex items-center justify-between mt-auto">
+        <span class="font-black text-amber-400 text-base">₹${c.price}</span>
+        <button onclick="openPaymentModal('${escapeHtml(c.title)}',${c.price})" class="btn-success px-4 py-2 rounded-xl text-xs font-bold cursor-pointer"><i class="fas fa-shopping-cart mr-1"></i>Join Now</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function filterCourses(cat) {
+  document.querySelectorAll('#course-cat-tabs .admin-tab').forEach(b=>b.classList.toggle('active',b.dataset.cat===cat));
+  renderCourses(cat);
+}
+
+/* ============================================================
+   PAYMENT MODAL
+   ============================================================ */
+function openPaymentModal(courseName, price) {
+  if(!courseName || !courseName.trim()) return;
+  document.getElementById('pay-course-name').innerText=courseName;
+  document.getElementById('pay-course-price').innerText=`₹${price}`;
+  // Update QR with amount
+  const qrImg=document.querySelector('#payment-modal .qr-box img');
+  if(qrImg) {
+    const upiData=`upi://pay?pa=${UPI_ID}&pn=${encodeURIComponent(UPI_NAME)}&am=${price}&cu=INR&tn=${encodeURIComponent('Course: '+courseName)}`;
+    qrImg.src=`https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(upiData)}&size=160x160&margin=10`;
+  }
+  document.getElementById('payment-modal').classList.remove('hidden');
+}
+
+function closePaymentModal() { document.getElementById('payment-modal').classList.add('hidden'); }
+
+function copyUPI() {
+  navigator.clipboard.writeText(UPI_ID).then(()=>alert('UPI ID copied: ' + UPI_ID)).catch(()=>alert('UPI ID: ' + UPI_ID));
+}
+
+/* ============================================================
+   SHARE SYSTEM
+   ============================================================ */
+function updateShareLinks() {
+  const ref=currentUserData?.referralCode||'';
+  const refEl=document.getElementById('share-ref-code');
+  if(refEl) refEl.innerText=ref||'Login karein';
+
+  const msg=`🚀 Operation Baaz pe join karo — India ka best Defence prep platform!\n\nMera referral code use karo: *${ref}*\n\nJoin here: https://operationbaaz.com`;
+  const wa=document.getElementById('whatsapp-share-btn');
+  const tg=document.getElementById('telegram-share-btn');
+  if(wa) wa.href=`https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`;
+  if(tg) tg.href=`https://t.me/share/url?url=${encodeURIComponent('https://operationbaaz.com')}&text=${encodeURIComponent(msg)}`;
+}
+
+function copyReferral() {
+  const ref=currentUserData?.referralCode||'';
+  if(!ref) { alert('Referral code milane ke liye login karein.'); return; }
+  navigator.clipboard.writeText(ref).then(()=>alert('Referral code copied: '+ref)).catch(()=>alert('Code: '+ref));
+}
+
+/* ============================================================
+   SUPPORT SYSTEM
+   ============================================================ */
+function submitSupport() {
+  const name=document.getElementById('sup-name').value.trim();
+  const contact=document.getElementById('sup-contact').value.trim();
+  const type=document.getElementById('sup-type').value;
+  const message=document.getElementById('sup-message').value.trim();
+  if(!name||!contact||!type||!message){alert("Sabhi fields fill karein.");return;}
+  
+  const requests=JSON.parse(localStorage.getItem('baaz_support_requests')||'[]');
+  requests.push({name,contact,type,message,status:'Pending',timestamp:new Date().toLocaleString(),email:currentUserData?.email||''});
+  localStorage.setItem('baaz_support_requests',JSON.stringify(requests));
+  
+  document.getElementById('sup-name').value='';
+  document.getElementById('sup-contact').value='';
+  document.getElementById('sup-type').value='';
+  document.getElementById('sup-message').value='';
+  
+  const msg=document.getElementById('sup-msg');
+  msg.innerText='✅ Request submitted! Admin 24 ghante mein reply karega.';
+  msg.classList.remove('hidden');
+  setTimeout(()=>msg.classList.add('hidden'),4000);
+}
+
+function loadAdminSupport() {
+  const requests=JSON.parse(localStorage.getItem('baaz_support_requests')||'[]');
+  const render=(container)=>{
+    if(!container) return;
+    if(!requests.length){container.innerHTML='<p class="text-xs text-muted">No requests yet.</p>';return;}
+    container.innerHTML=requests.map((r,i)=>`
+      <div class="surface rounded-xl p-3 space-y-1">
+        <div class="flex justify-between items-center">
+          <span class="text-xs font-bold">${escapeHtml(r.name)} — <span class="text-muted">${escapeHtml(r.type)}</span></span>
+          <span class="text-[9px] px-2 py-0.5 rounded font-bold ${r.status==='Resolved'?'bg-green-800 text-green-300':'bg-amber-900 text-amber-300'}">${r.status}</span>
+        </div>
+        <p class="text-xs text-muted">${escapeHtml(r.message)}</p>
+        <div class="text-[10px] text-muted">${escapeHtml(r.contact)} • ${r.timestamp}</div>
+        <div class="flex gap-2 mt-1">
+          ${r.status!=='Resolved'?`<button onclick="resolveSupport(${i})" class="btn-success px-2 py-1 text-[10px] font-bold rounded-lg cursor-pointer">Resolve</button>`:''}
+          <button onclick="deleteSupport(${i})" class="btn-danger-outline px-2 py-1 text-[10px] font-bold rounded-lg cursor-pointer">Delete</button>
+        </div>
+      </div>
+    `).join('');
+  };
+  render(document.getElementById('admin-support-list'));
+  render(document.getElementById('support-requests-list'));
+  if(currentUserData?.role==='admin') {
+    const asv=document.getElementById('admin-support-viewer');
+    if(asv) asv.classList.remove('hidden');
+  }
+}
+
+function resolveSupport(i) {
+  const requests=JSON.parse(localStorage.getItem('baaz_support_requests')||'[]');
+  if(requests[i]) { requests[i].status='Resolved'; localStorage.setItem('baaz_support_requests',JSON.stringify(requests)); loadAdminSupport(); }
+}
+function deleteSupport(i) {
+  const requests=JSON.parse(localStorage.getItem('baaz_support_requests')||'[]');
+  requests.splice(i,1);
+  localStorage.setItem('baaz_support_requests',JSON.stringify(requests));
+  loadAdminSupport();
+}
+
+/* ============================================================
+   LEADERBOARD
+   ============================================================ */
 async function loadLeaderboard() {
-  const container = document.getElementById('leaderboard-container');
+  const podium=document.getElementById('leaderboard-podium');
+  const table=document.getElementById('leaderboard-table');
+  if(!table) return;
+  table.innerHTML='<div class="spinner my-4"></div>';
   try {
-    const res = await fetch(APPS_SCRIPT_URL + "?action=get_leaderboard");
-    const d = await res.json();
-    let html = "<table class='w-full text-xs text-left'><thead><tr class='border-b border-slate-800'><th class='p-2'>Rank</th><th class='p-2'>Name</th><th class='p-2 text-center'>Pools</th><th class='p-2 text-center'>Total Marks</th></tr></thead><tbody>";
-    d.forEach(r => {
-      html += `<tr class='border-b border-slate-800/40'><td class='p-2 font-black text-accent'>#${r.rank}</td><td class='p-2 font-bold'>${escapeHtml(r.name)}</td><td class='p-2 text-center text-muted'>${r.totalTests}</td><td class='p-2 text-center font-black text-emerald-400'>${r.totalScore}</td></tr>`;
-    });
-    container.innerHTML = html + "</tbody></table>";
-  } catch(e){ container.innerHTML = "<p class='text-xs text-muted text-center'>Board system processing failure.</p>"; }
+    const res=await fetch(APPS_SCRIPT_URL+"?action=get_leaderboard");
+    const d=await res.json();
+    // Also add local results
+    const localRankers=getLocalRankers();
+    const merged=mergeLeaderboard(d,localRankers);
+
+    // Podium top 3
+    if(podium) {
+      const top=merged.slice(0,3);
+      const medals=['🥇','🥈','🥉'];
+      const colors=['rank-gold','rank-silver','rank-bronze'];
+      podium.innerHTML=top.map((r,i)=>`
+        <div class="premium-card rounded-xl p-3 text-center ${colors[i]} border">
+          <div class="text-2xl">${medals[i]}</div>
+          <div class="font-black text-xs mt-1">${escapeHtml(r.name)}</div>
+          <div class="text-accent font-black text-sm">${r.totalScore||0}</div>
+          <div class="text-[9px] text-muted">${r.totalTests||0} tests</div>
+        </div>
+      `).join('');
+    }
+
+    // Full table
+    if(!merged.length){table.innerHTML='<p class="text-xs text-muted text-center py-4">Koi data nahi hai abhi.</p>';return;}
+    table.innerHTML=`<div class="overflow-x-auto"><table class="w-full text-xs text-left">
+      <thead><tr class="border-b border-slate-800 text-muted font-bold uppercase text-[9px]">
+        <th class="p-2">Rank</th><th class="p-2">Name</th><th class="p-2 text-center">Tests</th>
+        <th class="p-2 text-center">Score</th><th class="p-2 text-center">Exam</th>
+      </tr></thead><tbody>
+      ${merged.map((r,i)=>`
+        <tr class="border-b border-slate-800/40 ${i<3?'font-bold':''}">
+          <td class="p-2 font-black ${i===0?'text-amber-400':i===1?'text-slate-300':i===2?'text-amber-700':'text-accent'}">#${i+1}</td>
+          <td class="p-2">${escapeHtml(r.name)}</td>
+          <td class="p-2 text-center text-muted">${r.totalTests||0}</td>
+          <td class="p-2 text-center font-black text-emerald-400">${r.totalScore||0}</td>
+          <td class="p-2 text-center text-muted text-[9px]">${escapeHtml(r.exam||'—')}</td>
+        </tr>
+      `).join('')}
+      </tbody></table></div>`;
+    document.getElementById('stat-rank').innerText = '#'+(merged.findIndex(r=>r.email===currentUserData?.email)+1 || '—');
+  } catch(e){table.innerHTML='<p class="text-xs text-muted text-center">Data load error.</p>';}
 }
 
-async function loadStudentList() {
-  const container = document.getElementById('student-list-container');
-  try {
-    const res = await fetch(APPS_SCRIPT_URL, { method: "POST", headers:{"Content-Type":"text/plain;charset=utf-8"}, body:JSON.stringify({action:"get_students"}) });
-    const data = await res.json();
-    container.innerHTML = data.map(u => `
-      <div class='surface p-2 rounded-xl flex items-center justify-between gap-2'>
-        <div><span class='font-bold'>${escapeHtml(u.name)}</span> <span class='text-muted text-[10px]'>(${escapeHtml(u.email)})</span></div>
-        <button onclick="toggleUserBan('${u.email}', ${!u.blocked})" class='px-2.5 py-1 text-[10px] font-bold rounded-lg ${u.blocked?'btn-success':'btn-danger-outline'}'>${u.blocked?'UNBAN':'BAN STUDENT'}</button>
-      </div>`).join('');
-  } catch(e){}
+function getLocalRankers() {
+  const hist=getHistoryMap();
+  const tests=Object.keys(hist);
+  if(!tests.length) return [];
+  const totalScore=tests.reduce((s,k)=>s+(hist[k].score||0),0);
+  return [{name:currentUserData?.name||'Me',email:currentUserData?.email||'',totalScore,totalTests:tests.length,exam:currentUserData?.targetExam||'—'}];
 }
 
-async function toggleUserBan(email, ban) {
-  try {
-    const res = await fetch(APPS_SCRIPT_URL, { method:"POST", headers:{"Content-Type":"text/plain;charset=utf-8"}, body:JSON.stringify({ action: ban?"ban_student":"unban_student", email }) });
-    const d = await res.json(); alert(d.message); loadStudentList();
-  } catch(e){}
-}
-
-function parseRawTestText(txt) {
-  const tempKeys = {};
-  const cleanText = txt.toUpperCase().replace(/\n/g,' ');
-  const ansIdx = cleanText.indexOf("ANSWER KEY:");
-  if (ansIdx !== -1) {
-    const ansPart = cleanText.substring(ansIdx);
-    const pairs = ansPart.match(/Q?\d+\s*-\s*[A-D]/gi) || ansPart.match(/\d+-[A-D]/g);
-    if (pairs) pairs.forEach(p => {
-      const pts = p.replace(/Q/g,'').split(/[-\|]/);
-      if (pts.length >= 2) tempKeys[parseInt(pts[0].trim())] = pts[pts.length-1].trim();
-    });
-  }
-  const lines = txt.split("\n");
-  let block = ""; let col = false;
-  for (const l of lines) {
-    const lt = l.trim();
-    if (/^(Q\d+|1\b|2\b|3\b)/i.test(lt)) col = true;
-    if (lt.toUpperCase().includes("ANSWER KEY:")) col = false;
-    if (col) block += l + "\n";
-  }
-  const parts = block.split(/(?:Q(?:uestion)?\s*\d+[\.\s\-:\)]+|\b\d+[\.\)\-]\s+)/gi);
-  const questions = []; let ptr = 1;
-  parts.forEach(b => {
-    const trimmed = b.trim();
-    if (trimmed.length > 5) {
-      const ls = trimmed.split('\n').map(x => x.trim()).filter(Boolean);
-      let qText="", A="", B="", C="", D="";
-      ls.forEach(line => {
-        const u = line.toUpperCase();
-        if (u.startsWith('(A)')||u.startsWith('A.')||u.startsWith('A)')) A = line.replace(/^\s*[\(\[A-D\u2022\-\.\)]+\s*/i,'').trim();
-        else if (u.startsWith('(B)')||u.startsWith('B.')||u.startsWith('B)')) B = line.replace(/^\s*[\(\[A-D\u2022\-\.\)]+\s*/i,'').trim();
-        else if (u.startsWith('(C)')||u.startsWith('C.')||u.startsWith('C)')) C = line.replace(/^\s*[\(\[A-D\u2022\-\.\)]+\s*/i,'').trim();
-        else if (u.startsWith('(D)')||u.startsWith('D.')||u.startsWith('D)')) D = line.replace(/^\s*[\(\[A-D\u2022\-\.\)]+\s*/i,'').trim();
-        else qText += " " + line;
-      });
-      questions.push({ id:ptr, text:qText.trim(), A, B, C, D });
-      if (!tempKeys[ptr]) tempKeys[ptr] = "A";
-      ptr++;
+function mergeLeaderboard(serverData,local) {
+  const merged=[...serverData];
+  local.forEach(l=>{
+    if(!merged.find(r=>r.email===l.email)) merged.push(l);
+    else {
+      const idx=merged.findIndex(r=>r.email===l.email);
+      if(l.totalScore>merged[idx].totalScore) merged[idx]=l;
     }
   });
-  return { questions, keys:tempKeys };
+  return merged.sort((a,b)=>(b.totalScore||0)-(a.totalScore||0));
 }
 
-async function setTestByAdmin() {
-  const rawText = document.getElementById('local-ai-text').value.trim();
-  const exam = document.getElementById('admin-exam-name').value.trim() || "General";
-  const subject = document.getElementById('admin-subject-name').value.trim() || "Mixed";
-  const title = document.getElementById('admin-test-title').value.trim();
-  const desc = document.getElementById('admin-test-desc').value.trim() || " briefed packet.";
-  const posM = document.getElementById('admin-pos-marks').value.trim() || 3;
-  const negM = document.getElementById('admin-neg-marks').value.trim() || 1;
-  const premium = document.getElementById('admin-is-premium').value === "TRUE";
-  
-  if(!title || rawText.length < 25) { alert("Parameters or string text configuration payload incomplete."); return; }
-  const parsed = parseRawTestText(rawText);
-  
-  const payload = { action:"publish_test", exam, subject, title, description:desc, positiveMarks:posM, negativeMarks:negM, isPremium:premium, rawText };
-  try {
-    await fetch(APPS_SCRIPT_URL, { method:"POST", headers:{"Content-Type":"text/plain;charset=utf-8"}, body:JSON.stringify(payload) });
-    alert("Test configured, obfuscated and pushed successfully to database grid.");
-    loadTests();
-  } catch(e){ alert("Pushed deployment communication failure."); }
-}
-
+/* ============================================================
+   EXAM / TEST SYSTEM
+   ============================================================ */
 async function loadTests() {
   try {
-    const res = await fetch(APPS_SCRIPT_URL, { method:"GET" });
-    cachedTests = await res.json();
+    const res=await fetch(APPS_SCRIPT_URL,{method:"GET"});
+    cachedTests=await res.json();
     renderTestsList();
-  } catch(e){}
+    loadAdminTestsList();
+  } catch(e){renderTestsList();}
 }
 
-function getHistoryMap() { return JSON.parse(localStorage.getItem(`baaz_hist_${currentUserData.email}`) || '{}'); }
+function getHistoryMap() { return JSON.parse(localStorage.getItem(`baaz_hist_${currentUserData?.email}`) || '{}'); }
 
 function renderTestsList() {
-  const container = document.getElementById('tests-list');
-  const hist = getHistoryMap();
-  if(!cachedTests.length) { container.innerHTML = "<p class='text-xs text-muted p-4 surface rounded-xl'>No exam blocks synced.</p>"; return; }
-  container.innerHTML = "";
-  cachedTests.forEach(t => {
-    const done = hist[t.title];
-    let actionBtn = "";
-    if(done) {
-      actionBtn = `<button onclick='viewLockedResult(${JSON.stringify(t.title)})' class='w-full mt-3 btn-neutral font-bold py-2 rounded-xl text-xs uppercase'><i class='fas fa-lock mr-1'></i> Locked scorecard</button>`;
-    } else if(t.isPremium && currentUserData.role !== 'admin') {
-      actionBtn = `<button onclick='buyPremiumTest(${JSON.stringify(t.title)})' class='w-full mt-3 btn-accent font-black py-2 rounded-xl text-xs uppercase animate-pulse'><i class='fas fa-crown mr-1'></i> UNLOCK WITH 100 COINS</button>`;
-    } else {
-      actionBtn = `<button onclick='launchExamEngine(${JSON.stringify(t.title)})' class='w-full mt-3 btn-success font-bold py-2 rounded-xl text-xs uppercase'>🚀 LAUNCH SECURE TEST</button>`;
-    }
-    container.innerHTML += `<div class='premium-card rounded-2xl p-4 flex flex-col justify-between border-t-2' style='border-top-color:var(--accent)'>
-      <div><div class='text-[9px] text-muted font-black uppercase'>${escapeHtml(t.exam)} • ${escapeHtml(t.subject)}</div>
-           <h3 class='font-black text-sm text-accent mt-0.5'>${escapeHtml(t.title)}</h3>
-           <p class='text-xs text-muted mt-1'>${escapeHtml(t.description)}</p>
-           <span class='text-[10px] text-emerald-400 mt-2 font-bold block'>Rule: +${t.positiveMarks} / -${t.negativeMarks} Marks</span></div>
-      ${actionBtn}
+  const container=document.getElementById('tests-list'); if(!container) return;
+  const hist=getHistoryMap();
+  if(!cachedTests.length){container.innerHTML='<p class="text-xs text-muted p-4 surface rounded-xl">No tests available yet. Admin se request karein.</p>';return;}
+  container.innerHTML=cachedTests.map(t=>{
+    const done=hist[t.title];
+    let btn='';
+    if(done) btn=`<button onclick="viewLockedResult('${escapeHtml(t.title)}')" class="w-full mt-3 btn-neutral font-bold py-2 rounded-xl text-xs uppercase cursor-pointer"><i class="fas fa-lock mr-1"></i>View Result</button>`;
+    else if(t.isPremium && currentUserData?.role!=='admin') btn=`<button onclick="buyPremiumTest('${escapeHtml(t.title)}')" class="w-full mt-3 btn-accent font-black py-2 rounded-xl text-xs uppercase cursor-pointer animate-pulse"><i class="fas fa-crown mr-1"></i>UNLOCK (100 Coins)</button>`;
+    else btn=`<button onclick="launchExamEngine('${escapeHtml(t.title)}')" class="w-full mt-3 btn-success font-bold py-2 rounded-xl text-xs uppercase cursor-pointer">🚀 Start Test</button>`;
+    return `<div class="premium-card rounded-2xl p-4 border-t-2" style="border-top-color:var(--accent)">
+      <div class="text-[9px] text-muted font-black uppercase">${escapeHtml(t.exam)} • ${escapeHtml(t.subject)}</div>
+      <h3 class="font-black text-sm text-accent mt-0.5">${escapeHtml(t.title)}</h3>
+      <p class="text-xs text-muted mt-1">${escapeHtml(t.description)}</p>
+      <span class="text-[10px] text-emerald-400 mt-2 font-bold block">+${t.positiveMarks} / -${t.negativeMarks} Marks • ${t.parsedQuestions?.length||0} Qs</span>
+      ${btn}
     </div>`;
-  });
+  }).join('');
+}
+
+function loadAdminTestsList() {
+  const container=document.getElementById('admin-tests-list'); if(!container) return;
+  if(!cachedTests.length){container.innerHTML='<p class="text-xs text-muted">No tests deployed yet.</p>';return;}
+  container.innerHTML=cachedTests.map(t=>`
+    <div class="surface rounded-xl p-2 flex justify-between items-center">
+      <span class="text-xs font-bold">${escapeHtml(t.title)} <span class="text-muted">(${t.parsedQuestions?.length||0} Qs)</span></span>
+      <span class="text-[9px] font-bold ${t.isPremium?'text-amber-500':'text-emerald-400'}">${t.isPremium?'VIP':'FREE'}</span>
+    </div>
+  `).join('');
 }
 
 async function buyPremiumTest(title) {
-  if(!confirm("Kya aap 100 Virtual Coins deduct karke is Premium test ko unlock karna chahte hain?")) return;
+  if(!confirm("100 Coins deduct hoga. Proceed?")) return;
   try {
-    const res = await fetch(APPS_SCRIPT_URL, { method:"POST", headers:{"Content-Type":"text/plain;charset=utf-8"}, body:JSON.stringify({ action:"unlock_premium_test", email:currentUserData.email }) });
-    const d = await res.json();
-    if(d.status === "success") {
-      currentUserData.walletBalance = d.newBalance;
-      localStorage.setItem('baaz_userdata', JSON.stringify(currentUserData));
-      document.getElementById('wallet-balance-disp').innerText = d.newBalance;
-      alert("✅ Test unlocked successfully! Ab aap isko launch kar sakte hain.");
-      loadTests();
-    } else { alert(d.message); }
+    const res=await fetch(APPS_SCRIPT_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:"unlock_premium_test",email:currentUserData.email})});
+    const d=await res.json();
+    if(d.status==="success"){
+      currentUserData.walletBalance=d.newBalance;
+      localStorage.setItem('baaz_userdata',JSON.stringify(currentUserData));
+      document.getElementById('wallet-balance-disp').innerText=d.newBalance;
+      alert("✅ Unlocked!"); loadTests();
+    } else alert(d.message);
   } catch(e){}
 }
 
 function launchExamEngine(title) {
-  const test = cachedTests.find(x => x.title === title);
-  activeTest = test; currentTestQuestions = test.parsedQuestions;
-  totalQuestionsCount = currentTestQuestions.length;
-  studentResponses = {}; flaggedQuestions = {}; visitedQuestions = {};
-  currentIndex = 1; qTimeLeft = 2700; testRunningMode = true;
-  
-  document.getElementById('disp-total-count').innerText = totalQuestionsCount;
-  document.getElementById('dashboard-container').classList.add('hidden');
+  const test=cachedTests.find(x=>x.title===title);
+  if(!test) return;
+  activeTest=test; currentTestQuestions=test.parsedQuestions||[];
+  totalQuestionsCount=currentTestQuestions.length;
+  if(!totalQuestionsCount){alert("Is test mein koi question nahi hai.");return;}
+  studentResponses={}; flaggedQuestions={}; visitedQuestions={};
+  currentIndex=1; qTimeLeft=2700; testRunningMode=true; tabViolationsCount=0;
+
+  document.getElementById('disp-total-count').innerText=totalQuestionsCount;
+  document.getElementById('app-container').classList.add('hidden');
   document.getElementById('exam-engine-container').classList.remove('hidden');
-  buildPaletteGrid(); loadQuestionNode(currentIndex); setupVisibilityProctoring();
+  document.getElementById('result-screen').classList.add('hidden');
+
+  buildPaletteGrid();
+  loadQuestionNode(1);
+  setupVisibilityProctoring();
+  requestFullscreen();
+}
+
+function requestFullscreen() {
+  try { document.documentElement.requestFullscreen(); } catch(e){}
 }
 
 function setupVisibilityProctoring() {
   document.addEventListener('visibilitychange', handleBlurEvent);
+  window.addEventListener('blur', handleWindowBlur);
 }
-async function handleBlurEvent() {
+
+function handleBlurEvent() {
+  if(!testRunningMode || document.visibilityState !== 'hidden') return;
+  triggerWarning();
+}
+function handleWindowBlur() {
   if(!testRunningMode) return;
-  if(document.visibilityState === 'hidden') {
-    tabViolationsCount++;
-    document.getElementById('blur-count-disp').innerText = `${tabViolationsCount}/3`;
-    try { await fetch(APPS_SCRIPT_URL, { method:"POST", headers:{"Content-Type":"text/plain;charset=utf-8"}, body:JSON.stringify({ action:"update_blur_strikes", email:currentUserData.email, strikes:tabViolationsCount }) }); } catch(e){}
-    if(tabViolationsCount >= 3) { alert("SECURITY BREACH OVERFLOW COUNTER: Test forcefully closed!"); calculateFinalResults(); }
-    else { alert(`⚠️ Dhyan dein! Test area se bahar jana mana hai. Warning [${tabViolationsCount}/3]`); }
-  }
+  triggerWarning();
+}
+
+async function triggerWarning() {
+  tabViolationsCount++;
+  document.getElementById('blur-count-disp').innerText=`${tabViolationsCount}/3`;
+  try { await fetch(APPS_SCRIPT_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:"update_blur_strikes",email:currentUserData?.email,strikes:tabViolationsCount})}); } catch(e){}
+  if(tabViolationsCount>=3) { alert("⛔ 3 Warnings! Test auto-submit ho raha hai."); calculateFinalResults(); }
+  else alert(`⚠️ Warning ${tabViolationsCount}/3: Tab switch ya window blur detected!`);
 }
 
 function buildPaletteGrid() {
-  const g = document.getElementById('palette-grid'); g.innerHTML = "";
-  for(let i=1; i<=totalQuestionsCount; i++) {
-    g.innerHTML += `<button id="pal-node-${i}" onclick="loadQuestionNode(${i})" class="h-8 text-[11px] font-bold rounded-lg surface transition cursor-pointer">${i}</button>`;
+  const g=document.getElementById('palette-grid'); if(!g) return;
+  g.innerHTML='';
+  for(let i=1;i<=totalQuestionsCount;i++) {
+    g.innerHTML+=`<button id="pal-node-${i}" onclick="loadQuestionNode(${i})" class="h-8 text-[11px] font-bold rounded-lg surface transition cursor-pointer flex items-center justify-center">${i}</button>`;
   }
-  for(let i=1; i<=totalQuestionsCount; i++) syncPaletteStatusNode(i);
+  for(let i=1;i<=totalQuestionsCount;i++) syncPaletteStatusNode(i);
 }
+
 function syncPaletteStatusNode(n) {
-  const el = document.getElementById(`pal-node-${n}`); if(!el) return;
-  el.className = "h-8 text-[11px] font-bold rounded-lg surface transition cursor-pointer flex items-center justify-center";
-  if(n === currentIndex) el.style.border = "1px solid var(--accent)";
+  const el=document.getElementById(`pal-node-${n}`); if(!el) return;
+  el.className="h-8 text-[11px] font-bold rounded-lg surface transition cursor-pointer flex items-center justify-center";
+  el.style.border = n===currentIndex ? "1px solid var(--accent)" : "";
   if(flaggedQuestions[n]) el.classList.add('flagged-node');
   else if(studentResponses[n]) el.classList.add('answered-node');
 }
 
 function loadQuestionNode(n) {
-  const old = currentIndex; currentIndex = n; visitedQuestions[n] = true;
-  clearInterval(singleQTimer); syncPaletteStatusNode(old); syncPaletteStatusNode(currentIndex);
-  
-  const q = currentTestQuestions[n-1];
-  document.getElementById('digital-question-text').innerText = `Sawal #${n}: ${q.text}`;
-  document.getElementById('lbl-opt-A').innerText = q.A;
-  document.getElementById('lbl-opt-B').innerText = q.B;
-  document.getElementById('lbl-opt-C').innerText = q.C;
-  document.getElementById('lbl-opt-D').innerText = q.D;
-  
-  ['A','B','C','D'].forEach(lbl => document.getElementById(`opt-${lbl}`).className = "w-full text-left input-field p-3 rounded-xl font-semibold flex items-center gap-2 cursor-pointer transition");
-  if(studentResponses[n]) document.getElementById(`opt-${studentResponses[n]}`).className = "w-full text-left p-3 rounded-xl font-semibold flex items-center gap-2 cursor-pointer active-opt transition";
-  
-  singleQTimer = setInterval(() => {
+  const old=currentIndex; currentIndex=n; visitedQuestions[n]=true;
+  clearInterval(singleQTimer); syncPaletteStatusNode(old); syncPaletteStatusNode(n);
+
+  const q=currentTestQuestions[n-1]; if(!q) return;
+  document.getElementById('digital-question-text').innerText=`Q${n}: ${q.text}`;
+  document.getElementById('lbl-opt-A').innerText=q.A||'—';
+  document.getElementById('lbl-opt-B').innerText=q.B||'—';
+  document.getElementById('lbl-opt-C').innerText=q.C||'—';
+  document.getElementById('lbl-opt-D').innerText=q.D||'—';
+
+  ['A','B','C','D'].forEach(l=>{
+    const el=document.getElementById(`opt-${l}`);
+    el.className="w-full text-left input-field p-3 rounded-xl font-semibold flex items-center gap-2 cursor-pointer transition";
+  });
+  if(studentResponses[n]) {
+    const sel=document.getElementById(`opt-${studentResponses[n]}`);
+    if(sel) sel.className="w-full text-left p-3 rounded-xl font-semibold flex items-center gap-2 cursor-pointer active-opt transition";
+  }
+
+  singleQTimer=setInterval(()=>{
     qTimeLeft--;
-    const mm = Math.floor(qTimeLeft/60), ss = qTimeLeft%60;
-    document.getElementById('stopwatch').innerText = `${String(mm).padStart(2,'0')}:${String(ss).padStart(2,'0')}`;
-    document.getElementById('stopwatch').classList.toggle('timer-critical', qTimeLeft<300);
-    if(qTimeLeft<=0) { calculateFinalResults(); }
-  }, 1000);
+    const mm=Math.floor(qTimeLeft/60), ss=qTimeLeft%60;
+    const disp=document.getElementById('stopwatch');
+    if(disp) { disp.innerText=`${String(mm).padStart(2,'0')}:${String(ss).padStart(2,'0')}`; disp.classList.toggle('timer-critical',qTimeLeft<300); }
+    if(qTimeLeft<=0){clearInterval(singleQTimer);alert("⏱️ Time up! Auto-submit.");calculateFinalResults();}
+  },1000);
 }
 
-function selectAnswer(ans) { studentResponses[currentIndex] = ans; loadQuestionNode(currentIndex); }
+function selectAnswer(ans) { studentResponses[currentIndex]=ans; loadQuestionNode(currentIndex); }
 function clearAnswer() { delete studentResponses[currentIndex]; loadQuestionNode(currentIndex); }
 function prevQuestion() { if(currentIndex>1) loadQuestionNode(currentIndex-1); }
 function nextQuestion() { if(currentIndex<totalQuestionsCount) loadQuestionNode(currentIndex+1); }
-function toggleFlagQuestion() { flaggedQuestions[currentIndex] = !flaggedQuestions[currentIndex]; syncPaletteStatusNode(currentIndex); }
-
-function confirmSubmitTest() { if(confirm("Kya aap satya mein test finalize karke submit karna chahte hain?")) calculateFinalResults(); }
+function toggleFlagQuestion() { flaggedQuestions[currentIndex]=!flaggedQuestions[currentIndex]; syncPaletteStatusNode(currentIndex); }
+function confirmSubmitTest() { if(confirm("Test submit karna chahte hain? Sab jawab check kar lein!")) calculateFinalResults(); }
 
 async function calculateFinalResults() {
-  testRunningMode = false; clearInterval(singleQTimer);
-  document.removeEventListener('visibilitychange', handleBlurEvent);
-  
-  const resp = {};
-  for(let i=1; i<=totalQuestionsCount; i++) resp[i] = studentResponses[i] || "Skipped";
-  
+  testRunningMode=false; clearInterval(singleQTimer);
+  document.removeEventListener('visibilitychange',handleBlurEvent);
+  window.removeEventListener('blur',handleWindowBlur);
+  try { document.exitFullscreen(); } catch(e){}
+
+  const resp={};
+  for(let i=1;i<=totalQuestionsCount;i++) resp[i]=studentResponses[i]||"Skipped";
+
   document.getElementById('exam-engine-container').classList.add('hidden');
   document.getElementById('result-screen').classList.remove('hidden');
-  document.getElementById('review-matrix-container').innerHTML = "<div class='spinner my-4'></div>";
+  document.getElementById('review-matrix-container').innerHTML='<div class="spinner my-4"></div>';
 
-  const payload = { action:"submit_score", student:currentUserData.name, email:currentUserData.email, testTitle:activeTest.title, responses:resp, profileImage:currentUserData.profileImage, blurViolations:tabViolationsCount };
+  const payload={action:"submit_score",student:currentUserData?.name,email:currentUserData?.email,testTitle:activeTest?.title,responses:resp,profileImage:currentUserData?.profileImage,blurViolations:tabViolationsCount};
   try {
-    const res = await fetch(APPS_SCRIPT_URL, { method:"POST", headers:{"Content-Type":"text/plain;charset=utf-8"}, body:JSON.stringify(payload) });
-    const d = await res.json();
-    if(d.status === "success") {
-      const h = getHistoryMap(); h[activeTest.title] = d;
-      localStorage.setItem(`baaz_hist_${currentUserData.email}`, JSON.stringify(h));
+    const res=await fetch(APPS_SCRIPT_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(payload)});
+    const d=await res.json();
+    if(d.status==="success"){
+      const h=getHistoryMap(); h[activeTest.title]=d;
+      localStorage.setItem(`baaz_hist_${currentUserData?.email}`,JSON.stringify(h));
       displayResultScreen(d);
-    }
-  } catch(e){ document.getElementById('review-matrix-container').innerText = "Scorecard processing server communications framework dropped."; }
+    } else document.getElementById('review-matrix-container').innerText='Submission error.';
+  } catch(e){ document.getElementById('review-matrix-container').innerText='Server connection failed.'; }
 }
 
 function viewLockedResult(title) {
-  const h = getHistoryMap(); if(h[title]) displayResultScreen(h[title]);
+  const h=getHistoryMap();
+  if(h[title]){
+    document.getElementById('app-container').classList.add('hidden');
+    document.getElementById('result-screen').classList.remove('hidden');
+    displayResultScreen(h[title]);
+  }
 }
 
 function displayResultScreen(d) {
-  document.getElementById('dashboard-container').classList.add('hidden');
-  document.getElementById('result-screen').classList.remove('hidden');
-  document.getElementById('res-total').innerText = d.total;
-  document.getElementById('res-right').innerText = d.right;
-  document.getElementById('res-wrong').innerText = d.wrong;
-  document.getElementById('res-accuracy').innerText = d.accuracy + "%";
-  document.getElementById('res-score').innerText = d.score;
-  document.getElementById('rank-badge-text').innerText = d.rankBadge;
-  
-  const cont = document.getElementById('review-matrix-container'); cont.innerHTML = "";
-  const errCache = JSON.parse(localStorage.getItem('baaz_errors_'+currentUserData.email) || '[]');
-  
-  d.reviewData.forEach(item => {
-    let cardClass = item.selected === "Skipped" ? "" : item.isCorrect ? "review-correct" : "review-wrong";
-    let statusText = item.selected === "Skipped" ? "➖ SKIPPED" : item.isCorrect ? "✅ CORRECT" : "❌ INCORRECT";
-    
-    // Auto-save mistakes locally for Weakness Ledger loop
-    if(!item.isCorrect && item.selected !== "Skipped") {
-      if(!errCache.find(e => e.text === item.text)) {
-        errCache.push({ testTitle: activeTest?.title || "Exam Paper", text: item.text, A: item.A, B: item.B });
-      }
+  document.getElementById('res-total').innerText=d.total||0;
+  document.getElementById('res-right').innerText=d.right||0;
+  document.getElementById('res-wrong').innerText=d.wrong||0;
+  document.getElementById('res-accuracy').innerText=(d.accuracy||0)+'%';
+  document.getElementById('res-score').innerText=d.score||0;
+  document.getElementById('rank-badge-text').innerText=d.rankBadge||'—';
+
+  const cont=document.getElementById('review-matrix-container'); if(!cont) return;
+  cont.innerHTML='';
+  const errCache=JSON.parse(localStorage.getItem('baaz_errors_'+(currentUserData?.email))||'[]');
+
+  (d.reviewData||[]).forEach(item=>{
+    const cardClass=item.selected==="Skipped"?'':item.isCorrect?'review-correct':'review-wrong';
+    const statusText=item.selected==="Skipped"?'➖ Skipped':item.isCorrect?'✅ Correct':'❌ Wrong';
+
+    if(!item.isCorrect && item.selected!=="Skipped") {
+      if(!errCache.find(e=>e.text===item.text)) errCache.push({testTitle:activeTest?.title||'Exam',text:item.text,A:item.A,B:item.B});
     }
 
-    let optsHtml = ['A','B','C','D'].map(lbl => {
-      let style = "";
-      if(lbl === item.correct) style = "background:rgba(16,185,129,0.15); border:1px solid var(--success2); border-radius:6px;";
-      if(lbl === item.selected && !item.isCorrect) style = "background:rgba(244,63,94,0.15); border:1px solid var(--danger2); border-radius:6px;";
-      return `<div class='p-2 text-xs flex justify-between' style='${style}'><span><b>${lbl}</b> ${escapeHtml(item[lbl])}</span></div>`;
+    const optsHtml=['A','B','C','D'].map(l=>{
+      let style='';
+      if(l===item.correct) style='background:rgba(16,185,129,0.15);border:1px solid var(--success2);border-radius:6px;';
+      if(l===item.selected&&!item.isCorrect) style='background:rgba(244,63,94,0.15);border:1px solid var(--danger2);border-radius:6px;';
+      return `<div class="p-2 text-xs flex gap-1" style="${style}"><b>${l}</b> ${escapeHtml(item[l]||'')}</div>`;
     }).join('');
 
-    cont.innerHTML += `<div class='surface rounded-xl p-3 space-y-2 ${cardClass}'>
-      <div class='flex justify-between font-black text-[10px] text-muted'><span>NODE Q#${item.id}</span><span class='tracking-wider'>${statusText}</span></div>
-      <p class='font-bold text-xs'>${escapeHtml(item.text)}</p>
-      <div class='grid grid-cols-1 md:grid-cols-2 gap-1.5'>${optsHtml}</div>
-      ${!item.isCorrect && item.selected !== "Skipped" ? `<div class='pt-1 border-t border-slate-800/60'><button onclick="switchTab('vault'); openNoteView('Tactical Redirection Frame', 'https://docs.google.com/viewer?authuser=0&srcid=1_zC6fP-82nSF1U_Pz0aP&pid=explorer&efh=false&a=v&chrome=false&embedded=true')" class='text-[10px] font-black text-amber-500 underline uppercase'><i class='fas fa-link'></i> Review Concept Notes in Vault</button></div>` : ''}
+    cont.innerHTML+=`<div class="surface rounded-xl p-3 space-y-2 ${cardClass}">
+      <div class="flex justify-between font-black text-[10px] text-muted"><span>Q#${item.id}</span><span>${statusText}</span></div>
+      <p class="font-bold text-xs">${escapeHtml(item.text||'')}</p>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-1.5">${optsHtml}</div>
     </div>`;
   });
-  localStorage.setItem('baaz_errors_'+currentUserData.email, JSON.stringify(errCache));
+  localStorage.setItem('baaz_errors_'+(currentUserData?.email),JSON.stringify(errCache));
+  updateQuickStats();
 }
 
-function returnToPortal() { document.getElementById('result-screen').classList.add('hidden'); document.getElementById('dashboard-container').classList.remove('hidden'); loadTests(); }
-function escapeHtml(s) { return String(s||"").replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
-function copyReferral() { navigator.clipboard.writeText(currentUserData.referralCode); alert("Referral code copied code to dashboard clipboard!"); }
-function setPaletteFilter(f) { currentPaletteFilter = f; buildPaletteGrid(); }
+function showResultsHistory() {
+  showScreen('results');
+  const hist=getHistoryMap();
+  const container=document.getElementById('results-history-list'); if(!container) return;
+  const tests=Object.keys(hist);
+  if(!tests.length){container.innerHTML='<div class="premium-card rounded-xl p-4 text-xs text-muted text-center">Koi test attempt nahi kiya abhi tak.</div>';return;}
+  container.innerHTML=tests.map(t=>`
+    <div class="premium-card rounded-xl p-4 flex justify-between items-center">
+      <div>
+        <div class="font-black text-sm text-accent">${escapeHtml(t)}</div>
+        <div class="text-xs text-muted mt-1">Score: <span class="text-emerald-400 font-bold">${hist[t].score||0}</span> • Accuracy: ${hist[t].accuracy||0}% • Badge: ${hist[t].rankBadge||'—'}</div>
+      </div>
+      <button onclick="viewLockedResult('${escapeHtml(t)}')" class="btn-neutral px-3 py-2 rounded-xl text-xs font-bold cursor-pointer"><i class="fas fa-eye mr-1"></i>View</button>
+    </div>
+  `).join('');
+}
+
+function returnToPortal() {
+  document.getElementById('result-screen').classList.add('hidden');
+  document.getElementById('app-container').classList.remove('hidden');
+  showScreen('home');
+  loadTests();
+}
+
+/* ============================================================
+   ADMIN FUNCTIONS
+   ============================================================ */
+async function setTestByAdmin() {
+  const rawText=document.getElementById('local-ai-text').value.trim();
+  const exam=document.getElementById('admin-exam-name').value.trim()||"General";
+  const subject=document.getElementById('admin-subject-name').value.trim()||"Mixed";
+  const title=document.getElementById('admin-test-title').value.trim();
+  const desc=document.getElementById('admin-test-desc').value.trim()||"Test paper.";
+  const posM=document.getElementById('admin-pos-marks').value.trim()||3;
+  const negM=document.getElementById('admin-neg-marks').value.trim()||1;
+  const premium=document.getElementById('admin-is-premium').value==="TRUE";
+  const status=document.getElementById('admin-publish-status');
+
+  if(!title||rawText.length<25){alert("Title aur questions required hain.");return;}
+  status.innerText="Deploying...";
+  try {
+    const res=await fetch(APPS_SCRIPT_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:"publish_test",exam,subject,title,description:desc,positiveMarks:posM,negativeMarks:negM,isPremium:premium,rawText})});
+    const d=await res.json();
+    status.innerText=`✅ Deployed! ${d.questionCount||0} questions.`;
+    loadTests();
+  } catch(e){status.innerText="❌ Deploy failed.";}
+}
+
+async function loadStudentList() {
+  const container=document.getElementById('student-list-container'); if(!container) return;
+  container.innerHTML='<div class="spinner my-4"></div>';
+  try {
+    const res=await fetch(APPS_SCRIPT_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:"get_students"})});
+    const data=await res.json();
+    if(!data.length){container.innerHTML='<p class="text-xs text-muted">No students registered.</p>';return;}
+    container.innerHTML=data.map(u=>`
+      <div class="surface p-2 rounded-xl flex flex-wrap gap-2 items-center justify-between">
+        <div>
+          <span class="font-bold text-xs">${escapeHtml(u.name)}</span>
+          <span class="text-muted text-[10px] ml-1">(${escapeHtml(u.email)})</span>
+          <span class="text-[10px] text-muted ml-2">Tests: ${u.totalTests||0} • Score: ${u.totalScore||0}</span>
+        </div>
+        <button onclick="toggleUserBan('${escapeHtml(u.email)}',${!u.blocked})" class="px-2.5 py-1 text-[10px] font-bold rounded-lg cursor-pointer ${u.blocked?'btn-success':'btn-danger-outline'}">${u.blocked?'Unban':'Ban'}</button>
+      </div>
+    `).join('');
+  } catch(e){container.innerHTML='<p class="text-xs text-muted">Load failed.</p>';}
+}
+
+async function toggleUserBan(email, ban) {
+  try {
+    const res=await fetch(APPS_SCRIPT_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:ban?"ban_student":"unban_student",email})});
+    const d=await res.json(); alert(d.message); loadStudentList();
+  } catch(e){}
+}
+
+function saveAnnouncement() {
+  const text=document.getElementById('announce-text').value.trim();
+  if(!text){alert("Message likhein.");return;}
+  const announcements=JSON.parse(localStorage.getItem('baaz_announcements')||'[]');
+  announcements.unshift({text,timestamp:new Date().toLocaleString()});
+  localStorage.setItem('baaz_announcements',JSON.stringify(announcements));
+  document.getElementById('broadcast-text').innerText=text;
+  document.getElementById('global-broadcast').classList.remove('hidden');
+  document.getElementById('announce-text').value='';
+  loadAnnouncementsHistory();
+  alert("Announcement broadcast ho gaya!");
+  // Also try server
+  fetch(APPS_SCRIPT_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:"save_announcement",message:text})}).catch(()=>{});
+}
+
+function loadAnnouncementsHistory() {
+  const container=document.getElementById('announce-history'); if(!container) return;
+  const announcements=JSON.parse(localStorage.getItem('baaz_announcements')||'[]');
+  if(!announcements.length){container.innerHTML='<p class="text-xs text-muted">No announcements yet.</p>';return;}
+  container.innerHTML=`<div class="text-[10px] font-bold text-muted uppercase mb-1">Recent</div>`+
+    announcements.slice(0,5).map(a=>`
+      <div class="surface rounded-lg p-2 text-xs">
+        <div class="text-muted text-[9px]">${a.timestamp}</div>
+        <div class="font-bold mt-0.5">${escapeHtml(a.text)}</div>
+      </div>
+    `).join('');
+}
+
+function switchAdminTab(tab) {
+  document.querySelectorAll('.admin-tab[data-atab]').forEach(b=>b.classList.toggle('active',b.dataset.atab===tab));
+  ['exams','notes','students','support-admin','announce'].forEach(t=>{
+    const el=document.getElementById(`atab-${t}`);
+    if(el) el.classList.toggle('hidden',t!==tab);
+  });
+  if(tab==='students') loadStudentList();
+  if(tab==='notes') loadAdminNotesList();
+  if(tab==='support-admin') loadAdminSupport();
+  if(tab==='announce') loadAnnouncementsHistory();
+}
+
+function parseRawTestText(txt) {
+  const tempKeys={};
+  const cleanText=txt.toUpperCase().replace(/\n/g,' ');
+  const ansIdx=cleanText.indexOf("ANSWER KEY:");
+  if(ansIdx!==-1) {
+    const ansPart=cleanText.substring(ansIdx);
+    const pairs=ansPart.match(/Q?\d+\s*-\s*[A-D]/gi)||ansPart.match(/\d+-[A-D]/g);
+    if(pairs) pairs.forEach(p=>{const pts=p.replace(/Q/g,'').split(/[-\|]/);if(pts.length>=2)tempKeys[parseInt(pts[0].trim())]=pts[pts.length-1].trim();});
+  }
+  const lines=txt.split("\n"); let block=""; let col=false;
+  for(const l of lines){const lt=l.trim();if(/^(Q\d+|1\b|2\b|3\b)/i.test(lt))col=true;if(lt.toUpperCase().includes("ANSWER KEY:"))col=false;if(col)block+=l+"\n";}
+  const parts=block.split(/(?:Q(?:uestion)?\s*\d+[\.\s\-:\)]+|\b\d+[\.\)\-]\s+)/gi);
+  const questions=[];let ptr=1;
+  parts.forEach(b=>{
+    const trimmed=b.trim();if(trimmed.length>5){
+      const ls=trimmed.split('\n').map(x=>x.trim()).filter(Boolean);
+      let qText="",A="",B="",C="",D="";
+      ls.forEach(line=>{const u=line.toUpperCase();
+        if(u.startsWith('(A)')||u.startsWith('A.')||u.startsWith('A)'))A=line.replace(/^\s*[\(\[A-D\u2022\-\.\)]+\s*/i,'').trim();
+        else if(u.startsWith('(B)')||u.startsWith('B.')||u.startsWith('B)'))B=line.replace(/^\s*[\(\[A-D\u2022\-\.\)]+\s*/i,'').trim();
+        else if(u.startsWith('(C)')||u.startsWith('C.')||u.startsWith('C)'))C=line.replace(/^\s*[\(\[A-D\u2022\-\.\)]+\s*/i,'').trim();
+        else if(u.startsWith('(D)')||u.startsWith('D.')||u.startsWith('D)'))D=line.replace(/^\s*[\(\[A-D\u2022\-\.\)]+\s*/i,'').trim();
+        else qText+=" "+line;
+      });
+      questions.push({id:ptr,text:qText.trim(),A,B,C,D});
+      if(!tempKeys[ptr])tempKeys[ptr]="A";
+      ptr++;
+    }
+  });
+  return {questions,keys:tempKeys};
+}
+
+function setPaletteFilter(f) { currentPaletteFilter=f; buildPaletteGrid(); }
+
+/* ============================================================
+   UTILITY
+   ============================================================ */
+function applyTheme(n,p) {
+  document.documentElement.setAttribute('data-theme',n);
+  if(p) localStorage.setItem('baaz_theme',n);
+}
+
+function escapeHtml(s) {
+  return String(s||"").replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function showInfo(title, body) {
+  if(!title||!body||!title.trim()||!body.trim()) return;
+  alert(`${title}\n\n${body}`);
+}
 </script>
 </body>
 </html>
