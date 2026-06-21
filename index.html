@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Operation Baaz - Ultimate Master Portal</title>
+    <title>Operation Baaz - Ultimate Autonomous Portal</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -19,7 +19,7 @@
         <h1 class="text-4xl md:text-6xl font-black tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600">
             OPERATION BAAZ
         </h1>
-        <p class="text-xs text-gray-500 uppercase tracking-widest mt-1 font-semibold">Ultimate Autonomous Digital Assessment Core</p>
+        <p class="text-xs text-gray-500 uppercase tracking-widest mt-1 font-semibold">Autonomous Client-Side Assessment Engine</p>
     </header>
 
     <div id="auth-container" class="w-full max-w-md mx-auto my-auto pt-4">
@@ -35,7 +35,7 @@
 
     <div id="dashboard-container" class="hidden w-full max-w-4xl mx-auto space-y-6">
         <header class="premium-card rounded-2xl p-5 flex justify-between items-center">
-            <div><h1 class="text-lg font-black text-white">Console Session: <span id="student-name" class="text-blue-400">Student</span></h1></div>
+            <div><h1 class="text-lg font-black text-white">Console Session: <span id="student-name" class="text-blue-400">User Node</span></h1></div>
             <button onclick="logout()" class="bg-rose-600/20 text-rose-400 border border-rose-900/40 px-4 py-2 rounded-xl text-xs font-bold cursor-pointer">Logout</button>
         </header>
 
@@ -46,9 +46,21 @@
         </div>
 
         <div id="tab-content-tests" class="space-y-4">
-            <h2 class="text-md font-bold text-white mb-2"><i class="fas fa-layer-group text-cyan-400"></i> Active Exam Pools (Zero Maintenance)</h2>
+            <div id="admin-parser-box" class="premium-card rounded-xl p-5 border border-cyan-500/20 bg-cyan-950/5 space-y-3">
+                <div class="flex justify-between items-center">
+                    <div class="font-bold text-cyan-400 text-sm"><i class="fas fa-robot"></i> Live Text Core Stream Extractor Engine</div>
+                    <span class="text-[10px] bg-cyan-500/10 text-cyan-400 font-bold px-2 py-0.5 rounded uppercase">Bypass Mode Active</span>
+                </div>
+                <p class="text-xs text-gray-400">PDF ka saara text copy kijiye (Ctrl+A ➡️ Ctrl+C) aur seedhe neeche paste kar dijiye. Portal local machine power se sab kuch segment kar dega:</p>
+                <textarea id="local-ai-text" rows="4" placeholder="Paste whole text copy of question paper contents or include answer lines here..." class="w-full bg-[#080c10] border border-[#212635] rounded-xl p-3 text-white text-xs font-mono outline-none focus:border-cyan-500 transition"></textarea>
+            </div>
+
+            <h2 class="text-md font-bold text-white mb-2"><i class="fas fa-layer-group text-cyan-400"></i> Active Exam Configurations</h2>
             <div id="tests-list" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <p class="text-gray-500 text-center py-6 col-span-2">Syncing dynamic automated databases...</p>
+                <div class="premium-card rounded-2xl p-5 border-t-4 border-t-cyan-500 flex flex-col justify-between">
+                    <div><h3 class="text-base font-bold text-white mb-1">Universal Smart Exam Pool</h3><p class="text-gray-400 text-xs">Run automatic structural assessments from pasted text data objects.</p></div>
+                    <button onclick="launchAutonomousEngine()" class="w-full mt-4 bg-cyan-600 hover:bg-cyan-700 text-white font-bold py-2.5 rounded-xl text-xs uppercase tracking-wider cursor-pointer">Parse & Start Test Live</button>
+                </div>
             </div>
         </div>
 
@@ -73,27 +85,11 @@
             </div>
             <div class="premium-card rounded-2xl p-5 flex flex-col justify-between space-y-3">
                 <div>
-                    <h3 class="text-sm font-bold text-white"><i class="fas fa-envelope text-blue-400"></i> Email Sync Pipeline</h3>
-                    <p class="text-xs text-gray-400">Official queries ya report issues submit karne ka safe node channel.</p>
+                    <h3 class="text-sm font-bold text-white"><i class="fas fa-envelope text-blue-400"></i> Email Sync</h3>
+                    <p class="text-xs text-gray-400">Official queries submit karne ka data secure node channel.</p>
                 </div>
                 <a href="mailto:abhijeetkushwaha90@gmail.com?subject=Operation%20Baaz%20Support" class="w-full text-center bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 rounded-xl text-xs uppercase block transition cursor-pointer">Send Email</a>
             </div>
-        </div>
-    </div>
-
-    <div id="admin-container" class="hidden w-full max-w-2xl mx-auto space-y-4">
-        <header class="premium-card rounded-2xl p-4 flex justify-between items-center">
-            <h1 class="text-lg font-bold text-white"><i class="fas fa-user-cog text-emerald-400"></i> Admin Control Center</h1>
-            <button onclick="logout()" class="bg-rose-600 text-white px-4 py-1.5 rounded-xl text-xs font-bold cursor-pointer">Logout</button>
-        </header>
-        <div class="premium-card rounded-2xl p-6 shadow-xl space-y-4">
-            <div class="text-xs text-emerald-400 font-bold uppercase tracking-wider"><i class="fas fa-upload"></i> Publish New Test Package (Auto-OCR Active)</div>
-            <form id="add-test-form" class="space-y-4">
-                <div><label class="block text-xs text-gray-400 mb-1">Test Name/Title</label><input type="text" id="test-title" required class="w-full bg-[#080c10] border border-[#212635] rounded-xl px-4 py-2.5 text-white"></div>
-                <div><label class="block text-xs text-gray-400 mb-1">Description</label><textarea id="test-desc" required rows="2" class="w-full bg-[#080c10] border border-[#212635] rounded-xl px-4 py-2.5 text-white resize-none"></textarea></div>
-                <div><label class="block text-xs text-gray-400 mb-1">Choose Question Paper PDF File</label><input type="file" id="test-file" accept="application/pdf" required class="w-full text-xs text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-blue-600/10 file:text-blue-400 file:cursor-pointer"></div>
-                <button type="submit" id="sub-btn" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl cursor-pointer transition"><i class="fas fa-paper-plane mr-1.5"></i> Deploy Automated Digital Exam Pool</button>
-            </form>
         </div>
     </div>
 
@@ -136,42 +132,25 @@
         <button onclick="location.reload()" class="w-full bg-blue-600 text-white py-3 rounded-xl font-bold text-xs uppercase">Return to Dashboard</button>
     </div>
 
-    <script>
-        const SHEET_URL = "https://script.google.com/macros/s/AKfycbyV-KHHyb_A1kN92jWAR_c0uCQ9CrewI3BqL1oWP8XC3SGPRnFG0GANGR7ja7WCz1V9/exec";
-        const ADMIN_EMAIL = "kajalkushwaha208@gmail.com";
-        const ADMIN_PASSWORD = "kajal@123";
+    <footer class="w-full text-center text-[10px] text-gray-600 uppercase tracking-widest pt-6 border-t border-[#121620]/60">
+        Operation Baaz Infrastructure Engine v4.0 • Developed by Abhijeet Kushwaha
+    </footer>
 
-        let activeTests = []; let currentIndex = 1; let totalQuestionsCount = 0;
-        let currentTestQuestions = []; let studentResponses = {}; let singleQTimer = null; let qTimeLeft = 90;
+    <script>
+        let DynamicAnswerKey = {}; 
+        let currentTestQuestions = []; 
+        let currentIndex = 1; let totalQuestionsCount = 0;
+        let studentResponses = {}; let singleQTimer = null; let qTimeLeft = 90;
 
         window.addEventListener('DOMContentLoaded', () => {
             const savedUser = localStorage.getItem('baaz_user');
-            const savedRole = localStorage.getItem('baaz_role');
-            if (savedUser) {
-                if(savedRole === 'admin') {
-                    document.getElementById('auth-container').classList.add('hidden');
-                    document.getElementById('admin-container').classList.remove('hidden');
-                } else {
-                    loginSuccess(savedUser);
-                }
-            }
+            if (savedUser) { loginSuccess(savedUser); }
         });
 
         document.getElementById('login-form').addEventListener('submit', (e) => {
             e.preventDefault();
             const email = document.getElementById('login-email').value.trim();
-            const password = document.getElementById('login-password').value;
-
-            if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
-                localStorage.setItem('baaz_user', email);
-                localStorage.setItem('baaz_role', 'admin');
-                document.getElementById('auth-container').classList.add('hidden');
-                document.getElementById('admin-container').classList.remove('hidden');
-                return;
-            }
-
             localStorage.setItem('baaz_user', email.split('@')[0]);
-            localStorage.setItem('baaz_role', 'student');
             loginSuccess(email.split('@')[0]);
         });
 
@@ -179,39 +158,16 @@
             document.getElementById('auth-container').classList.add('hidden');
             document.getElementById('student-name').innerText = name;
             document.getElementById('dashboard-container').classList.remove('hidden');
-            fetchDashboardTests();
+            
+            // Show custom parser box only for admin role
+            if(name.toLowerCase() === "kajalkushwaha208" || name.toLowerCase() === "abhijeetkushwaha90") {
+                document.getElementById('admin-parser-box').classList.remove('hidden');
+            } else {
+                document.getElementById('admin-parser-box').classList.add('hidden');
+            }
         }
 
         function logout() { localStorage.clear(); location.reload(); }
-
-        // FIXED ADMIN FILE OCR DISPATCHER LINK PIPELINE
-        document.getElementById('add-test-form').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const btn = document.getElementById('sub-btn'); btn.innerText = "Processing Background AI OCR..."; btn.disabled = true;
-            const file = document.getElementById('test-file').files[0];
-            const reader = new FileReader();
-            
-            reader.readAsDataURL(file);
-            reader.onload = function () {
-                const payload = {
-                    type: "test",
-                    title: document.getElementById('test-title').value.trim(),
-                    description: document.getElementById('test-desc').value.trim(),
-                    fileData: reader.result
-                };
-                
-                fetch(SHEET_URL, {
-                    method: "POST",
-                    body: JSON.stringify(payload)
-                }).then(() => { 
-                    alert('Success! Exam Pool Created via Background OCR Engine. Sheet Sync Complete.'); 
-                    location.reload(); 
-                }).catch(() => {
-                    alert('Data piped to cloud registry matrix. Please refresh dashboard view.');
-                    location.reload();
-                });
-            };
-        });
 
         function switchDashboardTab(target) {
             ['tests', 'owner', 'support'].forEach(t => {
@@ -222,33 +178,71 @@
             document.getElementById(`tab-btn-${target}`).classList.add('nav-tab-active');
         }
 
-        function fetchDashboardTests() {
-            fetch(SHEET_URL).then(res => res.json()).then(tests => {
-                activeTests = tests;
-                const list = document.getElementById('tests-list'); list.innerHTML = "";
-                tests.forEach((test, index) => {
-                    list.innerHTML += `
-                        <div class="premium-card rounded-2xl p-5 border-t-4 border-t-cyan-500 flex flex-col justify-between">
-                            <div><h3 class="text-base font-bold text-white mb-1">${test.title}</h3><p class="text-gray-400 text-xs">${test.description || 'Fully parsed automated text quiz.'}</p></div>
-                            <button onclick="launchExamEngine(${index})" class="w-full mt-4 bg-cyan-600 text-white font-bold py-2.5 rounded-xl text-xs uppercase tracking-wider cursor-pointer">Start Test</button>
-                        </div>`;
-                });
-            });
-        }
-
-        function launchExamEngine(testIndex) {
-            var selectedTest = activeTests[testIndex];
-            currentTestQuestions = selectedTest.parsedQuestions || [];
-            totalQuestionsCount = currentTestQuestions.length;
-            
-            if(totalQuestionsCount === 0) {
-                alert("Bhai, is test ki PDF Google Apps Script background me parse ho rahi hai, ya text parsing skip ho gayi hai. Naya test upload karke check kijiye.");
+        // 🔥 HIGH-SPEED CLIENT SIDE OCR PARSER ALGORITHM
+        function launchAutonomousEngine() {
+            const rawText = document.getElementById('local-ai-text').value.trim();
+            if(rawText.length < 20) {
+                alert("Bhai, pehle text box me PDF ka saara text copy-paste kijiye tabhi engine start hoga!");
                 return;
             }
 
+            currentTestQuestions = [];
+            DynamicAnswerKey = {};
+
+            // Step 1: Catch Answer Key sequences mapping
+            let tokens = rawText.toUpperCase().replace(/[^A-D0-9-:]/g, ' ').split(/\s+/);
+            tokens.forEach(tok => {
+                let match = tok.match(/Q?(\d+)[-:]?([A-D])/i) || tok.match(/(\d+)-([A-D])/);
+                if(match) { DynamicAnswerKey[parseInt(match[1])] = match[2]; }
+            });
+
+            // Step 2: Split questions via absolute regex pointers
+            let qRegex = /(?:Q(?:uestion)?\s*\d+[\.\s\-:\)]+|\b\d+[\.\)\-]\s+)/gi;
+            let parts = rawText.split(qRegex);
+            let matches = rawText.match(qRegex) || [];
+
+            if(parts.length <= 1) {
+                parts = rawText.split('\n').filter(l => l.trim().length > 10);
+            }
+
+            let globalPointer = 1;
+            parts.forEach((block, idx) => {
+                let trimmed = block.trim();
+                if(trimmed.length > 5 && !trimmed.toUpperCase().includes("ANSWER KEY")) {
+                    let lines = trimmed.split('\n').map(l => l.trim()).filter(Boolean);
+                    let blockStatement = matches[idx-1] ? matches[idx-1].trim() + " " : `Question ${globalPointer}: `;
+                    let optA = "Option A", optB = "Option B", optC = "Option C", optD = "Option D";
+                    let hasOpts = false;
+
+                    lines.forEach(line => {
+                        let lUpper = line.toUpperCase();
+                        if(lUpper.startsWith('(A)') || lUpper.startsWith('A.') || lUpper.startsWith('A)')) { optA = line; hasOpts = true; }
+                        else if(lUpper.startsWith('(B)') || lUpper.startsWith('B.') || lUpper.startsWith('B)')) { optB = line; hasOpts = true; }
+                        else if(lUpper.startsWith('(C)') || lUpper.startsWith('C.') || lUpper.startsWith('C)')) { optC = line; hasOpts = true; }
+                        else if(lUpper.startsWith('(D)') || lUpper.startsWith('D.') || lUpper.startsWith('D)')) { optD = line; hasOpts = true; }
+                        else { blockStatement += " " + line; }
+                    });
+
+                    currentTestQuestions.push({
+                        id: globalPointer,
+                        text: blockStatement.trim(),
+                        A: optA, B: optB, C: optC, D: optD
+                    });
+                    globalPointer++;
+                }
+            });
+
+            totalQuestionsCount = currentTestQuestions.length;
             document.getElementById('disp-total-count').innerText = totalQuestionsCount;
+
+            // Enforce Fallbacks mapping loop checks
+            for(let k = 1; k <= totalQuestionsCount; k++) {
+                if(!DynamicAnswerKey[k]) DynamicAnswerKey[k] = "A";
+            }
+
             document.getElementById('dashboard-container').classList.add('hidden');
             document.getElementById('exam-engine-container').classList.remove('hidden');
+            studentResponses = {};
             buildPaletteGrid(); loadQuestionNode(1);
         }
 
@@ -281,23 +275,28 @@
                     else node.classList.add('bg-gray-900', 'text-gray-400', 'border-[#212635]');
                 }
             }
+
             qTimeLeft = 90;
-            singleQTimer = setInterval(() => { qTimeLeft--; document.getElementById('stopwatch').innerText = `00:${String(qTimeLeft).padStart(2, '0')}`; if(qTimeLeft <= 0) nextQuestion(); }, 1000);
+            singleQTimer = setInterval(() => { 
+                qTimeLeft--; 
+                document.getElementById('stopwatch').innerText = `00:${String(qTimeLeft).padStart(2, '0')}`; 
+                if(qTimeLeft <= 0) nextQuestion(); 
+            }, 1000);
         }
 
         function selectAnswer(label) { studentResponses[currentIndex] = label; loadQuestionNode(currentIndex); }
         function prevQuestion() { if(currentIndex > 1) loadQuestionNode(currentIndex - 1); }
         function nextQuestion() { if(currentIndex < totalQuestionsCount) loadQuestionNode(currentIndex + 1); }
-        function confirmSubmitTest() { if(confirm("Are you sure you want to submit?")) calculateFinalResults(); }
+        function confirmSubmitTest() { if(confirm("Are you sure you want to submit your final choices?")) calculateFinalResults(); }
 
         function calculateFinalResults() {
             clearInterval(singleQTimer);
             document.getElementById('exam-engine-container').classList.add('hidden');
             document.getElementById('result-screen').classList.remove('hidden');
+            
             let right = 0;
-            let mockAnswerFallbacks = ["A", "B", "C", "D", "A", "C", "B", "D"]; 
             for(let i = 1; i <= totalQuestionsCount; i++) {
-                let correctMarker = mockAnswerFallbacks[(i - 1) % mockAnswerFallbacks.length];
+                let correctMarker = DynamicAnswerKey[i];
                 if(studentResponses[i] === correctMarker) right++; 
             }
             document.getElementById('res-total').innerText = totalQuestionsCount;
