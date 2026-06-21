@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Operation Baaz - Fully Automated Portal</title>
+    <title>Operation Baaz - Master Portal</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -26,7 +26,7 @@
     <!-- AUTH MATRIX -->
     <div id="auth-container" class="w-full max-w-md mx-auto my-auto pt-4">
         <div class="premium-card rounded-2xl p-6 shadow-xl">
-            <h2 class="text-xl font-bold text-white mb-4"><i class="fas fa-shield-alt text-blue-500"></i> Student Portal Login</h2>
+            <h2 class="text-xl font-bold text-white mb-4"><i class="fas fa-shield-alt text-blue-500"></i> Portal Control Login</h2>
             <form id="login-form" class="space-y-4">
                 <div><label class="block text-xs font-bold text-gray-400 uppercase mb-1">Email Address</label><input type="email" id="login-email" required class="w-full bg-[#080c10] border border-[#212635] rounded-xl px-4 py-3 text-white focus:outline-none"></div>
                 <div><label class="block text-xs font-bold text-gray-400 uppercase mb-1">Password</label><input type="password" id="login-password" required class="w-full bg-[#080c10] border border-[#212635] rounded-xl px-4 py-3 text-white focus:outline-none"></div>
@@ -35,21 +35,19 @@
         </div>
     </div>
 
-    <!-- MAIN DASHBOARD -->
+    <!-- MAIN DASHBOARD (STUDENT VIEW) -->
     <div id="dashboard-container" class="hidden w-full max-w-4xl mx-auto space-y-6">
         <header class="premium-card rounded-2xl p-5 flex justify-between items-center">
             <div><h1 class="text-lg font-black text-white">Console Session: <span id="student-name" class="text-blue-400">Student</span></h1></div>
             <button onclick="logout()" class="bg-rose-600/20 text-rose-400 border border-rose-900/40 px-4 py-2 rounded-xl text-xs font-bold cursor-pointer">Logout</button>
         </header>
 
-        <!-- HIGH-END UI NAVIGATION TABS SYSTEM -->
         <div class="grid grid-cols-3 gap-2 p-1 bg-[#121620] border border-[#212635] rounded-xl text-xs font-bold text-center">
             <button id="tab-btn-tests" onclick="switchDashboardTab('tests')" class="py-2.5 rounded-lg text-gray-400 hover:text-white transition cursor-pointer nav-tab-active"><i class="fas fa-layer-group mr-1.5"></i> Exam Pools</button>
             <button id="tab-btn-owner" onclick="switchDashboardTab('owner')" class="py-2.5 rounded-lg text-gray-400 hover:text-white transition cursor-pointer"><i class="fas fa-crown mr-1.5"></i> Platform Founder</button>
             <button id="tab-btn-support" onclick="switchDashboardTab('support')" class="py-2.5 rounded-lg text-gray-400 hover:text-white transition cursor-pointer"><i class="fas fa-headset mr-1.5"></i> Help Desk</button>
         </div>
 
-        <!-- TAB CONTENT A: TESTS LIST -->
         <div id="tab-content-tests" class="space-y-4">
             <h2 class="text-md font-bold text-white mb-2"><i class="fas fa-layer-group text-cyan-400"></i> Active Exam Pools (Zero Maintenance)</h2>
             <div id="tests-list" class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -57,7 +55,6 @@
             </div>
         </div>
 
-        <!-- TAB CONTENT B: OWNER INFO -->
         <div id="tab-content-owner" class="hidden premium-card rounded-2xl p-6 border border-purple-900/30 space-y-4">
             <div class="flex items-center gap-4">
                 <div class="w-16 h-16 rounded-xl bg-gradient-to-tr from-cyan-400 to-purple-600 flex items-center justify-center text-white text-2xl font-black">AK</div>
@@ -69,22 +66,31 @@
             <p class="text-xs text-gray-400 leading-relaxed">Operation Baaz ka official secure interface. Is portal ko bina kisi cloud cost ya heavy loading screen ke chalaney ke liye core algorithms aur background data mapping framework Abhijeet dwara optimize kiya gaya hai.</p>
         </div>
 
-        <!-- TAB CONTENT C: SUPPORT / HELP DESK -->
         <div id="tab-content-support" class="hidden grid grid-cols-1 md:grid-cols-2 gap-4">
             <div class="premium-card rounded-2xl p-5 flex flex-col justify-between space-y-3">
                 <div>
                     <h3 class="text-sm font-bold text-white"><i class="fab fa-whatsapp text-emerald-400"></i> Direct WhatsApp Support</h3>
-                    <p class="text-xs text-gray-400">Koi bhi dikkat aane par direct owner se WhatsApp par help lein.</p>
+                    <p class="text-xs text-gray-400">Direct owner se WhatsApp par help lein.</p>
                 </div>
-                <a href="https://api.whatsapp.com/send?phone=917068252052&text=Hello%20Abhijeet,%20I%20need%20help%20with%20Operation%20Baaz%20Portal." target="_blank" class="w-full text-center bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 rounded-xl text-xs uppercase block transition cursor-pointer">Chat on WhatsApp</a>
+                <a href="https://api.whatsapp.com/send?phone=917068252052&text=Hello%20Abhijeet,%20I%20need%20help%20with%20Operation%20Baaz%20Portal." target="_blank" class="w-full text-center bg-emerald-600 text-white font-bold py-2.5 rounded-xl text-xs uppercase block">Chat on WhatsApp</a>
             </div>
-            <div class="premium-card rounded-2xl p-5 flex flex-col justify-between space-y-3">
-                <div>
-                    <h3 class="text-sm font-bold text-white"><i class="fas fa-envelope text-blue-400"></i> Email Sync</h3>
-                    <p class="text-xs text-gray-400">Official queries submit karne ka data secure node channel.</p>
-                </div>
-                <a href="mailto:abhijeetkushwaha90@gmail.com?subject=Operation%20Baaz%20Support" class="w-full text-center bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 rounded-xl text-xs uppercase block transition cursor-pointer">Send Email</a>
-            </div>
+        </div>
+    </div>
+
+    <!-- ADMIN CONTROL PANEL VIEW -->
+    <div id="admin-container" class="hidden w-full max-w-2xl mx-auto space-y-4">
+        <header class="premium-card rounded-2xl p-4 flex justify-between items-center">
+            <h1 class="text-lg font-bold text-white"><i class="fas fa-user-cog text-emerald-400"></i> Admin Control Center</h1>
+            <button onclick="logout()" class="bg-rose-600 text-white px-4 py-1.5 rounded-xl text-xs font-bold cursor-pointer">Logout</button>
+        </header>
+        <div class="premium-card rounded-2xl p-6 shadow-xl space-y-4">
+            <div class="text-xs text-emerald-400 font-bold uppercase tracking-wider"><i class="fas fa-upload"></i> Publish New Test Package (Auto-OCR Active)</div>
+            <form id="add-test-form" class="space-y-4">
+                <div><label class="block text-xs text-gray-400 mb-1">Test Name/Title</label><input type="text" id="test-title" required class="w-full bg-[#080c10] border border-[#212635] rounded-xl px-4 py-2.5 text-white"></div>
+                <div><label class="block text-xs text-gray-400 mb-1">Description</label><textarea id="test-desc" required rows="2" class="w-full bg-[#080c10] border border-[#212635] rounded-xl px-4 py-2.5 text-white resize-none"></textarea></div>
+                <div><label class="block text-xs text-gray-400 mb-1">Choose Question Paper PDF File</label><input type="file" id="test-file" accept="application/pdf" required class="w-full text-xs text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-blue-600/10 file:text-blue-400 file:cursor-pointer"></div>
+                <button type="submit" id="sub-btn" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl cursor-pointer transition"><i class="fas fa-paper-plane mr-1.5"></i> Deploy Automated Digital Exam Pool</button>
+            </form>
         </div>
     </div>
 
@@ -95,11 +101,8 @@
                 <div><div class="text-[10px] text-gray-500 font-bold uppercase">Size</div><div id="disp-total-count" class="text-xl font-black text-blue-400">0</div></div>
                 <div><div class="text-[10px] text-gray-500 font-bold uppercase text-rose-400">Timer</div><div id="stopwatch" class="text-xl font-mono font-black text-rose-500">01:30</div></div>
             </div>
-
             <div class="premium-card rounded-2xl p-6 flex-1 flex flex-col justify-between border-l-4 border-l-cyan-500 shadow-2xl">
-                <div>
-                    <div id="digital-question-text" class="text-base font-bold text-white mb-4 bg-[#080c10] p-4 rounded-xl border border-[#212635] whitespace-pre-line max-h-52 overflow-y-auto">Loading...</div>
-                </div>
+                <div><div id="digital-question-text" class="text-base font-bold text-white mb-4 bg-[#080c10] p-4 rounded-xl border border-[#212635] whitespace-pre-line max-h-52 overflow-y-auto">Loading...</div></div>
                 <div class="grid grid-cols-1 gap-2.5">
                     <button onclick="selectAnswer('A')" id="opt-A" class="w-full text-left bg-[#080c10] border border-[#212635] p-3.5 rounded-xl font-semibold text-white flex items-center gap-3"><span id="lbl-opt-A">- - -</span></button>
                     <button onclick="selectAnswer('B')" id="opt-B" class="w-full text-left bg-[#080c10] border border-[#212635] p-3.5 rounded-xl font-semibold text-white flex items-center gap-3"><span id="lbl-opt-B">- - -</span></button>
@@ -108,7 +111,6 @@
                 </div>
             </div>
         </div>
-
         <div class="w-full md:w-5/12 flex flex-col justify-between premium-card rounded-2xl p-4">
             <div id="palette-grid" class="grid grid-cols-5 gap-2 overflow-y-auto max-h-64 pr-1"></div>
             <div class="grid grid-cols-2 gap-2 text-xs font-bold mt-4">
@@ -130,21 +132,42 @@
     </div>
 
     <script>
-        // 🔥 TARGET AUTOMATED GOOGLE APP SCRIPT PIPELINE DETECTED
         const SHEET_URL = "https://script.google.com/macros/s/AKfycbyV-KHHyb_A1kN92jWAR_c0uCQ9CrewI3BqL1oWP8XC3SGPRnFG0GANGR7ja7WCz1V9/exec";
+        const ADMIN_EMAIL = "kajalkushwaha208@gmail.com";
+        const ADMIN_PASSWORD = "kajal@123";
 
         let activeTests = []; let currentIndex = 1; let totalQuestionsCount = 0;
         let currentTestQuestions = []; let studentResponses = {}; let singleQTimer = null; let qTimeLeft = 90;
 
         window.addEventListener('DOMContentLoaded', () => {
             const savedUser = localStorage.getItem('baaz_user');
-            if (savedUser) { loginSuccess(savedUser); }
+            const savedRole = localStorage.getItem('baaz_role');
+            if (savedUser) {
+                if(savedRole === 'admin') {
+                    document.getElementById('auth-container').classList.add('hidden');
+                    document.getElementById('admin-container').classList.remove('hidden');
+                } else {
+                    loginSuccess(savedUser);
+                }
+            }
         });
 
         document.getElementById('login-form').addEventListener('submit', (e) => {
             e.preventDefault();
             const email = document.getElementById('login-email').value.trim();
+            const password = document.getElementById('login-password').value;
+
+            // 🔥 MASTER BYPASS FOR ADMIN AUTHORIZATION
+            if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
+                localStorage.setItem('baaz_user', email);
+                localStorage.setItem('baaz_role', 'admin');
+                document.getElementById('auth-container').classList.add('hidden');
+                document.getElementById('admin-container').classList.remove('hidden');
+                return;
+            }
+
             localStorage.setItem('baaz_user', email.split('@')[0]);
+            localStorage.setItem('baaz_role', 'student');
             loginSuccess(email.split('@')[0]);
         });
 
@@ -156,6 +179,22 @@
         }
 
         function logout() { localStorage.clear(); location.reload(); }
+
+        // ADMIN UPLOAD HANDLER
+        document.getElementById('add-test-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('sub-btn'); btn.innerText = "Processing Background AI OCR..."; btn.disabled = true;
+            const file = document.getElementById('test-file').files[0];
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = function () {
+                fetch(SHEET_URL, {
+                    method: "POST", mode: "no-cors",
+                    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                    body: JSON.stringify({ type: "test", title: document.getElementById('test-title').value.trim(), description: document.getElementById('test-desc').value.trim(), fileData: reader.result })
+                }).then(() => { alert('Success! Exam Pool Created via Background OCR Engine.'); location.reload(); });
+            };
+        });
 
         function switchDashboardTab(target) {
             ['tests', 'owner', 'support'].forEach(t => {
@@ -173,8 +212,8 @@
                 tests.forEach((test, index) => {
                     list.innerHTML += `
                         <div class="premium-card rounded-2xl p-5 border-t-4 border-t-cyan-500 flex flex-col justify-between">
-                            <div><h3 class="text-base font-bold text-white mb-1">${test.title}</h3><p class="text-gray-400 text-xs">${test.description || 'Zero maintenance live test packet.'}</p></div>
-                            <button onclick="launchExamEngine(${index})" class="w-full mt-4 bg-cyan-600 text-white font-bold py-2.5 rounded-xl text-xs uppercase tracking-wider">Start Test</button>
+                            <div><h3 class="text-base font-bold text-white mb-1">${test.title}</h3><p class="text-gray-400 text-xs">${test.description || 'Fully parsed automated text quiz.'}</p></div>
+                            <button onclick="launchExamEngine(${index})" class="w-full mt-4 bg-cyan-600 text-white font-bold py-2.5 rounded-xl text-xs uppercase tracking-wider cursor-pointer">Start Test</button>
                         </div>`;
                 });
             });
@@ -186,14 +225,13 @@
             totalQuestionsCount = currentTestQuestions.length;
             
             if(totalQuestionsCount === 0) {
-                alert("Bhai, is test ki PDF Google Apps Script background me parse ho rahi hai, ya automatic read karne me koi text missing hai. Ek naya test publish karke check kijiye.");
+                alert("Bhai, is test ki PDF Google Apps Script background me parse ho rahi hai, ya text parsing skip ho gayi hai. Naya test upload karke check kijiye.");
                 return;
             }
 
             document.getElementById('disp-total-count').innerText = totalQuestionsCount;
             document.getElementById('dashboard-container').classList.add('hidden');
             document.getElementById('exam-engine-container').classList.remove('hidden');
-            
             buildPaletteGrid(); loadQuestionNode(1);
         }
 
@@ -217,7 +255,6 @@
             ['A', 'B', 'C', 'D'].forEach(opt => { document.getElementById(`opt-${opt}`).className = "w-full text-left bg-[#080c10] border border-[#212635] p-3.5 rounded-xl font-semibold text-white cursor-pointer"; });
             if(studentResponses[num]) { document.getElementById(`opt-${studentResponses[num]}`).classList.add('active-opt'); }
             
-            // Sync dynamic tracking grids
             for(let i = 1; i <= totalQuestionsCount; i++) {
                 let node = document.getElementById(`pal-node-${i}`);
                 if(node) {
@@ -227,25 +264,19 @@
                     else node.classList.add('bg-gray-900', 'text-gray-400', 'border-[#212635]');
                 }
             }
-
             qTimeLeft = 90;
-            singleQTimer = setInterval(() => { 
-                qTimeLeft--; 
-                document.getElementById('stopwatch').innerText = `00:${String(qTimeLeft).padStart(2, '0')}`; 
-                if(qTimeLeft <= 0) nextQuestion(); 
-            }, 1000);
+            singleQTimer = setInterval(() => { qTimeLeft--; document.getElementById('stopwatch').innerText = `00:${String(qTimeLeft).padStart(2, '0')}`; if(qTimeLeft <= 0) nextQuestion(); }, 1000);
         }
 
         function selectAnswer(label) { studentResponses[currentIndex] = label; loadQuestionNode(currentIndex); }
         function prevQuestion() { if(currentIndex > 1) loadQuestionNode(currentIndex - 1); }
         function nextQuestion() { if(currentIndex < totalQuestionsCount) loadQuestionNode(currentIndex + 1); }
-        function confirmSubmitTest() { if(confirm("Are you sure you want to submit your final choices?")) calculateFinalResults(); }
+        function confirmSubmitTest() { if(confirm("Are you sure you want to submit?")) calculateFinalResults(); }
 
         function calculateFinalResults() {
             clearInterval(singleQTimer);
             document.getElementById('exam-engine-container').classList.add('hidden');
             document.getElementById('result-screen').classList.remove('hidden');
-            
             let right = 0;
             let mockAnswerFallbacks = ["A", "B", "C", "D", "A", "C", "B", "D"]; 
             for(let i = 1; i <= totalQuestionsCount; i++) {
