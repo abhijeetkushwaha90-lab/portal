@@ -101,15 +101,18 @@
 </head>
 <body class="min-h-screen flex flex-col p-3 md:p-4 justify-between text-sm">
 
+<!-- GLOBAL ANNOUNCEMENT -->
 <div id="global-broadcast" class="broadcast-banner hidden w-full text-center py-2 px-4 rounded-xl mb-3 text-xs font-bold text-accent shadow-md">
   <i class="fas fa-bullhorn mr-2"></i><span id="broadcast-text">Loading system announcements...</span>
 </div>
 
+<!-- HEADER -->
 <header class="w-full text-center my-1 mb-3">
   <h1 class="text-3xl md:text-5xl font-black tracking-widest brand-gradient">OPERATION BAAZ</h1>
   <p class="text-[10px] text-muted uppercase tracking-widest mt-1 font-semibold">Enterprise Dynamic Assessment & Learning Core v11.0</p>
 </header>
 
+<!-- ====================== AUTH SCREEN ====================== -->
 <div id="auth-container" class="w-full max-w-md mx-auto my-auto pt-1">
   <div class="premium-card rounded-2xl p-6 space-y-4">
     <div class="flex gap-2 p-1 surface rounded-xl">
@@ -117,6 +120,7 @@
       <button onclick="showAuthTab('signup')" id="tab-signup" class="auth-tab"><i class="fas fa-user-plus mr-1"></i>Sign Up</button>
     </div>
 
+    <!-- LOGIN -->
     <div id="form-login" class="space-y-3">
       <h2 class="text-lg font-black"><i class="fas fa-shield-alt text-accent mr-1"></i>Secure Gateway Access</h2>
       <div>
@@ -136,6 +140,7 @@
       <p id="login-error" class="hidden text-xs text-center font-bold" style="color:var(--danger2)"></p>
     </div>
 
+    <!-- SIGNUP -->
     <div id="form-signup" class="hidden space-y-3">
       <h2 class="text-lg font-black"><i class="fas fa-user-plus text-accent mr-1"></i>Create Secure Profile</h2>
       <div class="flex items-center gap-3">
@@ -176,7 +181,9 @@
   </div>
 </div>
 
+<!-- ====================== DASHBOARD ====================== -->
 <div id="dashboard-container" class="hidden w-full max-w-5xl mx-auto space-y-4">
+  <!-- HEADER BAR -->
   <header class="premium-card rounded-2xl p-4 flex flex-wrap gap-3 justify-between items-center">
     <div class="flex items-center gap-3">
       <img id="dash-avatar" src="" class="hidden w-11 h-11 rounded-xl object-cover border-2" style="border-color:var(--accent);">
@@ -197,6 +204,7 @@
     </div>
   </header>
 
+  <!-- TABS -->
   <div id="dashboard-tabs" class="grid grid-cols-3 md:grid-cols-6 gap-1.5 p-1 premium-card rounded-xl text-[11px] font-bold text-center">
     <button id="tab-btn-tests"       onclick="switchTab('tests')"       class="py-2.5 rounded-lg text-muted cursor-pointer nav-tab-active"><i class="fas fa-layer-group mr-1"></i>Exams</button>
     <button id="tab-btn-vault"       onclick="switchTab('vault')"       class="py-2.5 rounded-lg text-muted cursor-pointer"><i class="fas fa-book-bookmark mr-1"></i>Vault</button>
@@ -206,7 +214,9 @@
     <button id="tab-btn-support"     onclick="switchTab('support')"     class="py-2.5 rounded-lg text-muted cursor-pointer"><i class="fas fa-headset mr-1"></i>Support</button>
   </div>
 
+  <!-- TAB: TESTS -->
   <div id="tab-content-tests" class="space-y-4">
+    <!-- ADMIN PANEL -->
     <div id="admin-parser-box" class="hidden premium-card rounded-xl p-5 space-y-3" style="border:1px solid rgba(245,158,11,0.3)">
       <div class="flex justify-between items-center border-b pb-2" style="border-color:var(--border)">
         <div class="font-bold text-accent text-sm"><i class="fas fa-user-shield"></i> Admin Command Center</div>
@@ -247,12 +257,14 @@
     </div>
   </div>
 
+  <!-- TAB: VAULT -->
   <div id="tab-content-vault" class="hidden space-y-4">
     <div class="premium-card rounded-2xl p-5 border-l-4 border-amber-500">
       <h2 class="text-lg font-black text-amber-500 mb-1"><i class="fas fa-book-bookmark mr-2"></i>Mission Control Study Vault</h2>
       <p class="text-xs text-muted">Access Abhijeet Kushwaha's tactical notes and premium materials.</p>
     </div>
 
+    <!-- PAYMENT UNLOCK CARD FOR VAULT -->
     <div class="payment-card p-5 space-y-3">
       <div class="flex justify-between items-center">
         <h3 class="font-black text-sm text-accent"><i class="fas fa-lock mr-1"></i>Unlock Full Vault Access</h3>
@@ -265,7 +277,6 @@
             <div class="text-center space-y-1">
               <i class="fas fa-qrcode text-4xl text-gray-400"></i>
               <p class="text-[10px] text-gray-500 font-bold">UPI QR CODE</p>
-              <p class="text-[9px] text-gray-400">[Admin Scan Gate]</p>
             </div>
           </div>
           <div class="font-black text-xs text-accent">abhijeetkushwaha90@okaxis</div>
@@ -313,6 +324,7 @@
       </div>
     </div>
 
+    <!-- PDF VIEWER -->
     <div id="pdf-view-console" class="premium-card rounded-2xl p-4 hidden">
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div class="md:col-span-2 space-y-2">
@@ -333,6 +345,7 @@
     </div>
   </div>
 
+  <!-- TAB: PROFILE -->
   <div id="tab-content-profile" class="hidden space-y-4">
     <div class="premium-card rounded-2xl p-6 space-y-5">
       <h2 class="text-lg font-black"><i class="fas fa-id-card text-accent mr-1"></i>Identity Core</h2>
@@ -351,6 +364,7 @@
       </div>
     </div>
 
+    <!-- REFER & EARN WIDGET -->
     <div class="refer-card">
       <div class="flex items-center gap-2 mb-3">
         <i class="fas fa-share-nodes text-2xl text-amber-500"></i>
@@ -390,12 +404,14 @@
     </div>
   </div>
 
+  <!-- TAB: VIP HUB -->
   <div id="tab-content-vip" class="hidden space-y-4">
     <div class="premium-card rounded-2xl p-5 vip-card">
       <h2 class="text-lg font-black mb-1">🔥 <span class="brand-gradient">VIP Premium Gateway</span></h2>
       <p class="text-xs text-muted">Abhijeet Kushwaha's premium defense course panel.</p>
     </div>
 
+    <!-- UPI PAYMENT CARD IN VIP -->
     <div class="payment-card p-5 space-y-4">
       <div class="flex justify-between items-center">
         <h3 class="font-black text-sm text-accent"><i class="fas fa-crown mr-1 text-amber-500"></i>Purchase VIP Access</h3>
@@ -440,6 +456,7 @@
       </div>
     </div>
 
+    <!-- COURSE CARDS -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div class="premium-card rounded-2xl p-5 vip-card relative flex flex-col justify-between gap-3 min-h-[150px]">
         <div>
@@ -468,6 +485,7 @@
     </div>
   </div>
 
+  <!-- TAB: LEADERBOARD -->
   <div id="tab-content-leaderboard" class="hidden space-y-4">
     <div class="premium-card rounded-2xl p-4 flex items-center justify-between">
       <h2 class="text-lg font-black"><i class="fas fa-trophy text-accent mr-2"></i>All India Rank Matrix</h2>
@@ -475,6 +493,7 @@
     <div id="leaderboard-container" class="premium-card rounded-2xl p-4"><div class="spinner"></div></div>
   </div>
 
+  <!-- TAB: SUPPORT -->
   <div id="tab-content-support" class="hidden grid grid-cols-1 md:grid-cols-2 gap-4">
     <div class="premium-card rounded-2xl p-5 space-y-3">
       <h3 class="text-sm font-bold"><i class="fab fa-whatsapp text-green-500 mr-1"></i>WhatsApp Support</h3>
@@ -498,7 +517,9 @@
   </div>
 </div>
 
+<!-- ====================== EXAM ENGINE ====================== -->
 <div id="exam-engine-container" class="hidden w-full max-w-4xl mx-auto flex flex-col gap-3" style="min-height:85vh">
+  <!-- STATUS BAR -->
   <div class="premium-card rounded-xl p-3 flex justify-between items-center flex-wrap gap-2">
     <div class="text-[10px] font-bold text-muted">
       <span id="exam-title-disp" class="text-accent font-black">—</span>
@@ -510,6 +531,7 @@
     <div class="text-[10px] font-bold text-red-400">Strikes: <span id="blur-count-disp">0/3</span></div>
   </div>
 
+  <!-- PROGRESS RIBBON -->
   <div class="q-ribbon">
     <div>Question <span id="ribbon-current" class="text-accent font-black">1</span> of <span id="ribbon-total" class="font-black">—</span></div>
     <div class="flex gap-2 flex-wrap">
@@ -519,10 +541,12 @@
     </div>
   </div>
 
+  <!-- IDLE WARNING -->
   <div id="idle-warning-bar" class="idle-warning-bar">
     ⚠️ You've been idle for 2 minutes on this question. NDA/CDS exam pace: ~1.5 min/question. Speed up!
   </div>
 
+  <!-- QUESTION CANVAS -->
   <div class="premium-card rounded-2xl p-5 flex-1 flex flex-col gap-4 relative overflow-hidden" style="border-left:4px solid var(--accent)">
     <div id="watermark-overlay" class="watermark-overlay"><span id="watermark-text">OPERATION BAAZ SECURE</span></div>
     <div class="relative z-10">
@@ -540,6 +564,7 @@
     </div>
   </div>
 
+  <!-- NAVIGATION -->
   <div class="grid grid-cols-4 gap-2 text-xs font-bold">
     <button onclick="prevQuestion()" class="btn-neutral py-3 rounded-xl cursor-pointer col-span-1"><i class="fas fa-arrow-left mr-1"></i>Prev</button>
     <button onclick="clearAnswer()" class="btn-neutral py-3 rounded-xl cursor-pointer col-span-1"><i class="fas fa-eraser mr-1"></i>Clear</button>
@@ -547,6 +572,7 @@
     <button onclick="confirmSubmitTest()" id="submit-btn" class="btn-success py-3 rounded-xl cursor-pointer col-span-1 uppercase tracking-wide"><i class="fas fa-paper-plane mr-1"></i>Submit</button>
   </div>
 
+  <!-- QUESTION PALETTE -->
   <div class="premium-card rounded-2xl p-4 space-y-3">
     <div class="flex gap-2 flex-wrap items-center justify-between">
       <p class="text-[10px] font-bold text-muted uppercase">Question Navigator</p>
@@ -567,6 +593,7 @@
   </div>
 </div>
 
+<!-- ====================== RESULT SCREEN ====================== -->
 <div id="result-screen" class="hidden max-w-3xl w-full premium-card rounded-2xl p-6 mx-auto my-auto space-y-4">
   <div class="text-center">
     <h2 class="text-2xl font-black uppercase tracking-widest" style="color:var(--success2)">Tactical Scorecard</h2>
@@ -592,6 +619,9 @@
   </div>
 </div>
 
+<!-- ====================== MODALS ====================== -->
+
+<!-- FORGOT PASSWORD MODAL -->
 <div id="modal-forgot" class="modal-backdrop hidden">
   <div class="modal-box space-y-4">
     <div class="flex justify-between items-center">
@@ -608,6 +638,7 @@
   </div>
 </div>
 
+<!-- GENERAL INFO MODAL -->
 <div id="modal-info" class="modal-backdrop hidden">
   <div class="modal-box space-y-4">
     <div class="flex justify-between items-center">
@@ -623,6 +654,7 @@
   Operation Baaz v11.0 • Support: <a href="https://wa.me/917068252052" target="_blank" class="text-accent">7068252052</a> • <a href="mailto:abhijeetkushwaha90@gmail.com" class="text-accent">abhijeetkushwaha90@gmail.com</a> • Architecture by Abhijeet Kushwaha
 </footer>
 
+<!-- ====================== RUNTIME ENGINE ====================== -->
 <script>
 /* ============================================================
    CONFIG (INTEGRATED ACCURATELY BY CHIEF ARCHITECT)
@@ -644,15 +676,28 @@ let mainTimerInterval = null, idleTimerTimeout = null, autoSaveInterval = null;
 let paymentScreenshots = { vault: "", vip: "" };
 
 /* ============================================================
-   BOOT
+   BOOT LAYER — ANTI-FREEZE CORRUPTION REPAIR PATCH V2
    ============================================================ */
 window.addEventListener('DOMContentLoaded', () => {
   applyTheme(localStorage.getItem('baaz_theme') || 'military', false);
   syncLiveAnnouncements();
+  
   const saved = localStorage.getItem('baaz_userdata');
   if (saved) {
-    try { currentUserData = JSON.parse(saved); if (currentUserData) { loginSuccess(currentUserData); return; } } catch(e) {}
+    try { 
+      currentUserData = JSON.parse(saved); 
+      if (currentUserData && currentUserData.email && currentUserData.name) { 
+        loginSuccess(currentUserData); 
+        return; 
+      } else {
+        localStorage.removeItem('baaz_userdata'); 
+      }
+    } catch(e) {
+      localStorage.removeItem('baaz_userdata'); 
+    }
   }
+  document.getElementById('auth-container').classList.remove('hidden');
+  document.getElementById('dashboard-container').classList.add('hidden');
 });
 
 async function syncLiveAnnouncements() {
@@ -1017,7 +1062,7 @@ async function loadLeaderboard() {
   container.innerHTML = "<div class='spinner'></div>";
   try {
     const res = await fetch(APPS_SCRIPT_URL + "?action=get_leaderboard");
-    const d = await res.json();
+    const d = await r.json();
     let html = `<table class='w-full text-xs text-left'><thead><tr class='border-b' style='border-color:var(--border)'>
       <th class='p-2'>Rank</th><th class='p-2'>Name</th><th class='p-2 text-center'>Tests</th><th class='p-2 text-center'>Score</th>
     </tr></thead><tbody>`;
@@ -1370,7 +1415,6 @@ function loadQuestionNode(n) {
     document.getElementById(`opt-${studentResponses[n]}`).className = "w-full text-left p-3.5 rounded-xl font-semibold flex items-center gap-3 cursor-pointer active-opt";
   }
 
-  // Flag system mapping color fix
   const flagBtn = document.getElementById('flag-btn');
   if (flaggedQuestions[n]) {
     flagBtn.style.background = 'var(--flag)';
@@ -1513,10 +1557,13 @@ function returnToPortal() {
    ============================================================ */
 function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
 function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
-function showInfo(title, body) {
-  document.getElementById('modal-info-title').innerText = title;
-  document.getElementById('modal-info-body').innerText = body;
-  openModal('modal-info');
+if (typeof showInfo !== 'function') {
+  function showInfo(title, body) {
+    if (!title && !body) return; // Prevent raw initialization triggers from freezing layout
+    document.getElementById('modal-info-title').innerText = title || "Notification";
+    document.getElementById('modal-info-body').innerText = body || "";
+    openModal('modal-info');
+  }
 }
 
 function escapeHtml(s) {
