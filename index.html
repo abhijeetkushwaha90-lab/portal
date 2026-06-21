@@ -1,1088 +1,959 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="deepspace">
+<html lang="hi" data-theme="military">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Operation Baaz - Enterprise Ultimate Master Core</title>
-
+<title>Operation Baaz — Secure Core Engine v10.0</title>
 <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
 <style>
-  /* ============================================================
-     PILLAR 3: 5-THEME DYNAMIC CONFIGURATOR MATRIX (CSS variables)
-     ============================================================ */
-  html[data-theme="deepspace"] {
-    --bg:#080c10; --card:#121620; --border:#212635;
-    --text:#c9d1d9; --text-dim:#7d8590;
-    --accent:#38bdf8; --accent2:#3b82f6; --accent-text:#ffffff;
-    --success:#059669; --success2:#10b981;
-    --danger:#e11d48; --danger2:#f43f5e;
-    --flag:#7c3aed; --flag2:#8b5e34;
-    --grad1:#22d3ee; --grad2:#3b82f6; --grad3:#9333ea;
+  /* ======================================================
+     PREMIUM MILITARY CYBER & SYSTEM THEME MANAGEMENT
+     ====================================================== */
+  html[data-theme="military"] {
+    --bg: #0a0f18; --card: #131a26; --border: rgba(33, 38, 53, 0.65);
+    --text: #c9d1d9; --text-dim: #7d8590;
+    --accent: #f59e0b; --accent2: #d97706; --accent-text: #ffffff;
+    --success: #059669; --success2: #10b981;
+    --danger: #e11d48; --danger2: #f43f5e;
+    --flag: #7c3aed; --flag2: #5b21b6;
+    --grad1: #f59e0b; --grad2: #ef4444; --grad3: #7c3aed;
   }
-  html[data-theme="oceanic"] {
-    --bg:#0a192f; --card:#172a45; --border:#233554;
-    --text:#ccd6e6; --text-dim:#8892b0;
-    --accent:#2dd4bf; --accent2:#10b981; --accent-text:#03241c;
-    --success:#0d9488; --success2:#14b8a6;
-    --danger:#fb7185; --danger2:#f43f5e;
-    --flag:#22d3ee; --flag2:#0e7490;
-    --grad1:#2dd4bf; --grad2:#22d3ee; --grad3:#10b981;
+  html[data-theme="midnight"] {
+    --bg: #0b0c10; --card: #1f2833; --border: rgba(90, 90, 90, 0.3);
+    --text: #c5a059; --text-dim: #9a9a9a;
+    --accent: #66fcf1; --accent2: #45a29e; --accent-text: #0b0c10;
+    --success: #22c55e; --success2: #16a34a;
+    --danger: #ef4444; --danger2: #dc2626;
+    --flag: #a78bfa; --flag2: #7c3aed;
+    --grad1: #66fcf1; --grad2: #45a29e; --grad3: #c5a059;
   }
-  html[data-theme="stealth"] {
-    --bg:#000000; --card:#0d0d0d; --border:#1a1a1a;
-    --text:#ffffff; --text-dim:#9a9a9a;
-    --accent:#ffffff; --accent2:#cfcfcf; --accent-text:#000000;
-    --success:#22c55e; --success2:#16a34a;
-    --danger:#ef4444; --danger2:#dc2626;
-    --flag:#a78bfa; --flag2:#7c3aed;
-    --grad1:#ffffff; --grad2:#9a9a9a; --grad3:#5a5a5a;
-  }
-  html[data-theme="sepia"] {
-    --bg:#f4ecd8; --card:#fbf7ed; --border:#d8c7a1;
-    --text:#433422; --text-dim:#7a6852;
-    --accent:#8b5e34; --accent2:#a8784a; --accent-text:#ffffff;
-    --success:#4d7c0f; --success2:#65a30d;
-    --danger:#b91c1c; --danger2:#dc2626;
-    --flag:#7c5295; --flag2:#5b3d70;
-    --grad1:#8b5e34; --grad2:#a8784a; --grad3:#7c5295;
-  }
-  html[data-theme="twilight"] {
-    --bg:#1e1b4b; --card:#2e2a72; --border:#3f3a8a;
-    --text:#e0d8ff; --text-dim:#a89cd6;
-    --accent:#fb923c; --accent2:#f472b6; --accent-text:#1e1b4b;
-    --success:#34d399; --success2:#10b981;
-    --danger:#fb7185; --danger2:#e11d48;
-    --flag:#f472b6; --flag2:#db2777;
-    --grad1:#fb923c; --grad2:#f472b6; --grad3:#a78bfa;
+  html[data-theme="minimalist"] {
+    --bg: #f8fafc; --card: #ffffff; --border: #e2e8f0;
+    --text: #0f172a; --text-dim: #64748b;
+    --accent: #2563eb; --accent2: #1d4ed8; --accent-text: #ffffff;
+    --success: #16a34a; --success2: #15803d;
+    --danger: #dc2626; --danger2: #b91c1c;
+    --flag: #4f46e5; --flag2: #4338ca;
+    --grad1: #2563eb; --grad2: #4f46e5; --grad3: #131a26;
   }
 
-  * { transition: background-color .25s ease, border-color .25s ease, color .25s ease; }
-
-  body { background: var(--bg); color: var(--text); font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
-
-  .premium-card { background: var(--card); border: 1px solid var(--border); box-shadow: 0 8px 32px 0 rgba(0,0,0,0.45); }
-  .surface { background: var(--bg); border: 1px solid var(--border); }
+  * { transition: background-color .2s ease, border-color .2s ease, color .2s ease; }
+  body { background: var(--bg); color: var(--text); font-family: system-ui, -apple-system, sans-serif; }
+  .premium-card { background: var(--card); border: 0.5px solid var(--border); box-shadow: 0 12px 40px rgba(0,0,0,.6); backdrop-filter: blur(12px); }
+  .surface { background: var(--bg); border: 0.5px solid var(--border); }
   .text-muted { color: var(--text-dim); }
   .text-accent { color: var(--accent); }
-  .border-theme { border-color: var(--border); }
-
   .brand-gradient { background-image: linear-gradient(90deg, var(--grad1), var(--grad2), var(--grad3)); -webkit-background-clip: text; background-clip: text; color: transparent; }
-
-  .btn-accent { background: var(--accent2); color: var(--accent-text); }
-  .btn-accent:hover { filter: brightness(1.1); }
-  .btn-success { background: var(--success); color: #ffffff; }
+  .btn-accent { background: var(--accent); color: var(--accent-text); }
+  .btn-accent:hover { filter: brightness(1.15); }
+  .btn-success { background: var(--success); color: #fff; }
   .btn-success:hover { background: var(--success2); }
-  .btn-danger-outline { background: color-mix(in srgb, var(--danger) 15%, transparent); color: var(--danger2); border: 1px solid color-mix(in srgb, var(--danger) 35%, transparent); }
-  .btn-danger-outline:hover { background: color-mix(in srgb, var(--danger) 30%, transparent); }
-  .btn-flag-outline { background: color-mix(in srgb, var(--flag) 15%, transparent); color: var(--flag); border: 1px solid color-mix(in srgb, var(--flag) 35%, transparent); }
-  .btn-flag-outline:hover { background: color-mix(in srgb, var(--flag) 30%, transparent); }
+  .btn-danger-outline { background: color-mix(in srgb, var(--danger) 12%, transparent); color: var(--danger2); border: 0.5px solid var(--danger); }
+  .btn-danger-outline:hover { background: color-mix(in srgb, var(--danger) 25%, transparent); }
+  .btn-flag-outline { background: color-mix(in srgb, var(--flag) 12%, transparent); color: var(--flag); border: 0.5px solid var(--flag); }
   .btn-neutral { background: var(--border); color: var(--text); }
   .btn-neutral:hover { filter: brightness(1.25); }
-
-  .input-field { background: var(--bg); border: 1px solid var(--border); color: var(--text); }
+  .input-field { background: var(--bg); border: 0.5px solid var(--border); color: var(--text); }
   .input-field:focus { outline: none; border-color: var(--accent); }
-
-  .nav-tab-active { background: color-mix(in srgb, var(--accent) 18%, var(--card)); border-color: var(--accent); color: var(--accent); }
-  .active-opt { background-color: var(--success) !important; border-color: var(--success2) !important; color: #ffffff !important; }
-  .flagged-node { background-color: var(--flag) !important; border-color: var(--flag2) !important; color: #ffffff !important; }
-  .answered-node { background-color: var(--success) !important; border-color: var(--success2) !important; color: #ffffff !important; }
+  .nav-tab-active { background: color-mix(in srgb, var(--accent) 12%, var(--card)); border-color: var(--accent); color: var(--accent); }
+  .active-opt { background-color: var(--success) !important; border-color: var(--success2) !important; color: #fff !important; }
+  .flagged-node { background-color: var(--flag) !important; border-color: var(--flag2) !important; color: #fff !important; }
+  .answered-node { background-color: var(--success) !important; border-color: var(--success2) !important; color: #fff !important; }
   .filter-tab-active { background: var(--accent); color: var(--accent-text); border-color: var(--accent); }
+  .student-lock { -webkit-user-select: none; user-select: none; }
+  .timer-critical { color: var(--danger2) !important; animation: pulse 1.4s infinite; }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .4; } }
 
-  .student-lock { -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
-
-  .timer-critical { color: var(--danger2) !important; animation: pulse 1.4s cubic-bezier(0.4,0,0.6,1) infinite; }
-  @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:.45; } }
-
-  .watermark-overlay {
-    position: absolute; inset: 0; pointer-events: none; overflow: hidden;
-    display: flex; align-items: center; justify-content: center;
-    z-index: 5; border-radius: 0.75rem;
-  }
-  .watermark-overlay span {
-    display: block; white-space: nowrap; font-size: 1.1rem; font-weight: 800;
-    color: var(--text); opacity: 0.035; transform: rotate(-28deg) scale(2.4);
-    letter-spacing: 0.1em;
-  }
-
-  .gender-pill { background: var(--bg); border: 1px solid var(--border); color: var(--text-dim); }
-  .gender-pill.active { background: var(--accent2); color: var(--accent-text); border-color: var(--accent2); }
-
-  ::-webkit-scrollbar { width: 6px; height: 6px; }
-  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
+  .watermark-overlay { position: absolute; inset: 0; pointer-events: none; overflow: hidden; display: flex; align-items: center; justify-content: center; z-index: 5; }
+  .watermark-overlay span { display: block; white-space: nowrap; font-size: 1.1rem; font-weight: 800; color: var(--text); opacity: .03; transform: rotate(-28deg) scale(2.2); letter-spacing: .1em; }
+  .gender-pill { background: var(--bg); border: 0.5px solid var(--border); color: var(--text-dim); }
+  .gender-pill.active { background: var(--accent); color: var(--accent-text); border-color: var(--accent); }
+  
+  .vip-card { border: 0.5px solid rgba(245, 158, 11, 0.4); background: linear-gradient(135deg, rgba(245, 158, 11, 0.05), rgba(239, 68, 68, 0.05)); }
+  .vip-badge { background: linear-gradient(90deg, #f59e0b, #ef4444); color: #fff; font-size: 9px; font-weight: 900; padding: 2px 8px; border-radius: 999px; }
+  .lock-overlay { position: absolute; inset: 0; background: rgba(0,0,0,.75); border-radius: inherit; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; }
+  
+  .review-correct { background: rgba(16, 185, 129, 0.08); }
+  .review-wrong { background: rgba(244, 63, 94, 0.08); }
+  .spinner { border: 3px solid var(--border); border-top-color: var(--accent); border-radius: 50%; width: 28px; height: 28px; animation: spin .7s linear infinite; margin: auto; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .auth-tab { padding: .5rem 1.25rem; border-radius: .75rem; font-weight: 700; font-size: .75rem; cursor: pointer; color: var(--text-dim); flex: 1; }
+  .auth-tab.active { background: var(--accent); color: var(--accent-text); }
+  
+  .broadcast-banner { background: linear-gradient(90deg, #1e293b, var(--card)); border-bottom: 1px solid var(--border); animation: flashBorder 3s infinite alternate; }
+  @keyframes flashBorder { from { border-color: var(--border); } to { border-color: var(--accent); } }
 </style>
 </head>
-<body class="min-h-screen flex flex-col p-3 md:p-6 justify-between text-sm">
+<body class="min-h-screen flex flex-col p-3 md:p-5 justify-between text-sm">
 
-<header class="w-full text-center my-2">
-  <h1 class="text-4xl md:text-5xl font-black tracking-widest brand-gradient">OPERATION BAAZ</h1>
-  <p class="text-[11px] text-muted uppercase tracking-widest mt-1 font-semibold">Autonomous Secure Assessment Core v8.0</p>
+<!-- ====================== GLOBAL ANNOUNCEMENT BANNER ====================== -->
+<div id="global-broadcast" class="broadcast-banner w-full text-center py-2 px-4 rounded-xl hidden mb-3 text-xs font-bold text-accent shadow-md">
+  <i class="fas fa-bullhorn mr-2"></i> <span id="broadcast-text">Loading network system update announcements...</span>
+</div>
+
+<!-- ====================== HEADER ====================== -->
+<header class="w-full text-center my-1 mb-3">
+  <h1 class="text-3xl md:text-5xl font-black tracking-widest brand-gradient">OPERATION BAAZ</h1>
+  <p class="text-[10px] text-muted uppercase tracking-widest mt-1 font-semibold">Enterprise Dynamic Assessment &amp; Learning Core v10.0</p>
 </header>
 
-<div id="auth-container" class="w-full max-w-md mx-auto my-auto pt-4">
-  <div class="premium-card rounded-2xl p-6 shadow-xl">
-    <h2 class="text-xl font-bold mb-4"><i class="fas fa-shield-alt text-accent"></i> Portal Control Login</h2>
-    <form id="login-form" class="space-y-4">
+<!-- ====================== AUTH SCREEN ====================== -->
+<div id="auth-container" class="w-full max-w-md mx-auto my-auto pt-1">
+  <div class="premium-card rounded-2xl p-6 shadow-xl space-y-4">
+    <div class="flex gap-2 p-1 surface rounded-xl">
+      <button onclick="showAuthTab('login')" id="tab-login" class="auth-tab active"><i class="fas fa-sign-in-alt mr-1"></i>Login</button>
+      <button onclick="showAuthTab('signup')" id="tab-signup" class="auth-tab"><i class="fas fa-user-plus mr-1"></i>Sign Up</button>
+    </div>
+
+    <!-- LOGIN GRID -->
+    <div id="form-login" class="space-y-3">
+      <h2 class="text-lg font-black"><i class="fas fa-shield-alt text-accent mr-1"></i>Secure Gateway Access</h2>
       <div>
-        <label class="block text-xs font-bold text-muted uppercase mb-1">Email Address</label>
-        <input type="email" id="login-email" required class="w-full input-field rounded-xl px-4 py-3 transition">
+        <label class="block text-[11px] font-bold text-muted uppercase mb-1">Email Address</label>
+        <input type="email" id="login-email" placeholder="aapka@email.com" class="w-full input-field rounded-xl px-4 py-3 transition">
       </div>
       <div>
-        <label class="block text-xs font-bold text-muted uppercase mb-1">Password</label>
-        <input type="password" id="login-password" required class="w-full input-field rounded-xl px-4 py-3 transition">
+        <label class="block text-[11px] font-bold text-muted uppercase mb-1">Password</label>
+        <input type="password" id="login-password" placeholder="••••••••" class="w-full input-field rounded-xl px-4 py-3 transition">
       </div>
-      <button type="submit" class="w-full btn-accent font-bold py-3 rounded-xl cursor-pointer transition shadow-lg">Login to Gateway</button>
-    </form>
-    <p id="login-error" class="hidden text-xs text-center mt-3 font-bold" style="color:var(--danger2)"></p>
+      <button onclick="doLogin()" class="w-full btn-accent font-bold py-3 rounded-xl cursor-pointer transition shadow-lg flex items-center justify-center gap-2" id="btn-login">
+        <i class="fas fa-unlock-alt"></i> Authenticate Credentials
+      </button>
+      <p id="login-error" class="hidden text-xs text-center mt-1 font-bold" style="color:var(--danger2)"></p>
+    </div>
+
+    <!-- SIGNUP GRID -->
+    <div id="form-signup" class="hidden space-y-3">
+      <h2 class="text-lg font-black"><i class="fas fa-user-plus text-accent mr-1"></i>Create Secure Profile</h2>
+      <div class="flex items-center gap-3">
+        <div class="relative">
+          <img id="su-avatar-preview" src="" class="hidden w-16 h-16 rounded-xl object-cover border-2" style="border-color:var(--accent);">
+          <div id="su-avatar-placeholder" class="w-16 h-16 rounded-xl flex items-center justify-center text-xl surface"><i class="fas fa-user text-muted"></i></div>
+        </div>
+        <div>
+          <label class="btn-neutral text-[11px] font-bold px-3 py-2 rounded-xl cursor-pointer inline-block">
+            <i class="fas fa-camera mr-1"></i> Photo Upload <span style="color:var(--danger2)">*</span>
+            <input type="file" id="su-avatar-input" accept="image/*" class="hidden" onchange="handleSuAvatar(event)">
+          </label>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <div>
+          <label class="block text-[11px] font-bold text-muted uppercase mb-1">Full Name *</label>
+          <input id="su-name" class="w-full input-field rounded-xl px-3 py-2.5 transition">
+        </div>
+        <div>
+          <label class="block text-[11px] font-bold text-muted uppercase mb-1">Mobile Number *</label>
+          <input id="su-phone" type="tel" class="w-full input-field rounded-xl px-3 py-2.5 transition">
+        </div>
+        <div>
+          <label class="block text-[11px] font-bold text-muted uppercase mb-1">Email *</label>
+          <input id="su-email" type="email" class="w-full input-field rounded-xl px-3 py-2.5 transition">
+        </div>
+        <div>
+          <label class="block text-[11px] font-bold text-muted uppercase mb-1">Password *</label>
+          <input id="su-password" type="password" class="w-full input-field rounded-xl px-3 py-2.5 transition">
+        </div>
+        <div>
+          <label class="block text-[11px] font-bold text-muted uppercase mb-1">Target Year</label>
+          <input id="su-year" type="number" placeholder="2027" class="w-full input-field rounded-xl px-3 py-2.5 transition">
+        </div>
+        <div>
+          <label class="block text-[11px] font-bold text-muted uppercase mb-1">Referral Code</label>
+          <input id="su-referral" class="w-full input-field rounded-xl px-3 py-2.5 transition">
+        </div>
+      </div>
+      <div>
+        <label class="block text-[11px] font-bold text-muted uppercase mb-2">Gender *</label>
+        <div class="grid grid-cols-3 gap-2" id="su-gender-group">
+          <button type="button" onclick="selectSuGender('Male')" data-gender="Male" class="gender-pill py-2.5 rounded-xl text-xs font-bold cursor-pointer transition">Male</button>
+          <button type="button" onclick="selectSuGender('Female')" data-gender="Female" class="gender-pill py-2.5 rounded-xl text-xs font-bold cursor-pointer transition">Female</button>
+          <button type="button" onclick="selectSuGender('Other')" data-gender="Other" class="gender-pill py-2.5 rounded-xl text-xs font-bold cursor-pointer transition">Other</button>
+        </div>
+      </div>
+      <button onclick="doSignup()" class="w-full btn-success font-bold py-3 rounded-xl cursor-pointer transition flex items-center justify-center gap-2" id="btn-signup">
+        <i class="fas fa-rocket"></i> Finalize Registration
+      </button>
+      <p id="signup-error" class="hidden text-xs text-center font-bold" style="color:var(--danger2)"></p>
+      <p id="signup-success" class="hidden text-xs text-center font-bold" style="color:var(--success2)"></p>
+    </div>
   </div>
 </div>
 
-<div id="dashboard-container" class="hidden w-full max-w-4xl mx-auto space-y-6">
-
-  <header class="premium-card rounded-2xl p-5 flex flex-wrap gap-3 justify-between items-center">
-    <div>
-      <h1 class="text-lg font-black">Console:
-        <span id="student-name" class="text-accent">User Node</span>
-        <span id="role-badge" class="ml-2 text-[10px] font-bold px-2 py-0.5 rounded uppercase">Student</span>
-      </h1>
+<!-- ====================== DASHBOARD ====================== -->
+<div id="dashboard-container" class="hidden w-full max-w-5xl mx-auto space-y-4">
+  <header class="premium-card rounded-2xl p-4 flex flex-wrap gap-3 justify-between items-center">
+    <div class="flex items-center gap-3">
+      <img id="dash-avatar" src="" class="hidden w-11 h-11 rounded-xl object-cover border-2" style="border-color:var(--accent);">
+      <div id="dash-avatar-ph" class="w-11 h-11 rounded-xl flex items-center justify-center text-lg surface"><i class="fas fa-user text-muted"></i></div>
+      <div>
+        <div class="font-black text-base">Jai Hind, <span id="student-name" class="text-accent">Soldier</span></div>
+        <div id="role-badge" class="text-[10px] font-bold uppercase px-2 py-0.5 rounded mt-0.5 inline-block">STUDENT CONTROL CORE</div>
+      </div>
     </div>
-    <div class="flex items-center gap-2">
-      <button id="sync-failed-btn" onclick="retryFailedSync()" class="hidden btn-danger-outline px-3 py-2 rounded-xl text-[11px] font-bold cursor-pointer transition">
-        <i class="fas fa-triangle-exclamation"></i> Sync Unsubmitted Records
-      </button>
+    
+    <!-- WALLET & REFERRAL CHIPS -->
+    <div class="flex gap-2 flex-wrap items-center">
+      <div class="text-[11px] font-bold px-3 py-1.5 rounded-xl surface border border-amber-500/30 flex items-center gap-1">
+        <i class="fas fa-coins text-amber-500"></i> Wallet: <span id="wallet-balance-disp" class="text-amber-500">0</span> Coins
+      </div>
+      <div id="referral-chip" class="hidden text-[10px] font-bold px-3 py-1.5 rounded-xl surface border cursor-pointer hover:bg-slate-800" onclick="copyReferral()">
+        <i class="fas fa-share-nodes text-accent mr-1"></i> Ref Code: <span id="referral-code-text" class="text-accent">—</span>
+      </div>
       <button onclick="logout()" class="btn-danger-outline px-4 py-2 rounded-xl text-xs font-bold cursor-pointer transition">Logout</button>
     </div>
   </header>
 
-  <div id="dashboard-tabs" class="grid grid-cols-2 md:grid-cols-4 gap-2 p-1 premium-card rounded-xl text-xs font-bold text-center">
-    <button id="tab-btn-tests" onclick="switchDashboardTab('tests')" class="py-2.5 rounded-lg text-muted transition cursor-pointer nav-tab-active"><i class="fas fa-layer-group mr-1.5"></i> Exam Pools</button>
-    <button id="tab-btn-profile" onclick="switchDashboardTab('profile')" class="py-2.5 rounded-lg text-muted transition cursor-pointer"><i class="fas fa-id-card mr-1.5"></i> My Profile</button>
-    <button id="tab-btn-owner" onclick="switchDashboardTab('owner')" class="py-2.5 rounded-lg text-muted transition cursor-pointer"><i class="fas fa-crown mr-1.5"></i> Platform Founder</button>
-    <button id="tab-btn-support" onclick="switchDashboardTab('support')" class="py-2.5 rounded-lg text-muted transition cursor-pointer"><i class="fas fa-headset mr-1.5"></i> Help Desk</button>
+  <!-- NAVIGATION CORE MATRIX TABS -->
+  <div id="dashboard-tabs" class="grid grid-cols-3 md:grid-cols-6 gap-1.5 p-1 premium-card rounded-xl text-[11px] font-bold text-center">
+    <button id="tab-btn-tests"      onclick="switchTab('tests')"       class="py-2.5 rounded-lg text-muted transition cursor-pointer nav-tab-active"><i class="fas fa-layer-group mr-1"></i>Exam Pools</button>
+    <button id="tab-btn-vault"      onclick="switchTab('vault')"       class="py-2.5 rounded-lg text-muted transition cursor-pointer"><i class="fas fa-book-bookmark mr-1"></i>Study Vault</button>
+    <button id="tab-btn-profile"    onclick="switchTab('profile')"     class="py-2.5 rounded-lg text-muted transition cursor-pointer"><i class="fas fa-id-card mr-1"></i>Profile Node</button>
+    <button id="tab-btn-vip"        onclick="switchTab('vip')"         class="py-2.5 rounded-lg text-muted transition cursor-pointer"><i class="fas fa-crown mr-1"></i>VIP Hub</button>
+    <button id="tab-btn-leaderboard" onclick="switchTab('leaderboard')" class="py-2.5 rounded-lg text-muted transition cursor-pointer"><i class="fas fa-trophy mr-1"></i>Rank Board</button>
+    <button id="tab-btn-support"    onclick="switchTab('support')"     class="py-2.5 rounded-lg text-muted transition cursor-pointer"><i class="fas fa-headset mr-1"></i>Support</button>
   </div>
 
+  <!-- TAB: TESTS -->
   <div id="tab-content-tests" class="space-y-4">
-    <div id="admin-parser-box" class="hidden premium-card rounded-xl p-5 space-y-3" style="border:1px solid color-mix(in srgb, var(--accent) 30%, transparent);">
-      <div class="flex justify-between items-center">
-        <div class="font-bold text-accent text-sm"><i class="fas fa-user-shield"></i> Admin Control Center (Full Unlocked Permissions)</div>
-        <span class="text-[10px] btn-success px-2 py-0.5 rounded uppercase font-bold">Master Stream</span>
+    <!-- MASTER ADMIN PARSER HUB -->
+    <div id="admin-parser-box" class="hidden premium-card rounded-xl p-5 space-y-3" style="border:1px solid rgba(245,158,11,0.3)">
+      <div class="flex justify-between items-center border-b pb-2 border-slate-800">
+        <div class="font-bold text-accent text-sm"><i class="fas fa-user-shield"></i> Tactical Admin Command Operations</div>
+        <span class="vip-badge">ROOT ACCESS</span>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
-        <input id="admin-exam-name" placeholder="Exam (e.g. UPSC Prelims)" class="input-field rounded-xl px-3 py-2 text-xs">
-        <input id="admin-subject-name" placeholder="Subject (e.g. GS Paper 1)" class="input-field rounded-xl px-3 py-2 text-xs">
-        <input id="admin-test-title" placeholder="Test Title" class="input-field rounded-xl px-3 py-2 text-xs">
+        <input id="admin-exam-name" placeholder="Exam Target (e.g. NDA 2026)" class="input-field rounded-xl px-3 py-2 text-xs">
+        <input id="admin-subject-name" placeholder="Subject Segment (e.g. Mathematics)" class="input-field rounded-xl px-3 py-2 text-xs">
+        <input id="admin-test-title" placeholder="Unique Test Identifier Title" class="input-field rounded-xl px-3 py-2 text-xs">
       </div>
-      <input id="admin-test-desc" placeholder="Short description for students" class="w-full input-field rounded-xl px-3 py-2 text-xs">
-      <p class="text-xs text-muted">Paste whole test content along with answer key block. System auto-extracts questions &amp; obfuscates keys:</p>
-      <textarea id="local-ai-text" rows="6" placeholder="Paste question paper along with Answer Key here... (Full Copy/Paste/Right-Click Unlocked for Admin)" class="w-full input-field rounded-xl p-3 text-xs font-mono outline-none transition"></textarea>
-      <button onclick="setTestByAdmin()" class="w-full btn-success font-bold py-2.5 rounded-xl text-xs uppercase tracking-wider transition cursor-pointer">Lock &amp; Publish Dynamic Configuration</button>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
+        <input id="admin-pos-marks" type="number" placeholder="Positive Marks (Default 3)" class="input-field rounded-xl px-3 py-2 text-xs">
+        <input id="admin-neg-marks" type="number" placeholder="Negative Marks (Default 1)" class="input-field rounded-xl px-3 py-2 text-xs">
+        <select id="admin-is-premium" class="input-field rounded-xl px-3 py-2 text-xs cursor-pointer">
+          <option value="FALSE">🔓 Free Access Paper</option>
+          <option value="TRUE">👑 VIP Premium Guarded Paper</option>
+        </select>
+      </div>
+      <input id="admin-test-desc" placeholder="Operational briefing notes description for students..." class="w-full input-field rounded-xl px-3 py-2 text-xs">
+      <textarea id="local-ai-text" rows="5" placeholder="Paste structural question layout matrix along with ANSWER KEY block block here..." class="w-full input-field rounded-xl p-3 text-xs font-mono outline-none"></textarea>
+      <button onclick="setTestByAdmin()" class="w-full btn-success font-bold py-2.5 rounded-xl text-xs uppercase tracking-wider cursor-pointer">Lock, Obfuscate &amp; Deploy Configurations</button>
       <p id="admin-publish-status" class="text-[10px] text-muted"></p>
+
+      <div class="mt-3 pt-3 border-t border-slate-800">
+        <button onclick="loadStudentList()" class="btn-neutral px-4 py-2 rounded-xl text-xs font-bold cursor-pointer transition">Sync System Registered User Logs</button>
+        <div id="student-list-container" class="mt-3 max-h-48 overflow-y-auto space-y-2 text-xs"></div>
+      </div>
     </div>
 
-    <h2 class="text-md font-bold"><i class="fas fa-layer-group text-accent"></i> Available Exams Matrix</h2>
+    <h2 class="text-md font-bold text-accent"><i class="fas fa-layer-group mr-1"></i>Active Exam Assessment Pools</h2>
     <div id="tests-list" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <div class="premium-card rounded-2xl p-5 flex flex-col justify-between" style="border-top:4px solid var(--accent);">
-        <div>
-          <h3 class="text-base font-bold mb-1">No Active Test Scheduled</h3>
-          <p class="text-muted text-xs">Instructor has not deployed any dynamic configuration packet yet.</p>
+      <div class="premium-card rounded-2xl p-5"><p class="text-muted text-xs">Syncing available assessment payloads...</p></div>
+    </div>
+  </div>
+
+  <!-- TAB: STUDY VAULT (NOTES HUB) -->
+  <div id="tab-content-vault" class="hidden space-y-4">
+    <div class="premium-card rounded-2xl p-5 border-l-4 border-amber-500">
+      <h2 class="text-lg font-black text-amber-500 mb-1"><i class="fas fa-book-bookmark mr-2"></i>Mission Control Study Vault</h2>
+      <p class="text-xs text-muted">Access Abhijeet Kushwaha's tactical notes notes and premium documentation materials here.</p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <!-- Category Folder 1 -->
+      <div class="premium-card rounded-xl p-4 space-y-3">
+        <div class="flex items-center gap-2 font-black text-sm text-accent"><i class="fas fa-folder-open text-amber-500"></i> NDA Tactical Notes</div>
+        <div class="space-y-2">
+          <button onclick="openNoteView('NDA Mathematics Complete Formula Core', 'https://docs.google.com/viewer?authuser=0&srcid=1_zC6fP-82nSF1U_Pz0aP&pid=explorer&efh=false&a=v&chrome=false&embedded=true')" class="w-full text-left surface p-2.5 rounded-lg text-xs hover:border-amber-500 flex justify-between items-center cursor-pointer"><span>📐 Mathematics Concept Blueprint</span><i class="fas fa-file-pdf text-red-500"></i></button>
+          <button onclick="openNoteView('NDA GAT History Strategic Briefing', '#')" class="w-full text-left surface p-2.5 rounded-lg text-xs hover:border-amber-500 flex justify-between items-center cursor-pointer"><span>⚔️ Modern Indian History Ledger</span><i class="fas fa-file-pdf text-red-500"></i></button>
         </div>
+      </div>
+      <!-- Category Folder 2 -->
+      <div class="premium-card rounded-xl p-4 space-y-3">
+        <div class="flex items-center gap-2 font-black text-sm text-accent"><i class="fas fa-folder-open text-blue-400"></i> CDS Strategic Files</div>
+        <div class="space-y-2">
+          <button onclick="openNoteView('CDS English Advanced Syntax Matrix', '#')" class="w-full text-left surface p-2.5 rounded-lg text-xs hover:border-blue-400 flex justify-between items-center cursor-pointer"><span>📖 English Grammar Master Hacks</span><i class="fas fa-file-pdf text-red-500"></i></button>
+        </div>
+      </div>
+      <!-- Category Folder 3 (Mistakes Ledger Redirect) -->
+      <div class="premium-card rounded-xl p-4 space-y-3 border border-red-500/20">
+        <div class="flex items-center gap-2 font-black text-sm text-red-400"><i class="fas fa-triangle-exclamation"></i> Personal Weakness Ledger</div>
+        <p class="text-[11px] text-muted">Assessments ke dauran aapse jo sawal galat hote hain, unka database automatically yahan archive hota hai.</p>
+        <button onclick="openMistakesLedger()" class="w-full btn-danger-outline font-bold py-2 rounded-xl text-xs cursor-pointer text-center">Open My Errors Locker</button>
+      </div>
+    </div>
+    
+    <!-- PDF LIVE EMBED NOTEPAD CONSOLE -->
+    <div id="pdf-view-console" class="premium-card rounded-2xl p-4 hidden grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div class="md:col-span-2 space-y-2">
+        <div class="flex justify-between items-center"><h3 id="pdf-console-title" class="font-black text-xs text-accent">Document Reader</h3><button onclick="document.getElementById('pdf-view-console').classList.add('hidden')" class="text-xs text-red-400 font-bold underline">Close Viewer</button></div>
+        <iframe id="pdf-frame" src="" class="w-full h-96 rounded-xl border border-slate-800" allow="autoplay"></iframe>
+      </div>
+      <div class="space-y-2 flex flex-col justify-between">
+        <div>
+          <h4 class="font-black text-xs text-muted mb-1"><i class="fas fa-pencil-square mr-1 text-accent"></i> Core Study Notepad Vault</h4>
+          <textarea id="vault-notes-area" class="w-full h-72 input-field rounded-xl p-3 text-xs font-mono outline-none resize-none" placeholder="Padhte waqt apne short-notes yahan type karein. Yeh auto-save honge..."></textarea>
+        </div>
+        <button onclick="localStorage.setItem('baaz_vault_notes_'+(currentUserData?.email), document.getElementById('vault-notes-area').value); alert('Notes saved successfully!')" class="w-full btn-accent font-bold py-2 rounded-xl text-xs cursor-pointer">Save Active Note Frame</button>
       </div>
     </div>
   </div>
 
-  <div id="tab-content-profile" class="hidden premium-card rounded-2xl p-6 space-y-6">
-    <div class="flex items-center gap-4">
-      <div class="relative">
-        <img id="avatar-preview" src="" class="hidden w-20 h-20 rounded-2xl object-cover border-2" style="border-color:var(--accent);">
-        <div id="avatar-placeholder" class="w-20 h-20 rounded-2xl flex items-center justify-center text-2xl font-black surface"><i class="fas fa-user text-muted"></i></div>
-      </div>
-      <div>
-        <label class="btn-neutral text-[11px] font-bold px-3 py-2 rounded-xl cursor-pointer inline-block">
-          <i class="fas fa-camera mr-1"></i> Upload Photo
-          <input type="file" id="avatar-input" accept="image/*" class="hidden" onchange="handleAvatarUpload(event)">
-        </label>
-        <p class="text-[10px] text-muted mt-1">Auto-compressed &amp; stored as Base64</p>
-      </div>
-    </div>
-
+  <!-- TAB: PROFILE -->
+  <div id="tab-content-profile" class="hidden premium-card rounded-2xl p-6 space-y-5">
+    <h2 class="text-lg font-black"><i class="fas fa-id-card text-accent mr-1"></i>System Identity Core Management</h2>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div><label class="block text-xs font-bold text-muted uppercase mb-1">Full Name</label><input id="profile-name" readonly class="w-full input-field rounded-xl px-4 py-2.5 opacity-60"></div>
+      <div><label class="block text-xs font-bold text-muted uppercase mb-1">Mobile Number</label><input id="profile-mobile" readonly class="w-full input-field rounded-xl px-4 py-2.5 opacity-60"></div>
+      <div><label class="block text-xs font-bold text-muted uppercase mb-1">Target Year</label><input id="profile-year" readonly class="w-full input-field rounded-xl px-4 py-2.5 opacity-60"></div>
       <div>
-        <label class="block text-xs font-bold text-muted uppercase mb-1">Full Name</label>
-        <input id="profile-name" class="w-full input-field rounded-xl px-4 py-2.5">
-      </div>
-      <div>
-        <label class="block text-xs font-bold text-muted uppercase mb-1">Mobile Number</label>
-        <input id="profile-mobile" type="tel" class="w-full input-field rounded-xl px-4 py-2.5">
-      </div>
-      <div>
-        <label class="block text-xs font-bold text-muted uppercase mb-1">Target Exam Year</label>
-        <input id="profile-year" type="number" min="2024" max="2040" placeholder="e.g. 2027" class="w-full input-field rounded-xl px-4 py-2.5">
-      </div>
-      <div>
-        <label class="block text-xs font-bold text-muted uppercase mb-1">Appearance Theme</label>
-        <select id="theme-picker" onchange="applyTheme(this.value, true)" class="w-full input-field rounded-xl px-4 py-2.5 cursor-pointer">
-          <option value="deepspace">🪐 Deep Space</option>
-          <option value="oceanic">🌊 Oceanic Cyber</option>
-          <option value="stealth">🕶️ Stealth Mono</option>
-          <option value="sepia">🪵 Classic Sepia</option>
-          <option value="twilight">🌅 Twilight Solarized</option>
+        <label class="block text-xs font-bold text-muted uppercase mb-1">Display Interface Skin Theme</label>
+        <select id="theme-picker" onchange="applyTheme(this.value,true)" class="w-full input-field rounded-xl px-4 py-2.5 cursor-pointer">
+          <option value="military">🎖️ Tactical Military Cyber (Gold/Dark)</option>
+          <option value="midnight">🪐 Deep Midnight Obsidian (Cyan/Dark)</option>
+          <option value="minimalist">❄️ Enterprise Minimalist (Blue/Light)</option>
         </select>
       </div>
     </div>
+  </div>
 
-    <div>
-      <label class="block text-xs font-bold text-muted uppercase mb-2">Gender</label>
-      <div class="grid grid-cols-3 gap-2" id="gender-group">
-        <button type="button" onclick="selectGender('Male')" data-gender="Male" class="gender-pill py-2.5 rounded-xl text-xs font-bold cursor-pointer transition"><i class="fas fa-mars mr-1"></i> Male</button>
-        <button type="button" onclick="selectGender('Female')" data-gender="Female" class="gender-pill py-2.5 rounded-xl text-xs font-bold cursor-pointer transition"><i class="fas fa-venus mr-1"></i> Female</button>
-        <button type="button" onclick="selectGender('Other')" data-gender="Other" class="gender-pill py-2.5 rounded-xl text-xs font-bold cursor-pointer transition"><i class="fas fa-genderless mr-1"></i> Other</button>
+  <!-- TAB: VIP HARDCORE GRID HUB -->
+  <div id="tab-content-vip" class="hidden space-y-4">
+    <div class="premium-card rounded-2xl p-5 vip-card">
+      <h2 class="text-lg font-black mb-1">🔥 <span class="brand-gradient">VIP Premium Stream Gateway</span></h2>
+      <p class="text-xs text-muted">Abhijeet Kushwaha's signature premium defense courses panel dashboard view.</p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <!-- Course 1 -->
+      <div class="premium-card rounded-2xl p-5 vip-card relative flex flex-col justify-between gap-3 min-h-[150px]">
+        <div><div class="flex items-center justify-between mb-1"><span class="text-2xl">⚔️</span><span class="vip-badge">NDA ULTRA PLATINUM</span></div>
+             <h3 class="font-black text-sm text-accent">NDA Complete Strategic Prep Core</h3>
+             <p class="text-xs text-muted">Full dimensional Mathematics modules accompanied by GAT comprehensive ledger archives.</p></div>
+        <div class="lock-overlay"><a href="https://api.whatsapp.com/send?phone=917068252052&text=Hello%2C+I+want+to+unlock+NDA+Premium" target="_blank" class="btn-success px-4 py-2 rounded-xl text-xs font-bold cursor-pointer"><i class="fab fa-whatsapp mr-1"></i> Request Access WhatsApp</a></div>
+      </div>
+      <!-- Course 2 -->
+      <div class="premium-card rounded-2xl p-5 vip-card relative flex flex-col justify-between gap-3 min-h-[150px]">
+        <div><div class="flex items-center justify-between mb-1"><span class="text-2xl">🎖️</span><span class="vip-badge">CDS ELITE FORCE</span></div>
+             <h3 class="font-black text-sm text-accent">CDS Officers Academy Engine</h3>
+             <p class="text-xs text-muted">Dedicated operational configurations mapping OTA, IMA, AFA targets perfectly.</p></div>
+        <div class="lock-overlay"><a href="https://api.whatsapp.com/send?phone=917068252052&text=Hello%2C+I+want+to+unlock+CDS+Premium" target="_blank" class="btn-success px-4 py-2 rounded-xl text-xs font-bold cursor-pointer"><i class="fab fa-whatsapp mr-1"></i> Request Access WhatsApp</a></div>
       </div>
     </div>
-
-    <button onclick="saveProfile()" class="w-full btn-accent font-bold py-3 rounded-xl text-xs uppercase tracking-wider transition cursor-pointer">Save Profile</button>
-    <p id="profile-save-status" class="text-[10px] text-muted text-center"></p>
   </div>
 
-  <div id="tab-content-owner" class="hidden premium-card rounded-2xl p-6 space-y-4">
-    <div class="flex items-center gap-4">
-      <div class="w-16 h-16 rounded-xl flex items-center justify-center text-2xl font-black text-white" style="background-image:linear-gradient(135deg, var(--grad1), var(--grad3));">AK</div>
-      <div><h3 class="text-xl font-black">Abhijeet Kushwaha</h3><p class="text-xs text-accent font-bold uppercase">Platform Owner &amp; Lead Architect</p></div>
-    </div>
-    <p class="text-xs text-muted">Operation Baaz Core Architecture framework completely optimized by Abhijeet Kushwaha.</p>
+  <!-- TAB: RANK BOARD LEADERBOARD -->
+  <div id="tab-content-leaderboard" class="hidden space-y-4">
+    <div class="premium-card rounded-2xl p-4 flex items-center justify-between"><h2 class="text-lg font-black"><i class="fas fa-trophy text-accent mr-2"></i>All India Rank Matrix System</h2></div>
+    <div id="leaderboard-container" class="premium-card rounded-2xl p-4"><div class="spinner"></div></div>
   </div>
 
+  <!-- TAB: SUPPORT -->
   <div id="tab-content-support" class="hidden grid grid-cols-1 md:grid-cols-2 gap-4">
-    <div class="premium-card rounded-2xl p-5 flex flex-col justify-between space-y-3">
-      <div><h3 class="text-sm font-bold"><i class="fab fa-whatsapp" style="color:var(--success2)"></i> Direct Help Desk</h3></div>
-      <a href="https://api.whatsapp.com/send?phone=917068252052&text=Hello" target="_blank" class="w-full text-center btn-success font-bold py-2.5 rounded-xl text-xs block transition">Connect on WhatsApp</a>
+    <div class="premium-card rounded-2xl p-5 space-y-3">
+      <h3 class="text-sm font-bold"><i class="fab fa-whatsapp text-green-500"></i> Direct Command Center Support</h3>
+      <a href="https://api.whatsapp.com/send?phone=917068252052&text=Hello" target="_blank" class="w-full text-center btn-success font-bold py-2.5 rounded-xl text-xs block">Connect WhatsApp Desk</a>
     </div>
-    <div class="premium-card rounded-2xl p-5 flex flex-col justify-between space-y-3">
-      <div><h3 class="text-sm font-bold"><i class="fas fa-cloud-arrow-up text-accent"></i> Sync Status</h3></div>
-      <p id="support-sync-status" class="text-xs text-muted">All records synced.</p>
-    </div>
-  </div>
-</div>
-
-<div id="exam-engine-container" class="hidden w-full max-w-6xl mx-auto flex flex-col md:flex-row gap-5 h-[80vh]">
-  <div class="w-full md:w-8/12 flex flex-col gap-4">
-    <div class="premium-card rounded-xl p-4 flex justify-between items-center text-center">
-      <div><div class="text-[10px] text-muted font-bold uppercase">Exam Pool Size</div><div id="disp-total-count" class="text-xl font-black text-accent">0</div></div>
-      <div id="stopwatch-box" class="px-4 py-1.5 rounded-xl" style="background:color-mix(in srgb, var(--danger) 8%, transparent); border:1px solid color-mix(in srgb, var(--danger) 30%, transparent);">
-        <div class="text-[9px] font-bold uppercase" style="color:var(--danger2)">Time Remaining</div>
-        <div id="stopwatch" class="text-xl font-mono font-black" style="color:var(--danger2)">45:00</div>
-      </div>
-    </div>
-    <div class="premium-card rounded-2xl p-6 flex-1 flex flex-col justify-between relative overflow-hidden" style="border-left:4px solid var(--accent);">
-      <div id="watermark-overlay" class="watermark-overlay"><span id="watermark-text">student</span></div>
-      <div class="relative z-10">
-        <div id="digital-question-text" class="text-base font-bold mb-4 surface p-4 rounded-xl whitespace-pre-line max-h-52 overflow-y-auto">Loading Assessment...</div>
-      </div>
-      <div class="grid grid-cols-1 gap-2.5 relative z-10">
-        <button onclick="selectAnswer('A')" id="opt-A" class="w-full text-left input-field p-3.5 rounded-xl font-semibold flex items-center gap-3 transition cursor-pointer"><span id="lbl-opt-A">- - -</span></button>
-        <button onclick="selectAnswer('B')" id="opt-B" class="w-full text-left input-field p-3.5 rounded-xl font-semibold flex items-center gap-3 transition cursor-pointer"><span id="lbl-opt-B">- - -</span></button>
-        <button onclick="selectAnswer('C')" id="opt-C" class="w-full text-left input-field p-3.5 rounded-xl font-semibold flex items-center gap-3 transition cursor-pointer"><span id="lbl-opt-C">- - -</span></button>
-        <button onclick="selectAnswer('D')" id="opt-D" class="w-full text-left input-field p-3.5 rounded-xl font-semibold flex items-center gap-3 transition cursor-pointer"><span id="lbl-opt-D">- - -</span></button>
-        <button onclick="clearAnswer()" class="w-full btn-neutral font-bold py-2 rounded-xl text-[11px] uppercase tracking-wider transition cursor-pointer"><i class="fas fa-eraser mr-1"></i> Clear Selection</button>
-      </div>
-    </div>
-  </div>
-  <div class="w-full md:w-4/12 flex flex-col justify-between premium-card rounded-2xl p-4">
-    <div>
-      <div class="text-xs font-bold text-muted mb-2 uppercase tracking-wider"><i class="fas fa-th mr-1 text-accent"></i> Navigation Matrix</div>
-      <div id="palette-filter-row" class="grid grid-cols-5 gap-1 mb-2 text-[9px] font-bold text-center">
-        <button onclick="setPaletteFilter('all')" data-filter="all" class="palette-filter-btn py-1.5 rounded-lg surface cursor-pointer uppercase">All</button>
-        <button onclick="setPaletteFilter('answered')" data-filter="answered" class="palette-filter-btn py-1.5 rounded-lg surface cursor-pointer uppercase">Done</button>
-        <button onclick="setPaletteFilter('unanswered')" data-filter="unanswered" class="palette-filter-btn py-1.5 rounded-lg surface cursor-pointer uppercase">Not</button>
-        <button onclick="setPaletteFilter('flagged')" data-filter="flagged" class="palette-filter-btn py-1.5 rounded-lg surface cursor-pointer uppercase">Marked</button>
-        <button onclick="setPaletteFilter('unvisited')" data-filter="unvisited" class="palette-filter-btn py-1.5 rounded-lg surface cursor-pointer uppercase">New</button>
-      </div>
-      <div id="palette-grid" class="grid grid-cols-5 gap-2 overflow-y-auto max-h-60 pr-1"></div>
-    </div>
-    <div class="space-y-2 text-xs font-bold mt-4">
-      <button onclick="toggleFlagQuestion()" class="w-full btn-flag-outline py-2.5 rounded-xl uppercase tracking-wide cursor-pointer transition"><i class="fas fa-flag mr-1"></i> Mark for Review / Flag</button>
-      <div class="grid grid-cols-2 gap-2">
-        <button onclick="prevQuestion()" class="btn-neutral py-3 rounded-xl transition cursor-pointer text-center">Previous</button>
-        <button onclick="nextQuestion()" class="btn-neutral py-3 rounded-xl transition cursor-pointer text-center">Next</button>
-      </div>
-      <button onclick="confirmSubmitTest()" class="w-full btn-success py-3 rounded-xl uppercase tracking-widest transition cursor-pointer shadow-lg">Finalize Submission</button>
+    <div class="premium-card rounded-2xl p-5 space-y-3">
+      <h3 class="text-sm font-bold"><i class="fas fa-share-nodes text-accent"></i> Affiliate Program Hub</h3>
+      <div id="referral-display-support" class="surface p-3 rounded-xl text-center font-mono font-black text-accent tracking-widest cursor-pointer" onclick="copyReferral()">—</div>
     </div>
   </div>
 </div>
 
-<div id="result-screen" class="hidden max-w-2xl w-full premium-card rounded-2xl p-6 text-center mx-auto my-auto space-y-6">
-  <div>
-    <h2 class="text-2xl font-black uppercase tracking-widest" style="color:var(--success2)">Performance Metrics Scorecard</h2>
-    <p class="text-xs text-muted font-bold uppercase tracking-wider">UPSC Pattern Automated Analysis (Correct +3 | Wrong -1)</p>
-    <div id="attempt-lock-msg" class="text-[10px] font-bold uppercase mt-1 hidden" style="color:var(--accent)"><i class="fas fa-lock"></i> First Attempt Rank Locked Permanently</div>
+<!-- ====================== SECURE ASSESSMENT ENGINE ====================== -->
+<div id="exam-engine-container" class="hidden w-full max-w-6xl mx-auto flex flex-col gap-3" style="min-height:85vh">
+  
+  <!-- ROW 1: STATUS CONTROLS -->
+  <div class="premium-card rounded-xl p-3 flex justify-between items-center text-center">
+    <div><div class="text-[9px] text-muted font-bold uppercase">Exam Pool Blocks</div><div id="disp-total-count" class="text-xl font-black text-accent">0</div></div>
+    <div id="stopwatch-box" class="px-5 py-1.5 rounded-xl border border-red-500/20" style="background:rgba(225,29,72,0.05)">
+      <div class="text-[8px] font-bold uppercase text-red-400">Time Remaining Terminal</div>
+      <div id="stopwatch" class="text-xl font-mono font-black text-red-500">45:00</div>
+    </div>
+    <div><div class="text-[9px] text-muted font-bold uppercase">Security Strikes</div><div id="blur-count-disp" class="text-xl font-black text-red-400">0/3</div></div>
   </div>
 
-  <div id="rank-badge-box" class="rounded-xl p-3 font-black text-sm uppercase tracking-wider" style="background:color-mix(in srgb, var(--accent) 12%, transparent); border:1px solid color-mix(in srgb, var(--accent) 35%, transparent); color:var(--accent);">
-    <span id="rank-badge-text">—</span>
+  <!-- ROW 2: CRITICAL NAVIGATION ACTION BUTTONS SWAPPED HIGHER PER INSTRUCTION -->
+  <div class="grid grid-cols-3 gap-2 text-xs font-bold">
+    <button onclick="prevQuestion()" class="btn-neutral py-3.5 rounded-xl cursor-pointer transition text-center shadow-md"><i class="fas fa-arrow-left mr-1"></i> PREVIOUS LAYER</button>
+    <button onclick="toggleFlagQuestion()" class="btn-flag-outline py-3.5 rounded-xl cursor-pointer transition text-center shadow-md"><i class="fas fa-flag mr-1"></i> FLAG BLOCK</button>
+    <button onclick="nextQuestion()" class="btn-neutral py-3.5 rounded-xl cursor-pointer transition text-center shadow-md">NEXT LAYER <i class="fas fa-arrow-right ml-1"></i></button>
   </div>
 
-  <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
-    <div class="surface p-3 rounded-xl"><p class="text-muted text-[10px] font-bold uppercase">Total Qs</p><p id="res-total" class="text-xl font-black text-accent">0</p></div>
-    <div class="surface p-3 rounded-xl"><p class="text-muted text-[10px] font-bold uppercase">Correct</p><p id="res-right" class="text-xl font-black" style="color:var(--success2)">0</p></div>
-    <div class="surface p-3 rounded-xl"><p class="text-muted text-[10px] font-bold uppercase">Incorrect</p><p id="res-wrong" class="text-xl font-black" style="color:var(--danger2)">0</p></div>
-    <div class="surface p-3 rounded-xl"><p class="text-muted text-[10px] font-bold uppercase">Accuracy</p><p id="res-accuracy" class="text-xl font-black text-accent">0%</p></div>
-    <div class="surface p-3 rounded-xl"><p class="text-muted text-[10px] font-bold uppercase">Final Score</p><p id="res-score" class="text-xl font-black" style="color:var(--flag)">0</p></div>
-  </div>
-
-  <div class="space-y-2 text-left">
-    <h3 class="text-xs font-bold text-muted uppercase tracking-wider"><i class="fas fa-list-check text-accent"></i> Comprehensive Response Matrix</h3>
-    <div class="max-h-48 overflow-y-auto surface rounded-xl">
-      <table class="w-full text-xs text-left">
-        <thead class="text-[10px] uppercase font-bold text-muted" style="border-bottom:1px solid var(--border);">
-          <tr><th class="p-2.5 text-center">Q.No</th><th class="p-2.5 text-center">Your Response</th><th class="p-2.5 text-center">Correct Key</th><th class="p-2.5 text-center">Status</th></tr>
-        </thead>
-        <tbody id="analysis-rows-container"></tbody>
-      </table>
+  <!-- ROW 3: LIVE CORE QUESTION BOARD DISPLAY -->
+  <div class="premium-card rounded-2xl p-5 flex-1 flex flex-col justify-between relative overflow-hidden min-h-[220px]" style="border-left:4px solid var(--accent)">
+    <div id="watermark-overlay" class="watermark-overlay"><span id="watermark-text">OPERATION BAAZ SECURE MATRIX</span></div>
+    <div class="relative z-10 mb-3 w-full">
+      <div id="digital-question-text" class="text-sm md:text-base font-bold surface p-4 rounded-xl whitespace-pre-line max-h-40 overflow-y-auto w-full">Syncing Assessment Node Parameters...</div>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-2.5 relative z-10 w-full">
+      <button onclick="selectAnswer('A')" id="opt-A" class="w-full text-left input-field p-3 rounded-xl font-semibold flex items-center gap-2 cursor-pointer transition"><span class="text-accent font-black text-xs">A</span><span id="lbl-opt-A">- - -</span></button>
+      <button onclick="selectAnswer('B')" id="opt-B" class="w-full text-left input-field p-3 rounded-xl font-semibold flex items-center gap-2 cursor-pointer transition"><span class="text-accent font-black text-xs">B</span><span id="lbl-opt-B">- - -</span></button>
+      <button onclick="selectAnswer('C')" id="opt-C" class="w-full text-left input-field p-3 rounded-xl font-semibold flex items-center gap-2 cursor-pointer transition"><span class="text-accent font-black text-xs">C</span><span id="lbl-opt-C">- - -</span></button>
+      <button onclick="selectAnswer('D')" id="opt-D" class="w-full text-left input-field p-3 rounded-xl font-semibold flex items-center gap-2 cursor-pointer transition"><span class="text-accent font-black text-xs">D</span><span id="lbl-opt-D">- - -</span></button>
     </div>
   </div>
-  <button onclick="returnToPortal()" class="w-full btn-accent py-3 rounded-xl font-bold text-xs uppercase tracking-wider transition cursor-pointer">Return to Portal Console</button>
+  
+  <!-- ROW 4: SUBMIT AND CLEAR OPERATIONS -->
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-2 text-xs font-bold">
+    <button onclick="clearAnswer()" class="btn-neutral py-2.5 rounded-xl cursor-pointer transition md:col-span-1 uppercase"><i class="fas fa-eraser mr-1"></i> Clear Select</button>
+    <button onclick="confirmSubmitTest()" class="btn-success py-2.5 rounded-xl font-black cursor-pointer shadow-xl transition md:col-span-3 uppercase tracking-widest"><i class="fas fa-paper-plane mr-2"></i> Terminate &amp; Submit Payload Verification</button>
+  </div>
+
+  <!-- ROW 5: 1-50 GRID MATRIX PLACED CLEANHL AT THE BOTTOM PER INSTRUCTION -->
+  <div class="premium-card rounded-2xl p-4 space-y-2">
+    <div class="grid grid-cols-5 gap-1 text-[9px] font-bold text-center">
+      <button onclick="setPaletteFilter('all')" data-filter="all" class="palette-filter-btn py-1.5 rounded-lg surface cursor-pointer">ALL NODES</button>
+      <button onclick="setPaletteFilter('answered')" data-filter="answered" class="palette-filter-btn py-1.5 rounded-lg surface cursor-pointer">DONE</button>
+      <button onclick="setPaletteFilter('unanswered')" data-filter="unanswered" class="palette-filter-btn py-1.5 rounded-lg surface cursor-pointer">SKIPPED</button>
+      <button onclick="setPaletteFilter('flagged')" data-filter="flagged" class="palette-filter-btn py-1.5 rounded-lg surface cursor-pointer">MARKED</button>
+      <button onclick="setPaletteFilter('unvisited')" data-filter="unvisited" class="palette-filter-btn py-1.5 rounded-lg surface cursor-pointer">NEW</button>
+    </div>
+    <div id="palette-grid" class="grid grid-cols-5 md:grid-cols-10 gap-1.5 max-h-32 overflow-y-auto pr-1"></div>
+  </div>
 </div>
 
-<footer class="w-full text-center text-[10px] text-muted uppercase tracking-widest pt-4" style="border-top:1px solid var(--border);">
-  Operation Baaz Infrastructure Platform Engine v8.0 • Architected by Abhijeet Kushwaha
+<!-- ====================== INTERACTIVE DEEP SCORING MATRIX ====================== -->
+<div id="result-screen" class="hidden max-w-3xl w-full premium-card rounded-2xl p-6 mx-auto my-auto space-y-4">
+  <div class="text-center">
+    <h2 class="text-2xl font-black uppercase tracking-widest text-emerald-500" style="color:var(--success2)">Tactical Scorecard Blueprint</h2>
+    <div id="attempt-lock-msg" class="text-[9px] font-bold uppercase mt-1 text-amber-500"><i class="fas fa-lock"></i> Verification Node Locked Permanently</div>
+  </div>
+
+  <div id="rank-badge-box" class="rounded-xl p-2.5 font-black text-xs uppercase tracking-wider text-center border border-amber-500/20" style="background:rgba(245,158,11,0.05);color:var(--accent);">
+    Rank Allocation Badge: <span id="rank-badge-text">—</span>
+  </div>
+
+  <!-- ANALYTICS SCORE MATRIX SYSTEM -->
+  <div class="grid grid-cols-3 md:grid-cols-5 gap-2.5 text-center">
+    <div class="surface p-2.5 rounded-xl"><p class="text-muted text-[9px] font-bold uppercase">Total Items</p><p id="res-total" class="text-lg font-black text-accent">0</p></div>
+    <div class="surface p-2.5 rounded-xl"><p class="text-muted text-[9px] font-bold uppercase">Correct</p><p id="res-right" class="text-lg font-black text-emerald-400">0</p></div>
+    <div class="surface p-2.5 rounded-xl"><p class="text-muted text-[9px] font-bold uppercase">Incorrect</p><p id="res-wrong" class="text-lg font-black text-rose-500">0</p></div>
+    <div class="surface p-2.5 rounded-xl"><p class="text-muted text-[9px] font-bold uppercase">Accuracy Ratio</p><p id="res-accuracy" class="text-lg font-black text-accent">0%</p></div>
+    <div class="surface p-2.5 rounded-xl"><p class="text-muted text-[9px] font-bold uppercase">Final Metric</p><p id="res-score" class="text-lg font-black text-violet-400">0</p></div>
+  </div>
+
+  <!-- INTERACTIVE MATRIX GRAPH DISPLAY -->
+  <div class="space-y-1.5">
+    <h3 class="text-xs font-bold text-muted uppercase tracking-wider"><i class="fas fa-list-check text-accent mr-1"></i>Full Interactive Review Matrix Payload Response</h3>
+    <div id="review-matrix-container" class="space-y-2.5 max-h-72 overflow-y-auto pr-1"></div>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs font-bold">
+    <button onclick="window.print()" class="w-full btn-neutral py-3 rounded-xl cursor-pointer transition uppercase"><i class="fas fa-download mr-1"></i> Print / Download PDF Report</button>
+    <button onclick="returnToPortal()" class="w-full btn-accent py-3 rounded-xl cursor-pointer transition uppercase">Return to Operational Core</button>
+  </div>
+</div>
+
+<footer class="w-full text-center text-[9px] text-muted uppercase tracking-widest pt-3 mt-4 border-t border-slate-800">
+  Operation Baaz Framework Engine v10.0 • Architecture Infrastructure Engineered by Abhijeet Kushwaha
 </footer>
 
+<!-- ==================== RUNTIME LOGIC ENGINE ==================== -->
 <script>
-/* ================================================================
-   CONFIG WITH ACTIVE BACKEND SYNC AND ADMIN PERMISSIONS
-   ================================================================ */
-const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx1Y9uVEex5kaNyE_DZ1au36QL2RcoSH_CUWAcI__XBYTmiAch0pauZiEJxvFjEA3KLqw/exec";
-const BACKEND_CONFIGURED = !!APPS_SCRIPT_URL && APPS_SCRIPT_URL.indexOf("PASTE_") === -1;
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz94_WMrpCCh6w98LcV4G1lkRCKl7Ls0GELPvqA0YuS2pYLPQ1R-3ezuhMriteqg8Us/exec";
+const BACKEND_CONFIGURED = true;
 
 const ADMIN_EMAIL = "kajalkushwaha208@gmail.com";
-const ADMIN_PASSWORD = "kajal@123";
+const ADMIN_PASSWORD = "Kajal@123";
 
-/* ================================================================
-   STATE
-   ================================================================ */
-let cachedTests = [];
-let activeTest = null;
-let DynamicAnswerKey = {};
-let currentTestQuestions = [];
-let flaggedQuestions = {};
-let visitedQuestions = {};
-let currentIndex = 1;
-let totalQuestionsCount = 0;
-let studentResponses = {};
-let singleQTimer = null;
-let qTimeLeft = 2700;
-let tabViolationsCount = 0;
-let testRunningMode = false;
-let currentPaletteFilter = 'all';
+let cachedTests = [], activeTest = null, DynamicAnswerKey = {}, currentTestQuestions = [];
+let flaggedQuestions = {}, visitedQuestions = {}, currentIndex = 1, totalQuestionsCount = 0;
+let studentResponses = {}, singleQTimer = null, qTimeLeft = 2700, tabViolationsCount = 0;
+let testRunningMode = false, currentPaletteFilter = 'all', currentUserData = null;
+let suAvatarBase64 = "", suGenderSelected = "";
 
-/* ================================================================
-   BOOT
-   ================================================================ */
 window.addEventListener('DOMContentLoaded', () => {
-  applyTheme(localStorage.getItem('baaz_theme') || 'deepspace', false);
-  const savedUser = localStorage.getItem('baaz_user');
-  if (savedUser) loginSuccess(savedUser);
+  applyTheme(localStorage.getItem('baaz_theme') || 'military', false);
+  syncLiveAnnouncements();
+  const savedEmail = localStorage.getItem('baaz_email');
+  if (savedEmail) {
+    currentUserData = JSON.parse(localStorage.getItem('baaz_userdata') || 'null');
+    if (currentUserData) { loginSuccess(currentUserData); return; }
+  }
   refreshSyncIndicator();
-  setupAntiCheatingTriggers();
-  loadTests();
 });
 
-/* ================================================================
-   PILLAR 3: THEME ENGINE
-   ================================================================ */
-function applyTheme(name, persist) {
-  document.documentElement.setAttribute('data-theme', name);
-  const picker = document.getElementById('theme-picker');
-  if (picker) picker.value = name;
-  if (persist) {
-    localStorage.setItem('baaz_theme', name);
-    const status = document.getElementById('profile-save-status');
-    if (status) { status.innerText = "Theme applied & saved."; status.style.color = 'var(--success2)'; }
-  }
-}
-
-/* ================================================================
-   ANTI-CHEAT
-   ================================================================ */
-function setupAntiCheatingTriggers() {
-  document.addEventListener('visibilitychange', () => {
-    if (document.visibilityState === 'hidden' && testRunningMode) {
-      tabViolationsCount++;
-      if (tabViolationsCount >= 3) {
-        alert("⚠️ CRITICAL SECURITY BREACH: Multiple tab switching behaviors mapped. Your test is being forcefully submitted!");
-        calculateFinalResults();
-      } else {
-        alert(`⚠️ ANTI-CHEATING WARNING [${tabViolationsCount}/3]: Do not switch browser tabs during a live examination!`);
-      }
+async function syncLiveAnnouncements() {
+  try {
+    const res = await fetch(APPS_SCRIPT_URL + "?action=get_announcements");
+    const d = await res.json();
+    if(d.announcement) {
+      document.getElementById('broadcast-text').innerText = d.announcement;
+      document.getElementById('global-broadcast').classList.remove('hidden');
     }
-  });
-
-  document.addEventListener('keydown', (e) => {
-    if (localStorage.getItem('baaz_role') === 'admin') return;
-    if ((e.ctrlKey && ['c', 'v', 'a', 'i', 'u'].includes(e.key.toLowerCase())) || e.key === 'F12') {
-      e.preventDefault();
-      alert("Security Policy: Locked for secure student layout.");
-    }
-  });
-
-  document.addEventListener('contextmenu', (e) => {
-    if (localStorage.getItem('baaz_role') !== 'admin') e.preventDefault();
-  });
-
-  window.addEventListener('beforeunload', () => { if (testRunningMode) persistExamState(); });
+  } catch(e){}
 }
 
-/* ================================================================
-   AUTH
-   ================================================================ */
-document.getElementById('login-form').addEventListener('submit', (e) => {
-  e.preventDefault();
-  const email = document.getElementById('login-email').value.trim();
-  const password = document.getElementById('login-password').value;
-  const errBox = document.getElementById('login-error');
-
-  if (!email.includes('@')) {
-    errBox.innerText = "Please enter a valid email address.";
-    errBox.classList.remove('hidden');
-    return;
-  }
-
-  const username = email.split('@')[0];
-  localStorage.setItem('baaz_user', username);
-  localStorage.setItem('baaz_email', email);
-
-  if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
-    localStorage.setItem('baaz_role', 'admin');
-  } else {
-    localStorage.setItem('baaz_role', 'student');
-  }
-  errBox.classList.add('hidden');
-  loginSuccess(username);
-});
-
-function loginSuccess(name) {
-  document.getElementById('auth-container').classList.add('hidden');
-  document.getElementById('student-name').innerText = name;
-  document.getElementById('dashboard-container').classList.remove('hidden');
-  document.getElementById('watermark-text').innerText = localStorage.getItem('baaz_email') || name;
-
-  if (localStorage.getItem('baaz_role') === 'admin') {
-    document.getElementById('admin-parser-box').classList.remove('hidden');
-    document.getElementById('role-badge').innerText = "ADMIN / INSTRUCTOR";
-    document.getElementById('role-badge').className = "ml-2 text-[10px] font-bold px-2 py-0.5 rounded uppercase btn-success";
-    document.body.classList.remove('student-lock');
-  } else {
-    document.getElementById('admin-parser-box').classList.add('hidden');
-    document.getElementById('role-badge').innerText = "STUDENT NODE";
-    document.getElementById('role-badge').className = "ml-2 text-[10px] font-bold px-2 py-0.5 rounded uppercase";
-    document.getElementById('role-badge').style.background = "color-mix(in srgb, var(--accent) 18%, transparent)";
-    document.getElementById('role-badge').style.color = "var(--accent)";
-    document.body.classList.add('student-lock');
-  }
-
-  loadProfile();
-  renderTestsList();
-  checkForResumableSession();
+function showAuthTab(t) {
+  document.getElementById('form-login').classList.toggle('hidden', t !== 'login');
+  document.getElementById('form-signup').classList.toggle('hidden', t !== 'signup');
+  document.getElementById('tab-login').classList.toggle('active', t === 'login');
+  document.getElementById('tab-signup').classList.toggle('active', t === 'signup');
 }
 
-function logout() {
-  localStorage.removeItem('baaz_user');
-  localStorage.removeItem('baaz_role');
-  localStorage.removeItem('baaz_email');
-  location.reload();
-}
-
-function switchDashboardTab(target) {
-  ['tests', 'profile', 'owner', 'support'].forEach(t => {
-    document.getElementById(`tab-content-${t}`).classList.add('hidden');
-    document.getElementById(`tab-btn-${t}`).classList.remove('nav-tab-active');
-  });
-  document.getElementById(`tab-content-${target}`).classList.remove('hidden');
-  document.getElementById(`tab-btn-${target}`).classList.add('nav-tab-active');
-}
-
-/* ================================================================
-   PILLAR 2: PROFILE MODULE
-   ================================================================ */
-function profileKey() { return `baaz_profile_${localStorage.getItem('baaz_user')}`; }
-
-function loadProfile() {
-  const raw = localStorage.getItem(profileKey());
-  const p = raw ? JSON.parse(raw) : { name: "", mobile: "", year: "", gender: "", avatar: "" };
-  document.getElementById('profile-name').value = p.name || "";
-  document.getElementById('profile-mobile').value = p.mobile || "";
-  document.getElementById('profile-year').value = p.year || "";
-  selectGender(p.gender || "", false);
-  if (p.avatar) {
-    document.getElementById('avatar-preview').src = p.avatar;
-    document.getElementById('avatar-preview').classList.remove('hidden');
-    document.getElementById('avatar-placeholder').classList.add('hidden');
-  }
-}
-
-function selectGender(g, persist) {
-  document.querySelectorAll('.gender-pill').forEach(btn => {
-    btn.classList.toggle('active', btn.dataset.gender === g);
-  });
-  document.getElementById('gender-group').dataset.selected = g;
-}
-
-function handleAvatarUpload(event) {
-  const file = event.target.files[0];
-  if (!file) return;
+function handleSuAvatar(event) {
+  const file = event.target.files[0]; if (!file) return;
   const reader = new FileReader();
-  reader.onload = function (e) {
+  reader.onload = function(e) {
     const img = new Image();
-    img.onload = function () {
-      const maxDim = 256;
-      let w = img.width, h = img.height;
-      if (w > h && w > maxDim) { h = Math.round(h * (maxDim / w)); w = maxDim; }
-      else if (h > maxDim) { w = Math.round(w * (maxDim / h)); h = maxDim; }
-      const canvas = document.createElement('canvas');
-      canvas.width = w; canvas.height = h;
+    img.onload = function() {
+      const maxDim = 128; let w = img.width, h = img.height;
+      if (w > h && w > maxDim) { h = Math.round(h*(maxDim/w)); w = maxDim; }
+      else if (h > maxDim) { w = Math.round(w*(maxDim/h)); h = maxDim; }
+      const canvas = document.createElement('canvas'); canvas.width = w; canvas.height = h;
       canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-      const base64 = canvas.toDataURL('image/jpeg', 0.7);
-
-      document.getElementById('avatar-preview').src = base64;
-      document.getElementById('avatar-preview').classList.remove('hidden');
-      document.getElementById('avatar-placeholder').classList.add('hidden');
-      document.getElementById('avatar-preview').dataset.pendingBase64 = base64;
+      suAvatarBase64 = canvas.toDataURL('image/jpeg', 0.6);
+      document.getElementById('su-avatar-preview').src = suAvatarBase64;
+      document.getElementById('su-avatar-preview').classList.remove('hidden');
+      document.getElementById('su-avatar-placeholder').classList.add('hidden');
     };
     img.src = e.target.result;
   };
   reader.readAsDataURL(file);
 }
 
-function saveProfile() {
-  const avatarEl = document.getElementById('avatar-preview');
-  const profile = {
-    name: document.getElementById('profile-name').value.trim(),
-    mobile: document.getElementById('profile-mobile').value.trim(),
-    year: document.getElementById('profile-year').value.trim(),
-    gender: document.getElementById('gender-group').dataset.selected || "",
-    avatar: avatarEl.dataset.pendingBase64 || (avatarEl.classList.contains('hidden') ? "" : avatarEl.src)
-  };
-  localStorage.setItem(profileKey(), JSON.stringify(profile));
-  const status = document.getElementById('profile-save-status');
-  status.innerText = "Profile cached locally. It will sync with your next submission.";
-  status.style.color = 'var(--success2)';
+function selectSuGender(g) {
+  suGenderSelected = g;
+  document.querySelectorAll('#su-gender-group .gender-pill').forEach(b => b.classList.toggle('active', b.dataset.gender === g));
 }
 
-function getProfile() {
-  const raw = localStorage.getItem(profileKey());
-  return raw ? JSON.parse(raw) : { name: "", mobile: "", year: "", gender: "", avatar: "" };
+async function doSignup() {
+  const name = document.getElementById('su-name').value.trim();
+  const phone = document.getElementById('su-phone').value.trim();
+  const email = document.getElementById('su-email').value.trim();
+  const password = document.getElementById('su-password').value;
+  const year = document.getElementById('su-year').value.trim();
+  const refCode = document.getElementById('su-referral').value.trim();
+  const err = document.getElementById('signup-error');
+  err.classList.add('hidden');
+
+  if (!name || !phone || !email || !password || !suGenderSelected || !suAvatarBase64) {
+    err.innerText = "Kripya sabhi anivarya (*) fields ko bharein aur photo dalein.";
+    err.classList.remove('hidden'); return;
+  }
+
+  const payload = { action:"signup", name, phone, email, password, gender:suGenderSelected, targetYear:year, referralCode:refCode, profileImage:suAvatarBase64 };
+  try {
+    const res = await fetch(APPS_SCRIPT_URL, { method:"POST", headers:{"Content-Type":"text/plain;charset=utf-8"}, body:JSON.stringify(payload) });
+    const data = await res.json();
+    if(data.status === "success") { alert(data.message); showAuthTab('login'); } else { err.innerText = data.message; err.classList.remove('hidden'); }
+  } catch(e){ err.innerText = "Server sync failed."; err.classList.remove('hidden'); }
 }
 
-/* ================================================================
-   TEST PARSING
-   ================================================================ */
-function parseRawTestText(rawText) {
-  const tempQuestions = [];
+async function doLogin() {
+  const email = document.getElementById('login-email').value.trim();
+  const password = document.getElementById('login-password').value;
+  const err = document.getElementById('login-error');
+  err.classList.add('hidden');
+
+  if(email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
+    const adminObj = { uid:"ADMIN", name:"Master Admin", email:ADMIN_EMAIL, role:"admin", walletBalance:9999, sessionID:"ROOT", blurStrikes:0 };
+    localStorage.setItem('baaz_email', email);
+    localStorage.setItem('baaz_userdata', JSON.stringify(adminObj));
+    loginSuccess(adminObj); return;
+  }
+
+  try {
+    const res = await fetch(APPS_SCRIPT_URL, { method:"POST", headers:{"Content-Type":"text/plain;charset=utf-8"}, body:JSON.stringify({ action:"login", email, password }) });
+    const data = await res.json();
+    if(data.status === "success") {
+      const user = { ...data, role:"student" };
+      localStorage.setItem('baaz_email', email);
+      localStorage.setItem('baaz_userdata', JSON.stringify(user));
+      loginSuccess(user);
+    } else { err.innerText = data.message; err.classList.remove('hidden'); }
+  } catch(e){ err.innerText = "Handshake authorization authentication error."; err.classList.remove('hidden'); }
+}
+
+function loginSuccess(u) {
+  currentUserData = u;
+  document.getElementById('auth-container').classList.add('hidden');
+  document.getElementById('dashboard-container').classList.remove('hidden');
+  document.getElementById('student-name').innerText = u.name;
+  document.getElementById('wallet-balance-disp').innerText = u.walletBalance;
+  document.getElementById('watermark-text').innerText = `${u.name} [${u.uid}]`;
+  
+  if(u.referralCode) {
+    document.getElementById('referral-code-text').innerText = u.referralCode;
+    document.getElementById('referral-chip').classList.remove('hidden');
+    document.getElementById('referral-display-support').innerText = u.referralCode;
+  }
+  if(u.profileImage) {
+    document.getElementById('dash-avatar').src = u.profileImage;
+    document.getElementById('dash-avatar').classList.remove('hidden');
+    document.getElementById('dash-avatar-ph').classList.add('hidden');
+  }
+
+  if(u.role === 'admin') {
+    document.getElementById('admin-parser-box').classList.remove('hidden');
+    document.getElementById('role-badge').innerText = "TACTICAL CHIEF MONITOR";
+    document.getElementById('role-badge').className = "text-[10px] font-bold uppercase px-2 py-0.5 rounded mt-0.5 bg-amber-500 text-slate-950 inline-block";
+    document.body.classList.remove('student-lock');
+  } else {
+    document.getElementById('role-badge').className = "text-[10px] font-bold uppercase px-2 py-0.5 rounded mt-0.5 bg-slate-800 text-amber-500 inline-block";
+    document.body.classList.add('student-lock');
+    tabViolationsCount = u.blurStrikes || 0;
+    setInterval(verifyDeviceBindingSession, 12000);
+  }
+  loadProfile(); loadTests();
+}
+
+async function verifyDeviceBindingSession() {
+  if(!testRunningMode) return;
+  try {
+    const res = await fetch(APPS_SCRIPT_URL, { method:"POST", headers:{"Content-Type":"text/plain;charset=utf-8"}, body:JSON.stringify({ action:"check_session", email:currentUserData.email, sessionID:currentUserData.sessionID }) });
+    const d = await res.json();
+    if(!d.valid) { alert("⚠️ DUAL SESSION INTERACTION TERMINATED: Ek aur browser/device par login detect hua hai!"); logout(); }
+  } catch(e){}
+}
+
+function logout() { localStorage.clear(); location.reload(); }
+
+function applyTheme(n, p) {
+  document.documentElement.setAttribute('data-theme', n);
+  if(p) localStorage.setItem('baaz_theme', n);
+}
+
+function switchTab(t) {
+  ['tests','vault','profile','vip','leaderboard','support'].forEach(x => {
+    document.getElementById(`tab-content-${x}`).classList.add('hidden');
+    document.getElementById(`tab-btn-${x}`).classList.remove('nav-tab-active');
+  });
+  document.getElementById(`tab-content-${t}`).classList.remove('hidden');
+  document.getElementById(`tab-btn-${t}`).classList.add('nav-tab-active');
+  if(t==='leaderboard') loadLeaderboard();
+}
+
+function loadProfile() {
+  document.getElementById('profile-name').value = currentUserData.name;
+  document.getElementById('profile-mobile').value = currentUserData.phone;
+  document.getElementById('profile-year').value = currentUserData.targetYear || "2027";
+}
+
+function openNoteView(title, url) {
+  document.getElementById('pdf-console-title').innerText = title;
+  document.getElementById('pdf-frame').src = url;
+  document.getElementById('pdf-view-console').classList.remove('hidden');
+  document.getElementById('vault-notes-area').value = localStorage.getItem('baaz_vault_notes_'+(currentUserData?.email)) || "";
+}
+
+function openMistakesLedger() {
+  const container = document.getElementById('pdf-view-console');
+  document.getElementById('pdf-console-title').innerText = "❌ Personal Mistakes Revision Locker";
+  const logs = JSON.parse(localStorage.getItem('baaz_errors_'+currentUserData.email) || '[]');
+  if(!logs.length) { alert("Abhi is vault mein koi galat sawal jama nahi hue!"); return; }
+  
+  let html = "<div class='p-3 space-y-3 h-96 overflow-y-auto surface rounded-xl'>";
+  logs.forEach((item, index) => {
+    html += `<div class='p-3 surface rounded-lg border-l-2 border-red-500'>
+      <span class='text-[10px] uppercase font-bold text-red-400'>Error Item #${index+1} — ${escapeHtml(item.testTitle)}</span>
+      <p class='font-bold text-xs mt-0.5'>${escapeHtml(item.text)}</p>
+      <div class='mt-1 text-[11px] text-muted grid grid-cols-2 gap-1'>
+        <div>A: ${escapeHtml(item.A)}</div><div>B: ${escapeHtml(item.B)}</div>
+      </div>
+    </div>`;
+  });
+  html += "</div>";
+  document.getElementById('pdf-view-console').classList.remove('hidden');
+  document.getElementById('pdf-view-console').innerHTML = `<div class='col-span-3 space-y-2'>
+    <div class='flex justify-between items-center'><h3 class='font-black text-xs text-red-400'>Errors Library</h3><button onclick='location.reload()' class='text-xs underline text-accent font-bold'>Close Matrix</button></div>
+    ${html}
+  </div>`;
+}
+
+async function loadLeaderboard() {
+  const container = document.getElementById('leaderboard-container');
+  try {
+    const res = await fetch(APPS_SCRIPT_URL + "?action=get_leaderboard");
+    const d = await res.json();
+    let html = "<table class='w-full text-xs text-left'><thead><tr class='border-b border-slate-800'><th class='p-2'>Rank</th><th class='p-2'>Name</th><th class='p-2 text-center'>Pools</th><th class='p-2 text-center'>Total Marks</th></tr></thead><tbody>";
+    d.forEach(r => {
+      html += `<tr class='border-b border-slate-800/40'><td class='p-2 font-black text-accent'>#${r.rank}</td><td class='p-2 font-bold'>${escapeHtml(r.name)}</td><td class='p-2 text-center text-muted'>${r.totalTests}</td><td class='p-2 text-center font-black text-emerald-400'>${r.totalScore}</td></tr>`;
+    });
+    container.innerHTML = html + "</tbody></table>";
+  } catch(e){ container.innerHTML = "<p class='text-xs text-muted text-center'>Board system processing failure.</p>"; }
+}
+
+async function loadStudentList() {
+  const container = document.getElementById('student-list-container');
+  try {
+    const res = await fetch(APPS_SCRIPT_URL, { method: "POST", headers:{"Content-Type":"text/plain;charset=utf-8"}, body:JSON.stringify({action:"get_students"}) });
+    const data = await res.json();
+    container.innerHTML = data.map(u => `
+      <div class='surface p-2 rounded-xl flex items-center justify-between gap-2'>
+        <div><span class='font-bold'>${escapeHtml(u.name)}</span> <span class='text-muted text-[10px]'>(${escapeHtml(u.email)})</span></div>
+        <button onclick="toggleUserBan('${u.email}', ${!u.blocked})" class='px-2.5 py-1 text-[10px] font-bold rounded-lg ${u.blocked?'btn-success':'btn-danger-outline'}'>${u.blocked?'UNBAN':'BAN STUDENT'}</button>
+      </div>`).join('');
+  } catch(e){}
+}
+
+async function toggleUserBan(email, ban) {
+  try {
+    const res = await fetch(APPS_SCRIPT_URL, { method:"POST", headers:{"Content-Type":"text/plain;charset=utf-8"}, body:JSON.stringify({ action: ban?"ban_student":"unban_student", email }) });
+    const d = await res.json(); alert(d.message); loadStudentList();
+  } catch(e){}
+}
+
+function parseRawTestText(txt) {
   const tempKeys = {};
-
-  const cleanTextForAnswers = rawText.toUpperCase().replace(/\n/g, ' ');
-  const answerBlockIndex = cleanTextForAnswers.indexOf("ANSWER KEY:");
-  if (answerBlockIndex !== -1) {
-    const answerPart = cleanTextForAnswers.substring(answerBlockIndex);
-    const pairs = answerPart.match(/Q?\d+\s*-\s*[A-D]/gi) || answerPart.match(/Q?\d+\s*\|\s*Q?\d+-[A-D]/gi) || answerPart.match(/\d+-[A-D]/g);
-    if (pairs) {
-      pairs.forEach(p => {
-        const parts = p.replace(/Q/g, '').split(/[-\|]/);
-        if (parts.length >= 2) tempKeys[parseInt(parts[0].trim())] = parts[parts.length - 1].trim();
-      });
-    }
+  const cleanText = txt.toUpperCase().replace(/\n/g,' ');
+  const ansIdx = cleanText.indexOf("ANSWER KEY:");
+  if (ansIdx !== -1) {
+    const ansPart = cleanText.substring(ansIdx);
+    const pairs = ansPart.match(/Q?\d+\s*-\s*[A-D]/gi) || ansPart.match(/\d+-[A-D]/g);
+    if (pairs) pairs.forEach(p => {
+      const pts = p.replace(/Q/g,'').split(/[-\|]/);
+      if (pts.length >= 2) tempKeys[parseInt(pts[0].trim())] = pts[pts.length-1].trim();
+    });
   }
-
-  const rawContentArray = rawText.split("\n");
-  let structuredQuestionsBlock = "";
-  let startCollecting = false;
-  for (const line of rawContentArray) {
-    const lTrim = line.trim();
-    if (/^(Q\d+|1\b|2\b|3\b)/i.test(lTrim)) startCollecting = true;
-    if (lTrim.toUpperCase().includes("ANSWER KEY:")) startCollecting = false;
-    if (startCollecting) structuredQuestionsBlock += line + "\n";
+  const lines = txt.split("\n");
+  let block = ""; let col = false;
+  for (const l of lines) {
+    const lt = l.trim();
+    if (/^(Q\d+|1\b|2\b|3\b)/i.test(lt)) col = true;
+    if (lt.toUpperCase().includes("ANSWER KEY:")) col = false;
+    if (col) block += l + "\n";
   }
-
-  const qRegex = /(?:Q(?:uestion)?\s*\d+[\.\s\-:\)]+|\b\d+[\.\)\-]\s+)/gi;
-  const parts = structuredQuestionsBlock.split(qRegex);
-  let globalPointer = 1;
-
-  parts.forEach((block) => {
-    const trimmed = block.trim();
+  const parts = block.split(/(?:Q(?:uestion)?\s*\d+[\.\s\-:\)]+|\b\d+[\.\)\-]\s+)/gi);
+  const questions = []; let ptr = 1;
+  parts.forEach(b => {
+    const trimmed = b.trim();
     if (trimmed.length > 5) {
-      const lines = trimmed.split('\n').map(l => l.trim()).filter(Boolean);
-      let questionStatement = "";
-      let optA = "", optB = "", optC = "", optD = "";
-      lines.forEach(line => {
-        const upperLine = line.toUpperCase();
-        if (upperLine.startsWith('(A)') || upperLine.startsWith('A.') || upperLine.startsWith('A)')) optA = line.replace(/^\s*[\(\[A-D\u2022\-\.\)]+\s*/i, '').trim();
-        else if (upperLine.startsWith('(B)') || upperLine.startsWith('B.') || upperLine.startsWith('B)')) optB = line.replace(/^\s*[\(\[A-D\u2022\-\.\)]+\s*/i, '').trim();
-        else if (upperLine.startsWith('(C)') || upperLine.startsWith('C.') || upperLine.startsWith('C)')) optC = line.replace(/^\s*[\(\[A-D\u2022\-\.\)]+\s*/i, '').trim();
-        else if (upperLine.startsWith('(D)') || upperLine.startsWith('D.') || upperLine.startsWith('D)')) optD = line.replace(/^\s*[\(\[A-D\u2022\-\.\)]+\s*/i, '').trim();
-        else questionStatement += " " + line;
+      const ls = trimmed.split('\n').map(x => x.trim()).filter(Boolean);
+      let qText="", A="", B="", C="", D="";
+      ls.forEach(line => {
+        const u = line.toUpperCase();
+        if (u.startsWith('(A)')||u.startsWith('A.')||u.startsWith('A)')) A = line.replace(/^\s*[\(\[A-D\u2022\-\.\)]+\s*/i,'').trim();
+        else if (u.startsWith('(B)')||u.startsWith('B.')||u.startsWith('B)')) B = line.replace(/^\s*[\(\[A-D\u2022\-\.\)]+\s*/i,'').trim();
+        else if (u.startsWith('(C)')||u.startsWith('C.')||u.startsWith('C)')) C = line.replace(/^\s*[\(\[A-D\u2022\-\.\)]+\s*/i,'').trim();
+        else if (u.startsWith('(D)')||u.startsWith('D.')||u.startsWith('D)')) D = line.replace(/^\s*[\(\[A-D\u2022\-\.\)]+\s*/i,'').trim();
+        else qText += " " + line;
       });
-      tempQuestions.push({ id: globalPointer, text: questionStatement.trim(), A: optA, B: optB, C: optC, D: optD });
-      if (!tempKeys[globalPointer]) tempKeys[globalPointer] = "A";
-      globalPointer++;
+      questions.push({ id:ptr, text:qText.trim(), A, B, C, D });
+      if (!tempKeys[ptr]) tempKeys[ptr] = "A";
+      ptr++;
     }
   });
-
-  return { questions: tempQuestions, keys: tempKeys };
+  return { questions, keys:tempKeys };
 }
 
-/* ================================================================
-   ADMIN: PUBLISH TEST
-   ================================================================ */
 async function setTestByAdmin() {
   const rawText = document.getElementById('local-ai-text').value.trim();
-  const examName = document.getElementById('admin-exam-name').value.trim() || "General";
-  const subjectName = document.getElementById('admin-subject-name').value.trim() || "Mixed";
+  const exam = document.getElementById('admin-exam-name').value.trim() || "General";
+  const subject = document.getElementById('admin-subject-name').value.trim() || "Mixed";
   const title = document.getElementById('admin-test-title').value.trim();
-  const desc = document.getElementById('admin-test-desc').value.trim() || "Instructor deployed exam packet.";
-  const statusEl = document.getElementById('admin-publish-status');
-
-  if (rawText.length < 20) { alert("Error: Content string too short."); return; }
-  if (!title) { alert("Error: Please give this test a Title before publishing."); return; }
-
+  const desc = document.getElementById('admin-test-desc').value.trim() || " briefed packet.";
+  const posM = document.getElementById('admin-pos-marks').value.trim() || 3;
+  const negM = document.getElementById('admin-neg-marks').value.trim() || 1;
+  const premium = document.getElementById('admin-is-premium').value === "TRUE";
+  
+  if(!title || rawText.length < 25) { alert("Parameters or string text configuration payload incomplete."); return; }
   const parsed = parseRawTestText(rawText);
-  if (parsed.questions.length === 0) { alert("Error: No questions could be parsed from this text. Check formatting."); return; }
-
-  const testObj = { exam: examName, subject: subjectName, title, description: desc, parsedQuestions: parsed.questions, keys: parsed.keys };
-
-  cachedTests = cachedTests.filter(t => t.title !== title);
-  cachedTests.push(testObj);
-  persistLocalTests();
-  renderTestsList();
-
-  statusEl.innerText = `Published locally: ${parsed.questions.length} questions.`;
-
-  if (BACKEND_CONFIGURED) {
-    statusEl.innerText += " Syncing to Google Sheet…";
-    try {
-      await fetch(APPS_SCRIPT_URL, {
-        method: "POST",
-        headers: { "Content-Type": "text/plain;charset=utf-8" },
-        body: JSON.stringify({ action: "publish_test", exam: examName, subject: subjectName, title, description: desc, rawText })
-      });
-      await loadTests();
-      statusEl.innerText = `Published & synced to Google Sheet: ${parsed.questions.length} questions.`;
-    } catch (err) {
-      statusEl.innerText = "Published locally, but Sheet sync failed (offline?). It will retry next load.";
-    }
-  } else {
-    statusEl.innerText += " (Backend URL not configured — local-only mode.)";
-  }
-
-  document.getElementById('local-ai-text').value = "";
+  
+  const payload = { action:"publish_test", exam, subject, title, description:desc, positiveMarks:posM, negativeMarks:negM, isPremium:premium, rawText };
+  try {
+    await fetch(APPS_SCRIPT_URL, { method:"POST", headers:{"Content-Type":"text/plain;charset=utf-8"}, body:JSON.stringify(payload) });
+    alert("Test configured, obfuscated and pushed successfully to database grid.");
+    loadTests();
+  } catch(e){ alert("Pushed deployment communication failure."); }
 }
-
-/* ================================================================
-   LOAD / RENDER TESTS
-   ================================================================ */
-function persistLocalTests() { localStorage.setItem('baaz_live_tests', JSON.stringify(cachedTests)); }
 
 async function loadTests() {
-  const local = localStorage.getItem('baaz_live_tests');
-  cachedTests = local ? JSON.parse(local) : [];
-
-  if (BACKEND_CONFIGURED) {
-    try {
-      const res = await fetch(APPS_SCRIPT_URL, { method: "GET" });
-      const backendTests = await res.json();
-      if (Array.isArray(backendTests)) {
-        backendTests.forEach(bt => {
-          const keys = {};
-          (bt.parsedQuestions || []).forEach(q => { keys[q.id] = q.correctKey || "A"; });
-          const merged = { exam: bt.exam, subject: bt.subject, title: bt.title, description: bt.description, parsedQuestions: bt.parsedQuestions || [], keys };
-          cachedTests = cachedTests.filter(t => t.title !== merged.title);
-          cachedTests.push(merged);
-        });
-        persistLocalTests();
-      }
-    } catch (err) {}
-  }
-  renderTestsList();
+  try {
+    const res = await fetch(APPS_SCRIPT_URL, { method:"GET" });
+    cachedTests = await res.json();
+    renderTestsList();
+  } catch(e){}
 }
 
-function historyKey() { return `baaz_history_${localStorage.getItem('baaz_user')}`; }
-function getHistoryMap() { const raw = localStorage.getItem(historyKey()); return raw ? JSON.parse(raw) : {}; }
-function saveHistoryRecord(title, record) {
-  const map = getHistoryMap();
-  map[title] = record;
-  localStorage.setItem(historyKey(), JSON.stringify(map));
-}
+function getHistoryMap() { return JSON.parse(localStorage.getItem(`baaz_hist_${currentUserData.email}`) || '{}'); }
 
 function renderTestsList() {
   const container = document.getElementById('tests-list');
-  const role = localStorage.getItem('baaz_role');
-  const history = getHistoryMap();
-
-  if (!cachedTests.length) {
-    container.innerHTML = `
-      <div class="premium-card rounded-2xl p-5 flex flex-col justify-between" style="border-top:4px solid var(--accent);">
-        <div>
-          <h3 class="text-base font-bold mb-1">No Active Test Scheduled</h3>
-          <p class="text-muted text-xs">Instructor has not deployed any dynamic configuration packet yet.</p>
-        </div>
-      </div>`;
-    return;
-  }
-
+  const hist = getHistoryMap();
+  if(!cachedTests.length) { container.innerHTML = "<p class='text-xs text-muted p-4 surface rounded-xl'>No exam blocks synced.</p>"; return; }
   container.innerHTML = "";
-  cachedTests.forEach(test => {
-    const qCount = (test.parsedQuestions || []).length;
-    const done = history[test.title];
-    let actionHtml;
-    if (role !== 'admin' && done) {
-      actionHtml = `<button onclick='viewLockedResult(${JSON.stringify(test.title)})' class="w-full mt-4 btn-neutral font-bold py-2.5 rounded-xl text-xs uppercase tracking-wider cursor-pointer"><i class="fas fa-lock mr-1"></i> View Locked Scorecard</button>`;
+  cachedTests.forEach(t => {
+    const done = hist[t.title];
+    let actionBtn = "";
+    if(done) {
+      actionBtn = `<button onclick='viewLockedResult(${JSON.stringify(t.title)})' class='w-full mt-3 btn-neutral font-bold py-2 rounded-xl text-xs uppercase'><i class='fas fa-lock mr-1'></i> Locked scorecard</button>`;
+    } else if(t.isPremium && currentUserData.role !== 'admin') {
+      actionBtn = `<button onclick='buyPremiumTest(${JSON.stringify(t.title)})' class='w-full mt-3 btn-accent font-black py-2 rounded-xl text-xs uppercase animate-pulse'><i class='fas fa-crown mr-1'></i> UNLOCK WITH 100 COINS</button>`;
     } else {
-      actionHtml = `<button onclick='checkAndLaunchExam(${JSON.stringify(test.title)})' class="w-full mt-4 btn-accent font-bold py-2.5 rounded-xl text-xs uppercase tracking-wider cursor-pointer">Start Secure Exam</button>`;
+      actionBtn = `<button onclick='launchExamEngine(${JSON.stringify(t.title)})' class='w-full mt-3 btn-success font-bold py-2 rounded-xl text-xs uppercase'>🚀 LAUNCH SECURE TEST</button>`;
     }
-    container.innerHTML += `
-      <div class="premium-card rounded-2xl p-5 flex flex-col justify-between" style="border-top:4px solid var(--accent);">
-        <div>
-          <div class="text-[10px] text-muted font-bold uppercase mb-1">${escapeHtml(test.exam)} • ${escapeHtml(test.subject)}</div>
-          <h3 class="text-base font-bold mb-1">${escapeHtml(test.title)}</h3>
-          <p class="text-muted text-xs">${escapeHtml(test.description)}</p>
-          <p class="text-[10px] text-accent font-bold mt-2 uppercase">${qCount} Questions</p>
-        </div>
-        ${actionHtml}
-      </div>`;
+    container.innerHTML += `<div class='premium-card rounded-2xl p-4 flex flex-col justify-between border-t-2' style='border-top-color:var(--accent)'>
+      <div><div class='text-[9px] text-muted font-black uppercase'>${escapeHtml(t.exam)} • ${escapeHtml(t.subject)}</div>
+           <h3 class='font-black text-sm text-accent mt-0.5'>${escapeHtml(t.title)}</h3>
+           <p class='text-xs text-muted mt-1'>${escapeHtml(t.description)}</p>
+           <span class='text-[10px] text-emerald-400 mt-2 font-bold block'>Rule: +${t.positiveMarks} / -${t.negativeMarks} Marks</span></div>
+      ${actionBtn}
+    </div>`;
   });
 }
 
-function escapeHtml(s) {
-  return String(s || "").replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+async function buyPremiumTest(title) {
+  if(!confirm("Kya aap 100 Virtual Coins deduct karke is Premium test ko unlock karna chahte hain?")) return;
+  try {
+    const res = await fetch(APPS_SCRIPT_URL, { method:"POST", headers:{"Content-Type":"text/plain;charset=utf-8"}, body:JSON.stringify({ action:"unlock_premium_test", email:currentUserData.email }) });
+    const d = await res.json();
+    if(d.status === "success") {
+      currentUserData.walletBalance = d.newBalance;
+      localStorage.setItem('baaz_userdata', JSON.stringify(currentUserData));
+      document.getElementById('wallet-balance-disp').innerText = d.newBalance;
+      alert("✅ Test unlocked successfully! Ab aap isko launch kar sakte hain.");
+      loadTests();
+    } else { alert(d.message); }
+  } catch(e){}
 }
 
-/* ================================================================
-   EXAM LAUNCH / LOCK CHECK
-   ================================================================ */
-function checkAndLaunchExam(testTitle) {
-  const role = localStorage.getItem('baaz_role');
-  const history = getHistoryMap();
-  if (role !== 'admin' && history[testTitle]) {
-    alert("⚠️ ACCESS DENIED: Aap ye test pehle hie de chuke hain! Operation Baaz rules ke mutabik aapki rank pehle attempt par freeze ho chuki hai.");
-    showSavedResultsScreen(history[testTitle], testTitle);
-    return;
-  }
-  const test = cachedTests.find(t => t.title === testTitle);
-  if (!test) { alert("Error: Test not found."); return; }
-  launchExamEngine(test);
-}
-
-function viewLockedResult(testTitle) {
-  const history = getHistoryMap();
-  if (history[testTitle]) showSavedResultsScreen(history[testTitle], testTitle);
-}
-
-function checkForResumableSession() {
-  if (localStorage.getItem('baaz_role') === 'admin') return;
-  const stateRaw = localStorage.getItem(examStateKey());
-  if (!stateRaw) return;
-  const state = JSON.parse(stateRaw);
-  const history = getHistoryMap();
-  if (history[state.testTitle]) { localStorage.removeItem(examStateKey()); return; }
-  const test = cachedTests.find(t => t.title === state.testTitle);
-  if (!test) return;
-  if (confirm(`You have an unfinished attempt for "${state.testTitle}". Resume exactly where you left off?`)) {
-    launchExamEngine(test, state);
-  } else {
-    localStorage.removeItem(examStateKey());
-  }
-}
-
-function examStateKey() { return `baaz_exam_state_${localStorage.getItem('baaz_user')}`; }
-
-function persistExamState() {
-  if (!testRunningMode || !activeTest) return;
-  const state = {
-    testTitle: activeTest.title,
-    responses: studentResponses,
-    flagged: flaggedQuestions,
-    visited: visitedQuestions,
-    currentIndex,
-    qTimeLeft,
-    tabViolationsCount
-  };
-  localStorage.setItem(examStateKey(), JSON.stringify(state));
-}
-
-function launchExamEngine(test, resumeState) {
-  activeTest = test;
-  currentTestQuestions = test.parsedQuestions;
-  DynamicAnswerKey = test.keys || {};
+function launchExamEngine(title) {
+  const test = cachedTests.find(x => x.title === title);
+  activeTest = test; currentTestQuestions = test.parsedQuestions;
   totalQuestionsCount = currentTestQuestions.length;
-
-  if (resumeState) {
-    studentResponses = resumeState.responses || {};
-    flaggedQuestions = resumeState.flagged || {};
-    visitedQuestions = resumeState.visited || {};
-    currentIndex = resumeState.currentIndex || 1;
-    qTimeLeft = typeof resumeState.qTimeLeft === 'number' ? resumeState.qTimeLeft : 2700;
-    tabViolationsCount = resumeState.tabViolationsCount || 0;
-  } else {
-    studentResponses = {}; flaggedQuestions = {}; visitedQuestions = {};
-    currentIndex = 1; qTimeLeft = 2700; tabViolationsCount = 0;
-  }
-
-  testRunningMode = true;
+  studentResponses = {}; flaggedQuestions = {}; visitedQuestions = {};
+  currentIndex = 1; qTimeLeft = 2700; testRunningMode = true;
+  
   document.getElementById('disp-total-count').innerText = totalQuestionsCount;
   document.getElementById('dashboard-container').classList.add('hidden');
   document.getElementById('exam-engine-container').classList.remove('hidden');
-  currentPaletteFilter = 'all';
-  buildPaletteGrid();
-  loadQuestionNode(currentIndex);
-  persistExamState();
+  buildPaletteGrid(); loadQuestionNode(currentIndex); setupVisibilityProctoring();
 }
 
-/* ================================================================
-   PALETTE
-   ================================================================ */
+function setupVisibilityProctoring() {
+  document.addEventListener('visibilitychange', handleBlurEvent);
+}
+async function handleBlurEvent() {
+  if(!testRunningMode) return;
+  if(document.visibilityState === 'hidden') {
+    tabViolationsCount++;
+    document.getElementById('blur-count-disp').innerText = `${tabViolationsCount}/3`;
+    try { await fetch(APPS_SCRIPT_URL, { method:"POST", headers:{"Content-Type":"text/plain;charset=utf-8"}, body:JSON.stringify({ action:"update_blur_strikes", email:currentUserData.email, strikes:tabViolationsCount }) }); } catch(e){}
+    if(tabViolationsCount >= 3) { alert("SECURITY BREACH OVERFLOW COUNTER: Test forcefully closed!"); calculateFinalResults(); }
+    else { alert(`⚠️ Dhyan dein! Test area se bahar jana mana hai. Warning [${tabViolationsCount}/3]`); }
+  }
+}
+
 function buildPaletteGrid() {
-  const grid = document.getElementById('palette-grid');
-  grid.innerHTML = "";
-  for (let i = 1; i <= totalQuestionsCount; i++) {
-    grid.innerHTML += `<button id="pal-node-${i}" onclick="loadQuestionNode(${i})" class="w-full h-9 text-xs rounded-xl font-bold flex items-center justify-center cursor-pointer transition">${i}</button>`;
+  const g = document.getElementById('palette-grid'); g.innerHTML = "";
+  for(let i=1; i<=totalQuestionsCount; i++) {
+    g.innerHTML += `<button id="pal-node-${i}" onclick="loadQuestionNode(${i})" class="h-8 text-[11px] font-bold rounded-lg surface transition cursor-pointer">${i}</button>`;
   }
-  for (let i = 1; i <= totalQuestionsCount; i++) syncPaletteStatusNode(i);
-  refreshPaletteFilterButtons();
+  for(let i=1; i<=totalQuestionsCount; i++) syncPaletteStatusNode(i);
+}
+function syncPaletteStatusNode(n) {
+  const el = document.getElementById(`pal-node-${n}`); if(!el) return;
+  el.className = "h-8 text-[11px] font-bold rounded-lg surface transition cursor-pointer flex items-center justify-center";
+  if(n === currentIndex) el.style.border = "1px solid var(--accent)";
+  if(flaggedQuestions[n]) el.classList.add('flagged-node');
+  else if(studentResponses[n]) el.classList.add('answered-node');
 }
 
-function toggleFlagQuestion() {
-  if (flaggedQuestions[currentIndex]) delete flaggedQuestions[currentIndex];
-  else flaggedQuestions[currentIndex] = true;
-  syncPaletteStatusNode(currentIndex);
-  persistExamState();
-}
-
-function syncPaletteStatusNode(num) {
-  const node = document.getElementById(`pal-node-${num}`);
-  if (!node) return;
-  node.className = "w-full h-9 text-xs rounded-xl font-bold flex items-center justify-center transition cursor-pointer surface";
-  if (num === currentIndex) node.classList.add('ring-2');
-  if (flaggedQuestions[num]) node.classList.add('flagged-node');
-  else if (studentResponses[num]) node.classList.add('answered-node');
-  applyPaletteFilterToNode(num);
-}
-
-function setPaletteFilter(type) {
-  currentPaletteFilter = type;
-  refreshPaletteFilterButtons();
-  for (let i = 1; i <= totalQuestionsCount; i++) applyPaletteFilterToNode(i);
-}
-
-function refreshPaletteFilterButtons() {
-  document.querySelectorAll('.palette-filter-btn').forEach(btn => {
-    btn.classList.toggle('filter-tab-active', btn.dataset.filter === currentPaletteFilter);
-  });
-}
-
-function applyPaletteFilterToNode(num) {
-  const node = document.getElementById(`pal-node-${num}`);
-  if (!node) return;
-  let visible = true;
-  if (currentPaletteFilter === 'answered') visible = !!studentResponses[num];
-  else if (currentPaletteFilter === 'unanswered') visible = !studentResponses[num];
-  else if (currentPaletteFilter === 'flagged') visible = !!flaggedQuestions[num];
-  else if (currentPaletteFilter === 'unvisited') visible = !visitedQuestions[num];
-  node.style.display = visible ? 'flex' : 'none';
-}
-
-/* ================================================================
-   QUESTION NAVIGATION
-   ================================================================ */
-function loadQuestionNode(num) {
-  const oldIndex = currentIndex;
-  currentIndex = num;
-  visitedQuestions[num] = true;
-  clearInterval(singleQTimer);
-  syncPaletteStatusNode(oldIndex);
-  syncPaletteStatusNode(currentIndex);
-
-  const qData = currentTestQuestions[num - 1];
-  document.getElementById('digital-question-text').innerText = `Question ${num}: ` + qData.text;
-  document.getElementById('lbl-opt-A').innerText = "(A) " + qData.A;
-  document.getElementById('lbl-opt-B').innerText = "(B) " + qData.B;
-  document.getElementById('lbl-opt-C').innerText = "(C) " + qData.C;
-  document.getElementById('lbl-opt-D').innerText = "(D) " + qData.D;
-
-  ['A', 'B', 'C', 'D'].forEach(opt => {
-    document.getElementById(`opt-${opt}`).className = "w-full text-left input-field p-3.5 rounded-xl font-semibold cursor-pointer transition";
-  });
-  if (studentResponses[num]) {
-    document.getElementById(`opt-${studentResponses[num]}`).className = "w-full text-left p-3.5 rounded-xl font-semibold cursor-pointer active-opt transition";
-  }
-
+function loadQuestionNode(n) {
+  const old = currentIndex; currentIndex = n; visitedQuestions[n] = true;
+  clearInterval(singleQTimer); syncPaletteStatusNode(old); syncPaletteStatusNode(currentIndex);
+  
+  const q = currentTestQuestions[n-1];
+  document.getElementById('digital-question-text').innerText = `Sawal #${n}: ${q.text}`;
+  document.getElementById('lbl-opt-A').innerText = q.A;
+  document.getElementById('lbl-opt-B').innerText = q.B;
+  document.getElementById('lbl-opt-C').innerText = q.C;
+  document.getElementById('lbl-opt-D').innerText = q.D;
+  
+  ['A','B','C','D'].forEach(lbl => document.getElementById(`opt-${lbl}`).className = "w-full text-left input-field p-3 rounded-xl font-semibold flex items-center gap-2 cursor-pointer transition");
+  if(studentResponses[n]) document.getElementById(`opt-${studentResponses[n]}`).className = "w-full text-left p-3 rounded-xl font-semibold flex items-center gap-2 cursor-pointer active-opt transition";
+  
   singleQTimer = setInterval(() => {
     qTimeLeft--;
-    const m = Math.floor(qTimeLeft / 60), s = qTimeLeft % 60;
-    document.getElementById('stopwatch').innerText = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
-    document.getElementById('stopwatch').classList.toggle('timer-critical', qTimeLeft < 300);
-    if (qTimeLeft % 5 === 0) persistExamState();
-    if (qTimeLeft <= 0) { alert("Time Up!"); calculateFinalResults(); }
+    const mm = Math.floor(qTimeLeft/60), ss = qTimeLeft%60;
+    document.getElementById('stopwatch').innerText = `${String(mm).padStart(2,'0')}:${String(ss).padStart(2,'0')}`;
+    document.getElementById('stopwatch').classList.toggle('timer-critical', qTimeLeft<300);
+    if(qTimeLeft<=0) { calculateFinalResults(); }
   }, 1000);
-
-  persistExamState();
 }
 
-function selectAnswer(label) { studentResponses[currentIndex] = label; loadQuestionNode(currentIndex); }
+function selectAnswer(ans) { studentResponses[currentIndex] = ans; loadQuestionNode(currentIndex); }
 function clearAnswer() { delete studentResponses[currentIndex]; loadQuestionNode(currentIndex); }
-function prevQuestion() { if (currentIndex > 1) loadQuestionNode(currentIndex - 1); }
-function nextQuestion() { if (currentIndex < totalQuestionsCount) loadQuestionNode(currentIndex + 1); }
-function confirmSubmitTest() { if (confirm("Are you sure you want to end exam session and submit responses?")) calculateFinalResults(); }
+function prevQuestion() { if(currentIndex>1) loadQuestionNode(currentIndex-1); }
+function nextQuestion() { if(currentIndex<totalQuestionsCount) loadQuestionNode(currentIndex+1); }
+function toggleFlagQuestion() { flaggedQuestions[currentIndex] = !flaggedQuestions[currentIndex]; syncPaletteStatusNode(currentIndex); }
 
-/* ================================================================
-   SCORING + RESULT
-   ================================================================ */
-function rankBadgeFor(percent) {
-  if (percent >= 80) return "🏅 UPSC Mastermind";
-  if (percent >= 50) return "🎖️ Competent Officer";
-  return "📘 Aspirant (Needs Review)";
-}
+function confirmSubmitTest() { if(confirm("Kya aap satya mein test finalize karke submit karna chahte hain?")) calculateFinalResults(); }
 
 async function calculateFinalResults() {
-  testRunningMode = false;
-  clearInterval(singleQTimer);
-
-  let right = 0, wrong = 0, attempted = 0;
-  const currentStudentNode = localStorage.getItem('baaz_user');
-  const responsesSnapshot = {};
-
-  for (let i = 1; i <= totalQuestionsCount; i++) {
-    const selected = studentResponses[i] || "Skipped";
-    const correct = DynamicAnswerKey[i] || "A";
-    responsesSnapshot[i] = selected;
-    if (selected !== "Skipped") {
-      attempted++;
-      if (selected === correct) right++; else wrong++;
-    }
-  }
-
-  const finalScore = (right * 3) - (wrong * 1);
-  const accuracy = attempted > 0 ? Math.round((right / attempted) * 1000) / 10 : 0;
-  const percentOfTotal = totalQuestionsCount > 0 ? (right / totalQuestionsCount) * 100 : 0;
-
-  const record = {
-    student: currentStudentNode,
-    testTitle: activeTest ? activeTest.title : "Untitled Test",
-    total: totalQuestionsCount,
-    right, wrong, score: finalScore, accuracy,
-    rankBadge: rankBadgeFor(percentOfTotal),
-    responses: responsesSnapshot,
-    keys: DynamicAnswerKey
-  };
-
-  if (localStorage.getItem('baaz_role') !== 'admin') {
-    saveHistoryRecord(record.testTitle, record);
-    localStorage.removeItem(examStateKey());
-  }
-
-  showSavedResultsScreen(record, record.testTitle);
-  await syncSubmissionToBackend(record);
-}
-
-async function syncSubmissionToBackend(record) {
-  const profile = getProfile();
-  const payload = {
-    action: "submit_score",
-    student: record.student,
-    testTitle: record.testTitle,
-    score: record.score,
-    correct: record.right,
-    wrong: record.wrong,
-    gender: profile.gender || "",
-    phone: profile.mobile || "",
-    targetYear: profile.year || "",
-    profileImage: profile.avatar || ""
-  };
-
-  if (!BACKEND_CONFIGURED) { queueFailedSync(payload); return; }
-
-  try {
-    await fetch(APPS_SCRIPT_URL, {
-      method: "POST",
-      headers: { "Content-Type": "text/plain;charset=utf-8" },
-      body: JSON.stringify(payload)
-    });
-  } catch (err) {
-    queueFailedSync(payload);
-  }
-}
-
-function queueFailedSync(payload) {
-  const queue = JSON.parse(localStorage.getItem('baaz_failed_sync') || "[]");
-  queue.push(JSON.stringify(payload));
-  localStorage.setItem('baaz_failed_sync', JSON.stringify(queue));
-  refreshSyncIndicator();
-}
-
-function refreshSyncIndicator() {
-  const queue = JSON.parse(localStorage.getItem('baaz_failed_sync') || "[]");
-  const btn = document.getElementById('sync-failed-btn');
-  const status = document.getElementById('support-sync-status');
-  if (btn) btn.classList.toggle('hidden', queue.length === 0);
-  if (status) status.innerText = queue.length === 0 ? "All records synced." : `${queue.length} record(s) pending sync to the Google Sheet.`;
-}
-
-async function retryFailedSync() {
-  if (!BACKEND_CONFIGURED) { alert("Backend URL is not configured yet — nothing to sync to."); return; }
-  let queue = JSON.parse(localStorage.getItem('baaz_failed_sync') || "[]");
-  if (!queue.length) { alert("No pending records."); return; }
-
-  const stillFailed = [];
-  for (const payloadStr of queue) {
-    try {
-      await fetch(APPS_SCRIPT_URL, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: payloadStr });
-    } catch (err) {
-      stillFailed.push(payloadStr);
-    }
-  }
-  localStorage.setItem('baaz_failed_sync', JSON.stringify(stillFailed));
-  refreshSyncIndicator();
-  alert(stillFailed.length === 0 ? "✅ All pending records synced successfully." : `${stillFailed.length} record(s) still failed — will retry later.`);
-}
-
-function showSavedResultsScreen(record, testTitle) {
-  document.getElementById('dashboard-container').classList.add('hidden');
+  testRunningMode = false; clearInterval(singleQTimer);
+  document.removeEventListener('visibilitychange', handleBlurEvent);
+  
+  const resp = {};
+  for(let i=1; i<=totalQuestionsCount; i++) resp[i] = studentResponses[i] || "Skipped";
+  
   document.getElementById('exam-engine-container').classList.add('hidden');
   document.getElementById('result-screen').classList.remove('hidden');
+  document.getElementById('review-matrix-container').innerHTML = "<div class='spinner my-4'></div>";
 
-  if (localStorage.getItem('baaz_role') !== 'admin') {
-    document.getElementById('attempt-lock-msg').classList.remove('hidden');
-  } else {
-    document.getElementById('attempt-lock-msg').classList.add('hidden');
-  }
-
-  document.getElementById('res-total').innerText = record.total;
-  document.getElementById('res-right').innerText = record.right;
-  document.getElementById('res-wrong').innerText = record.wrong;
-  document.getElementById('res-accuracy').innerText = (record.accuracy || 0) + "%";
-  document.getElementById('res-score').innerText = record.score;
-  document.getElementById('rank-badge-text').innerText = record.rankBadge || rankBadgeFor(record.total ? (record.right / record.total) * 100 : 0);
-
-  const keys = record.keys || DynamicAnswerKey;
-  const container = document.getElementById('analysis-rows-container');
-  container.innerHTML = "";
-  for (let i = 1; i <= record.total; i++) {
-    const selected = record.responses[i] || "Skipped";
-    const correct = keys[i] || "A";
-    const isCorrect = selected === correct;
-    container.innerHTML += `
-      <tr style="border-bottom:1px solid var(--border);" class="text-center">
-        <td class="p-2.5 font-bold text-muted">${i}</td>
-        <td class="p-2.5 font-black" style="color:${selected === 'Skipped' ? 'var(--text-dim)' : (isCorrect ? 'var(--success2)' : 'var(--danger2)')}">${selected}</td>
-        <td class="p-2.5 font-black text-accent">${correct}</td>
-        <td class="p-2.5">${selected === 'Skipped' ? '➖' : (isCorrect ? '✅' : '❌')}</td>
-      </tr>`;
-  }
+  const payload = { action:"submit_score", student:currentUserData.name, email:currentUserData.email, testTitle:activeTest.title, responses:resp, profileImage:currentUserData.profileImage, blurViolations:tabViolationsCount };
+  try {
+    const res = await fetch(APPS_SCRIPT_URL, { method:"POST", headers:{"Content-Type":"text/plain;charset=utf-8"}, body:JSON.stringify(payload) });
+    const d = await res.json();
+    if(d.status === "success") {
+      const h = getHistoryMap(); h[activeTest.title] = d;
+      localStorage.setItem(`baaz_hist_${currentUserData.email}`, JSON.stringify(h));
+      displayResultScreen(d);
+    }
+  } catch(e){ document.getElementById('review-matrix-container').innerText = "Scorecard processing server communications framework dropped."; }
 }
 
-function returnToPortal() {
-  document.getElementById('result-screen').classList.add('hidden');
-  document.getElementById('dashboard-container').classList.remove('hidden');
-  renderTestsList();
+function viewLockedResult(title) {
+  const h = getHistoryMap(); if(h[title]) displayResultScreen(h[title]);
 }
+
+function displayResultScreen(d) {
+  document.getElementById('dashboard-container').classList.add('hidden');
+  document.getElementById('result-screen').classList.remove('hidden');
+  document.getElementById('res-total').innerText = d.total;
+  document.getElementById('res-right').innerText = d.right;
+  document.getElementById('res-wrong').innerText = d.wrong;
+  document.getElementById('res-accuracy').innerText = d.accuracy + "%";
+  document.getElementById('res-score').innerText = d.score;
+  document.getElementById('rank-badge-text').innerText = d.rankBadge;
+  
+  const cont = document.getElementById('review-matrix-container'); cont.innerHTML = "";
+  const errCache = JSON.parse(localStorage.getItem('baaz_errors_'+currentUserData.email) || '[]');
+  
+  d.reviewData.forEach(item => {
+    let cardClass = item.selected === "Skipped" ? "" : item.isCorrect ? "review-correct" : "review-wrong";
+    let statusText = item.selected === "Skipped" ? "➖ SKIPPED" : item.isCorrect ? "✅ CORRECT" : "❌ INCORRECT";
+    
+    // Auto-save mistakes locally for Weakness Ledger loop
+    if(!item.isCorrect && item.selected !== "Skipped") {
+      if(!errCache.find(e => e.text === item.text)) {
+        errCache.push({ testTitle: activeTest?.title || "Exam Paper", text: item.text, A: item.A, B: item.B });
+      }
+    }
+
+    let optsHtml = ['A','B','C','D'].map(lbl => {
+      let style = "";
+      if(lbl === item.correct) style = "background:rgba(16,185,129,0.15); border:1px solid var(--success2); border-radius:6px;";
+      if(lbl === item.selected && !item.isCorrect) style = "background:rgba(244,63,94,0.15); border:1px solid var(--danger2); border-radius:6px;";
+      return `<div class='p-2 text-xs flex justify-between' style='${style}'><span><b>${lbl}</b> ${escapeHtml(item[lbl])}</span></div>`;
+    }).join('');
+
+    cont.innerHTML += `<div class='surface rounded-xl p-3 space-y-2 ${cardClass}'>
+      <div class='flex justify-between font-black text-[10px] text-muted'><span>NODE Q#${item.id}</span><span class='tracking-wider'>${statusText}</span></div>
+      <p class='font-bold text-xs'>${escapeHtml(item.text)}</p>
+      <div class='grid grid-cols-1 md:grid-cols-2 gap-1.5'>${optsHtml}</div>
+      ${!item.isCorrect && item.selected !== "Skipped" ? `<div class='pt-1 border-t border-slate-800/60'><button onclick="switchTab('vault'); openNoteView('Tactical Redirection Frame', 'https://docs.google.com/viewer?authuser=0&srcid=1_zC6fP-82nSF1U_Pz0aP&pid=explorer&efh=false&a=v&chrome=false&embedded=true')" class='text-[10px] font-black text-amber-500 underline uppercase'><i class='fas fa-link'></i> Review Concept Notes in Vault</button></div>` : ''}
+    </div>`;
+  });
+  localStorage.setItem('baaz_errors_'+currentUserData.email, JSON.stringify(errCache));
+}
+
+function returnToPortal() { document.getElementById('result-screen').classList.add('hidden'); document.getElementById('dashboard-container').classList.remove('hidden'); loadTests(); }
+function escapeHtml(s) { return String(s||"").replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
+function copyReferral() { navigator.clipboard.writeText(currentUserData.referralCode); alert("Referral code copied code to dashboard clipboard!"); }
+function setPaletteFilter(f) { currentPaletteFilter = f; buildPaletteGrid(); }
 </script>
 </body>
 </html>
