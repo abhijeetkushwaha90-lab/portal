@@ -143,6 +143,18 @@ body.notes-open{-webkit-user-select:none;user-select:none;}
 /* Tab system for admin */
 .admin-tab{padding:8px 16px;border-radius:10px;font-weight:700;font-size:11px;cursor:pointer;color:var(--text-dim);border:0.5px solid transparent;}
 .admin-tab.active{background:var(--accent);color:var(--accent-text);}
+
+/* ============================================================
+   RELIABILITY FIX: hard fallback for the "hidden" utility class.
+   The Tailwind CDN (loaded above) compiles utility classes like
+   `hidden` at runtime. If that script is slow/blocked (ad-blockers,
+   browser extensions, flaky network) the .hidden class silently
+   does nothing, which leaves modals/screens visible on top of
+   everything and the whole app *looks* permanently stuck on one
+   screen. This rule guarantees .hidden always works even if the
+   Tailwind CDN never finishes loading.
+   ============================================================ */
+.hidden{display:none!important;}
 </style>
 </head>
 <body class="min-h-screen flex flex-col p-3 md:p-4">
@@ -729,7 +741,7 @@ body.notes-open{-webkit-user-select:none;user-select:none;}
 </div>
 
 <!-- ====================== NOTE READER MODAL ====================== -->
-<div id="note-reader-modal" class="modal-bg hidden">
+<div id="note-reader-modal" class="modal-bg hidden" onclick="if(event.target===this) closeNoteModal()">
   <div class="modal-box notes-reader" style="max-width:680px">
     <div class="flex justify-between items-center mb-4 no-print">
       <h3 id="note-modal-title" class="font-black text-sm text-accent">Note</h3>
@@ -741,7 +753,7 @@ body.notes-open{-webkit-user-select:none;user-select:none;}
 </div>
 
 <!-- ====================== MISTAKES LEDGER MODAL ====================== -->
-<div id="mistakes-modal" class="modal-bg hidden">
+<div id="mistakes-modal" class="modal-bg hidden" onclick="if(event.target===this) closeMistakesModal()">
   <div class="modal-box">
     <div class="flex justify-between items-center mb-4">
       <h3 class="font-black text-sm text-red-400"><i class="fas fa-triangle-exclamation mr-1"></i>My Mistakes Ledger</h3>
@@ -752,7 +764,7 @@ body.notes-open{-webkit-user-select:none;user-select:none;}
 </div>
 
 <!-- ====================== PAYMENT MODAL ====================== -->
-<div id="payment-modal" class="modal-bg hidden">
+<div id="payment-modal" class="modal-bg hidden" onclick="if(event.target===this) closePaymentModal()">
   <div class="modal-box" style="max-width:420px">
     <div class="flex justify-between items-center mb-4">
       <h3 class="font-black text-sm text-emerald-400"><i class="fas fa-credit-card mr-1"></i>Pay & Enroll</h3>
@@ -826,6 +838,7 @@ window.addEventListener('DOMContentLoaded', () => {
   applyTheme(localStorage.getItem('baaz_theme') || 'military', false);
   syncAnnouncements();
   setupAntiCheat();
+  setupModalEscapeKey();
   
   const savedEmail = localStorage.getItem('baaz_email');
   if(savedEmail) {
@@ -833,6 +846,17 @@ window.addEventListener('DOMContentLoaded', () => {
     if(currentUserData) { loginSuccess(currentUserData); return; }
   }
 });
+
+/* RELIABILITY FIX: Escape key closes any open modal so the user
+   is never stuck behind a full-screen overlay. */
+function setupModalEscapeKey() {
+  document.addEventListener('keydown', e => {
+    if (e.key !== 'Escape') return;
+    if (!document.getElementById('payment-modal').classList.contains('hidden')) closePaymentModal();
+    if (!document.getElementById('note-reader-modal').classList.contains('hidden')) closeNoteModal();
+    if (!document.getElementById('mistakes-modal').classList.contains('hidden')) closeMistakesModal();
+  });
+}
 
 function setupAntiCheat() {
   // Disable right click
@@ -1230,7 +1254,7 @@ const COURSES_DATA = [
 function renderCourses(cat='ALL') {
   const grid=document.getElementById('courses-grid'); if(!grid) return;
   const filtered=cat==='ALL'?COURSES_DATA:COURSES_DATA.filter(c=>c.cat===cat);
-  grid.innerHTML=filtered.map(c=>`
+  grid.innerHTML=filtered.map((c,i)=>`
     <div class="course-card relative">
       <span class="locked-badge"><i class="fas fa-lock mr-1"></i>LOCKED</span>
       <div class="text-2xl mb-2">${c.icon}</div>
@@ -1239,10 +1263,17 @@ function renderCourses(cat='ALL') {
       <p class="text-xs text-muted mb-3">${escapeHtml(c.desc)}</p>
       <div class="flex items-center justify-between mt-auto">
         <span class="font-black text-amber-400 text-base">₹${c.price}</span>
-        <button onclick="openPaymentModal('${escapeHtml(c.title)}',${c.price})" class="btn-success px-4 py-2 rounded-xl text-xs font-bold cursor-pointer"><i class="fas fa-shopping-cart mr-1"></i>Join Now</button>
+        <button onclick="openPaymentModalByCat('${cat}',${i})" data-cat="${cat}" data-idx="${i}" class="btn-success px-4 py-2 rounded-xl text-xs font-bold cursor-pointer"><i class="fas fa-shopping-cart mr-1"></i>Join Now</button>
       </div>
     </div>
   `).join('');
+}
+
+function openPaymentModalByCat(cat, idx) {
+  const filtered = cat==='ALL' ? COURSES_DATA : COURSES_DATA.filter(c=>c.cat===cat);
+  const c = filtered[idx];
+  if(!c) return;
+  openPaymentModal(c.title, c.price);
 }
 
 function filterCourses(cat) {
@@ -1446,12 +1477,12 @@ function renderTestsList() {
   const container=document.getElementById('tests-list'); if(!container) return;
   const hist=getHistoryMap();
   if(!cachedTests.length){container.innerHTML='<p class="text-xs text-muted p-4 surface rounded-xl">No tests available yet. Admin se request karein.</p>';return;}
-  container.innerHTML=cachedTests.map(t=>{
+  container.innerHTML=cachedTests.map((t,i)=>{
     const done=hist[t.title];
     let btn='';
-    if(done) btn=`<button onclick="viewLockedResult('${escapeHtml(t.title)}')" class="w-full mt-3 btn-neutral font-bold py-2 rounded-xl text-xs uppercase cursor-pointer"><i class="fas fa-lock mr-1"></i>View Result</button>`;
-    else if(t.isPremium && currentUserData?.role!=='admin') btn=`<button onclick="buyPremiumTest('${escapeHtml(t.title)}')" class="w-full mt-3 btn-accent font-black py-2 rounded-xl text-xs uppercase cursor-pointer animate-pulse"><i class="fas fa-crown mr-1"></i>UNLOCK (100 Coins)</button>`;
-    else btn=`<button onclick="launchExamEngine('${escapeHtml(t.title)}')" class="w-full mt-3 btn-success font-bold py-2 rounded-xl text-xs uppercase cursor-pointer">🚀 Start Test</button>`;
+    if(done) btn=`<button onclick="viewLockedResultByIdx(${i})" class="w-full mt-3 btn-neutral font-bold py-2 rounded-xl text-xs uppercase cursor-pointer"><i class="fas fa-lock mr-1"></i>View Result</button>`;
+    else if(t.isPremium && currentUserData?.role!=='admin') btn=`<button onclick="buyPremiumTestByIdx(${i})" class="w-full mt-3 btn-accent font-black py-2 rounded-xl text-xs uppercase cursor-pointer animate-pulse"><i class="fas fa-crown mr-1"></i>UNLOCK (100 Coins)</button>`;
+    else btn=`<button onclick="launchExamEngineByIdx(${i})" class="w-full mt-3 btn-success font-bold py-2 rounded-xl text-xs uppercase cursor-pointer">🚀 Start Test</button>`;
     return `<div class="premium-card rounded-2xl p-4 border-t-2" style="border-top-color:var(--accent)">
       <div class="text-[9px] text-muted font-black uppercase">${escapeHtml(t.exam)} • ${escapeHtml(t.subject)}</div>
       <h3 class="font-black text-sm text-accent mt-0.5">${escapeHtml(t.title)}</h3>
@@ -1461,6 +1492,10 @@ function renderTestsList() {
     </div>`;
   }).join('');
 }
+
+function viewLockedResultByIdx(i) { const t=cachedTests[i]; if(t) viewLockedResult(t.title); }
+function buyPremiumTestByIdx(i) { const t=cachedTests[i]; if(t) buyPremiumTest(t.title); }
+function launchExamEngineByIdx(i) { const t=cachedTests[i]; if(t) launchExamEngine(t.title); }
 
 function loadAdminTestsList() {
   const container=document.getElementById('admin-tests-list'); if(!container) return;
@@ -1663,15 +1698,21 @@ function showResultsHistory() {
   const container=document.getElementById('results-history-list'); if(!container) return;
   const tests=Object.keys(hist);
   if(!tests.length){container.innerHTML='<div class="premium-card rounded-xl p-4 text-xs text-muted text-center">Koi test attempt nahi kiya abhi tak.</div>';return;}
-  container.innerHTML=tests.map(t=>`
+  container.innerHTML=tests.map((t,i)=>`
     <div class="premium-card rounded-xl p-4 flex justify-between items-center">
       <div>
         <div class="font-black text-sm text-accent">${escapeHtml(t)}</div>
         <div class="text-xs text-muted mt-1">Score: <span class="text-emerald-400 font-bold">${hist[t].score||0}</span> • Accuracy: ${hist[t].accuracy||0}% • Badge: ${hist[t].rankBadge||'—'}</div>
       </div>
-      <button onclick="viewLockedResult('${escapeHtml(t)}')" class="btn-neutral px-3 py-2 rounded-xl text-xs font-bold cursor-pointer"><i class="fas fa-eye mr-1"></i>View</button>
+      <button onclick="viewLockedResultFromHistory(${i})" class="btn-neutral px-3 py-2 rounded-xl text-xs font-bold cursor-pointer"><i class="fas fa-eye mr-1"></i>View</button>
     </div>
   `).join('');
+  window.__baazResultTitles = tests;
+}
+
+function viewLockedResultFromHistory(i) {
+  const titles = window.__baazResultTitles || [];
+  if(titles[i]) viewLockedResult(titles[i]);
 }
 
 function returnToPortal() {
@@ -1712,17 +1753,24 @@ async function loadStudentList() {
     const res=await fetch(APPS_SCRIPT_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:"get_students"})});
     const data=await res.json();
     if(!data.length){container.innerHTML='<p class="text-xs text-muted">No students registered.</p>';return;}
-    container.innerHTML=data.map(u=>`
+    container.innerHTML=data.map((u,i)=>`
       <div class="surface p-2 rounded-xl flex flex-wrap gap-2 items-center justify-between">
         <div>
           <span class="font-bold text-xs">${escapeHtml(u.name)}</span>
           <span class="text-muted text-[10px] ml-1">(${escapeHtml(u.email)})</span>
           <span class="text-[10px] text-muted ml-2">Tests: ${u.totalTests||0} • Score: ${u.totalScore||0}</span>
         </div>
-        <button onclick="toggleUserBan('${escapeHtml(u.email)}',${!u.blocked})" class="px-2.5 py-1 text-[10px] font-bold rounded-lg cursor-pointer ${u.blocked?'btn-success':'btn-danger-outline'}">${u.blocked?'Unban':'Ban'}</button>
+        <button onclick="toggleUserBanByIdx(${i},${!u.blocked})" class="px-2.5 py-1 text-[10px] font-bold rounded-lg cursor-pointer ${u.blocked?'btn-success':'btn-danger-outline'}">${u.blocked?'Unban':'Ban'}</button>
       </div>
     `).join('');
+    window.__baazStudentList = data;
   } catch(e){container.innerHTML='<p class="text-xs text-muted">Load failed.</p>';}
+}
+
+function toggleUserBanByIdx(i, ban) {
+  const list = window.__baazStudentList || [];
+  const u = list[i];
+  if(u) toggleUserBan(u.email, ban);
 }
 
 async function toggleUserBan(email, ban) {
