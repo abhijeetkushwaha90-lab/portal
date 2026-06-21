@@ -3,45 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Operation Baaz - Ultimate Premium Portal</title>
+    <title>Operation Baaz - Enterprise Ultimate Master Core</title>
+    
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
         body { 
-            background: #080c10; color: #c9d1d9; font-family: system-ui, sans-serif; 
-            -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; 
+            background: #080c10; 
+            color: #c9d1d9; 
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
-        .premium-card { background: #121620; border: 1px solid #212635; box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); }
-        .active-opt { background-color: #238636 !important; border-color: #2ea043 !important; color: white !important; }
-        .nav-tab-active { background: #1f293d; border-color: #38bdf8; color: #38bdf8; }
-        .flagged-node { background-color: #7c3aed !important; border-color: #8b5cf6 !important; color: white !important; }
-        .answered-node { background-color: #047857 !important; border-color: #059669 !important; color: white !important; }
+        
+        .premium-card { 
+            background: #121620; 
+            border: 1px solid #212635; 
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.45); 
+        }
+        
+        .active-opt { 
+            background-color: #238636 !important; 
+            border-color: #2ea043 !important; 
+            color: #ffffff !important; 
+        }
+        
+        .nav-tab-active { 
+            background: #1f293d; 
+            border-color: #38bdf8; 
+            color: #38bdf8; 
+        }
+        
+        .flagged-node { 
+            background-color: #7c3aed !important; 
+            border-color: #8b5cf6 !important; 
+            color: #ffffff !important; 
+        }
+        
+        .answered-node { 
+            background-color: #047857 !important; 
+            border-color: #059669 !important; 
+            color: #ffffff !important; 
+        }
+
+        .student-lock {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
     </style>
 </head>
-<body class="min-h-screen flex flex-col p-3 md:p-6 justify-between text-sm" oncontextmenu="return false;">
+<body class="min-h-screen flex flex-col p-3 md:p-6 justify-between text-sm">
 
     <header class="w-full text-center my-2">
         <h1 class="text-4xl md:text-5xl font-black tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600">
             OPERATION BAAZ
         </h1>
-        <p class="text-[11px] text-gray-500 uppercase tracking-widest mt-1 font-semibold">Autonomous Secure Assessment Core v6.0</p>
+        <p class="text-[11px] text-gray-500 uppercase tracking-widest mt-1 font-semibold">Autonomous Secure Assessment Core v7.0</p>
     </header>
 
     <div id="auth-container" class="w-full max-w-md mx-auto my-auto pt-4">
         <div class="premium-card rounded-2xl p-6 shadow-xl">
             <h2 class="text-xl font-bold text-white mb-4"><i class="fas fa-shield-alt text-blue-500"></i> Portal Control Login</h2>
             <form id="login-form" class="space-y-4">
-                <div><label class="block text-xs font-bold text-gray-400 uppercase mb-1">Email Address</label><input type="email" id="login-email" required class="w-full bg-[#080c10] border border-[#212635] rounded-xl px-4 py-3 text-white focus:outline-none"></div>
-                <div><label class="block text-xs font-bold text-gray-400 uppercase mb-1">Password</label><input type="password" id="login-password" required class="w-full bg-[#080c10] border border-[#212635] rounded-xl px-4 py-3 text-white focus:outline-none"></div>
-                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl cursor-pointer transition">Login to Gateway</button>
+                <div>
+                    <label class="block text-xs font-bold text-gray-400 uppercase mb-1">Email Address</label>
+                    <input type="email" id="login-email" required class="w-full bg-[#080c10] border border-[#212635] rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-400 uppercase mb-1">Password</label>
+                    <input type="password" id="login-password" required class="w-full bg-[#080c10] border border-[#212635] rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition">
+                </div>
+                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl cursor-pointer transition shadow-lg">Login to Gateway</button>
             </form>
         </div>
     </div>
 
     <div id="dashboard-container" class="hidden w-full max-w-4xl mx-auto space-y-6">
         <header class="premium-card rounded-2xl p-5 flex justify-between items-center">
-            <div><h1 class="text-lg font-black text-white">Console: <span id="student-name" class="text-blue-400">User Node</span> <span id="role-badge" class="ml-2 text-[10px] font-bold px-2 py-0.5 rounded uppercase">Student</span></h1></div>
-            <button onclick="logout()" class="bg-rose-600/20 text-rose-400 border border-rose-900/40 px-4 py-2 rounded-xl text-xs font-bold cursor-pointer">Logout</button>
+            <div>
+                <h1 class="text-lg font-black text-white">Console: 
+                    <span id="student-name" class="text-blue-400">User Node</span> 
+                    <span id="role-badge" class="ml-2 text-[10px] font-bold px-2 py-0.5 rounded uppercase">Student</span>
+                </h1>
+            </div>
+            <button onclick="logout()" class="bg-rose-600/20 text-rose-400 border border-rose-900/40 px-4 py-2 rounded-xl text-xs font-bold cursor-pointer hover:bg-rose-600/40 transition">Logout</button>
         </header>
 
         <div class="grid grid-cols-3 gap-2 p-1 bg-[#121620] border border-[#212635] rounded-xl text-xs font-bold text-center">
@@ -51,13 +98,14 @@
         </div>
 
         <div id="tab-content-tests" class="space-y-4">
+            
             <div id="admin-parser-box" class="hidden premium-card rounded-xl p-5 border border-cyan-500/20 bg-cyan-950/5 space-y-3">
                 <div class="flex justify-between items-center">
-                    <div class="font-bold text-cyan-400 text-sm"><i class="fas fa-user-shield"></i> Admin Control Center: Anti-Leak Smart Parser</div>
-                    <span class="text-[10px] bg-emerald-500/10 text-emerald-400 font-bold px-2 py-0.5 rounded uppercase">Secure Stream</span>
+                    <div class="font-bold text-cyan-400 text-sm"><i class="fas fa-user-shield"></i> Admin Control Center (Full Unlocked Permissions)</div>
+                    <span class="text-[10px] bg-emerald-500/10 text-emerald-400 font-bold px-2 py-0.5 rounded uppercase">Master Stream</span>
                 </div>
                 <p class="text-xs text-gray-400">Paste whole test content along with answer keys block. System auto-extracts questions & obfuscates keys:</p>
-                <textarea id="local-ai-text" rows="5" placeholder="Paste question paper along with Answer Key here..." class="w-full bg-[#080c10] border border-[#212635] rounded-xl p-3 text-white text-xs font-mono outline-none focus:border-cyan-500 transition"></textarea>
+                <textarea id="local-ai-text" rows="6" placeholder="Paste question paper along with Answer Key here... (Full Copy/Paste/Right-Click Unlocked for Admin)" class="w-full bg-[#080c10] border border-[#212635] rounded-xl p-3 text-white text-xs font-mono outline-none focus:border-cyan-500 transition"></textarea>
                 <button onclick="setTestByAdmin()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 rounded-xl text-xs uppercase tracking-wider transition cursor-pointer">Lock & Publish Dynamic Configuration</button>
             </div>
 
@@ -68,7 +116,7 @@
                         <h3 id="display-test-title" class="text-base font-bold text-white mb-1">No Active Test Scheduled</h3>
                         <p id="display-test-desc" class="text-gray-400 text-xs">Instructor has not deployed any dynamic configuration packet yet.</p>
                     </div>
-                    <button id="start-test-btn" disabled onclick="launchExamEngine()" class="w-full mt-4 bg-gray-700 text-gray-500 font-bold py-2.5 rounded-xl text-xs uppercase tracking-wider cursor-not-allowed">Start Secure Exam</button>
+                    <button id="start-test-btn" disabled onclick="checkAndLaunchExam()" class="w-full mt-4 bg-gray-700 text-gray-500 font-bold py-2.5 rounded-xl text-xs uppercase tracking-wider cursor-not-allowed">Start Secure Exam</button>
                 </div>
             </div>
         </div>
@@ -78,12 +126,13 @@
                 <div class="w-16 h-16 rounded-xl bg-gradient-to-tr from-cyan-400 to-purple-600 flex items-center justify-center text-white text-2xl font-black">AK</div>
                 <div><h3 class="text-xl font-black text-white">Abhijeet Kushwaha</h3><p class="text-xs text-cyan-400 font-bold uppercase">Platform Owner & Lead Architect</p></div>
             </div>
-            <p class="text-xs text-gray-400 leading-relaxed">Operation Baaz Core Assessment Architecture framework completely optimized by Abhijeet Kushwaha.</p>
+            <p class="text-xs text-gray-400">Operation Baaz Core Architecture framework completely optimized by Abhijeet Kushwaha.</p>
         </div>
+        
         <div id="tab-content-support" class="hidden grid grid-cols-1 md:grid-cols-2 gap-4">
             <div class="premium-card rounded-2xl p-5 flex flex-col justify-between space-y-3">
                 <div><h3 class="text-sm font-bold text-white"><i class="fab fa-whatsapp text-emerald-400"></i> Direct Help Desk</h3></div>
-                <a href="https://api.whatsapp.com/send?phone=917068252052&text=Hello" target="_blank" class="w-full text-center bg-emerald-600 text-white font-bold py-2 rounded-xl text-xs block">Connect on WhatsApp</a>
+                <a href="https://api.whatsapp.com/send?phone=917068252052&text=Hello" target="_blank" class="w-full text-center bg-emerald-600 text-white font-bold py-2.5 rounded-xl text-xs block hover:bg-emerald-700 transition">Connect on WhatsApp</a>
             </div>
         </div>
     </div>
@@ -98,7 +147,7 @@
                 </div>
             </div>
             <div class="premium-card rounded-2xl p-6 flex-1 flex flex-col justify-between border-l-4 border-l-blue-500 shadow-2xl relative">
-                <div><div id="digital-question-text" class="text-base font-bold text-white mb-4 bg-[#080c10] p-4 rounded-xl border border-[#212635] whitespace-pre-line max-h-52 overflow-y-auto">Loading...</div></div>
+                <div><div id="digital-question-text" class="text-base font-bold text-white mb-4 bg-[#080c10] p-4 rounded-xl border border-[#212635] whitespace-pre-line max-h-52 overflow-y-auto">Loading Assessment...</div></div>
                 <div class="grid grid-cols-1 gap-2.5">
                     <button onclick="selectAnswer('A')" id="opt-A" class="w-full text-left bg-[#080c10] border border-[#212635] p-3.5 rounded-xl font-semibold text-white flex items-center gap-3 transition cursor-pointer"><span id="lbl-opt-A">- - -</span></button>
                     <button onclick="selectAnswer('B')" id="opt-B" class="w-full text-left bg-[#080c10] border border-[#212635] p-3.5 rounded-xl font-semibold text-white flex items-center gap-3 transition cursor-pointer"><span id="lbl-opt-B">- - -</span></button>
@@ -113,12 +162,12 @@
                 <div id="palette-grid" class="grid grid-cols-5 gap-2 overflow-y-auto max-h-60 pr-1"></div>
             </div>
             <div class="space-y-2 text-xs font-bold mt-4">
-                <button onclick="toggleFlagQuestion()" class="w-full bg-purple-600/20 text-purple-400 border border-purple-900/40 py-2.5 rounded-xl uppercase tracking-wide cursor-pointer"><i class="fas fa-flag mr-1"></i> Mark for Review / Flag</button>
+                <button onclick="toggleFlagQuestion()" class="w-full bg-purple-600/20 text-purple-400 border border-purple-900/40 py-2.5 rounded-xl uppercase tracking-wide cursor-pointer hover:bg-purple-600/30 transition"><i class="fas fa-flag mr-1"></i> Mark for Review / Flag</button>
                 <div class="grid grid-cols-2 gap-2">
-                    <button onclick="prevQuestion()" class="bg-[#212635] hover:bg-[#2d3347] py-3 rounded-xl text-white transition cursor-pointer">Previous</button>
-                    <button onclick="nextQuestion()" class="bg-[#212635] hover:bg-[#2d3347] py-3 rounded-xl text-white transition cursor-pointer">Next</button>
+                    <button onclick="prevQuestion()" class="bg-[#212635] hover:bg-[#2d3347] py-3 rounded-xl text-white transition cursor-pointer text-center">Previous</button>
+                    <button onclick="nextQuestion()" class="bg-[#212635] hover:bg-[#2d3347] py-3 rounded-xl text-white transition cursor-pointer text-center">Next</button>
                 </div>
-                <button onclick="confirmSubmitTest()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-3 rounded-xl uppercase tracking-widest transition cursor-pointer shadow-lg shadow-emerald-950/50">Finalize Submission</button>
+                <button onclick="confirmSubmitTest()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-3 rounded-xl uppercase tracking-widest transition cursor-pointer shadow-lg">Finalize Submission</button>
             </div>
         </div>
     </div>
@@ -127,6 +176,7 @@
         <div>
             <h2 class="text-2xl font-black text-emerald-400 uppercase tracking-widest">Performance Metrics Scorecard</h2>
             <p class="text-xs text-gray-500 font-bold uppercase tracking-wider">UPSC Pattern Automated Analysis (Correct +3 | Wrong -1)</p>
+            <div id="attempt-lock-msg" class="text-[10px] text-amber-400 font-bold uppercase mt-1 hidden"><i class="fas fa-lock"></i> First Attempt Rank Locked Permanently</div>
         </div>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
             <div class="bg-blue-500/5 border border-blue-900/30 p-3 rounded-xl"><p class="text-gray-500 text-[10px] font-bold uppercase">Total Qs</p><p id="res-total" class="text-xl font-black text-blue-400">0</p></div>
@@ -139,7 +189,7 @@
             <div class="max-h-48 overflow-y-auto border border-[#212635] rounded-xl bg-[#080c10]">
                 <table class="w-full text-xs text-left">
                     <thead class="bg-[#121620] text-gray-400 border-b border-[#212635] text-[10px] uppercase font-bold">
-                        <tr><th class="p-2.5">Q.No</th><th class="p-2.5">Your Response</th><th class="p-2.5">Correct Key</th><th class="p-2.5">Status</th></tr>
+                        <tr><th class="p-2.5 text-center">Q.No</th><th class="p-2.5 text-center">Your Response</th><th class="p-2.5 text-center">Correct Key</th><th class="p-2.5 text-center">Status</th></tr>
                     </thead>
                     <tbody id="analysis-rows-container"></tbody>
                 </table>
@@ -149,7 +199,7 @@
     </div>
 
     <footer class="w-full text-center text-[10px] text-gray-600 uppercase tracking-widest pt-4 border-t border-[#121620]/60">
-        Operation Baaz Infrastructure Platform Engine v6.0 • Architected by Abhijeet Kushwaha
+        Operation Baaz Infrastructure Platform Engine v7.0 • Architected by Abhijeet Kushwaha
     </footer>
 
     <script>
@@ -168,6 +218,7 @@
             setupAntiCheatingTriggers();
         });
 
+        // 🔒 SECURITY GATE ENGINE BLOCK
         function setupAntiCheatingTriggers() {
             document.addEventListener('visibilitychange', () => {
                 if (document.visibilityState === 'hidden' && testRunningMode) {
@@ -176,14 +227,20 @@
                         alert("⚠️ CRITICAL SECURITY BREACH: Multiple tab switching behaviors mapped. Your test is being forcefully submitted!");
                         calculateFinalResults();
                     } else {
-                        alert(`⚠️ ANTI-CHEATING WARNING [${tabViolationsCount}/3]: Do not switch browser tabs or minimize screens during a secure live examination!`);
+                        alert(`⚠️ ANTI-CHEATING WARNING [${tabViolationsCount}/3]: Do not switch browser tabs during a live examination!`);
                     }
                 }
             });
+
             document.addEventListener('keydown', (e) => {
+                if (localStorage.getItem('baaz_role') === 'admin') return; // Admin Exempted
                 if((e.ctrlKey && ['c','v','a','i','u'].includes(e.key.toLowerCase())) || e.key === 'F12') {
-                    e.preventDefault(); alert("Security Policy: Portal data operations locked.");
+                    e.preventDefault(); alert("Security Policy: Locked for secure student layout.");
                 }
+            });
+            
+            document.addEventListener('contextmenu', (e) => {
+                if (localStorage.getItem('baaz_role') !== 'admin') e.preventDefault();
             });
         }
 
@@ -210,10 +267,12 @@
                 document.getElementById('admin-parser-box').classList.remove('hidden');
                 document.getElementById('role-badge').innerText = "ADMIN / INSTRUCTOR";
                 document.getElementById('role-badge').className = "ml-2 text-[10px] bg-emerald-500/10 text-emerald-400 font-bold px-2 py-0.5 rounded uppercase border border-emerald-900/30";
+                document.body.classList.remove('student-lock');
             } else {
                 document.getElementById('admin-parser-box').classList.add('hidden');
                 document.getElementById('role-badge').innerText = "STUDENT NODE";
                 document.getElementById('role-badge').className = "ml-2 text-[10px] bg-blue-500/10 text-blue-400 font-bold px-2 py-0.5 rounded uppercase border border-blue-900/30";
+                document.body.classList.add('student-lock');
             }
         }
 
@@ -227,6 +286,7 @@
             document.getElementById(`tab-btn-${target}`).classList.add('nav-tab-active');
         }
 
+        // 🔥 ADMIN HIGHSPEED FULLY UNLOCKED PARSER RULES
         function setTestByAdmin() {
             const rawText = document.getElementById('local-ai-text').value.trim();
             if(rawText.length < 20) { alert("Error: Content string too short."); return; }
@@ -284,9 +344,11 @@
                 }
             });
 
+            // Wipe out old locks for a fresh master test deployment session
+            localStorage.removeItem('baaz_submission_history');
             localStorage.setItem('baaz_live_questions', JSON.stringify(tempQuestions));
             localStorage.setItem('baaz_live_keys', JSON.stringify(tempKeys));
-            alert(`Configuration locked! Published ${tempQuestions.length} Questions successfully.`);
+            alert(`Configuration locked! Published ${tempQuestions.length} Questions successfully. Old student histories reset.`);
             location.reload();
         }
 
@@ -299,9 +361,26 @@
                 totalQuestionsCount = currentTestQuestions.length;
                 document.getElementById('display-test-title').innerText = "Dynamic Premium Master Pool Test Packet";
                 document.getElementById('display-test-desc').innerText = `Active Exam configurations consist of ${totalQuestionsCount} Secure OCR Questions.`;
-                document.getElementById('start-test-btn').className = "w-full mt-4 bg-cyan-600 hover:bg-cyan-700 text-white font-bold py-2.5 rounded-xl text-xs uppercase tracking-wider cursor-pointer shadow-md";
+                document.getElementById('start-test-btn').className = "w-full mt-4 bg-cyan-600 hover:bg-cyan-700 text-white font-bold py-2.5 rounded-xl text-xs uppercase tracking-wider cursor-pointer shadow-md transition";
                 document.getElementById('start-test-btn').disabled = false;
             }
+        }
+
+        // 🔥 SECURE BLOCKER: CHECKS IF STUDENT HAS ALREADY ATTEMPTED EXAM
+        function checkAndLaunchExam() {
+            const role = localStorage.getItem('baaz_role');
+            const currentStudentNode = localStorage.getItem('baaz_user');
+            const history = localStorage.getItem('baaz_submission_history');
+
+            if(role !== 'admin' && history) {
+                let historyData = JSON.parse(history);
+                if(historyData.student === currentStudentNode) {
+                    alert("⚠️ ACCESS DENIED: Aap ye test pehle hie de chuke hain! Operation Baaz rules ke mutabik aapki rank pehle attempt par freeze ho chuki hai.");
+                    showSavedResultsScreen(historyData);
+                    return;
+                }
+            }
+            launchExamEngine();
         }
 
         function launchExamEngine() {
@@ -337,9 +416,7 @@
         }
 
         function loadQuestionNode(num) {
-            let oldIndex = currentIndex; currentIndex = num; 
-            clearInterval(singleQTimer);
-            
+            let oldIndex = currentIndex; currentIndex = num; clearInterval(singleQTimer);
             syncPaletteStatusNode(oldIndex); syncPaletteStatusNode(currentIndex);
 
             let qData = currentTestQuestions[num - 1];
@@ -349,8 +426,12 @@
             document.getElementById('lbl-opt-C').innerText = "(C) " + qData.C;
             document.getElementById('lbl-opt-D').innerText = "(D) " + qData.D;
 
-            ['A', 'B', 'C', 'D'].forEach(opt => { document.getElementById(`opt-${opt}`).className = "w-full text-left bg-[#080c10] border border-[#212635] p-3.5 rounded-xl font-semibold text-white cursor-pointer hover:bg-[#121620]"; });
-            if(studentResponses[num]) { document.getElementById(`opt-${studentResponses[num]}`).className = "w-full text-left p-3.5 rounded-xl font-semibold text-white cursor-pointer active-opt border"; }
+            ['A', 'B', 'C', 'D'].forEach(opt => { 
+                document.getElementById(`opt-${opt}`).className = "w-full text-left bg-[#080c10] border border-[#212635] p-3.5 rounded-xl font-semibold text-white cursor-pointer hover:bg-[#121620] transition"; 
+            });
+            if(studentResponses[num]) { 
+                document.getElementById(`opt-${studentResponses[num]}`).className = "w-full text-left p-3.5 rounded-xl font-semibold text-white cursor-pointer active-opt border transition"; 
+            }
             
             singleQTimer = setInterval(() => { 
                 qTimeLeft--; 
@@ -365,20 +446,60 @@
         function nextQuestion() { if(currentIndex < totalQuestionsCount) loadQuestionNode(currentIndex + 1); }
         function confirmSubmitTest() { if(confirm("Are you sure you want to end exam session and submit responses?")) calculateFinalResults(); }
 
+        // 🔥 SCORE CALCULATION & STORAGE ATTEMPT FREEZER
         function calculateFinalResults() {
             testRunningMode = false; clearInterval(singleQTimer);
-            document.getElementById('exam-engine-container').classList.add('hidden');
-            document.getElementById('result-screen').classList.remove('hidden');
             
             let right = 0; let wrong = 0;
-            const container = document.getElementById('analysis-rows-container'); container.innerHTML = "";
+            let currentStudentNode = localStorage.getItem('baaz_user');
+            let responsesSnapshot = {};
 
             for(let i = 1; i <= totalQuestionsCount; i++) {
                 let selected = studentResponses[i] || "Skipped";
                 let correct = DynamicAnswerKey[i] || "A";
+                responsesSnapshot[i] = selected;
+                if(selected !== "Skipped") { if(selected === correct) right++; else wrong++; }
+            }
+            
+            let finalScore = (right * 3) - (wrong * 1);
+
+            // Create Master Frozen Attempt Log
+            let submissionHistoryRecord = {
+                student: currentStudentNode,
+                total: totalQuestionsCount,
+                right: right,
+                wrong: wrong,
+                score: finalScore,
+                responses: responsesSnapshot
+            };
+
+            // Rank freezer rule target initialization exclusively for students
+            if(localStorage.getItem('baaz_role') !== 'admin') {
+                localStorage.setItem('baaz_submission_history', JSON.stringify(submissionHistoryRecord));
+            }
+
+            showSavedResultsScreen(submissionHistoryRecord);
+        }
+
+        function showSavedResultsScreen(record) {
+            document.getElementById('dashboard-container').classList.add('hidden');
+            document.getElementById('exam-engine-container').classList.add('hidden');
+            document.getElementById('result-screen').classList.remove('hidden');
+            
+            if(localStorage.getItem('baaz_role') !== 'admin') {
+                document.getElementById('attempt-lock-msg').classList.remove('hidden');
+            }
+
+            document.getElementById('res-total').innerText = record.total;
+            document.getElementById('res-right').innerText = record.right;
+            document.getElementById('res-wrong').innerText = record.wrong;
+            document.getElementById('res-score').innerText = record.score;
+
+            const container = document.getElementById('analysis-rows-container'); container.innerHTML = "";
+            for(let i = 1; i <= record.total; i++) {
+                let selected = record.responses[i] || "Skipped";
+                let correct = DynamicAnswerKey[i] || "A";
                 let isCorrect = (selected === correct);
-                
-                if(selected !== "Skipped") { if(isCorrect) right++; else wrong++; }
 
                 container.innerHTML += `
                     <tr class="border-b border-[#212635]/60 hover:bg-[#121620]/30 transition text-center">
@@ -388,12 +509,6 @@
                         <td class="p-2.5">${selected==='Skipped'?'<span class="text-gray-500">➖</span>':(isCorrect?'<span class="text-emerald-400">✅</span>':'<span class="text-rose-400">❌</span>')}</td>
                     </tr>`;
             }
-            
-            let finalScore = (right * 3) - (wrong * 1);
-            document.getElementById('res-total').innerText = totalQuestionsCount;
-            document.getElementById('res-right').innerText = right;
-            document.getElementById('res-wrong').innerText = wrong;
-            document.getElementById('res-score').innerText = finalScore;
         }
     </script>
 </body>
