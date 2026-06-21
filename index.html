@@ -924,7 +924,7 @@ async function verifyDeviceBindingSession() {
   try {
     const res = await fetch(APPS_SCRIPT_URL, { method:"POST", headers:{"Content-Type":"text/plain;charset=utf-8"}, body:JSON.stringify({ action:"check_session", email:currentUserData.email, sessionID:currentUserData.sessionID }) });
     const d = await res.json();
-    if (!d.valid) { alert("⚠️ Dual session detected! Logging out."); logout(); }
+    if (!d.valid) { logout(); }
   } catch(e) {}
 }
 
@@ -1062,7 +1062,7 @@ async function loadLeaderboard() {
   container.innerHTML = "<div class='spinner'></div>";
   try {
     const res = await fetch(APPS_SCRIPT_URL + "?action=get_leaderboard");
-    const d = await r.json();
+    const d = await res.json();
     let html = `<table class='w-full text-xs text-left'><thead><tr class='border-b' style='border-color:var(--border)'>
       <th class='p-2'>Rank</th><th class='p-2'>Name</th><th class='p-2 text-center'>Tests</th><th class='p-2 text-center'>Score</th>
     </tr></thead><tbody>`;
@@ -1156,7 +1156,7 @@ function parseRawTestText(txt) {
   let block = ""; let col = false;
   for (const l of lines) {
     const lt = l.trim();
-    if (/^(Q\d+|1\b|2\b|3\b)/i.test(lt)) col = true;
+    if (/^(Q\d+|1\b|2\b|3\b)/i.test(l)) col = true;
     if (lt.toUpperCase().includes("ANSWER KEY:")) col = false;
     if (col) block += l + "\n";
   }
@@ -1553,17 +1553,17 @@ function returnToPortal() {
 }
 
 /* ============================================================
-   MODALS LAYER SYSTEM
+   MODALS LAYER SYSTEM (STRICT ANTI-FREEZE OVERRIDE)
    ============================================================ */
 function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
 function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
-if (typeof showInfo !== 'function') {
-  function showInfo(title, body) {
-    if (!title && !body) return; // Prevent raw initialization triggers from freezing layout
-    document.getElementById('modal-info-title').innerText = title || "Notification";
-    document.getElementById('modal-info-body').innerText = body || "";
-    openModal('modal-info');
-  }
+
+function showInfo(title, body) {
+  // GUARD: Don't show modal if arguments are empty or raw init lifecycle glitches trigger it
+  if (!title || !body || title.trim() === "" || body.trim() === "") return; 
+  document.getElementById('modal-info-title').innerText = title;
+  document.getElementById('modal-info-body').innerText = body;
+  openModal('modal-info');
 }
 
 function escapeHtml(s) {
