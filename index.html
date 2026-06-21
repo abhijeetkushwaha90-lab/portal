@@ -83,6 +83,39 @@
   
   .broadcast-banner { background: linear-gradient(90deg, #1e293b, var(--card)); border-bottom: 1px solid var(--border); animation: flashBorder 3s infinite alternate; }
   @keyframes flashBorder { from { border-color: var(--border); } to { border-color: var(--accent); } }
+
+  /* ======================================================
+     v11.0 ADDITIONS — HOME GRID, MODALS, COURSES, ADMIN PANEL
+     ====================================================== */
+  .app-card { background: var(--card); border: 0.5px solid var(--border); border-radius: 1.25rem; padding: 1.1rem .8rem; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:.5rem; cursor:pointer; text-align:center; transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease; position:relative; overflow:hidden; }
+  .app-card:hover { transform: translateY(-4px) scale(1.02); box-shadow: 0 14px 30px rgba(0,0,0,.45); border-color: var(--accent); }
+  .app-card:active { transform: translateY(-1px) scale(.99); }
+  .app-card-icon { width:46px; height:46px; border-radius:14px; display:flex; align-items:center; justify-content:center; font-size:1.15rem; color:#fff; box-shadow:0 6px 16px rgba(0,0,0,.35); }
+  .app-card-label { font-size:.68rem; font-weight:800; letter-spacing:.03em; text-transform:uppercase; }
+  .g1 { background:linear-gradient(135deg,#f59e0b,#ef4444); }
+  .g2 { background:linear-gradient(135deg,#3b82f6,#6366f1); }
+  .g3 { background:linear-gradient(135deg,#10b981,#059669); }
+  .g4 { background:linear-gradient(135deg,#22c55e,#16a34a); }
+  .g5 { background:linear-gradient(135deg,#eab308,#f59e0b); }
+  .g6 { background:linear-gradient(135deg,#a855f7,#7c3aed); }
+  .g7 { background:linear-gradient(135deg,#06b6d4,#0891b2); }
+  .g8 { background:linear-gradient(135deg,#ec4899,#db2777); }
+  .g9 { background:linear-gradient(135deg,#ef4444,#b91c1c); }
+
+  .modal-backdrop { position:fixed; inset:0; background:rgba(0,0,0,.7); z-index:90; display:flex; align-items:center; justify-content:center; padding:1rem; backdrop-filter: blur(3px); }
+  .modal-box { max-width:32rem; width:100%; max-height:85vh; overflow-y:auto; }
+
+  .protected-note { -webkit-user-select:none; user-select:none; }
+  .course-locked-badge { background: rgba(0,0,0,.55); color:#fbbf24; font-size:9px; font-weight:900; padding:2px 8px; border-radius:999px; border:1px solid rgba(251,191,36,.4); }
+  .category-pill { display:inline-block; font-size:9px; font-weight:900; letter-spacing:.05em; text-transform:uppercase; padding:3px 10px; border-radius:999px; background: color-mix(in srgb, var(--accent) 18%, transparent); color: var(--accent); margin-bottom: .5rem; }
+  .admin-subtab { padding:.55rem .9rem; border-radius:.7rem; font-size:.68rem; font-weight:800; cursor:pointer; background:var(--bg); border:0.5px solid var(--border); color:var(--text-dim); white-space:nowrap; }
+  .admin-subtab.active { background:var(--accent); color:var(--accent-text); border-color:var(--accent); }
+  .ticket-row { border-left:3px solid var(--accent); }
+  .ticket-row.resolved { border-left-color: var(--success2); opacity:.65; }
+  .badge-top1 { background:linear-gradient(135deg,#fde047,#f59e0b); color:#1c1300; }
+  .badge-top2 { background:linear-gradient(135deg,#e5e7eb,#9ca3af); color:#1c1300; }
+  .badge-top3 { background:linear-gradient(135deg,#fb923c,#c2410c); color:#fff; }
+  .access-denied-box { border:1px dashed var(--danger); background: color-mix(in srgb, var(--danger) 8%, transparent); }
 </style>
 </head>
 <body class="min-h-screen flex flex-col p-3 md:p-5 justify-between text-sm">
@@ -121,6 +154,7 @@
         <i class="fas fa-unlock-alt"></i> Authenticate Credentials
       </button>
       <p id="login-error" class="hidden text-xs text-center mt-1 font-bold" style="color:var(--danger2)"></p>
+      <p class="text-center"><button type="button" onclick="openForgotPassword()" class="text-[11px] font-bold text-accent underline cursor-pointer">Password bhool gaye?</button></p>
     </div>
 
     <!-- SIGNUP GRID -->
@@ -206,8 +240,9 @@
   </header>
 
   <!-- NAVIGATION CORE MATRIX TABS -->
-  <div id="dashboard-tabs" class="grid grid-cols-3 md:grid-cols-6 gap-1.5 p-1 premium-card rounded-xl text-[11px] font-bold text-center">
-    <button id="tab-btn-tests"      onclick="switchTab('tests')"       class="py-2.5 rounded-lg text-muted transition cursor-pointer nav-tab-active"><i class="fas fa-layer-group mr-1"></i>Exam Pools</button>
+  <div id="dashboard-tabs" class="grid grid-cols-4 md:grid-cols-7 gap-1.5 p-1 premium-card rounded-xl text-[11px] font-bold text-center">
+    <button id="tab-btn-home"       onclick="goHome()"                 class="py-2.5 rounded-lg text-muted transition cursor-pointer nav-tab-active"><i class="fas fa-house mr-1"></i>Home</button>
+    <button id="tab-btn-tests"      onclick="switchTab('tests')"       class="py-2.5 rounded-lg text-muted transition cursor-pointer"><i class="fas fa-layer-group mr-1"></i>Exam Pools</button>
     <button id="tab-btn-vault"      onclick="switchTab('vault')"       class="py-2.5 rounded-lg text-muted transition cursor-pointer"><i class="fas fa-book-bookmark mr-1"></i>Study Vault</button>
     <button id="tab-btn-profile"    onclick="switchTab('profile')"     class="py-2.5 rounded-lg text-muted transition cursor-pointer"><i class="fas fa-id-card mr-1"></i>Profile Node</button>
     <button id="tab-btn-vip"        onclick="switchTab('vip')"         class="py-2.5 rounded-lg text-muted transition cursor-pointer"><i class="fas fa-crown mr-1"></i>VIP Hub</button>
@@ -215,8 +250,27 @@
     <button id="tab-btn-support"    onclick="switchTab('support')"     class="py-2.5 rounded-lg text-muted transition cursor-pointer"><i class="fas fa-headset mr-1"></i>Support</button>
   </div>
 
+  <!-- TAB: HOME (9-CARD APP STYLE GRID) -->
+  <div id="tab-content-home" class="space-y-4">
+    <div class="premium-card rounded-2xl p-4">
+      <h2 class="text-sm font-black text-accent uppercase tracking-wider"><i class="fas fa-grip mr-1"></i> Mission Control Dashboard</h2>
+      <p class="text-[11px] text-muted mt-0.5">Sabhi modules ek hi jagah se access karein, Soldier.</p>
+    </div>
+    <div id="home-grid" class="grid grid-cols-3 md:grid-cols-3 gap-3">
+      <div class="app-card" onclick="switchTab('tests')"><div class="app-card-icon g1"><i class="fas fa-pen-to-square"></i></div><div class="app-card-label">Exam</div></div>
+      <div class="app-card" onclick="switchTab('vault')"><div class="app-card-icon g2"><i class="fas fa-book-bookmark"></i></div><div class="app-card-label">Notes</div></div>
+      <div class="app-card" onclick="switchTab('profile')"><div class="app-card-icon g3"><i class="fas fa-id-card"></i></div><div class="app-card-label">Profile</div></div>
+      <div class="app-card" onclick="switchTab('share')"><div class="app-card-icon g4"><i class="fas fa-share-nodes"></i></div><div class="app-card-label">Share</div></div>
+      <div class="app-card" onclick="switchTab('leaderboard')"><div class="app-card-icon g5"><i class="fas fa-trophy"></i></div><div class="app-card-label">Ranking</div></div>
+      <div class="app-card" onclick="switchTab('vip')"><div class="app-card-icon g6"><i class="fas fa-crown"></i></div><div class="app-card-label">Paid Classes</div></div>
+      <div class="app-card" onclick="switchTab('support')"><div class="app-card-icon g7"><i class="fas fa-headset"></i></div><div class="app-card-label">Support</div></div>
+      <div class="app-card" onclick="switchTab('results')"><div class="app-card-icon g8"><i class="fas fa-chart-line"></i></div><div class="app-card-label">Results</div></div>
+      <div id="home-card-admin" class="app-card hidden" onclick="switchTab('adminpanel')"><div class="app-card-icon g9"><i class="fas fa-user-shield"></i></div><div class="app-card-label">Admin Panel</div></div>
+    </div>
+  </div>
+
   <!-- TAB: TESTS -->
-  <div id="tab-content-tests" class="space-y-4">
+  <div id="tab-content-tests" class="hidden space-y-4">
     <!-- MASTER ADMIN PARSER HUB -->
     <div id="admin-parser-box" class="hidden premium-card rounded-xl p-5 space-y-3" style="border:1px solid rgba(245,158,11,0.3)">
       <div class="flex justify-between items-center border-b pb-2 border-slate-800">
@@ -282,6 +336,17 @@
         <button onclick="openMistakesLedger()" class="w-full btn-danger-outline font-bold py-2 rounded-xl text-xs cursor-pointer text-center">Open My Errors Locker</button>
       </div>
     </div>
+
+    <!-- DYNAMIC ADMIN-MANAGED NOTES LIBRARY -->
+    <div class="premium-card rounded-2xl p-4 space-y-3">
+      <div class="flex justify-between items-center">
+        <h3 class="text-sm font-black text-accent"><i class="fas fa-database mr-1"></i> Dynamic Notes Library</h3>
+        <button onclick="loadNotesList()" class="text-[10px] font-bold text-muted underline cursor-pointer">Refresh</button>
+      </div>
+      <div id="dynamic-notes-grid" class="grid grid-cols-1 md:grid-cols-3 gap-3">
+        <p class="text-xs text-muted">Syncing notes library...</p>
+      </div>
+    </div>
     
     <!-- PDF LIVE EMBED NOTEPAD CONSOLE -->
     <div id="pdf-view-console" class="premium-card rounded-2xl p-4 hidden grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -315,6 +380,22 @@
         </select>
       </div>
     </div>
+
+    <!-- STUDENT STATS PANEL -->
+    <div id="profile-student-stats" class="hidden grid grid-cols-2 md:grid-cols-4 gap-2.5 pt-2 border-t border-slate-800">
+      <div class="surface p-3 rounded-xl text-center"><p class="text-[9px] text-muted font-bold uppercase">Tests Attempted</p><p id="stat-tests-attempted" class="text-lg font-black text-accent">0</p></div>
+      <div class="surface p-3 rounded-xl text-center"><p class="text-[9px] text-muted font-bold uppercase">Average Score</p><p id="stat-avg-score" class="text-lg font-black text-emerald-400">0</p></div>
+      <div class="surface p-3 rounded-xl text-center"><p class="text-[9px] text-muted font-bold uppercase">Selected Exam</p><p id="stat-selected-exam" class="text-xs font-black text-violet-400 mt-1.5">General</p></div>
+      <div class="surface p-3 rounded-xl text-center"><p class="text-[9px] text-muted font-bold uppercase">Joined Date</p><p id="stat-joined-date" class="text-xs font-black text-amber-400 mt-1.5">—</p></div>
+    </div>
+
+    <!-- ADMIN STATS PANEL -->
+    <div id="profile-admin-stats" class="hidden grid grid-cols-2 md:grid-cols-4 gap-2.5 pt-2 border-t border-slate-800">
+      <div class="surface p-3 rounded-xl text-center"><p class="text-[9px] text-muted font-bold uppercase">Total Students</p><p id="stat-total-students" class="text-lg font-black text-accent">0</p></div>
+      <div class="surface p-3 rounded-xl text-center"><p class="text-[9px] text-muted font-bold uppercase">Total Notes</p><p id="stat-total-notes" class="text-lg font-black text-emerald-400">0</p></div>
+      <div class="surface p-3 rounded-xl text-center"><p class="text-[9px] text-muted font-bold uppercase">Total Exams</p><p id="stat-total-exams" class="text-lg font-black text-violet-400">0</p></div>
+      <div class="surface p-3 rounded-xl text-center"><p class="text-[9px] text-muted font-bold uppercase">Total Courses</p><p id="stat-total-courses" class="text-lg font-black text-amber-400">0</p></div>
+    </div>
   </div>
 
   <!-- TAB: VIP HARDCORE GRID HUB -->
@@ -339,6 +420,13 @@
         <div class="lock-overlay"><a href="https://api.whatsapp.com/send?phone=917068252052&text=Hello%2C+I+want+to+unlock+CDS+Premium" target="_blank" class="btn-success px-4 py-2 rounded-xl text-xs font-bold cursor-pointer"><i class="fab fa-whatsapp mr-1"></i> Request Access WhatsApp</a></div>
       </div>
     </div>
+
+    <!-- FULL COURSE CATALOGUE (ADMIN MANAGEABLE) -->
+    <div class="premium-card rounded-2xl p-4 flex justify-between items-center">
+      <h3 class="text-sm font-black text-accent"><i class="fas fa-graduation-cap mr-1"></i> Operation Baaz Course Catalogue</h3>
+      <button onclick="loadCourses()" class="text-[10px] font-bold text-muted underline cursor-pointer">Refresh</button>
+    </div>
+    <div id="course-catalogue-container" class="space-y-5"></div>
   </div>
 
   <!-- TAB: RANK BOARD LEADERBOARD -->
@@ -348,14 +436,141 @@
   </div>
 
   <!-- TAB: SUPPORT -->
-  <div id="tab-content-support" class="hidden grid grid-cols-1 md:grid-cols-2 gap-4">
-    <div class="premium-card rounded-2xl p-5 space-y-3">
-      <h3 class="text-sm font-bold"><i class="fab fa-whatsapp text-green-500"></i> Direct Command Center Support</h3>
-      <a href="https://api.whatsapp.com/send?phone=917068252052&text=Hello" target="_blank" class="w-full text-center btn-success font-bold py-2.5 rounded-xl text-xs block">Connect WhatsApp Desk</a>
+  <div id="tab-content-support" class="hidden space-y-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="premium-card rounded-2xl p-5 space-y-3">
+        <h3 class="text-sm font-bold"><i class="fab fa-whatsapp text-green-500"></i> Direct Command Center Support</h3>
+        <a href="https://api.whatsapp.com/send?phone=917068252052&text=Hello" target="_blank" class="w-full text-center btn-success font-bold py-2.5 rounded-xl text-xs block">Connect WhatsApp Desk</a>
+      </div>
+      <div class="premium-card rounded-2xl p-5 space-y-3">
+        <h3 class="text-sm font-bold"><i class="fas fa-share-nodes text-accent"></i> Affiliate Program Hub</h3>
+        <div id="referral-display-support" class="surface p-3 rounded-xl text-center font-mono font-black text-accent tracking-widest cursor-pointer" onclick="copyReferral()">—</div>
+      </div>
     </div>
+
+    <!-- SUPPORT TICKET FORM -->
     <div class="premium-card rounded-2xl p-5 space-y-3">
-      <h3 class="text-sm font-bold"><i class="fas fa-share-nodes text-accent"></i> Affiliate Program Hub</h3>
-      <div id="referral-display-support" class="surface p-3 rounded-xl text-center font-mono font-black text-accent tracking-widest cursor-pointer" onclick="copyReferral()">—</div>
+      <h3 class="text-sm font-bold"><i class="fas fa-ticket text-accent"></i> Raise a Support Ticket</h3>
+      <p class="text-[11px] text-muted">Apna issue describe karein, hamari team jald se jald resolve karegi.</p>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-2.5">
+        <input id="sup-name" placeholder="Full Name" class="input-field rounded-xl px-3 py-2.5 text-xs">
+        <input id="sup-contact" placeholder="Email / Mobile Number" class="input-field rounded-xl px-3 py-2.5 text-xs">
+      </div>
+      <select id="sup-issue-type" class="w-full input-field rounded-xl px-3 py-2.5 text-xs cursor-pointer">
+        <option value="Login Issue">Login Issue</option>
+        <option value="Test/Exam Issue">Test / Exam Issue</option>
+        <option value="Payment Query">Payment Query</option>
+        <option value="Notes Access">Notes Access</option>
+        <option value="Other">Other</option>
+      </select>
+      <textarea id="sup-message" rows="3" placeholder="Apna message yahan likhein..." class="w-full input-field rounded-xl px-3 py-2.5 text-xs"></textarea>
+      <button onclick="submitSupportTicket()" class="w-full btn-accent font-bold py-2.5 rounded-xl text-xs uppercase cursor-pointer">Submit Ticket</button>
+      <p id="sup-ticket-status" class="text-[10px] text-muted"></p>
+    </div>
+  </div>
+
+  <!-- TAB: SHARE -->
+  <div id="tab-content-share" class="hidden space-y-4">
+    <div class="premium-card rounded-2xl p-5 vip-card text-center space-y-1">
+      <h2 class="text-lg font-black"><i class="fas fa-share-nodes text-accent mr-1"></i> Refer &amp; Share Operation Baaz</h2>
+      <p class="text-xs text-muted">Apne dosto ko invite karein aur referral rewards kamayein.</p>
+    </div>
+    <div class="premium-card rounded-2xl p-5 text-center space-y-2">
+      <p class="text-[10px] text-muted uppercase font-bold">Aapka Referral Code</p>
+      <div id="share-referral-code" class="text-2xl font-black text-accent tracking-widest">—</div>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+      <a id="share-whatsapp-btn" href="#" target="_blank" class="btn-success font-bold py-3 rounded-xl text-xs uppercase text-center cursor-pointer"><i class="fab fa-whatsapp mr-1"></i> Share on WhatsApp</a>
+      <a id="share-telegram-btn" href="#" target="_blank" class="btn-accent font-bold py-3 rounded-xl text-xs uppercase text-center cursor-pointer"><i class="fab fa-telegram mr-1"></i> Share on Telegram</a>
+      <button onclick="copyShareLink()" class="btn-neutral font-bold py-3 rounded-xl text-xs uppercase cursor-pointer"><i class="fas fa-link mr-1"></i> Copy Invite Link</button>
+    </div>
+  </div>
+
+  <!-- TAB: RESULTS -->
+  <div id="tab-content-results" class="hidden space-y-4">
+    <div class="premium-card rounded-2xl p-4"><h2 class="text-lg font-black"><i class="fas fa-chart-line text-accent mr-2"></i>My Results History</h2></div>
+    <div id="results-history-container" class="space-y-2.5"></div>
+  </div>
+
+  <!-- TAB: ADMIN PANEL -->
+  <div id="tab-content-adminpanel" class="hidden space-y-4">
+    <div id="adminpanel-denied" class="hidden access-denied-box rounded-2xl p-8 text-center space-y-2">
+      <i class="fas fa-ban text-3xl" style="color:var(--danger2)"></i>
+      <h3 class="font-black text-sm uppercase tracking-wider" style="color:var(--danger2)">Access Denied</h3>
+      <p class="text-xs text-muted">Yeh zone sirf Admin ke liye restricted hai. Students ko edit/delete/add access nahi diya jaata.</p>
+    </div>
+    <div id="adminpanel-content" class="hidden space-y-4">
+      <div class="premium-card rounded-2xl p-3 flex gap-2 overflow-x-auto">
+        <button class="admin-subtab active" data-sub="notes" onclick="switchAdminSubtab('notes')">Add Notes</button>
+        <button class="admin-subtab" data-sub="exams" onclick="switchAdminSubtab('exams')">Add Exams</button>
+        <button class="admin-subtab" data-sub="courses" onclick="switchAdminSubtab('courses')">Manage Courses</button>
+        <button class="admin-subtab" data-sub="students" onclick="switchAdminSubtab('students')">Manage Students</button>
+        <button class="admin-subtab" data-sub="support" onclick="switchAdminSubtab('support')">Support Requests</button>
+        <button class="admin-subtab" data-sub="announce" onclick="switchAdminSubtab('announce')">Announcements</button>
+      </div>
+
+      <!-- SUB: ADD NOTES -->
+      <div id="adminsub-notes" class="premium-card rounded-2xl p-5 space-y-3">
+        <h3 class="font-black text-sm text-accent"><i class="fas fa-book-bookmark mr-1"></i> Add / Manage Notes</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
+          <input id="note-course" placeholder="Course (e.g. NDA)" class="input-field rounded-xl px-3 py-2 text-xs">
+          <input id="note-exam" placeholder="Exam Tag (e.g. AFCAT 2026)" class="input-field rounded-xl px-3 py-2 text-xs">
+          <input id="note-title" placeholder="Note Title" class="input-field rounded-xl px-3 py-2 text-xs">
+        </div>
+        <textarea id="note-content" rows="5" placeholder="Note content yahan paste/type karein..." class="w-full input-field rounded-xl p-3 text-xs"></textarea>
+        <div class="flex gap-2">
+          <button onclick="addNote()" class="flex-1 btn-success font-bold py-2.5 rounded-xl text-xs uppercase cursor-pointer">Publish Note</button>
+          <button onclick="resetNoteForm()" class="btn-neutral font-bold py-2.5 px-4 rounded-xl text-xs uppercase cursor-pointer">Clear</button>
+        </div>
+        <div id="admin-notes-list" class="space-y-2 max-h-64 overflow-y-auto pt-2 border-t border-slate-800"></div>
+      </div>
+
+      <!-- SUB: ADD EXAMS (shortcut to existing exam parser) -->
+      <div id="adminsub-exams" class="hidden premium-card rounded-2xl p-5 space-y-3 text-center">
+        <h3 class="font-black text-sm text-accent"><i class="fas fa-layer-group mr-1"></i> Add Exams / Mock Tests</h3>
+        <p class="text-xs text-muted">Exam creation tool "Exam Pools" tab ke andar Tactical Admin Command Operations box mein hai.</p>
+        <button onclick="switchTab('tests')" class="btn-accent font-bold py-2.5 px-5 rounded-xl text-xs uppercase cursor-pointer">Open Exam Creation Tool</button>
+      </div>
+
+      <!-- SUB: MANAGE COURSES -->
+      <div id="adminsub-courses" class="hidden premium-card rounded-2xl p-5 space-y-3">
+        <h3 class="font-black text-sm text-accent"><i class="fas fa-graduation-cap mr-1"></i> Add / Manage Courses</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
+          <select id="course-category" class="input-field rounded-xl px-3 py-2 text-xs cursor-pointer">
+            <option>AFCAT</option><option>CDS</option><option>AIR FORCE</option><option>NAVY</option><option>ARMY GD/CLERK</option><option>SSC</option>
+          </select>
+          <input id="course-title" placeholder="Course Title" class="input-field rounded-xl px-3 py-2 text-xs">
+          <input id="course-icon" placeholder="Emoji Icon (optional, e.g. ⚔️)" class="input-field rounded-xl px-3 py-2 text-xs">
+        </div>
+        <input id="course-desc" placeholder="Short description..." class="w-full input-field rounded-xl px-3 py-2 text-xs">
+        <div class="flex gap-2">
+          <button onclick="addCourse()" class="flex-1 btn-success font-bold py-2.5 rounded-xl text-xs uppercase cursor-pointer">Publish Course</button>
+          <button onclick="seedDefaultCourses()" class="btn-neutral font-bold py-2.5 px-4 rounded-xl text-xs uppercase cursor-pointer">Load Default List</button>
+        </div>
+        <div id="admin-courses-list" class="space-y-2 max-h-64 overflow-y-auto pt-2 border-t border-slate-800"></div>
+      </div>
+
+      <!-- SUB: MANAGE STUDENTS (reuses existing ban/unban engine) -->
+      <div id="adminsub-students" class="hidden premium-card rounded-2xl p-5 space-y-3">
+        <h3 class="font-black text-sm text-accent"><i class="fas fa-users mr-1"></i> Manage Students</h3>
+        <button onclick="loadStudentList()" class="btn-neutral px-4 py-2 rounded-xl text-xs font-bold cursor-pointer transition">Sync System Registered User Logs</button>
+        <div id="student-list-container-2" class="mt-3 max-h-72 overflow-y-auto space-y-2 text-xs"></div>
+      </div>
+
+      <!-- SUB: SUPPORT REQUESTS -->
+      <div id="adminsub-support" class="hidden premium-card rounded-2xl p-5 space-y-3">
+        <h3 class="font-black text-sm text-accent"><i class="fas fa-headset mr-1"></i> Support Requests</h3>
+        <button onclick="loadSupportTickets()" class="btn-neutral px-4 py-2 rounded-xl text-xs font-bold cursor-pointer transition">Sync Support Tickets</button>
+        <div id="admin-support-list" class="space-y-2 max-h-80 overflow-y-auto pt-2"></div>
+      </div>
+
+      <!-- SUB: ANNOUNCEMENTS -->
+      <div id="adminsub-announce" class="hidden premium-card rounded-2xl p-5 space-y-3">
+        <h3 class="font-black text-sm text-accent"><i class="fas fa-bullhorn mr-1"></i> Announcements</h3>
+        <textarea id="announce-text" rows="2" placeholder="Naya broadcast message likhein..." class="w-full input-field rounded-xl p-3 text-xs"></textarea>
+        <button onclick="publishAnnouncement()" class="w-full btn-success font-bold py-2.5 rounded-xl text-xs uppercase cursor-pointer">Push Live Broadcast</button>
+        <div id="admin-announce-list" class="space-y-2 max-h-56 overflow-y-auto pt-2 border-t border-slate-800"></div>
+      </div>
     </div>
   </div>
 </div>
@@ -442,6 +657,44 @@
   <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs font-bold">
     <button onclick="window.print()" class="w-full btn-neutral py-3 rounded-xl cursor-pointer transition uppercase"><i class="fas fa-download mr-1"></i> Print / Download PDF Report</button>
     <button onclick="returnToPortal()" class="w-full btn-accent py-3 rounded-xl cursor-pointer transition uppercase">Return to Operational Core</button>
+  </div>
+</div>
+
+<!-- ====================== GENERIC INFO MODAL (showInfo/showModal) ====================== -->
+<div id="generic-modal-backdrop" class="modal-backdrop hidden">
+  <div class="modal-box premium-card rounded-2xl p-5 space-y-3">
+    <div class="flex justify-between items-start gap-3">
+      <h3 id="generic-modal-title" class="font-black text-sm text-accent"></h3>
+      <button onclick="closeGenericModal()" class="text-muted hover:text-red-400 cursor-pointer"><i class="fas fa-xmark"></i></button>
+    </div>
+    <div id="generic-modal-body" class="text-xs text-muted whitespace-pre-line"></div>
+  </div>
+</div>
+
+<!-- ====================== PROTECTED NOTE READER MODAL ====================== -->
+<div id="note-reader-backdrop" class="modal-backdrop hidden">
+  <div class="modal-box premium-card rounded-2xl p-5 space-y-3 protected-note">
+    <div class="flex justify-between items-start gap-3">
+      <h3 id="note-reader-title" class="font-black text-sm text-accent"></h3>
+      <button onclick="closeProtectedNote()" class="text-muted hover:text-red-400 cursor-pointer"><i class="fas fa-xmark"></i></button>
+    </div>
+    <p class="text-[9px] text-amber-500 font-bold uppercase"><i class="fas fa-lock mr-1"></i> Read-only • Download/Copy/Print disabled</p>
+    <div id="note-reader-body" class="text-xs leading-relaxed whitespace-pre-line surface rounded-xl p-4 max-h-[60vh] overflow-y-auto"></div>
+  </div>
+</div>
+
+<!-- ====================== FORGOT PASSWORD MODAL ====================== -->
+<div id="forgot-password-backdrop" class="modal-backdrop hidden">
+  <div class="modal-box premium-card rounded-2xl p-5 space-y-3">
+    <div class="flex justify-between items-start gap-3">
+      <h3 class="font-black text-sm text-accent"><i class="fas fa-key mr-1"></i> Password Recovery</h3>
+      <button onclick="closeForgotPassword()" class="text-muted hover:text-red-400 cursor-pointer"><i class="fas fa-xmark"></i></button>
+    </div>
+    <p class="text-[11px] text-muted">Verification ke liye apna registered Email aur Mobile Number daalein.</p>
+    <input id="fp-email" type="email" placeholder="Registered Email" class="w-full input-field rounded-xl px-3 py-2.5 text-xs">
+    <input id="fp-phone" type="tel" placeholder="Registered Mobile Number" class="w-full input-field rounded-xl px-3 py-2.5 text-xs">
+    <button onclick="submitForgotPassword()" class="w-full btn-accent font-bold py-2.5 rounded-xl text-xs uppercase cursor-pointer">Recover Password</button>
+    <p id="fp-status" class="text-[10px] text-center font-bold"></p>
   </div>
 </div>
 
