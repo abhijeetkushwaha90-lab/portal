@@ -2716,6 +2716,52 @@ function setPaletteFilter(f){currentPaletteFilter=f;buildPaletteGrid();}
    ============================================================ */
 function escapeHtml(s){return String(s||"").replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 function escapeAttr(s){return escapeHtml(s);}
+  // ============================================================
+// OVERRIDE: LIVE GOOGLE SHEET NOTES SYSTEM
+// ============================================================
+async function loadNotes(){
+  const c = document.getElementById('notes-list');
+  if (!c) return;
+  
+  const NOTES_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQdVgOKVXsQdCfgRvOAoXE8H-M3HbR_3zuxvlJ7e9Hd8l_lp0EaHyaoHIT4IPjzQmr3ORkJ-Vd98O_n/pub?output=csv";
+  
+  try {
+    const res = await fetch(NOTES_CSV_URL);
+    const textData = await res.text();
+    const rows = parseCSV(textData);
+    
+    if(rows.length < 2) {
+      allNotes = JSON.parse(localStorage.getItem('baaz_notes') || '[]');
+      renderNotes(allNotes);
+      return;
+    }
+    
+    const headers = rows[0].map(h => h.trim());
+    
+    const csvNotes = rows.slice(1).map(r => {
+      const obj = {};
+      headers.forEach((h, i) => { obj[h] = (r[i] || '').trim(); });
+      return {
+        title: obj.Title || obj.title || '',
+        exam: obj.Exam || obj.exam || 'General',
+        subject: obj.Subject || obj.subject || 'Mixed',
+        content: obj.Content || obj.content || '',
+        videoUrl: obj.VideoURL || obj.videoUrl || '',
+        resourceUrl: obj.ResourceURL || obj.resourceUrl || ''
+      };
+    }).filter(n => n.title !== '');
+    
+    const localNotes = JSON.parse(localStorage.getItem('baaz_notes') || '[]');
+    allNotes = [...csvNotes, ...localNotes];
+    renderNotes(allNotes);
+    if(typeof loadAdminNotesList === 'function') loadAdminNotesList();
+    
+  } catch(e) {
+    console.error("Sheet load error:", e);
+    allNotes = JSON.parse(localStorage.getItem('baaz_notes') || '[]');
+    renderNotes(allNotes);
+  }
+}
 </script>
 </body>
 </html>
