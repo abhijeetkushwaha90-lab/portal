@@ -1164,24 +1164,7 @@ function parseQuestionsLocal(rawText) {
 
     // Detect new question — STRICT: must be Q{number}. or Q{number})
     const qMatch = line.match(/^Q\s*(\d+)\s*[.)]\s*(.+)/i);
-
-if (current) {
-
-  const inlineOptionRegex =
-  /\[A\]\s*(.*?)\s*\[B\]\s*(.*?)\s*\[C\]\s*(.*?)\s*\[D\]\s*(.*)$/i;
-
-  const inlineMatch = current.text.match(inlineOptionRegex);
-
-  if (inlineMatch) {
-
-    current.text = current.text.replace(inlineOptionRegex, '').trim();
-
-    current.A = inlineMatch[1].trim();
-    current.B = inlineMatch[2].trim();
-    current.C = inlineMatch[3].trim();
-    current.D = inlineMatch[4].trim();
-  }
-}    if (qMatch) {
+    if (qMatch) {
       if (current) questions.push(current);
       current = {
         id: parseInt(qMatch[1]),
@@ -1195,7 +1178,7 @@ if (current) {
     if (!current) continue;
 
     // Options — (A) or A) or A. formats
-    const optMatch = line.match(/^[\[(\s]?([A-D])[\])\s][.)]\s*(.+)/i);
+    const optMatch = line.match(/^\(?([A-D])\)?[.)]\s*(.+)/i);
     if (optMatch) {
       const letter = optMatch[1].toUpperCase();
       current[letter] = optMatch[2].trim();
@@ -2354,7 +2337,12 @@ function renderFilteredTestsList(){
   const filtered=cachedTests.filter(t=>t.categoryKey===examScreenState.category&&t.type===examScreenState.type);
   if(!filtered.length){c.innerHTML=`<div class="premium-card rounded-xl p-4 text-xs text-muted col-span-2">Is category/type mein koi test nahi hai abhi.</div>`;return;}
   c.innerHTML=filtered.map(t=>{
-        return`<div class="premium-card rounded-2xl p-4 border-t-2" style="border-top-color:var(--accent)">
+    const idx=cachedTests.indexOf(t);const done=hist[t.title];
+    let btn='';
+    if(done)btn=`<button onclick="viewLockedResultByIdx(${idx})" class="w-full mt-3 btn-neutral font-bold py-2 rounded-xl text-xs uppercase cursor-pointer"><i class="fas fa-lock mr-1"></i>View Result</button>`;
+    else if(t.isPremium&&currentUserData?.role!=='admin')btn=`<button onclick="buyPremiumTestByIdx(${idx})" class="w-full mt-3 btn-accent font-black py-2 rounded-xl text-xs uppercase cursor-pointer"><i class="fas fa-crown mr-1"></i>UNLOCK (100 Coins)</button>`;
+    else btn=`<button onclick="launchExamEngineByIdx(${idx})" class="w-full mt-3 btn-success font-bold py-2 rounded-xl text-xs uppercase cursor-pointer">🚀 Start Test</button>`;
+    return`<div class="premium-card rounded-2xl p-4 border-t-2" style="border-top-color:var(--accent)">
       <div class="flex justify-between items-center">
         <div class="text-[9px] text-muted font-black uppercase">${escapeHtml(t.exam)} • ${escapeHtml(t.subject)}</div>
         <span class="type-pill ${t.type==='PYQ'?'pyq':'mock'}">${t.type}</span>
@@ -2396,12 +2384,7 @@ async function buyPremiumTest(title){
 
 function launchExamEngine(title){
   const test=cachedTests.find(x=>x.title===title);if(!test)return;
-  activeTest=test;
-// Strip answer keys from questions shown during exam
-currentTestQuestions=(test.parsedQuestions||[]).map(q=>({
-  id:q.id, text:q.text, A:q.A, B:q.B, C:q.C, D:q.D
-  // correct is intentionally excluded during exam
-}));
+  activeTest=test;currentTestQuestions=test.parsedQuestions||[];
   totalQuestionsCount=currentTestQuestions.length;
   if(!totalQuestionsCount){alert("Is test mein koi question nahi.");return;}
   studentResponses={};flaggedQuestions={};visitedQuestions={};
