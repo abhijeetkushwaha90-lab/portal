@@ -1164,6 +1164,20 @@ function parseQuestionsLocal(rawText) {
 
     // Detect new question — STRICT: must be Q{number}. or Q{number})
     const qMatch = line.match(/^Q\s*(\d+)\s*[.)]\s*(.+)/i);
+    // INLINE OPTIONS FIX
+const inlineOptionRegex =
+ /\[A\]\s*(.*?)\s*\[B\]\s*(.*?)\s*\[C\]\s*(.*?)\s*\[D\]\s*(.*)$/i;
+
+const inlineMatch = current.text.match(inlineOptionRegex);
+
+if (inlineMatch) {
+  current.text = current.text.replace(inlineOptionRegex, '').trim();
+
+  current.A = inlineMatch[1].trim();
+  current.B = inlineMatch[2].trim();
+  current.C = inlineMatch[3].trim();
+  current.D = inlineMatch[4].trim();
+}
     if (qMatch) {
       if (current) questions.push(current);
       current = {
