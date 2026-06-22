@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Operation Baaz — Complete Learning Platform v12.0</title>
+<title>Operation Baaz — Complete Learning Platform v13.0</title>
 <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
@@ -104,6 +104,9 @@ body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,
 .card-g7{background:linear-gradient(135deg,#001a1a,#002d2d);}
 .card-g8{background:linear-gradient(135deg,#1a0a1a,#2d152d);}
 .card-g9{background:linear-gradient(135deg,#0a0a0a,#1a0000);}
+.card-g10{background:linear-gradient(135deg,#1a1006,#33200c);}
+.card-g11{background:linear-gradient(135deg,#06161a,#0c2b33);}
+.card-g12{background:linear-gradient(135deg,#101a06,#1f330c);}
 
 /* MODAL SYSTEM */
 .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:1000;display:flex;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(8px);}
@@ -134,11 +137,11 @@ body.notes-open{-webkit-user-select:none;user-select:none;}
 /* SCREEN VIEWS */
 #screen-home,#screen-exam,#screen-notes,#screen-courses,
 #screen-ranking,#screen-profile,#screen-share,#screen-support,
-#screen-admin,#screen-results{display:none;}
+#screen-admin,#screen-results,#screen-ssb,#screen-medical,#screen-physical{display:none;}
 #screen-home.active,#screen-exam.active,#screen-notes.active,
 #screen-courses.active,#screen-ranking.active,#screen-profile.active,
 #screen-share.active,#screen-support.active,#screen-admin.active,
-#screen-results.active{display:block;}
+#screen-results.active,#screen-ssb.active,#screen-medical.active,#screen-physical.active{display:block;}
 
 /* EXAM ENGINE */
 .exam-container{min-height:85vh;}
@@ -186,14 +189,33 @@ body.notes-open{-webkit-user-select:none;user-select:none;}
 .lang-toggle button.active{background:var(--accent);color:var(--accent-text);}
 
 /* ============================================================
+   NEW (v13): HIERARCHICAL EXAM SYSTEM — CATEGORY / TYPE
+   ============================================================ */
+.category-card{background:var(--card);border:0.5px solid var(--border);border-radius:18px;padding:18px 14px;cursor:pointer;transition:all .2s ease;text-align:center;position:relative;}
+.category-card:hover{border-color:var(--accent);transform:translateY(-3px);box-shadow:0 12px 30px rgba(0,0,0,.4);}
+.category-card .cat-icon{font-size:1.8rem;margin-bottom:6px;}
+.category-card .cat-name{font-size:12px;font-weight:800;}
+.category-card .cat-count{font-size:9px;color:var(--text-dim);font-weight:700;margin-top:2px;}
+.type-tab-btn{padding:8px 18px;border-radius:12px;font-weight:800;font-size:11px;cursor:pointer;background:var(--bg);border:0.5px solid var(--border);color:var(--text-dim);}
+.type-tab-btn.active{background:var(--accent);color:var(--accent-text);border-color:var(--accent);}
+.type-pill{font-size:8px;font-weight:900;padding:2px 7px;border-radius:999px;text-transform:uppercase;}
+.type-pill.mock{background:rgba(37,99,235,0.15);color:#60a5fa;border:0.5px solid rgba(96,165,250,0.4);}
+.type-pill.pyq{background:rgba(245,158,11,0.15);color:var(--accent);border:0.5px solid rgba(245,158,11,0.4);}
+
+/* ============================================================
+   NEW (v13): SSB / MEDICAL / PHYSICAL STANDARDS SCREENS
+   ============================================================ */
+.disclaimer-box{background:rgba(244,63,94,0.08);border:0.5px solid rgba(244,63,94,0.35);border-radius:14px;padding:12px 14px;font-size:11px;color:var(--text);line-height:1.5;}
+.ssb-stage-card{background:var(--card);border:0.5px solid var(--border);border-radius:16px;padding:16px;}
+.ssb-stage-card h3{font-size:13px;font-weight:900;color:var(--accent);margin-bottom:6px;}
+.standards-table{width:100%;border-collapse:separate;border-spacing:0;font-size:11px;}
+.standards-table th{background:var(--card);color:var(--accent);font-weight:800;text-transform:uppercase;font-size:9px;padding:8px;text-align:left;border-bottom:1px solid var(--border);}
+.standards-table td{padding:8px;border-bottom:1px solid var(--border);color:var(--text);}
+.standards-table tr:hover td{background:color-mix(in srgb,var(--accent) 6%,transparent);}
+.exam-tab-switch{display:flex;gap:6px;flex-wrap:wrap;}
+
+/* ============================================================
    RELIABILITY FIX: hard fallback for the "hidden" utility class.
-   The Tailwind CDN (loaded above) compiles utility classes like
-   `hidden` at runtime. If that script is slow/blocked (ad-blockers,
-   browser extensions, flaky network) the .hidden class silently
-   does nothing, which leaves modals/screens visible on top of
-   everything and the whole app *looks* permanently stuck on one
-   screen. This rule guarantees .hidden always works even if the
-   Tailwind CDN never finishes loading.
    ============================================================ */
 .hidden{display:none!important;}
 </style>
@@ -212,7 +234,7 @@ body.notes-open{-webkit-user-select:none;user-select:none;}
     <button onclick="setLanguage('en')" id="lang-btn-en-auth">EN</button>
   </div>
   <h1 class="text-3xl md:text-5xl font-black tracking-widest brand-gradient">OPERATION BAAZ</h1>
-  <p class="text-[10px] text-muted uppercase tracking-widest mt-1 font-semibold" data-i18n="tagline">Complete Defence Learning Platform v12.0</p>
+  <p class="text-[10px] text-muted uppercase tracking-widest mt-1 font-semibold" data-i18n="tagline">Complete Defence Learning Platform v13.0</p>
 </header>
 
 <!-- ====================== AUTH SCREEN ====================== -->
@@ -378,7 +400,25 @@ body.notes-open{-webkit-user-select:none;user-select:none;}
         <div class="card-label" data-i18n="myResults">My Results</div>
         <div class="card-sub" data-i18n="scoreHistory">Score History</div>
       </div>
-      <!-- 9. Admin Panel (admin only) -->
+      <!-- 9. SSB Prep (NEW) -->
+      <div class="home-card card-g10" onclick="showScreen('ssb')">
+        <div class="card-icon" style="background:linear-gradient(135deg,#92400e,#f59e0b)"><i class="fas fa-people-group text-white"></i></div>
+        <div class="card-label" data-i18n="ssbPrep">SSB Preparation</div>
+        <div class="card-sub" data-i18n="ssbSub">WAT • SRT • OIR • GAT</div>
+      </div>
+      <!-- 10. Medical Standards (NEW) -->
+      <div class="home-card card-g11" onclick="showScreen('medical')">
+        <div class="card-icon" style="background:linear-gradient(135deg,#0e7490,#22d3ee)"><i class="fas fa-stethoscope text-white"></i></div>
+        <div class="card-label" data-i18n="medicalStd">Medical Standards</div>
+        <div class="card-sub" data-i18n="medicalSub">Height • Vision • Fitness</div>
+      </div>
+      <!-- 11. Physical Standards (NEW) -->
+      <div class="home-card card-g12" onclick="showScreen('physical')">
+        <div class="card-icon" style="background:linear-gradient(135deg,#3f6212,#84cc16)"><i class="fas fa-person-running text-white"></i></div>
+        <div class="card-label" data-i18n="physicalStd">Physical Standards</div>
+        <div class="card-sub" data-i18n="physicalSub">PFT • Race • Chest</div>
+      </div>
+      <!-- 12. Admin Panel (admin only) -->
       <div class="home-card card-g9" id="admin-home-card" onclick="showScreen('admin')" style="display:none">
         <div class="card-icon" style="background:linear-gradient(135deg,#450a0a,#dc2626)"><i class="fas fa-user-shield text-white"></i></div>
         <div class="card-label" data-i18n="adminPanel">Admin Panel</div>
@@ -417,14 +457,31 @@ body.notes-open{-webkit-user-select:none;user-select:none;}
     </div>
   </div>
 
-  <!-- SCREEN: EXAM / MOCK TESTS -->
+  <!-- SCREEN: EXAM / MOCK TESTS (NEW v13: Hierarchical Category -> Type -> List) -->
   <div id="screen-exam">
     <div class="flex items-center gap-3 mb-3">
-      <button onclick="goHome()" class="btn-neutral px-3 py-2 rounded-xl text-xs font-bold cursor-pointer"><i class="fas fa-arrow-left mr-1"></i><span data-i18n="back">Back</span></button>
-      <h2 class="text-base font-black text-accent"><i class="fas fa-layer-group mr-1"></i><span data-i18n="examPools">Exam Pools</span></h2>
+      <button id="exam-back-btn" onclick="examScreenBack()" class="btn-neutral px-3 py-2 rounded-xl text-xs font-bold cursor-pointer"><i class="fas fa-arrow-left mr-1"></i><span data-i18n="back">Back</span></button>
+      <h2 id="exam-screen-title" class="text-base font-black text-accent"><i class="fas fa-layer-group mr-1"></i><span data-i18n="examPools">Exam Pools</span></h2>
     </div>
-    <div id="tests-list" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <div class="premium-card rounded-xl p-4"><div class="spinner"></div></div>
+
+    <!-- VIEW 1: CATEGORY GRID -->
+    <div id="exam-view-categories">
+      <p class="text-xs text-muted mb-3" data-i18n="examCatHint">Apni category chuno, fir Mock Test ya Previous Year Papers (PYQ) dekho.</p>
+      <div id="category-grid" class="grid grid-cols-3 md:grid-cols-4 gap-3"><div class="premium-card rounded-xl p-4 col-span-3"><div class="spinner"></div></div></div>
+    </div>
+
+    <!-- VIEW 2: TYPE TABS + TEST LIST (hidden until category selected) -->
+    <div id="exam-view-list" class="hidden">
+      <div class="flex items-center justify-between flex-wrap gap-2 mb-3">
+        <div class="text-sm font-black text-accent"><i class="fas fa-folder-open mr-1"></i><span id="current-category-label">—</span></div>
+        <div class="exam-tab-switch">
+          <button class="type-tab-btn active" id="type-tab-MOCK" onclick="switchExamType('MOCK')"><i class="fas fa-bolt mr-1"></i>Mock Tests</button>
+          <button class="type-tab-btn" id="type-tab-PYQ" onclick="switchExamType('PYQ')"><i class="fas fa-clock-rotate-left mr-1"></i>PYQ (Previous Years)</button>
+        </div>
+      </div>
+      <div id="tests-list" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="premium-card rounded-xl p-4"><div class="spinner"></div></div>
+      </div>
     </div>
   </div>
 
@@ -460,7 +517,11 @@ body.notes-open{-webkit-user-select:none;user-select:none;}
         </select>
       </div>
       <textarea id="note-content" rows="6" placeholder="Note content yahan likhein..." class="w-full input-field rounded-xl px-3 py-2 text-xs font-mono outline-none resize-none"></textarea>
-      <input id="note-video-url" placeholder="YouTube video URL (optional)" class="w-full input-field rounded-xl px-3 py-2 text-xs">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+        <input id="note-video-url" placeholder="YouTube video URL (optional)" class="w-full input-field rounded-xl px-3 py-2 text-xs">
+        <input id="note-resource-url" placeholder="PDF / Drive Resource Link (optional)" class="w-full input-field rounded-xl px-3 py-2 text-xs">
+      </div>
+      <p class="text-[10px] text-muted"><i class="fas fa-circle-info mr-1"></i>PDF ko seedha upload mat karo (storage limit) — Google Drive mein upload karke "Anyone with link can view" share karo, fir woh link yahan paste karo.</p>
       <button onclick="adminAddNote()" class="btn-success px-6 py-2 rounded-xl text-xs font-bold cursor-pointer"><i class="fas fa-save mr-1"></i>Publish Note</button>
     </div>
     <!-- Notes Filter -->
@@ -698,11 +759,19 @@ body.notes-open{-webkit-user-select:none;user-select:none;}
       <div class="premium-card rounded-xl p-5 space-y-3" style="border:1px solid rgba(245,158,11,0.3)">
         <div class="font-bold text-amber-500 text-sm"><i class="fas fa-plus mr-1"></i>Create New Exam / Mock Test</div>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
-          <input id="admin-exam-name" placeholder="Exam (e.g. NDA 2026)" class="input-field rounded-xl px-3 py-2 text-xs">
+          <select id="admin-exam-name" class="input-field rounded-xl px-3 py-2 text-xs cursor-pointer">
+            <option value="">Select Category (Exam) *</option>
+            <option>AFCAT</option><option>CDS</option><option>AIR FORCE X/Y</option>
+            <option>NAVY</option><option>ARMY GD</option><option>SSC</option><option>NDA</option><option>General</option>
+          </select>
           <input id="admin-subject-name" placeholder="Subject (e.g. Mathematics)" class="input-field rounded-xl px-3 py-2 text-xs">
           <input id="admin-test-title" placeholder="Unique Test Title" class="input-field rounded-xl px-3 py-2 text-xs">
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-2">
+          <select id="admin-test-type" class="input-field rounded-xl px-3 py-2 text-xs cursor-pointer">
+            <option value="MOCK">🧪 Mock Test</option>
+            <option value="PYQ">📜 Previous Year Paper (PYQ)</option>
+          </select>
           <input id="admin-pos-marks" type="number" placeholder="Positive Marks (default 3)" class="input-field rounded-xl px-3 py-2 text-xs">
           <input id="admin-neg-marks" type="number" placeholder="Negative Marks (default 1)" class="input-field rounded-xl px-3 py-2 text-xs">
           <select id="admin-is-premium" class="input-field rounded-xl px-3 py-2 text-xs cursor-pointer">
@@ -727,7 +796,8 @@ body.notes-open{-webkit-user-select:none;user-select:none;}
       <div class="premium-card rounded-xl p-5 space-y-3">
         <div class="font-bold text-amber-500 text-sm"><i class="fas fa-file-csv mr-1"></i>Bulk Upload Tests via CSV</div>
         <p class="text-[11px] text-muted leading-relaxed">
-          CSV columns honi chahiye (header row required): <code class="text-accent">exam,subject,title,description,positiveMarks,negativeMarks,isPremium,rawText</code><br>
+          CSV columns honi chahiye (header row required): <code class="text-accent">exam,subject,title,type,description,positiveMarks,negativeMarks,isPremium,rawText</code><br>
+          <code class="text-accent">type</code> column mein <code class="text-accent">MOCK</code> ya <code class="text-accent">PYQ</code> likhein (blank chhodne par MOCK default ho jayega).<br>
           <code class="text-accent">rawText</code> column mein questions + "ANSWER KEY:" wala format same hona chahiye jaise single test wale box mein. Agar comma/newline content mein hai, us field ko double-quotes <code>"..."</code> mein rakhein.
         </p>
         <label class="btn-neutral text-xs font-bold px-4 py-2.5 rounded-xl cursor-pointer inline-block">
@@ -755,7 +825,10 @@ body.notes-open{-webkit-user-select:none;user-select:none;}
           </select>
         </div>
         <textarea id="anote-content" rows="8" placeholder="Note content yahan likhein..." class="w-full input-field rounded-xl p-3 text-xs font-mono outline-none resize-none"></textarea>
-        <input id="anote-video-url" placeholder="YouTube video URL (optional)" class="w-full input-field rounded-xl px-3 py-2 text-xs">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+          <input id="anote-video-url" placeholder="YouTube video URL (optional)" class="w-full input-field rounded-xl px-3 py-2 text-xs">
+          <input id="anote-resource-url" placeholder="PDF / Drive Resource Link (optional)" class="w-full input-field rounded-xl px-3 py-2 text-xs">
+        </div>
         <button onclick="adminAddNoteFromPanel()" class="btn-success px-6 py-2 rounded-xl text-xs font-bold cursor-pointer"><i class="fas fa-save mr-1"></i>Publish Note</button>
       </div>
       <!-- Existing Notes -->
@@ -802,6 +875,119 @@ body.notes-open{-webkit-user-select:none;user-select:none;}
       <h2 class="text-base font-black text-accent"><i class="fas fa-chart-bar mr-1"></i><span data-i18n="myResults">My Results</span></h2>
     </div>
     <div id="results-history-list" class="space-y-3"></div>
+  </div>
+
+  <!-- SCREEN: SSB PREPARATION (NEW v13) -->
+  <div id="screen-ssb">
+    <div class="flex items-center gap-3 mb-3">
+      <button onclick="goHome()" class="btn-neutral px-3 py-2 rounded-xl text-xs font-bold cursor-pointer"><i class="fas fa-arrow-left mr-1"></i><span data-i18n="back">Back</span></button>
+      <h2 class="text-base font-black text-accent"><i class="fas fa-people-group mr-1"></i>SSB Preparation</h2>
+    </div>
+    <div class="disclaimer-box mb-4"><i class="fas fa-circle-info mr-1"></i>Yeh general guidance hai jo SSB pattern samajhne ke liye hai. Exact format aapke recommending board/year ke notification ke hisaab se thoda different ho sakta hai.</div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="ssb-stage-card">
+        <h3><i class="fas fa-pen-fancy mr-1"></i>WAT — Word Association Test</h3>
+        <p class="text-xs text-muted leading-relaxed">60 words ek-ek ke baad screen pe 15 second ke liye flash hote hain. Har word ke baad turant ek sentence likhna hota hai jo wahi word use kare. Yeh test spontaneous/natural reaction check karta hai — overthinking se Officer-Like-Qualities (OLQs) suppress ho jaati hain.</p>
+        <p class="text-[10px] text-amber-400 mt-2 font-bold">Tip: Positive, action-oriented aur simple sentences likhna best practice hai.</p>
+      </div>
+      <div class="ssb-stage-card">
+        <h3><i class="fas fa-comments mr-1"></i>SRT — Situation Reaction Test</h3>
+        <p class="text-xs text-muted leading-relaxed">60 practical life situations diye jaate hain (30 min mein), jisme aapko ek realistic aur turant reaction likhna hota hai. Yeh decision-making, leadership aur practical intelligence judge karta hai.</p>
+        <p class="text-[10px] text-amber-400 mt-2 font-bold">Tip: Filmy/heroic reactions avoid karein — practical aur responsible jawab dein.</p>
+      </div>
+      <div class="ssb-stage-card">
+        <h3><i class="fas fa-brain mr-1"></i>OIR — Officer Intelligence Rating</h3>
+        <p class="text-xs text-muted leading-relaxed">Two sets of verbal aur non-verbal reasoning questions, time-bound. Pattern recognition, series completion, coding-decoding, aur logical reasoning cover hota hai.</p>
+        <p class="text-[10px] text-amber-400 mt-2 font-bold">Tip: Speed + accuracy dono zaroori hai — daily practice rakhein.</p>
+      </div>
+      <div class="ssb-stage-card">
+        <h3><i class="fas fa-users-rectangle mr-1"></i>GAT / GTO Tasks</h3>
+        <p class="text-xs text-muted leading-relaxed">Group Testing Officer tasks: GD (Group Discussion), GPE (Group Planning Exercise), PGT/HGT/CT (Group obstacle tasks), Lecturette, Command Task, aur Individual Obstacles. Yeh teamwork, initiative aur physical-mental coordination test karta hai.</p>
+        <p class="text-[10px] text-amber-400 mt-2 font-bold">Tip: Team mein contribute karna zaroori hai, sirf lead karna kaafi nahi.</p>
+      </div>
+      <div class="ssb-stage-card md:col-span-2">
+        <h3><i class="fas fa-user-tie mr-1"></i>Personal Interview</h3>
+        <p class="text-xs text-muted leading-relaxed">PIQ (Personal Information Questionnaire) form ke aadhar par 30-45 min ka one-on-one interview. Aapki background, hobbies, current affairs, aur self-awareness judge ki jaati hai. Honest aur consistent jawab dena sabse important hai — IO (Interviewing Officer) aapke PIQ se cross-question karte hain.</p>
+        <p class="text-[10px] text-amber-400 mt-2 font-bold">Tip: PIQ form bharne se pehle apne hi answers practice karein, har detail yaad rakhein.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN: MEDICAL STANDARDS (NEW v13) -->
+  <div id="screen-medical">
+    <div class="flex items-center gap-3 mb-3">
+      <button onclick="goHome()" class="btn-neutral px-3 py-2 rounded-xl text-xs font-bold cursor-pointer"><i class="fas fa-arrow-left mr-1"></i><span data-i18n="back">Back</span></button>
+      <h2 class="text-base font-black text-accent"><i class="fas fa-stethoscope mr-1"></i>Medical Standards</h2>
+    </div>
+    <div class="disclaimer-box mb-4"><i class="fas fa-triangle-exclamation mr-1"></i><b>Important:</b> Yeh numbers reference/approximate hain aur recruitment notification ke hisaab se change ho sakte hain (category/region relaxations alag hote hain). Final standards ke liye hamesha official UPSC/Army/Navy/Air Force/SSC notification check karein.</div>
+
+    <div class="premium-card rounded-2xl p-4 mb-4 overflow-x-auto">
+      <div class="font-black text-sm text-accent mb-3"><i class="fas fa-eye mr-1"></i>Vision & General Medical (NDA/CDS Pattern)</div>
+      <table class="standards-table">
+        <thead><tr><th>Parameter</th><th>Army/Navy Cadre</th><th>Air Force (Flying)</th></tr></thead>
+        <tbody>
+          <tr><td>Distant Vision (Better Eye)</td><td>6/6 ya 6/9 (correctable)</td><td>6/6 (without glasses)</td></tr>
+          <tr><td>Distant Vision (Worse Eye)</td><td>6/12 ya 6/18 (correctable)</td><td>6/9 (without glasses)</td></tr>
+          <tr><td>Refractive Surgery (LASIK)</td><td>Generally not allowed</td><td>Not allowed</td></tr>
+          <tr><td>Hearing</td><td>Forced whisper sunai de @ 610 cm</td><td>Same standard</td></tr>
+          <tr><td>Colour Vision</td><td>CP-II / CP-III standard</td><td>CP-I (strictest)</td></tr>
+          <tr><td>Dental</td><td>Sufficient natural sound teeth</td><td>Sufficient natural sound teeth</td></tr>
+          <tr><td>BMI Range</td><td>Approx. 18.5 – 25</td><td>Approx. 18.5 – 25</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="premium-card rounded-2xl p-4 overflow-x-auto">
+      <div class="font-black text-sm text-accent mb-3"><i class="fas fa-list-check mr-1"></i>Common Medical Rejection Reasons</div>
+      <ul class="text-xs text-muted space-y-1.5 list-disc pl-4">
+        <li>Flat foot / Knock-knee / Bow legs (severe cases)</li>
+        <li>Untreated dental cavities, gum disease</li>
+        <li>Hernia, Varicocele, Hydrocele</li>
+        <li>Asthma, chronic bronchitis, TB history</li>
+        <li>Color blindness (especially Air Force ground/flying duty)</li>
+        <li>Overweight/Underweight (BMI outside acceptable range)</li>
+        <li>Deviated Nasal Septum (DNS) — usually correctable, can be temporary unfit</li>
+        <li>Visible/disallowed-area tattoos</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- SCREEN: PHYSICAL STANDARDS (NEW v13) -->
+  <div id="screen-physical">
+    <div class="flex items-center gap-3 mb-3">
+      <button onclick="goHome()" class="btn-neutral px-3 py-2 rounded-xl text-xs font-bold cursor-pointer"><i class="fas fa-arrow-left mr-1"></i><span data-i18n="back">Back</span></button>
+      <h2 class="text-base font-black text-accent"><i class="fas fa-person-running mr-1"></i>Physical Standards</h2>
+    </div>
+    <div class="disclaimer-box mb-4"><i class="fas fa-triangle-exclamation mr-1"></i><b>Important:</b> Region/category-wise relaxations (Gorkha, NE states, Garhwal/Kumaon, ST, hilly areas) alag hote hain. Yeh sirf general reference table hai — official recruitment notice se confirm karein.</div>
+
+    <div class="premium-card rounded-2xl p-4 mb-4 overflow-x-auto">
+      <div class="font-black text-sm text-accent mb-3"><i class="fas fa-ruler-vertical mr-1"></i>Height & Chest (Male) — Reference</div>
+      <table class="standards-table">
+        <thead><tr><th>Exam / Service</th><th>Min Height</th><th>Chest (Expanded)</th></tr></thead>
+        <tbody>
+          <tr><td>NDA — Army / Navy</td><td>157 cm</td><td>81 cm + 5 cm expansion</td></tr>
+          <tr><td>NDA — Air Force</td><td>162.5 cm</td><td>81 cm + 5 cm expansion</td></tr>
+          <tr><td>CDS — Army/Navy/AF (general)</td><td>~157 cm</td><td>81 cm + 5 cm expansion</td></tr>
+          <tr><td>SSC GD (BSF/CISF/CRPF/ITBP)</td><td>170 cm (Gen) / 162.5 cm (ST)</td><td>80 cm + 5 cm expansion</td></tr>
+          <tr><td>Army Agniveer GD</td><td>~170 cm (state-wise varies)</td><td>77 cm + 5 cm expansion</td></tr>
+        </tbody>
+      </table>
+      <p class="text-[10px] text-muted mt-2">Gorkha / NE states / Garhwal / Kumaon candidates ko aam taur par 2–5 cm height relaxation milti hai.</p>
+    </div>
+
+    <div class="premium-card rounded-2xl p-4 overflow-x-auto">
+      <div class="font-black text-sm text-accent mb-3"><i class="fas fa-stopwatch mr-1"></i>Physical Fitness Test (PFT) — Reference</div>
+      <table class="standards-table">
+        <thead><tr><th>Exam</th><th>Running</th><th>Other Events</th></tr></thead>
+        <tbody>
+          <tr><td>NDA (post-SSB)</td><td>2.4 km in 15 min</td><td>Push-ups 20+, Sit-ups 20+, Chin-ups 8+, Rope climb 3.4m</td></tr>
+          <tr><td>CDS (post-SSB)</td><td>~4 km in 15 min</td><td>Push-ups 20-25, Sit-ups 30-40, Chin-ups 6-8</td></tr>
+          <tr><td>SSC GD (Male, Gen)</td><td>5 km in 24 min</td><td>—</td></tr>
+          <tr><td>SSC GD (Female, Gen)</td><td>1.6 km in 8.5 min</td><td>—</td></tr>
+          <tr><td>Army Agniveer GD</td><td>1.6 km timed run (graded)</td><td>Pull-ups (Beam), Ditch 9 ft, Zig-Zag balance</td></tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 
 </div><!-- end app-container -->
@@ -940,6 +1126,7 @@ body.notes-open{-webkit-user-select:none;user-select:none;}
       <button onclick="closeNoteModal()" class="text-red-400 font-bold text-xs uppercase cursor-pointer"><i class="fas fa-times mr-1"></i>Close</button>
     </div>
     <div id="note-modal-video" class="hidden mb-3 aspect-video rounded-xl overflow-hidden no-print"></div>
+    <div id="note-modal-resource" class="hidden mb-3 no-print"></div>
     <div id="note-modal-content" class="text-sm leading-relaxed whitespace-pre-line surface p-4 rounded-xl max-h-[65vh] overflow-y-auto notes-reader" style="-webkit-user-select:none;user-select:none;"></div>
     <div class="mt-3 text-[9px] text-muted text-center no-print">⚠️ Copying, printing or downloading is not allowed. For personal study only.</div>
   </div>
@@ -1002,7 +1189,7 @@ body.notes-open{-webkit-user-select:none;user-select:none;}
 </div>
 
 <footer class="w-full text-center text-[9px] text-muted uppercase tracking-widest pt-3 mt-4 border-t border-slate-800">
-  Operation Baaz Platform v12.0 • Architected by Abhijeet Kushwaha • UPI: 7068252052@axl
+  Operation Baaz Platform v13.0 • Architected by Abhijeet Kushwaha • UPI: 7068252052@axl
 </footer>
 
 <!-- ==================== MAIN LOGIC ENGINE ==================== -->
@@ -1026,6 +1213,48 @@ let allNotes=[], allCourses=[], currentPayCourse=null;
 let currentLang = 'hi';
 let bulkCsvParsedRows = [];
 let resultDiscussionTestTitle = "";
+
+/* ============================================================
+   NEW v13: HIERARCHICAL EXAM SYSTEM — CATEGORY + TYPE
+   ------------------------------------------------------------
+   Backend (Tests sheet) ke paas Category/Type ke liye columns
+   nahi hain. Bina backend chhue yeh do trick istemal karte hain:
+   1) CATEGORY  = existing "Exam" field (already AFCAT/CDS/NDA/etc)
+   2) TYPE      = Title ke andar invisible "[[MOCK]]" / "[[PYQ]]"
+                  tag prefix karte hain. Backend isko ek normal
+                  Title string maan ke save kar deta hai.
+                  Display ke time tag strip karke clean title
+                  dikhate hain. Purane tests (jisme tag nahi hai)
+                  default "MOCK" maan liye jaate hain.
+   ============================================================ */
+const EXAM_CATEGORIES = [
+  {key:"NDA",            label:"NDA",            icon:"🎖️"},
+  {key:"CDS",             label:"CDS",            icon:"⚔️"},
+  {key:"AFCAT",           label:"AFCAT",          icon:"✈️"},
+  {key:"AIR FORCE X/Y",   label:"Air Force X/Y",  icon:"🛩️"},
+  {key:"NAVY",            label:"Navy",           icon:"⚓"},
+  {key:"ARMY GD",         label:"Army GD",        icon:"🪖"},
+  {key:"SSC",             label:"SSC",            icon:"📋"},
+  {key:"General",         label:"General / Other",icon:"📚"}
+];
+const TYPE_TAG_RE = /^\[\[(MOCK|PYQ)\]\]\s*/;
+
+function encodeTestTitle(rawTitle, type) {
+  const clean = (rawTitle||"").replace(TYPE_TAG_RE,'').trim();
+  return `[[${type==='PYQ'?'PYQ':'MOCK'}]]${clean}`;
+}
+function decodeTestTitle(taggedTitle) {
+  const t = taggedTitle || "";
+  const m = t.match(TYPE_TAG_RE);
+  if (m) return { type: m[1], displayTitle: t.replace(TYPE_TAG_RE,'').trim() };
+  return { type: 'MOCK', displayTitle: t.trim() }; // legacy tests default to MOCK
+}
+function categoryKeyFor(examField) {
+  const found = EXAM_CATEGORIES.find(c => c.key.toUpperCase() === (examField||"").toUpperCase());
+  return found ? found.key : "General";
+}
+
+let examScreenState = { view:'categories', category:null, type:'MOCK' };
 
 /* ============================================================
    RANK LEVELS (mirror of backend, used for local XP bar calc)
@@ -1073,7 +1302,7 @@ let quickFactIndex = 0;
    ============================================================ */
 const I18N = {
   hi: {
-    tagline:"Complete Defence Learning Platform v12.0", login:"Login", signup:"Sign Up",
+    tagline:"Complete Defence Learning Platform v13.0", login:"Login", signup:"Sign Up",
     secureGateway:"Secure Gateway Access", emailAddress:"Email Address", password:"Password",
     authenticate:"Authenticate", createProfile:"Profile Banayein", photo:"Photo",
     fullName:"Pura Naam *", mobile:"Mobile *", email:"Email *", targetExam:"Target Exam",
@@ -1091,6 +1320,7 @@ const I18N = {
     testsGiven:"Tests Diye", totalScore:"Total Score", coinsEarned:"Coins Kamaye", currentRank:"Current Rank",
     myBadges:"Mere Badges", viewAll:"Sab Dekho",
     back:"Wapas", examPools:"Exam Pools", studyVault:"Study Vault",
+    examCatHint:"Apni category chuno, fir Mock Test ya Previous Year Papers (PYQ) dekho.",
     quickFacts:"Quick Revision Facts", next:"Next",
     mistakesLedger:"My Mistakes Ledger", open:"Kholo",
     mistakesDesc:"Galat jawab wale sawaal automatically yahan save hote hain.",
@@ -1104,10 +1334,13 @@ const I18N = {
     yourRefCode:"Aapka Referral Code", copyLink:"Link Copy Karo",
     referNote:"Jab koi aapke code se join karega, aapko", referNote2:"milenge!",
     submitIssue:"Apna Issue Submit Karein", submitRequest:"Request Bhejo",
-    directWA:"Direct WhatsApp Support", connectNow:"Abhi Connect Karo", supportHours:"Support Hours"
+    directWA:"Direct WhatsApp Support", connectNow:"Abhi Connect Karo", supportHours:"Support Hours",
+    ssbPrep:"SSB Taiyari", ssbSub:"WAT • SRT • OIR • GAT",
+    medicalStd:"Medical Standards", medicalSub:"Height • Vision • Fitness",
+    physicalStd:"Physical Standards", physicalSub:"PFT • Race • Chest"
   },
   en: {
-    tagline:"Complete Defence Learning Platform v12.0", login:"Login", signup:"Sign Up",
+    tagline:"Complete Defence Learning Platform v13.0", login:"Login", signup:"Sign Up",
     secureGateway:"Secure Gateway Access", emailAddress:"Email Address", password:"Password",
     authenticate:"Authenticate", createProfile:"Create Profile", photo:"Photo",
     fullName:"Full Name *", mobile:"Mobile *", email:"Email *", targetExam:"Target Exam",
@@ -1125,6 +1358,7 @@ const I18N = {
     testsGiven:"Tests Given", totalScore:"Total Score", coinsEarned:"Coins Earned", currentRank:"Current Rank",
     myBadges:"My Badges", viewAll:"View All",
     back:"Back", examPools:"Exam Pools", studyVault:"Study Vault",
+    examCatHint:"Choose your category, then view Mock Tests or Previous Year Papers (PYQ).",
     quickFacts:"Quick Revision Facts", next:"Next",
     mistakesLedger:"My Mistakes Ledger", open:"Open",
     mistakesDesc:"Questions you got wrong are automatically saved here.",
@@ -1138,7 +1372,10 @@ const I18N = {
     yourRefCode:"Your Referral Code", copyLink:"Copy Link",
     referNote:"When someone joins using your code, you'll get", referNote2:"!",
     submitIssue:"Submit Your Issue", submitRequest:"Submit Request",
-    directWA:"Direct WhatsApp Support", connectNow:"Connect Now", supportHours:"Support Hours"
+    directWA:"Direct WhatsApp Support", connectNow:"Connect Now", supportHours:"Support Hours",
+    ssbPrep:"SSB Preparation", ssbSub:"WAT • SRT • OIR • GAT",
+    medicalStd:"Medical Standards", medicalSub:"Height • Vision • Fitness",
+    physicalStd:"Physical Standards", physicalSub:"PFT • Race • Chest"
   }
 };
 
@@ -1217,11 +1454,6 @@ function setLanguage(lang, persist=true) {
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const key = el.getAttribute('data-i18n');
     if (dict[key]) el.innerText = dict[key];
-  });
-  ['lang-btn-hi','lang-btn-en','lang-btn-hi-auth','lang-btn-en-auth'].forEach(id=>{
-    const el = document.getElementById(id);
-    if(!el) return;
-    const isActive = id.indexOf('-'+lang+'-')!==-1 ? false : id.endsWith('-'+lang) || id.indexOf('-'+lang+'-auth')!==-1;
   });
   document.querySelectorAll('.lang-toggle button').forEach(b=>b.classList.remove('active'));
   document.querySelectorAll(`.lang-toggle button[onclick="setLanguage('${lang}')"]`).forEach(b=>b.classList.add('active'));
@@ -1385,7 +1617,6 @@ function updateGamificationUI(xp, streak, badges) {
   if (xpLabel) xpLabel.innerText = `${xp} XP`;
   if (next) {
     if (nextLabel) nextLabel.innerText = `Next: ${next.name} (${next.min - xp} XP to go)`;
-    // find prev threshold for % calc
     let prevMin = 0;
     for (const lvl of RANK_LEVELS) { if (lvl.min <= xp) prevMin = lvl.min; }
     const span = Math.max(1, next.min - prevMin);
@@ -1438,11 +1669,12 @@ function fireConfetti() {
    SCREEN NAVIGATION
    ============================================================ */
 function showScreen(name) {
-  const screens=['home','exam','notes','courses','ranking','profile','share','support','admin','results'];
+  const screens=['home','exam','notes','courses','ranking','profile','share','support','admin','results','ssb','medical','physical'];
   screens.forEach(s => {
     const el=document.getElementById(`screen-${s}`);
     if(el) el.classList.toggle('active',s===name);
   });
+  if(name==='exam') { examScreenState = {view:'categories', category:null, type:'MOCK'}; renderExamCategories(); }
   if(name==='ranking') loadLeaderboard();
   if(name==='support' && currentUserData?.role==='admin') loadAdminSupport();
   if(name==='admin') {
@@ -1506,7 +1738,6 @@ function loadProfile() {
     document.getElementById('adm-notes').innerText=notes.length;
     document.getElementById('adm-exams').innerText=tests.length;
     document.getElementById('adm-support').innerText=sup.length;
-    // Student count from server
     fetch(APPS_SCRIPT_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:"get_students"})})
       .then(r=>r.json()).then(d=>{document.getElementById('adm-students').innerText=d.length;}).catch(()=>{});
   } else {
@@ -1535,7 +1766,7 @@ function updateQuickStats() {
 }
 
 /* ============================================================
-   NOTES SYSTEM
+   NOTES SYSTEM (v13: + Resource/PDF URL support)
    ============================================================ */
 function loadNotes() {
   allNotes = JSON.parse(localStorage.getItem('baaz_notes') || '[]');
@@ -1568,7 +1799,10 @@ function renderNotes(notes) {
         <div>
           <span class="text-[9px] font-bold text-muted uppercase">${escapeHtml(n.exam)} • ${escapeHtml(n.subject)}</span>
           <h3 class="font-black text-sm text-accent mt-0.5">${escapeHtml(n.title)}</h3>
-          ${n.videoUrl ? '<span class="text-[9px] font-bold text-rose-400"><i class="fab fa-youtube mr-1"></i>Video Included</span>' : ''}
+          <div class="flex gap-2 mt-0.5">
+            ${n.videoUrl ? '<span class="text-[9px] font-bold text-rose-400"><i class="fab fa-youtube mr-1"></i>Video</span>' : ''}
+            ${n.resourceUrl ? '<span class="text-[9px] font-bold text-emerald-400"><i class="fas fa-file-pdf mr-1"></i>PDF/Resource</span>' : ''}
+          </div>
         </div>
         ${currentUserData?.role==='admin'?`<button onclick="deleteNote(${i})" class="btn-danger-outline px-2 py-1 rounded-lg text-[10px] font-bold cursor-pointer"><i class="fas fa-trash"></i></button>`:''}
       </div>
@@ -1583,15 +1817,17 @@ function adminAddNote() {
   const subject=document.getElementById('note-subject').value;
   const content=document.getElementById('note-content').value.trim();
   const videoUrl=document.getElementById('note-video-url').value.trim();
+  const resourceUrl=document.getElementById('note-resource-url').value.trim();
   if(!title || !content) { alert("Title aur Content dono required hain."); return; }
   const notes=JSON.parse(localStorage.getItem('baaz_notes')||'[]');
-  notes.push({title,exam,subject,content,videoUrl,createdAt:new Date().toLocaleDateString()});
+  notes.push({title,exam,subject,content,videoUrl,resourceUrl,createdAt:new Date().toLocaleDateString()});
   localStorage.setItem('baaz_notes',JSON.stringify(notes));
   allNotes=notes;
   renderNotes(allNotes);
   document.getElementById('note-title').value='';
   document.getElementById('note-content').value='';
   document.getElementById('note-video-url').value='';
+  document.getElementById('note-resource-url').value='';
   alert("Note published successfully!");
 }
 
@@ -1601,14 +1837,16 @@ function adminAddNoteFromPanel() {
   const subject=document.getElementById('anote-subject').value;
   const content=document.getElementById('anote-content').value.trim();
   const videoUrl=document.getElementById('anote-video-url').value.trim();
+  const resourceUrl=document.getElementById('anote-resource-url').value.trim();
   if(!title || !content) { alert("Title aur Content required hain."); return; }
   const notes=JSON.parse(localStorage.getItem('baaz_notes')||'[]');
-  notes.push({title,exam,subject,content,videoUrl,createdAt:new Date().toLocaleDateString()});
+  notes.push({title,exam,subject,content,videoUrl,resourceUrl,createdAt:new Date().toLocaleDateString()});
   localStorage.setItem('baaz_notes',JSON.stringify(notes));
   allNotes=notes;
   document.getElementById('anote-title').value='';
   document.getElementById('anote-content').value='';
   document.getElementById('anote-video-url').value='';
+  document.getElementById('anote-resource-url').value='';
   loadAdminNotesList();
   alert("Note published!");
 }
@@ -1653,6 +1891,15 @@ function openNoteModal(i) {
     videoBox.classList.add('hidden');
   }
 
+  const resBox = document.getElementById('note-modal-resource');
+  if (note.resourceUrl && note.resourceUrl.trim()) {
+    resBox.innerHTML = `<a href="${escapeAttr(note.resourceUrl.trim())}" target="_blank" rel="noopener" class="w-full block text-center btn-success font-bold py-2.5 rounded-xl text-xs"><i class="fas fa-file-pdf mr-1"></i>Open PDF / Resource Link</a>`;
+    resBox.classList.remove('hidden');
+  } else {
+    resBox.innerHTML = '';
+    resBox.classList.add('hidden');
+  }
+
   document.getElementById('note-reader-modal').classList.remove('hidden');
   document.body.classList.add('notes-open');
 }
@@ -1688,42 +1935,36 @@ function closeMistakesModal() { document.getElementById('mistakes-modal').classL
    COURSES SYSTEM
    ============================================================ */
 const COURSES_DATA = [
-  // AFCAT
   {cat:'AFCAT',icon:'✈️',title:'Operation Varun Falcon',desc:'Complete AFCAT preparation with all subjects covered.',price:1499},
   {cat:'AFCAT',icon:'🦅',title:'Operation Garud Wings',desc:'Advanced AFCAT mock series with detailed solutions.',price:1999},
   {cat:'AFCAT',icon:'⚓',title:'Operation Marcos Strike',desc:'Focus on EKT + AFCAT combined preparation.',price:1799},
   {cat:'AFCAT',icon:'🎯',title:'Operation Sky Hunter AFCAT',desc:'Speed & accuracy focused AFCAT crash course.',price:1299},
   {cat:'AFCAT',icon:'🌊',title:'Operation Air Titan',desc:'Full AFCAT syllabus with live sessions.',price:2499},
   {cat:'AFCAT',icon:'🦁',title:'Operation Blue Hawk',desc:'AFCAT interview + written complete package.',price:2999},
-  // CDS
   {cat:'CDS',icon:'⚔️',title:'Operation Varun Shield CDS',desc:'IMA, INA, AFA focused complete CDS preparation.',price:1999},
   {cat:'CDS',icon:'🎖️',title:'Operation Garud Force CDS',desc:'CDS Mathematics & English mastery course.',price:1499},
   {cat:'CDS',icon:'🛡️',title:'Operation Marcos Vanguard CDS',desc:'OTA special batch with GK focus.',price:1299},
   {cat:'CDS',icon:'🔥',title:'Operation Iron Command CDS',desc:'CDS advanced test series with analytics.',price:1799},
   {cat:'CDS',icon:'💥',title:'Operation Battle Apex CDS',desc:'120-day CDS crash course.',price:2499},
   {cat:'CDS',icon:'🌟',title:'Operation Defence Alpha CDS',desc:'CDS complete package with interview prep.',price:2999},
-  // AIR FORCE
   {cat:'AIR FORCE',icon:'🛩️',title:'Operation Sky Warriors X/Y',desc:'Air Force X & Y group complete course.',price:1499},
   {cat:'AIR FORCE',icon:'💨',title:'Operation Garud Flight',desc:'Reasoning & Math focus for Air Force.',price:1299},
   {cat:'AIR FORCE',icon:'⚡',title:'Operation Air Saber Batch',desc:'Air Force mock test series with solutions.',price:999},
   {cat:'AIR FORCE',icon:'🌩️',title:'Operation Thunder Wing',desc:'Air Force English + Science special batch.',price:1199},
   {cat:'AIR FORCE',icon:'🎯',title:'Operation Sky Commando',desc:'Air Force crash course 60-day.',price:1799},
   {cat:'AIR FORCE',icon:'🌅',title:'Operation Horizon Force',desc:'Air Force X Group technical preparation.',price:1999},
-  // NAVY
   {cat:'NAVY',icon:'🚢',title:'Operation Varun Sea Force',desc:'Complete Navy MR & AA preparation.',price:1299},
   {cat:'NAVY',icon:'🌊',title:'Operation Marcos Navy Shield',desc:'Navy SSR & MR combined course.',price:1499},
   {cat:'NAVY',icon:'⚓',title:'Operation Ocean Guard',desc:'Navy advanced Mathematics batch.',price:1199},
   {cat:'NAVY',icon:'🔱',title:'Operation Blue Depths Batch',desc:'Navy mock test series premium.',price:999},
   {cat:'NAVY',icon:'🛳️',title:'Operation Sea Hunter',desc:'Navy complete 90-day preparation.',price:1799},
   {cat:'NAVY',icon:'🏆',title:'Operation Naval Titan',desc:'Navy full package with interview tips.',price:2499},
-  // ARMY
   {cat:'ARMY',icon:'🪖',title:'Operation Ground Shield',desc:'Army GD complete preparation course.',price:999},
   {cat:'ARMY',icon:'🔫',title:'Operation Iron Infantry',desc:'Army Clerk & GD combined batch.',price:1199},
   {cat:'ARMY',icon:'💪',title:'Operation Battle Warrior GD',desc:'Army GD fast track 45-day course.',price:799},
   {cat:'ARMY',icon:'🎖️',title:'Operation Army Vanguard',desc:'Army GD mock test series with analytics.',price:899},
   {cat:'ARMY',icon:'⭐',title:'Operation Soldier Prime Batch',desc:'Army Clerk/SKT special preparation.',price:1099},
   {cat:'ARMY',icon:'🏅',title:'Operation Combat Force',desc:'Army complete package all trades.',price:1799},
-  // SSC
   {cat:'SSC',icon:'📋',title:'Operation National Strike SSC',desc:'SSC GD complete preparation course.',price:1499},
   {cat:'SSC',icon:'✏️',title:'Operation Varun Edge SSC',desc:'SSC CGL/CHSL combined batch.',price:1999},
   {cat:'SSC',icon:'🏆',title:'Operation Apex Selection Batch',desc:'SSC advanced mock series.',price:1299},
@@ -1768,7 +2009,6 @@ function openPaymentModal(courseName, price) {
   if(!courseName || !courseName.trim()) return;
   document.getElementById('pay-course-name').innerText=courseName;
   document.getElementById('pay-course-price').innerText=`₹${price}`;
-  // Update QR with amount
   const qrImg=document.querySelector('#payment-modal .qr-box img');
   if(qrImg) {
     const upiData=`upi://pay?pa=${UPI_ID}&pn=${encodeURIComponent(UPI_NAME)}&am=${price}&cu=INR&tn=${encodeURIComponent('Course: '+courseName)}`;
@@ -1879,11 +2119,9 @@ async function loadLeaderboard() {
   try {
     const res=await fetch(APPS_SCRIPT_URL+"?action=get_leaderboard");
     const d=await res.json();
-    // Also add local results
     const localRankers=getLocalRankers();
     const merged=mergeLeaderboard(d,localRankers);
 
-    // Podium top 3
     if(podium) {
       const top=merged.slice(0,3);
       const medals=['🥇','🥈','🥉'];
@@ -1899,7 +2137,6 @@ async function loadLeaderboard() {
       `).join('');
     }
 
-    // Full table
     if(!merged.length){table.innerHTML='<p class="text-xs text-muted text-center py-4">Koi data nahi hai abhi.</p>';return;}
     table.innerHTML=`<div class="overflow-x-auto"><table class="w-full text-xs text-left">
       <thead><tr class="border-b border-slate-800 text-muted font-bold uppercase text-[9px]">
@@ -1941,32 +2178,92 @@ function mergeLeaderboard(serverData,local) {
 }
 
 /* ============================================================
-   EXAM / TEST SYSTEM
+   EXAM / TEST SYSTEM  (v13: Category -> Type hierarchy)
    ============================================================ */
 async function loadTests() {
   try {
     const res=await fetch(APPS_SCRIPT_URL,{method:"GET"});
-    cachedTests=await res.json();
-    renderTestsList();
+    const raw=await res.json();
+    // Decode the [[MOCK]]/[[PYQ]] tag + figure out category, keep `title` as
+    // the ORIGINAL (tagged) value because backend history/scoring keys on it.
+    cachedTests = raw.map(t => {
+      const decoded = decodeTestTitle(t.title);
+      return { ...t, type: decoded.type, displayTitle: decoded.displayTitle, categoryKey: categoryKeyFor(t.exam) };
+    });
+    if (document.getElementById('screen-exam')?.classList.contains('active')) {
+      if (examScreenState.view === 'categories') renderExamCategories();
+      else renderFilteredTestsList();
+    }
     loadAdminTestsList();
-  } catch(e){renderTestsList();}
+  } catch(e){ cachedTests=[]; }
 }
 
 function getHistoryMap() { return JSON.parse(localStorage.getItem(`baaz_hist_${currentUserData?.email}`) || '{}'); }
 
-function renderTestsList() {
+/* ---- VIEW 1: Category Grid ---- */
+function renderExamCategories() {
+  examScreenState = {view:'categories', category:null, type:'MOCK'};
+  document.getElementById('exam-view-categories').classList.remove('hidden');
+  document.getElementById('exam-view-list').classList.add('hidden');
+  document.getElementById('exam-back-btn').onclick = goHome;
+
+  const grid=document.getElementById('category-grid'); if(!grid) return;
+  grid.innerHTML = EXAM_CATEGORIES.map(c=>{
+    const count = cachedTests.filter(t=>t.categoryKey===c.key).length;
+    return `<div class="category-card" onclick="openExamCategory('${c.key}')">
+      <div class="cat-icon">${c.icon}</div>
+      <div class="cat-name">${escapeHtml(c.label)}</div>
+      <div class="cat-count">${count} test${count===1?'':'s'}</div>
+    </div>`;
+  }).join('');
+}
+
+/* ---- VIEW 2: Type Tabs + Test List ---- */
+function openExamCategory(catKey) {
+  examScreenState = {view:'list', category:catKey, type:'MOCK'};
+  document.getElementById('exam-view-categories').classList.add('hidden');
+  document.getElementById('exam-view-list').classList.remove('hidden');
+  document.getElementById('exam-back-btn').onclick = examScreenBack;
+  const catObj = EXAM_CATEGORIES.find(c=>c.key===catKey);
+  document.getElementById('current-category-label').innerText = catObj ? `${catObj.icon} ${catObj.label}` : catKey;
+  document.getElementById('type-tab-MOCK').classList.add('active');
+  document.getElementById('type-tab-PYQ').classList.remove('active');
+  renderFilteredTestsList();
+}
+
+function switchExamType(type) {
+  examScreenState.type = type;
+  document.getElementById('type-tab-MOCK').classList.toggle('active', type==='MOCK');
+  document.getElementById('type-tab-PYQ').classList.toggle('active', type==='PYQ');
+  renderFilteredTestsList();
+}
+
+function examScreenBack() {
+  renderExamCategories();
+}
+
+function renderFilteredTestsList() {
   const container=document.getElementById('tests-list'); if(!container) return;
   const hist=getHistoryMap();
-  if(!cachedTests.length){container.innerHTML='<p class="text-xs text-muted p-4 surface rounded-xl">No tests available yet. Admin se request karein.</p>';return;}
-  container.innerHTML=cachedTests.map((t,i)=>{
+  const filtered = cachedTests.filter(t => t.categoryKey===examScreenState.category && t.type===examScreenState.type);
+
+  if(!filtered.length){
+    container.innerHTML=`<div class="premium-card rounded-xl p-4 text-xs text-muted col-span-2">Is category/type mein abhi koi test available nahi hai. Admin se request karein.</div>`;
+    return;
+  }
+  container.innerHTML=filtered.map((t)=>{
+    const idx = cachedTests.indexOf(t);
     const done=hist[t.title];
     let btn='';
-    if(done) btn=`<button onclick="viewLockedResultByIdx(${i})" class="w-full mt-3 btn-neutral font-bold py-2 rounded-xl text-xs uppercase cursor-pointer"><i class="fas fa-lock mr-1"></i>View Result</button>`;
-    else if(t.isPremium && currentUserData?.role!=='admin') btn=`<button onclick="buyPremiumTestByIdx(${i})" class="w-full mt-3 btn-accent font-black py-2 rounded-xl text-xs uppercase cursor-pointer animate-pulse"><i class="fas fa-crown mr-1"></i>UNLOCK (100 Coins)</button>`;
-    else btn=`<button onclick="launchExamEngineByIdx(${i})" class="w-full mt-3 btn-success font-bold py-2 rounded-xl text-xs uppercase cursor-pointer">🚀 Start Test</button>`;
+    if(done) btn=`<button onclick="viewLockedResultByIdx(${idx})" class="w-full mt-3 btn-neutral font-bold py-2 rounded-xl text-xs uppercase cursor-pointer"><i class="fas fa-lock mr-1"></i>View Result</button>`;
+    else if(t.isPremium && currentUserData?.role!=='admin') btn=`<button onclick="buyPremiumTestByIdx(${idx})" class="w-full mt-3 btn-accent font-black py-2 rounded-xl text-xs uppercase cursor-pointer animate-pulse"><i class="fas fa-crown mr-1"></i>UNLOCK (100 Coins)</button>`;
+    else btn=`<button onclick="launchExamEngineByIdx(${idx})" class="w-full mt-3 btn-success font-bold py-2 rounded-xl text-xs uppercase cursor-pointer">🚀 Start Test</button>`;
     return `<div class="premium-card rounded-2xl p-4 border-t-2" style="border-top-color:var(--accent)">
-      <div class="text-[9px] text-muted font-black uppercase">${escapeHtml(t.exam)} • ${escapeHtml(t.subject)}</div>
-      <h3 class="font-black text-sm text-accent mt-0.5">${escapeHtml(t.title)}</h3>
+      <div class="flex justify-between items-center">
+        <div class="text-[9px] text-muted font-black uppercase">${escapeHtml(t.exam)} • ${escapeHtml(t.subject)}</div>
+        <span class="type-pill ${t.type==='PYQ'?'pyq':'mock'}">${t.type==='PYQ'?'PYQ':'MOCK'}</span>
+      </div>
+      <h3 class="font-black text-sm text-accent mt-0.5">${escapeHtml(t.displayTitle)}</h3>
       <p class="text-xs text-muted mt-1">${escapeHtml(t.description)}</p>
       <span class="text-[10px] text-emerald-400 mt-2 font-bold block">+${t.positiveMarks} / -${t.negativeMarks} Marks • ${t.parsedQuestions?.length||0} Qs</span>
       ${btn}
@@ -1982,9 +2279,12 @@ function loadAdminTestsList() {
   const container=document.getElementById('admin-tests-list'); if(!container) return;
   if(!cachedTests.length){container.innerHTML='<p class="text-xs text-muted">No tests deployed yet.</p>';return;}
   container.innerHTML=cachedTests.map(t=>`
-    <div class="surface rounded-xl p-2 flex justify-between items-center">
-      <span class="text-xs font-bold">${escapeHtml(t.title)} <span class="text-muted">(${t.parsedQuestions?.length||0} Qs)</span></span>
-      <span class="text-[9px] font-bold ${t.isPremium?'text-amber-500':'text-emerald-400'}">${t.isPremium?'VIP':'FREE'}</span>
+    <div class="surface rounded-xl p-2 flex justify-between items-center gap-2">
+      <span class="text-xs font-bold">${escapeHtml(t.displayTitle)} <span class="text-muted">(${t.parsedQuestions?.length||0} Qs)</span></span>
+      <span class="flex gap-1">
+        <span class="type-pill ${t.type==='PYQ'?'pyq':'mock'}">${t.type==='PYQ'?'PYQ':'MOCK'}</span>
+        <span class="text-[9px] font-bold ${t.isPremium?'text-amber-500':'text-emerald-400'}">${t.isPremium?'VIP':'FREE'}</span>
+      </span>
     </div>
   `).join('');
 }
@@ -2138,7 +2438,6 @@ async function calculateFinalResults() {
       const h=getHistoryMap(); h[activeTest.title]=d;
       localStorage.setItem(`baaz_hist_${currentUserData?.email}`,JSON.stringify(h));
 
-      // Update local gamification state
       if (currentUserData) {
         currentUserData.xp = d.totalXP ?? currentUserData.xp;
         currentUserData.level = d.level ?? currentUserData.level;
@@ -2165,6 +2464,7 @@ function viewLockedResult(title) {
   if(h[title]){
     document.getElementById('app-container').classList.add('hidden');
     document.getElementById('result-screen').classList.remove('hidden');
+    activeTest = cachedTests.find(x=>x.title===title) || activeTest;
     displayResultScreen(h[title]);
   }
 }
@@ -2177,7 +2477,6 @@ function displayResultScreen(d) {
   document.getElementById('res-score').innerText=d.score||0;
   document.getElementById('rank-badge-text').innerText=d.rankBadge||'—';
 
-  // XP banner
   if (d.xpEarned) {
     document.getElementById('xp-earned-banner').classList.remove('hidden');
     document.getElementById('res-xp-earned').innerText=d.xpEarned;
@@ -2186,7 +2485,6 @@ function displayResultScreen(d) {
     document.getElementById('xp-earned-banner').classList.add('hidden');
   }
 
-  // New badges banner — compare with previously stored badge set if available
   const prevBadgesRaw = localStorage.getItem('baaz_prevbadges_'+(currentUserData?.email||''));
   const prevBadges = prevBadgesRaw ? JSON.parse(prevBadgesRaw) : [];
   const nowBadges = d.badges || currentUserData?.badges || [];
@@ -2202,7 +2500,6 @@ function displayResultScreen(d) {
   }
   localStorage.setItem('baaz_prevbadges_'+(currentUserData?.email||''), JSON.stringify(nowBadges));
 
-  // Topper comparison
   const myScore = d.score||0;
   const topperScore = Math.max(d.topperScore||0, myScore);
   const maxBar = Math.max(myScore, topperScore, 1);
@@ -2225,7 +2522,7 @@ function displayResultScreen(d) {
     const statusText=item.selected==="Skipped"?'➖ Skipped':item.isCorrect?'✅ Correct':'❌ Wrong';
 
     if(!item.isCorrect && item.selected!=="Skipped") {
-      if(!errCache.find(e=>e.text===item.text)) errCache.push({testTitle:activeTest?.title||'Exam',text:item.text,A:item.A,B:item.B});
+      if(!errCache.find(e=>e.text===item.text)) errCache.push({testTitle:activeTest?.displayTitle||activeTest?.title||'Exam',text:item.text,A:item.A,B:item.B});
     }
 
     const optsHtml=['A','B','C','D'].map(l=>{
@@ -2244,7 +2541,6 @@ function displayResultScreen(d) {
   localStorage.setItem('baaz_errors_'+(currentUserData?.email),JSON.stringify(errCache));
   updateQuickStats();
 
-  // Load discussion thread for this test
   resultDiscussionTestTitle = activeTest?.title || '';
   loadResultDiscussion();
 }
@@ -2293,15 +2589,16 @@ function showResultsHistory() {
   const container=document.getElementById('results-history-list'); if(!container) return;
   const tests=Object.keys(hist);
   if(!tests.length){container.innerHTML='<div class="premium-card rounded-xl p-4 text-xs text-muted text-center">Koi test attempt nahi kiya abhi tak.</div>';return;}
-  container.innerHTML=tests.map((t,i)=>`
-    <div class="premium-card rounded-xl p-4 flex justify-between items-center">
+  container.innerHTML=tests.map((t,i)=>{
+    const decoded = decodeTestTitle(t);
+    return `<div class="premium-card rounded-xl p-4 flex justify-between items-center">
       <div>
-        <div class="font-black text-sm text-accent">${escapeHtml(t)}</div>
+        <div class="font-black text-sm text-accent">${escapeHtml(decoded.displayTitle)}</div>
         <div class="text-xs text-muted mt-1">Score: <span class="text-emerald-400 font-bold">${hist[t].score||0}</span> • Accuracy: ${hist[t].accuracy||0}% • Badge: ${hist[t].rankBadge||'—'}</div>
       </div>
       <button onclick="viewLockedResultFromHistory(${i})" class="btn-neutral px-3 py-2 rounded-xl text-xs font-bold cursor-pointer"><i class="fas fa-eye mr-1"></i>View</button>
-    </div>
-  `).join('');
+    </div>`;
+  }).join('');
   window.__baazResultTitles = tests;
 }
 
@@ -2318,34 +2615,42 @@ function returnToPortal() {
 }
 
 /* ============================================================
-   ADMIN FUNCTIONS
+   ADMIN FUNCTIONS  (v13: Category dropdown + Type tag encoding)
    ============================================================ */
 async function setTestByAdmin() {
   const rawText=document.getElementById('local-ai-text').value.trim();
   const exam=document.getElementById('admin-exam-name').value.trim()||"General";
   const subject=document.getElementById('admin-subject-name').value.trim()||"Mixed";
-  const title=document.getElementById('admin-test-title').value.trim();
+  const rawTitle=document.getElementById('admin-test-title').value.trim();
+  const testType=document.getElementById('admin-test-type').value || 'MOCK';
   const desc=document.getElementById('admin-test-desc').value.trim()||"Test paper.";
   const posM=document.getElementById('admin-pos-marks').value.trim()||3;
   const negM=document.getElementById('admin-neg-marks').value.trim()||1;
   const premium=document.getElementById('admin-is-premium').value==="TRUE";
   const status=document.getElementById('admin-publish-status');
 
-  if(!title||rawText.length<25){alert("Title aur questions required hain.");return;}
+  if(!rawTitle||rawText.length<25){alert("Title aur questions required hain.");return;}
+  if(!exam){alert("Category (Exam) select karein.");return;}
+
+  // Encode Type into the title — backend Tests sheet has no Type column,
+  // so we tag it here transparently. Display strips the tag automatically.
+  const taggedTitle = encodeTestTitle(rawTitle, testType);
+
   status.innerText="Deploying...";
   try {
-    const res=await fetch(APPS_SCRIPT_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:"publish_test",exam,subject,title,description:desc,positiveMarks:posM,negativeMarks:negM,isPremium:premium,rawText})});
+    const res=await fetch(APPS_SCRIPT_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:"publish_test",exam,subject,title:taggedTitle,description:desc,positiveMarks:posM,negativeMarks:negM,isPremium:premium,rawText})});
     const d=await res.json();
-    status.innerText=`✅ Deployed! ${d.questionCount||0} questions.`;
+    status.innerText=`✅ Deployed! ${d.questionCount||0} questions. [${testType}] under ${exam}.`;
+    document.getElementById('admin-test-title').value='';
+    document.getElementById('local-ai-text').value='';
     loadTests();
   } catch(e){status.innerText="❌ Deploy failed.";}
 }
 
 /* ============================================================
-   BULK CSV UPLOAD (Admin)
+   BULK CSV UPLOAD (Admin) — v13: optional `type` column
    ============================================================ */
 function parseCSV(text) {
-  // RFC4180-ish CSV parser supporting quoted fields with commas/newlines
   const rows = [];
   let row = [], field = '', inQuotes = false;
   for (let i=0; i<text.length; i++) {
@@ -2382,8 +2687,9 @@ function handleBulkCsvSelect(e) {
       bulkCsvParsedRows = rows.slice(1).filter(r=>r.some(c=>c&&c.trim())).map(r=>{
         const obj = {};
         headers.forEach((h,i)=>{ obj[h] = (r[i]||'').trim(); });
+        const type = (obj.type||'MOCK').toUpperCase()==='PYQ' ? 'PYQ' : 'MOCK';
         return {
-          exam: obj.exam||'General', subject: obj.subject||'Mixed', title: obj.title,
+          exam: obj.exam||'General', subject: obj.subject||'Mixed', title: obj.title, type: type,
           description: obj.description||'Test paper.', positiveMarks: parseFloat(obj.positiveMarks)||3,
           negativeMarks: parseFloat(obj.negativeMarks)||1, isPremium: (obj.isPremium||'').toUpperCase()==='TRUE',
           rawText: obj.rawText||''
@@ -2393,7 +2699,7 @@ function handleBulkCsvSelect(e) {
       const preview=document.getElementById('bulk-csv-preview');
       preview.classList.remove('hidden');
       preview.innerHTML = `<div class="font-bold text-accent mb-2">${bulkCsvParsedRows.length} tests found in CSV:</div>` +
-        bulkCsvParsedRows.map(t=>`<div class="surface rounded-lg p-2 mb-1"><b>${escapeHtml(t.title)}</b> — ${escapeHtml(t.exam)}/${escapeHtml(t.subject)} ${t.isPremium?'<span class="text-amber-500">[VIP]</span>':''}</div>`).join('');
+        bulkCsvParsedRows.map(t=>`<div class="surface rounded-lg p-2 mb-1"><b>${escapeHtml(t.title)}</b> — ${escapeHtml(t.exam)}/${escapeHtml(t.subject)} <span class="type-pill ${t.type==='PYQ'?'pyq':'mock'}">${t.type}</span> ${t.isPremium?'<span class="text-amber-500">[VIP]</span>':''}</div>`).join('');
       document.getElementById('bulk-csv-submit-btn').classList.remove('hidden');
     } catch(err) {
       alert("CSV parse karne mein error: "+err.message);
@@ -2407,7 +2713,9 @@ async function submitBulkCsv() {
   const status=document.getElementById('bulk-csv-status');
   status.innerText="Uploading "+bulkCsvParsedRows.length+" tests...";
   try {
-    const res=await fetch(APPS_SCRIPT_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:"bulk_publish_tests",tests:bulkCsvParsedRows})});
+    // Encode the type tag into each title before sending to backend
+    const taggedRows = bulkCsvParsedRows.map(t => ({...t, title: encodeTestTitle(t.title, t.type)}));
+    const res=await fetch(APPS_SCRIPT_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:"bulk_publish_tests",tests:taggedRows})});
     const d=await res.json();
     status.innerText=`✅ ${d.published||0} tests published.` + (d.errors&&d.errors.length?` ⚠️ Errors: ${d.errors.join('; ')}`:'');
     bulkCsvParsedRows=[];
@@ -2463,7 +2771,6 @@ function saveAnnouncement() {
   document.getElementById('announce-text').value='';
   loadAnnouncementsHistory();
   alert("Announcement broadcast ho gaya!");
-  // Also try server
   fetch(APPS_SCRIPT_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:"save_announcement",message:text})}).catch(()=>{});
 }
 
@@ -2492,38 +2799,6 @@ function switchAdminTab(tab) {
   if(tab==='announce') loadAnnouncementsHistory();
 }
 
-function parseRawTestText(txt) {
-  const tempKeys={};
-  const cleanText=txt.toUpperCase().replace(/\n/g,' ');
-  const ansIdx=cleanText.indexOf("ANSWER KEY:");
-  if(ansIdx!==-1) {
-    const ansPart=cleanText.substring(ansIdx);
-    const pairs=ansPart.match(/Q?\d+\s*-\s*[A-D]/gi)||ansPart.match(/\d+-[A-D]/g);
-    if(pairs) pairs.forEach(p=>{const pts=p.replace(/Q/g,'').split(/[-\|]/);if(pts.length>=2)tempKeys[parseInt(pts[0].trim())]=pts[pts.length-1].trim();});
-  }
-  const lines=txt.split("\n"); let block=""; let col=false;
-  for(const l of lines){const lt=l.trim();if(/^(Q\d+|1\b|2\b|3\b)/i.test(lt))col=true;if(lt.toUpperCase().includes("ANSWER KEY:"))col=false;if(col)block+=l+"\n";}
-  const parts=block.split(/(?:Q(?:uestion)?\s*\d+[\.\s\-:\)]+|\b\d+[\.\)\-]\s+)/gi);
-  const questions=[];let ptr=1;
-  parts.forEach(b=>{
-    const trimmed=b.trim();if(trimmed.length>5){
-      const ls=trimmed.split('\n').map(x=>x.trim()).filter(Boolean);
-      let qText="",A="",B="",C="",D="";
-      ls.forEach(line=>{const u=line.toUpperCase();
-        if(u.startsWith('(A)')||u.startsWith('A.')||u.startsWith('A)'))A=line.replace(/^\s*[\(\[A-D\u2022\-\.\)]+\s*/i,'').trim();
-        else if(u.startsWith('(B)')||u.startsWith('B.')||u.startsWith('B)'))B=line.replace(/^\s*[\(\[A-D\u2022\-\.\)]+\s*/i,'').trim();
-        else if(u.startsWith('(C)')||u.startsWith('C.')||u.startsWith('C)'))C=line.replace(/^\s*[\(\[A-D\u2022\-\.\)]+\s*/i,'').trim();
-        else if(u.startsWith('(D)')||u.startsWith('D.')||u.startsWith('D)'))D=line.replace(/^\s*[\(\[A-D\u2022\-\.\)]+\s*/i,'').trim();
-        else qText+=" "+line;
-      });
-      questions.push({id:ptr,text:qText.trim(),A,B,C,D});
-      if(!tempKeys[ptr])tempKeys[ptr]="A";
-      ptr++;
-    }
-  });
-  return {questions,keys:tempKeys};
-}
-
 function setPaletteFilter(f) { currentPaletteFilter=f; buildPaletteGrid(); }
 
 /* ============================================================
@@ -2543,6 +2818,7 @@ function applyTheme(n,p) {
 function escapeHtml(s) {
   return String(s||"").replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
+function escapeAttr(s) { return escapeHtml(s); }
 
 function showInfo(title, body) {
   if(!title||!body||!title.trim()||!body.trim()) return;
