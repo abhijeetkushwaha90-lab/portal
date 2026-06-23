@@ -1434,7 +1434,7 @@ function filterCourses(cat) {
 /* ============================================================
    PAYMENT MODAL
    ============================================================ */
-function openPaymentModal(courseName, price) {
+function openPaymentModal(courseName, price) {   alert("Payment abhi disabled hai. Course access ke liye admin se contact karein."); }
   if(!courseName || !courseName.trim()) return;
   document.getElementById('pay-course-name').innerText = courseName;
   document.getElementById('pay-course-price').innerText = `₹${price}`;
