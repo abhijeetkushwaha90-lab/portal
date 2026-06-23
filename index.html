@@ -2059,13 +2059,23 @@ function adminAddNoteFromPanel(){
   const videoUrl=document.getElementById('anote-video-url').value.trim();
   const resourceUrl=document.getElementById('anote-resource-url').value.trim();
   if(!title||!content){alert("Title aur Content required.");return;}
-  const notes=JSON.parse(localStorage.getItem('baaz_notes')||'[]');
-  notes.push({title,exam,subject,content,videoUrl,resourceUrl,createdAt:new Date().toLocaleDateString()});
-  localStorage.setItem('baaz_notes',JSON.stringify(notes));allNotes=notes;
-  document.getElementById('anote-title').value='';document.getElementById('anote-content').value='';
-  loadAdminNotesList();alert("Note published!");
+  fetch(APPS_SCRIPT_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},
+    body:JSON.stringify({action:"publish_note",title,exam,subject,content,videoUrl,resourceUrl,createdBy:currentUserData?.email||'admin'})
+  }).then(r=>r.json()).then(d=>{
+    if(d.status==="success"){
+      const notes=JSON.parse(localStorage.getItem('baaz_notes')||'[]');
+      notes.push({title,exam,subject,content,videoUrl,resourceUrl});
+      localStorage.setItem('baaz_notes',JSON.stringify(notes));
+      allNotes=notes;
+      document.getElementById('anote-title').value='';
+      document.getElementById('anote-content').value='';
+      document.getElementById('anote-video-url').value='';
+      document.getElementById('anote-resource-url').value='';
+      loadAdminNotesList();
+      alert("✅ Note published to Sheet!");
+    }else alert("Error: "+d.message);
+  }).catch(()=>alert("Server error"));
 }
-
 function deleteNote(i){
   if(!confirm("Delete this note?"))return;
   const notes=JSON.parse(localStorage.getItem('baaz_notes')||'[]');
