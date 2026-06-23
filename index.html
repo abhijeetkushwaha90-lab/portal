@@ -663,7 +663,7 @@ ANSWER KEY:
     <div id="atab-bulk" class="hidden space-y-3">
       <div class="premium-card rounded-xl p-5 space-y-3">
         <div class="font-bold text-amber-500 text-sm"><i class="fas fa-file-csv mr-1"></i>Bulk Upload Tests via CSV</div>
-        <p class="text-[11px] text-muted leading-relaxed">CSV columns: <code class="text-accent">exam,subject,title,type,description,positiveMarks,negativeMarks,isPremium,rawText</code></p>
+        <p class="text-[11px] text-muted leading-relaxed">CSV columns: <code class="text-accent">exam,subject,title,type,description,positiveMarks,negativeMarks,isPremium,questionsText,answerKey</code></p>
         <label class="btn-neutral text-xs font-bold px-4 py-2.5 rounded-xl cursor-pointer inline-block">
           <i class="fas fa-upload mr-1"></i> Choose CSV File
           <input type="file" id="bulk-csv-input" accept=".csv" class="hidden" onchange="handleBulkCsvSelect(event)">
@@ -2817,12 +2817,15 @@ function handleBulkCsvSelect(e){
       const rows=parseCSV(ev.target.result);
       if(rows.length<2){alert("Header + 1 data row hona chahiye.");return;}
       const headers=rows[0].map(h=>h.trim());
-      const missing=['title','rawText'].filter(r=>headers.indexOf(r)===-1);
+      const missing=['title','questionsText','answerKey'].filter(r=>headers.indexOf(r)===-1);
       if(missing.length){alert("Missing columns: "+missing.join(", "));return;}
       bulkCsvParsedRows=rows.slice(1).filter(r=>r.some(c=>c&&c.trim())).map(r=>{
         const obj={};headers.forEach((h,i)=>{obj[h]=(r[i]||'').trim();});
         const type=(obj.type||'MOCK').toUpperCase()==='PYQ'?'PYQ':'MOCK';
-        return{exam:obj.exam||'General',subject:obj.subject||'Mixed',title:obj.title,type,description:obj.description||'Test.',positiveMarks:parseFloat(obj.positiveMarks)||3,negativeMarks:parseFloat(obj.negativeMarks)||1,isPremium:(obj.isPremium||'').toUpperCase()==='TRUE',rawText:obj.rawText||''};
+        const questionsText=obj.questionsText||'';
+        const answerKey=obj.answerKey||'';
+        const rawText=`${questionsText}\n\nANSWER KEY:\n${answerKey}`;
+        return{exam:obj.exam||'General',subject:obj.subject||'Mixed',title:obj.title,type,description:obj.description||'Test.',positiveMarks:parseFloat(obj.positiveMarks)||3,negativeMarks:parseFloat(obj.negativeMarks)||1,isPremium:(obj.isPremium||'').toUpperCase()==='TRUE',rawText};
       });
       const preview=document.getElementById('bulk-csv-preview');
       preview.classList.remove('hidden');
@@ -2832,7 +2835,6 @@ function handleBulkCsvSelect(e){
   };
   reader.readAsText(file);
 }
-
 async function submitBulkCsv(){
   if(!bulkCsvParsedRows.length){alert("Pehle CSV select karein.");return;}
   const status=document.getElementById('bulk-csv-status');
