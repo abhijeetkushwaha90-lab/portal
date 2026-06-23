@@ -2035,13 +2035,22 @@ function adminAddNote(){
   const videoUrl=document.getElementById('note-video-url').value.trim();
   const resourceUrl=document.getElementById('note-resource-url').value.trim();
   if(!title||!content){alert("Title aur Content required.");return;}
-  const notes=JSON.parse(localStorage.getItem('baaz_notes')||'[]');
-  notes.push({title,exam,subject,content,videoUrl,resourceUrl,createdAt:new Date().toLocaleDateString()});
-  localStorage.setItem('baaz_notes',JSON.stringify(notes));allNotes=notes;renderNotes(allNotes);
-  document.getElementById('note-title').value='';document.getElementById('note-content').value='';
-  alert("Note published!");
+  fetch(APPS_SCRIPT_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},
+    body:JSON.stringify({action:"publish_note",title,exam,subject,content,videoUrl,resourceUrl,createdBy:currentUserData?.email||'admin'})
+  }).then(r=>r.json()).then(d=>{
+    if(d.status==="success"){
+      const notes=JSON.parse(localStorage.getItem('baaz_notes')||'[]');
+      notes.push({title,exam,subject,content,videoUrl,resourceUrl});
+      localStorage.setItem('baaz_notes',JSON.stringify(notes));
+      allNotes=notes;renderNotes(allNotes);
+      document.getElementById('note-title').value='';
+      document.getElementById('note-content').value='';
+      document.getElementById('note-video-url').value='';
+      document.getElementById('note-resource-url').value='';
+      alert("✅ Note published to Sheet!");
+    }else alert("Error: "+d.message);
+  }).catch(()=>alert("Server error"));
 }
-
 function adminAddNoteFromPanel(){
   const title=document.getElementById('anote-title').value.trim();
   const exam=document.getElementById('anote-exam').value;
@@ -2081,11 +2090,11 @@ function openNoteModal(i){
   document.getElementById('note-modal-content').innerText=note.content;
   const vb=document.getElementById('note-modal-video');
   const em=youtubeEmbedUrl(note.videoUrl);
-  if(em){vb.innerHTML=`<iframe width="100%" height="100%" src="${em}" frameborder="0" allowfullscreen></iframe>`;vb.classList.remove('hidden');}
+  if(em){vb.innerHTML=`<iframe width="100%" height="100%" src="${em}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="border-radius:12px;"></iframe>`;vb.classList.remove('hidden');}
   else{vb.innerHTML='';vb.classList.add('hidden');}
   const rb=document.getElementById('note-modal-resource');
   if(note.resourceUrl&&note.resourceUrl.trim()){
-    rb.innerHTML=`<a href="${escapeAttr(note.resourceUrl.trim())}" target="_blank" class="w-full block text-center btn-success font-bold py-2.5 rounded-xl text-xs"><i class="fas fa-file-pdf mr-1"></i>Open PDF / Resource</a>`;
+    rb.innerHTML=`<a href="${escapeAttr(note.resourceUrl.trim())}" target="_blank" rel="noopener" class="w-full block text-center btn-success font-bold py-2.5 rounded-xl text-xs"><i class="fas fa-file-pdf mr-1"></i>Open PDF / Resource</a><iframe src="https://docs.google.com/viewer?url=${encodeURIComponent(note.resourceUrl.trim())}&embedded=true" width="100%" height="400px" style="border:none;border-radius:12px;margin-top:8px;" class="hidden" id="pdf-frame-inline"></iframe><button onclick="document.getElementById('pdf-frame-inline').classList.toggle('hidden')" class="w-full mt-2 btn-neutral font-bold py-2 rounded-xl text-xs cursor-pointer"><i class="fas fa-eye mr-1"></i>Preview PDF in App</button>`;
     rb.classList.remove('hidden');
   }else{rb.innerHTML='';rb.classList.add('hidden');}
   document.getElementById('note-reader-modal').classList.remove('hidden');
