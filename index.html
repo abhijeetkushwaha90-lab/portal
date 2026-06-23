@@ -103,12 +103,14 @@ body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,
 .card-g9{background:linear-gradient(135deg,#0a0a0a,#1a0000);}
 
 /* MODAL SYSTEM */
+   #mistakes-modal{display:none!important;}
+   #payment-modal,#mistakes-modal{display:none!important;}
 .modal-bg{position:fixed;inset:0;height:100dvh;background:rgba(0,0,0,.85);z-index:1000;display:flex;align-items:flex-start;justify-content:center;padding:12px;backdrop-filter:blur(8px);overflow:hidden;overscroll-behavior:contain;}
 .modal-box{background:var(--card);border:0.5px solid var(--border);border-radius:20px;padding:20px;max-width:520px;width:100%;max-height:calc(100dvh - 24px);overflow-y:auto;position:relative;margin:0 auto;}
 html.modal-open,body.modal-open{overflow:hidden;height:100%;}
 
 /* PAYMENT SECTION */
-   #payment-modal{display:none!important;}
+   #payment-modal,#mistakes-modal{display:none!important;}
 .payment-card{background
 :linear-gradient(135deg,#0a2000,#001a00);border:1px solid rgba(16,185,129,0.3);border-radius:20px;padding:20px;}
 .upi-display{background:var(--bg);border:1px solid rgba(16,185,129,0.4);border-radius:12px;padding:16px;font-family:monospace;letter-spacing:.05em;}
