@@ -1257,7 +1257,7 @@ const EXAM_CATEGORIES = [
   {key:"SSC",icon:"📋"},{key:"General",icon:"📚"}
 ];
 const TYPE_TAG_RE = /^\[\[(MOCK|PYQ)\]\]\s*/;
-let examScreenState = {view:'categories', category:null, type:'MOCK'};
+let examScreenState = {view:'categories', category:null, type:'MOCK', subject:'ALL'};
 
 const RANK_LEVELS = [
   {min:0,name:"Recruit"},{min:200,name:"Cadet"},{min:500,name:"Sergeant"},
@@ -2293,68 +2293,268 @@ async function loadTests(){
 }
 
 function getHistoryMap(){return JSON.parse(localStorage.getItem(`baaz_hist_${currentUserData?.email}`)||'{}');}
+// ================================================================
+// OPERATION BAAZ v14 — SUBJECT FILTER PATCH
+// 
+// HOW TO USE:
+// 1. Open your HTML file
+// 2. Find: let examScreenState = {view:'categories', category:null, type:'MOCK'};
+//    Replace with: let examScreenState = {view:'categories', category:null, type:'MOCK', subject:'ALL'};
+//
+// 3. Find and DELETE these 5 old functions:
+//    - openExamCategory(catKey) {...}
+//    - switchExamType(type) {...}
+//    - renderFilteredTestsList() {...}
+//    - examScreenBack() {...}
+//    - renderExamCategories() {...}
+//
+// 4. Paste THIS ENTIRE FILE content just before </script> tag
+// ================================================================
 
-function renderExamCategories(){
-  examScreenState={view:'categories',category:null,type:'MOCK'};
-  document.getElementById('exam-view-categories').classList.remove('hidden');
-  document.getElementById('exam-view-list').classList.add('hidden');
-  document.getElementById('exam-back-btn').onclick=goHome;
-  const grid=document.getElementById('category-grid');if(!grid)return;
-  grid.innerHTML=EXAM_CATEGORIES.map(c=>{
-    const count=cachedTests.filter(t=>t.categoryKey===c.key).length;
-    return`<div class="category-card" onclick="openExamCategory('${c.key}')">
-      <div class="cat-icon">${c.icon}</div>
-      <div class="cat-name">${escapeHtml(c.key)}</div>
-      <div class="cat-count">${count} test${count===1?'':'s'}</div>
-    </div>`;
-  }).join('');
+
+/* ---- SUBJECT MASTER LIST ---- */
+const EXAM_SUBJECTS = [
+  { key: 'ALL',             icon: '📚', label: 'All Subjects' },
+  { key: 'English',         icon: '📝', label: 'English' },
+  { key: 'Reasoning',       icon: '🧩', label: 'Reasoning' },
+  { key: 'Mathematics',     icon: '🔢', label: 'Mathematics' },
+  { key: 'Adv. Math',       icon: '📐', label: 'Adv. Math' },
+  { key: 'Physics',         icon: '⚡', label: 'Physics' },
+  { key: 'Chemistry',       icon: '🧪', label: 'Chemistry' },
+  { key: 'Biology',         icon: '🧬', label: 'Biology' },
+  { key: 'GS/GA',           icon: '🌍', label: 'GS / GA' },
+  { key: 'Current Affairs', icon: '📰', label: 'Current Affairs' },
+  { key: 'History',         icon: '🏛️', label: 'History' },
+  { key: 'Geography',       icon: '🗺️', label: 'Geography' },
+  { key: 'Science',         icon: '🔬', label: 'Science' },
+  { key: 'Mixed',           icon: '🎯', label: 'Mixed' },
+];
+
+/* Helper: fuzzy subject match */
+function subjectMatches(testSubject, filterKey) {
+  if (filterKey === 'ALL') return true;
+  const ts = (testSubject || '').toLowerCase().trim();
+  const fk = filterKey.toLowerCase().trim();
+  return ts === fk || ts.includes(fk) || fk.includes(ts);
 }
 
-function openExamCategory(catKey){
-  examScreenState={view:'list',category:catKey,type:'MOCK'};
+/* Count tests for a subject pill */
+function countTestsForSubject(subjectKey) {
+  return cachedTests.filter(t =>
+    t.categoryKey === examScreenState.category &&
+    t.type === examScreenState.type &&
+    subjectMatches(t.subject, subjectKey)
+  ).length;
+}
+
+/* ---- RENDER SUBJECT PILLS ROW ---- */
+function renderSubjectTabs() {
+  const available = new Set();
+  cachedTests
+    .filter(t => t.categoryKey === examScreenState.category && t.type === examScreenState.type)
+    .forEach(t => { if (t.subject) available.add(t.subject.trim()); });
+
+  // Only show subjects that have at least 1 test (+ always show ALL)
+  const visibleSubjects = EXAM_SUBJECTS.filter(s =>
+    s.key === 'ALL' ||
+    [...available].some(a => subjectMatches(a, s.key))
+  );
+
+  // Create or reuse container (injected ABOVE tests-list)
+  let row = document.getElementById('subject-tabs-row');
+  if (!row) {
+    row = document.createElement('div');
+    row.id = 'subject-tabs-row';
+    const testsList = document.getElementById('tests-list');
+    testsList.parentNode.insertBefore(row, testsList);
+  }
+
+  row.innerHTML = `
+    <div style="margin-bottom:14px;">
+      <div style="font-size:9px;font-weight:900;color:var(--text-dim);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;">
+        <i class="fas fa-layer-group" style="color:var(--accent);margin-right:4px;"></i>Subject Filter
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:7px;">
+        ${visibleSubjects.map(s => {
+          const active = examScreenState.subject === s.key;
+          const count = countTestsForSubject(s.key);
+          return `<button
+            onclick="switchSubject('${s.key}')"
+            style="
+              display:inline-flex;align-items:center;gap:5px;
+              padding:6px 13px;border-radius:999px;cursor:pointer;
+              font-size:11px;font-weight:800;
+              border: 0.5px solid ${active ? 'var(--accent)' : 'var(--border)'};
+              background: ${active ? 'var(--accent)' : 'var(--bg)'};
+              color: ${active ? 'var(--accent-text)' : 'var(--text-dim)'};
+              transition:all .18s ease;
+            "
+            onmouseover="if('${s.key}'!=='${examScreenState.subject}'){this.style.borderColor='var(--accent)';this.style.color='var(--text)';}"
+            onmouseout="if('${s.key}'!=='${examScreenState.subject}'){this.style.borderColor='var(--border)';this.style.color='var(--text-dim)';}"
+          >
+            <span>${s.icon}</span>
+            ${s.label}
+            <span style="
+              font-size:9px;font-weight:900;
+              background:${active ? 'rgba(0,0,0,0.2)' : 'var(--border)'};
+              color:${active ? 'var(--accent-text)' : 'var(--text-dim)'};
+              border-radius:999px;padding:1px 7px;
+            ">${count}</span>
+          </button>`;
+        }).join('')}
+      </div>
+    </div>
+  `;
+}
+
+/* ---- SWITCH SUBJECT ---- */
+function switchSubject(subjectKey) {
+  examScreenState.subject = subjectKey;
+  renderSubjectTabs();
+  renderFilteredTestsList();
+}
+
+/* ---- UPDATED: openExamCategory ---- */
+function openExamCategory(catKey) {
+  examScreenState = { view: 'list', category: catKey, type: 'MOCK', subject: 'ALL' };
+
   document.getElementById('exam-view-categories').classList.add('hidden');
   document.getElementById('exam-view-list').classList.remove('hidden');
-  document.getElementById('exam-back-btn').onclick=examScreenBack;
-  const catObj=EXAM_CATEGORIES.find(c=>c.key===catKey);
-  document.getElementById('current-category-label').innerText=catObj?`${catObj.icon} ${catObj.key}`:catKey;
+  document.getElementById('exam-back-btn').onclick = examScreenBack;
+
+  const catObj = EXAM_CATEGORIES.find(c => c.key === catKey);
+  document.getElementById('current-category-label').innerText =
+    catObj ? `${catObj.icon} ${catObj.key}` : catKey;
+
   document.getElementById('type-tab-MOCK').classList.add('active');
   document.getElementById('type-tab-PYQ').classList.remove('active');
+
+  // Remove old subject tabs if switching categories
+  const old = document.getElementById('subject-tabs-row');
+  if (old) old.remove();
+
+  renderSubjectTabs();
   renderFilteredTestsList();
 }
 
-function switchExamType(type){
-  examScreenState.type=type;
-  document.getElementById('type-tab-MOCK').classList.toggle('active',type==='MOCK');
-  document.getElementById('type-tab-PYQ').classList.toggle('active',type==='PYQ');
+/* ---- UPDATED: switchExamType ---- */
+function switchExamType(type) {
+  examScreenState.type = type;
+  examScreenState.subject = 'ALL'; // Reset subject on type change
+  document.getElementById('type-tab-MOCK').classList.toggle('active', type === 'MOCK');
+  document.getElementById('type-tab-PYQ').classList.toggle('active', type === 'PYQ');
+  renderSubjectTabs();
   renderFilteredTestsList();
 }
 
-function examScreenBack(){renderExamCategories();}
+/* ---- UPDATED: renderFilteredTestsList ---- */
+function renderFilteredTestsList() {
+  const c = document.getElementById('tests-list');
+  if (!c) return;
+  const hist = getHistoryMap();
 
-function renderFilteredTestsList(){
-  const c=document.getElementById('tests-list');if(!c)return;
-  const hist=getHistoryMap();
-  const filtered=cachedTests.filter(t=>t.categoryKey===examScreenState.category&&t.type===examScreenState.type);
-  if(!filtered.length){c.innerHTML=`<div class="premium-card rounded-xl p-4 text-xs text-muted col-span-2">Is category/type mein koi test nahi hai abhi.</div>`;return;}
-  c.innerHTML=filtered.map(t=>{
-    const idx=cachedTests.indexOf(t);const done=hist[t.title];
-    let btn='';
-    if(done)btn=`<button onclick="viewLockedResultByIdx(${idx})" class="w-full mt-3 btn-neutral font-bold py-2 rounded-xl text-xs uppercase cursor-pointer"><i class="fas fa-lock mr-1"></i>View Result</button>`;
-    else if(t.isPremium&&currentUserData?.role!=='admin')btn=`<button onclick="buyPremiumTestByIdx(${idx})" class="w-full mt-3 btn-accent font-black py-2 rounded-xl text-xs uppercase cursor-pointer"><i class="fas fa-crown mr-1"></i>UNLOCK (100 Coins)</button>`;
-    else btn=`<button onclick="launchExamEngineByIdx(${idx})" class="w-full mt-3 btn-success font-bold py-2 rounded-xl text-xs uppercase cursor-pointer">🚀 Start Test</button>`;
-    return`<div class="premium-card rounded-2xl p-4 border-t-2" style="border-top-color:var(--accent)">
-      <div class="flex justify-between items-center">
-        <div class="text-[9px] text-muted font-black uppercase">${escapeHtml(t.exam)} • ${escapeHtml(t.subject)}</div>
-        <span class="type-pill ${t.type==='PYQ'?'pyq':'mock'}">${t.type}</span>
-      </div>
-      <h3 class="font-black text-sm text-accent mt-0.5">${escapeHtml(t.displayTitle)}</h3>
-      <p class="text-xs text-muted mt-1">${escapeHtml(t.description)}</p>
-      <span class="text-[10px] text-emerald-400 mt-2 font-bold block">+${t.positiveMarks}/-${t.negativeMarks} • ${t.parsedQuestions?.length||0} Qs</span>
-      ${btn}
-    </div>`;
+  const filtered = cachedTests.filter(t =>
+    t.categoryKey === examScreenState.category &&
+    t.type === examScreenState.type &&
+    subjectMatches(t.subject, examScreenState.subject)
+  );
+
+  if (!filtered.length) {
+    const subLabel = examScreenState.subject === 'ALL' ? '' : ` "${examScreenState.subject}"`;
+    c.innerHTML = `
+      <div class="premium-card rounded-xl p-6 text-center col-span-2">
+        <div style="font-size:2.5rem;margin-bottom:8px;">📭</div>
+        <div class="font-black text-sm text-muted">Is${subLabel} subject mein koi test nahi hai abhi.</div>
+        <div class="text-xs text-muted" style="margin-top:4px;">Doosra subject filter try karo.</div>
+      </div>`;
+    return;
+  }
+
+  c.innerHTML = filtered.map(t => {
+    const idx = cachedTests.indexOf(t);
+    const attempted = !!hist[t.title];
+    const qCount = t.parsedQuestions?.length || 0;
+
+    const doneBadge = attempted
+      ? `<span style="font-size:8px;background:rgba(16,185,129,0.15);color:var(--success2);padding:2px 7px;border-radius:999px;font-weight:900;border:0.5px solid var(--success2);">✓ DONE</span>`
+      : '';
+
+    const premBadge = t.isPremium
+      ? `<span style="font-size:8px;background:linear-gradient(90deg,#f59e0b,#ef4444);color:#fff;padding:2px 7px;border-radius:999px;font-weight:900;">👑 VIP</span>`
+      : '';
+
+    let actionBtns = '';
+    if (attempted) {
+      actionBtns = `
+        <button onclick="viewLockedResultByIdx(${idx})"
+          class="w-full font-bold py-2.5 rounded-xl text-xs cursor-pointer"
+          style="background:rgba(124,58,237,0.15);color:var(--flag);border:0.5px solid var(--flag);margin-top:10px;">
+          <i class="fas fa-chart-bar mr-1"></i>View Result
+        </button>
+        <button onclick="launchExamEngineByIdx(${idx})"
+          class="w-full btn-neutral font-bold py-2 rounded-xl text-xs cursor-pointer" style="margin-top:6px;">
+          <i class="fas fa-redo mr-1"></i>Reattempt
+        </button>`;
+    } else {
+      actionBtns = `
+        <button onclick="launchExamEngineByIdx(${idx})"
+          class="w-full btn-success font-bold py-2.5 rounded-xl text-xs cursor-pointer" style="margin-top:10px;">
+          <i class="fas fa-rocket mr-1"></i>START TEST
+        </button>`;
+    }
+
+    return `
+      <div class="premium-card rounded-2xl p-4" style="border-top:2px solid var(--accent);">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+          <div style="display:flex;align-items:center;gap:6px;">
+            <span style="font-size:9px;color:var(--text-dim);font-weight:900;text-transform:uppercase;">${escapeHtml(t.exam)}</span>
+            <span style="font-size:9px;color:var(--text-dim);">•</span>
+            <span style="font-size:9px;font-weight:800;color:var(--accent);">${escapeHtml(t.subject || 'Mixed')}</span>
+          </div>
+          <div style="display:flex;gap:4px;align-items:center;flex-wrap:wrap;justify-content:flex-end;">
+            <span class="type-pill ${t.type === 'PYQ' ? 'pyq' : 'mock'}">${t.type}</span>
+            ${premBadge}
+            ${doneBadge}
+          </div>
+        </div>
+        <h3 class="font-black text-sm text-accent">${escapeHtml(t.displayTitle)}</h3>
+        <p class="text-xs text-muted" style="margin-top:2px;margin-bottom:4px;">${escapeHtml(t.description)}</p>
+        <span style="font-size:10px;font-weight:700;color:var(--success2);">+${t.positiveMarks}/-${t.negativeMarks} &nbsp;•&nbsp; ${qCount} Qs</span>
+        ${actionBtns}
+      </div>`;
   }).join('');
 }
 
+/* ---- UPDATED: examScreenBack ---- */
+function examScreenBack() {
+  renderExamCategories();
+}
+
+/* ---- UPDATED: renderExamCategories ---- */
+function renderExamCategories() {
+  examScreenState = { view: 'categories', category: null, type: 'MOCK', subject: 'ALL' };
+
+  // Clean up subject tabs
+  const old = document.getElementById('subject-tabs-row');
+  if (old) old.remove();
+
+  document.getElementById('exam-view-categories').classList.remove('hidden');
+  document.getElementById('exam-view-list').classList.add('hidden');
+  document.getElementById('exam-back-btn').onclick = goHome;
+
+  const grid = document.getElementById('category-grid');
+  if (!grid) return;
+
+  grid.innerHTML = EXAM_CATEGORIES.map(c => {
+    const count = cachedTests.filter(t => t.categoryKey === c.key).length;
+    return `
+      <div class="category-card" onclick="openExamCategory('${c.key}')">
+        <div class="cat-icon">${c.icon}</div>
+        <div class="cat-name">${escapeHtml(c.key)}</div>
+        <div class="cat-count">${count} test${count === 1 ? '' : 's'}</div>
+      </div>`;
+  }).join('');
+}
 function viewLockedResultByIdx(i){const t=cachedTests[i];if(t)viewLockedResult(t.title);}
 function buyPremiumTestByIdx(i){const t=cachedTests[i];if(t)buyPremiumTest(t.title);}
 function launchExamEngineByIdx(i){const t=cachedTests[i];if(t)launchExamEngine(t.title);}
