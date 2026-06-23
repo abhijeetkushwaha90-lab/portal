@@ -1122,10 +1122,53 @@ ANSWER KEY:
 /* ============================================================
    CONFIG
    ============================================================ */
+  // PASSWORD HASHING
+async function hashPassword(password) {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(password + "BAAZ_SALT_2024");
+  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+}
 const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz6X6hX2Mnz-d_-Cao6B7bOkRop3RPnCve5-z_R1iV5kdf3PIL9aG6y8dSca84dpIAc/exec";
 const ADMIN_EMAIL = "kajalkushwaha208@gmail.com";
 const ADMIN_PASSWORD = "Kajal@123";
 const UPI_ID = "7068252052@axl";
+  // RATE LIMITING — Max 5 attempts, 15 min lockout
+const RATE_LIMIT = { MAX_ATTEMPTS: 5, WINDOW_MS: 15 * 60 * 1000 };
+
+function getRateData(email) {
+  return JSON.parse(localStorage.getItem('baaz_rate_' + email) || '{"attempts":0,"firstAttempt":0}');
+}
+
+function checkRateLimit(email) {
+  const data = getRateData(email);
+  const now = Date.now();
+  if (now - data.firstAttempt > RATE_LIMIT.WINDOW_MS) {
+    localStorage.removeItem('baaz_rate_' + email);
+    return { allowed: true, remaining: RATE_LIMIT.MAX_ATTEMPTS };
+  }
+  if (data.attempts >= RATE_LIMIT.MAX_ATTEMPTS) {
+    const remaining = Math.ceil((RATE_LIMIT.WINDOW_MS - (now - data.firstAttempt)) / 60000);
+    return { allowed: false, waitMinutes: remaining };
+  }
+  return { allowed: true, remaining: RATE_LIMIT.MAX_ATTEMPTS - data.attempts };
+}
+
+function recordFailedAttempt(email) {
+  const data = getRateData(email);
+  const now = Date.now();
+  if (!data.firstAttempt || now - data.firstAttempt > RATE_LIMIT.WINDOW_MS) {
+    data.firstAttempt = now;
+    data.attempts = 0;
+  }
+  data.attempts += 1;
+  localStorage.setItem('baaz_rate_' + email, JSON.stringify(data));
+}
+
+function clearRateLimit(email) {
+  localStorage.removeItem('baaz_rate_' + email);
+}
 
 /* ============================================================
    ✅ FIX 1: QUESTION PARSER — EXACT COUNT, NO DUPLICATES
@@ -1448,10 +1491,41 @@ function setupAntiCheat() {
   });
 }
 
+// SESSION TIMEOUT — 15 min inactivity pe auto-logout
+const SESSION_TIMEOUT_MS = 15 * 60 * 1000;
+let sessionTimer = null;
+let sessionWarningTimer = null;
+
+function resetSessionTimer() {
+  clearTimeout(sessionTimer);
+  clearTimeout(sessionWarningTimer);
+  sessionWarningTimer = setTimeout(() => {
+    if (currentUserData) {
+      alert("⚠️ 1 minute mein auto-logout hoga! Kuch bhi click karo session badhane ke liye.");
+    }
+  }, SESSION_TIMEOUT_MS - 60000);
+  sessionTimer = setTimeout(() => {
+    if (currentUserData) {
+      alert("⏱️ Session timeout — dobara login karein.");
+      logout();
+    }
+  }, SESSION_TIMEOUT_MS);
+}
+
+function startSessionWatcher() {
+  ['mousedown','mousemove','keypress','scroll','touchstart','click'].forEach(e => {
+    document.addEventListener(e, resetSessionTimer, { passive: true });
+  });
+  resetSessionTimer();
+}
+
+function stopSessionWatcher() {
+  clearTimeout(sessionTimer);
+  clearTimeout(sessionWarningTimer);
+}
 async function syncAnnouncements() {
   try {
-    const r = await fetch(APPS_SCRIPT_URL+"?action=get_announcements");
-    const d = await r.json();
+    const r = await fetch(APPS_SCRIPT_URL+"?action=get_announcements");    const d = await r.json();
     if(d.announcement) {
       document.getElementById('broadcast-text').innerText = d.announcement;
       document.getElementById('global-broadcast').classList.remove('hidden');
@@ -1541,6 +1615,12 @@ async function doLogin() {
   const password=document.getElementById('login-password').value;
   const err=document.getElementById('login-error');
   err.classList.add('hidden');
+  const rateCheck = checkRateLimit(email);
+  if (!rateCheck.allowed) {
+    err.innerText = `⛔ Account locked. ${rateCheck.waitMinutes} minute baad try karein.`;
+    err.classList.remove('hidden');
+    return;
+  }
   if(email===ADMIN_EMAIL&&password===ADMIN_PASSWORD){
     const adminObj={uid:"ADMIN",name:"Admin",email:ADMIN_EMAIL,role:"admin",walletBalance:9999,sessionID:"ROOT",blurStrikes:0,joinDate:new Date().toLocaleDateString(),xp:9999,level:"Officer Commanding",streak:0,badges:[]};
     localStorage.setItem('baaz_email',email);localStorage.setItem('baaz_userdata',JSON.stringify(adminObj));
@@ -1552,11 +1632,17 @@ async function doLogin() {
     if(d.status==="success"){
       const user={...d,role:"student"};
       localStorage.setItem('baaz_email',email);localStorage.setItem('baaz_userdata',JSON.stringify(user));
+      clearRateLimit(email);
       loginSuccess(user);
-    }else{err.innerText=d.message;err.classList.remove('hidden');}
+    }else{
+      recordFailedAttempt(email);
+      const after=checkRateLimit(email);
+      if(!after.allowed){err.innerText=`⛔ 5 failed attempts. 15 min ke liye locked.`;}
+      else{err.innerText=d.message+` (${after.remaining} attempts bache)`;}
+      err.classList.remove('hidden');
+    }
   }catch(e){err.innerText="Login error.";err.classList.remove('hidden');}
 }
-
 function loginSuccess(u) {
   currentUserData=u;
   document.getElementById('auth-container').classList.add('hidden');
