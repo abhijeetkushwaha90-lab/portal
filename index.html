@@ -103,8 +103,15 @@ body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,
 .card-g9{background:linear-gradient(135deg,#0a0a0a,#1a0000);}
 
 /* MODAL SYSTEM */
-.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:1000;display:flex;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(8px);}
-.modal-box{background:var(--card);border:0.5px solid var(--border);border-radius:20px;padding:24px;max-width:520px;width:100%;max-height:90vh;overflow-y:auto;position:relative;}
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:1000;display:flex;align-items:flex-start;justify-content:center;padding:16px;backdrop-filter:blur(8px);overflow-y:auto;overscroll-behavior:contain;}
+.modal-box{background:var(--card);border:0.5px solid var(--border);border-radius:20px;padding:24px;max-width:520px;width:100%;max-height:none;overflow:visible;position:relative;margin:auto 0;}
+body.modal-open{overflow:hidden;}
+@media(max-width:480px){
+  .modal-bg{padding:10px;align-items:flex-start;}
+  .modal-box{padding:16px;border-radius:16px;width:min(100%,420px);}
+  .payment-card{padding:14px;border-radius:16px;}
+  .qr-box img{width:140px;height:140px;}
+}
 
 /* PAYMENT SECTION */
 .payment-card{background:linear-gradient(135deg,#0a2000,#001a00);border:1px solid rgba(16,185,129,0.3);border-radius:20px;padding:20px;}
@@ -1432,10 +1439,14 @@ function openPaymentModal(courseName, price) {
     const upiData=`upi://pay?pa=${UPI_ID}&pn=${encodeURIComponent(UPI_NAME)}&am=${price}&cu=INR&tn=${encodeURIComponent('Course: '+courseName)}`;
     qrImg.src=`https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(upiData)}&size=160x160&margin=10`;
   }
-  document.getElementById('payment-modal').classList.remove('hidden');
+ document.body.classList.add('modal-open');
+document.getElementById('payment-modal').classList.remove('hidden');
 }
 
-function closePaymentModal() { document.getElementById('payment-modal').classList.add('hidden'); }
+function closePaymentModal() {
+  document.getElementById('payment-modal').classList.add('hidden');
+  document.body.classList.remove('modal-open');
+}
 
 function copyUPI() {
   navigator.clipboard.writeText(UPI_ID).then(()=>alert('UPI ID copied: ' + UPI_ID)).catch(()=>alert('UPI ID: ' + UPI_ID));
