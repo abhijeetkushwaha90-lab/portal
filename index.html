@@ -2353,7 +2353,8 @@ function renderFilteredTestsList(){
   const hist=getHistoryMap();
   const filtered=cachedTests.filter(t=>t.categoryKey===examScreenState.category&&t.type===examScreenState.type);
   if(!filtered.length){c.innerHTML=`<div class="premium-card rounded-xl p-4 text-xs text-muted col-span-2">Is category/type mein koi test nahi hai abhi.</div>`;return;}
-  c.innerHTML=filtered.map((t,i)=>{
+  c.innerHTML=filtered.map((t)=>{
+  const i = cachedTests.indexOf(t);
     const alreadyDone = hist[t.title];
     let btn = '';
     if(t.isPremium && currentUserData?.role !== 'admin'){
