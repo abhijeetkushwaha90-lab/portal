@@ -2438,8 +2438,9 @@ function toggleAccordion(id){
   const isOpen=panel.style.display!=='none';
   panel.style.display=isOpen?'none':'block';
   if(icon)icon.style.transform=isOpen?'rotate(0deg)':'rotate(180deg)';
-}}function viewLockedResultByIdx(i){const t=cachedTests[i];if(t)viewLockedResult(t.title);}
-function buyPremiumTestByIdx(i){const t=cachedTests[i];if(t)buyPremiumTest(t.title);}
+}
+
+function viewLockedResultByIdx(i){const t=cachedTests[i];if(t)buyPremiumTest(t.title);}
 function launchExamEngineByIdx(i){const t=cachedTests[i];if(t)launchExamEngine(t.title);}
 
 function loadAdminTestsList(){
