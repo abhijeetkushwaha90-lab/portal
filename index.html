@@ -105,7 +105,7 @@ body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,
 /* MODAL SYSTEM */
 .modal-bg{position:fixed;inset:0;height:100dvh;background:rgba(0,0,0,.85);z-index:1000;display:flex;align-items:flex-start;justify-content:center;padding:12px;backdrop-filter:blur(8px);overflow-y:auto;overscroll-behavior:contain;}
 .modal-box{background:var(--card);border:0.5px solid var(--border);border-radius:20px;padding:20px;max-width:520px;width:100%;max-height:calc(100dvh - 24px);overflow-y:auto;position:relative;margin:0 auto;}
-body.modal-open{overflow:hidden;}
+html.modal-open,body.modal-open{overflow:hidden;height:100%;}
 
 /* PAYMENT SECTION */
 .payment-card{background:linear-gradient(135deg,#0a2000,#001a00);border:1px solid rgba(16,185,129,0.3);border-radius:20px;padding:20px;}
@@ -1444,13 +1444,15 @@ function openPaymentModal(courseName, price) {
     const upiData=`upi://pay?pa=${UPI_ID}&pn=${encodeURIComponent(UPI_NAME)}&am=${price}&cu=INR&tn=${encodeURIComponent('Course: '+courseName)}`;
     qrImg.src=`https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(upiData)}&size=160x160&margin=10`;
   }
- document.body.classList.add('modal-open');
+ document.documentElement.classList.add('modal-open');
+document.body.classList.add('modal-open');
 document.getElementById('payment-modal').classList.remove('hidden');
 }
 
 function closePaymentModal() {
   document.getElementById('payment-modal').classList.add('hidden');
-  document.body.classList.remove('modal-open');
+ document.documentElement.classList.remove('modal-open');
+document.body.classList.remove('modal-open');
 }
 
 function copyUPI() {
