@@ -1434,22 +1434,9 @@ function filterCourses(cat) {
 /* ============================================================
    PAYMENT MODAL
    ============================================================ */
-function openPaymentModal(courseName, price) {   alert("Payment abhi disabled hai. Course access ke liye admin se contact karein."); }
-  if(!courseName || !courseName.trim()) return;
-  document.getElementById('pay-course-name').innerText = courseName;
-  document.getElementById('pay-course-price').innerText = `₹${price}`;
-
-  const qrImg = document.querySelector('#payment-modal .qr-box img');
-  if(qrImg) {
-    const upiData = `upi://pay?pa=${UPI_ID}&pn=${encodeURIComponent(UPI_NAME)}&am=${price}&cu=INR&tn=${encodeURIComponent('Course: '+courseName)}`;
-    qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(upiData)}&size=160x160&margin=10`;
-  }
-
-  document.documentElement.classList.add('modal-open');
-  document.body.classList.add('modal-open');
-  document.getElementById('payment-modal').classList.remove('hidden');
+function openPaymentModal(courseName, price) {
+  alert("Payment abhi disabled hai. Course access ke liye admin se contact karein.");
 }
-
 function closePaymentModal() {
   document.getElementById('payment-modal').classList.add('hidden');
   document.documentElement.classList.remove('modal-open');
