@@ -103,7 +103,7 @@ body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,
 .card-g9{background:linear-gradient(135deg,#0a0a0a,#1a0000);}
 
 /* MODAL SYSTEM */
-.modal-bg{position:fixed;inset:0;height:100dvh;background:rgba(0,0,0,.85);z-index:1000;display:flex;align-items:flex-start;justify-content:center;padding:12px;backdrop-filter:blur(8px);overflow-y:auto;overscroll-behavior:contain;}
+.modal-bg{position:fixed;inset:0;height:100dvh;background:rgba(0,0,0,.85);z-index:1000;display:flex;align-items:flex-start;justify-content:center;padding:12px;backdrop-filter:blur(8px);overflow:hidden;overscroll-behavior:contain;}
 .modal-box{background:var(--card);border:0.5px solid var(--border);border-radius:20px;padding:20px;max-width:520px;width:100%;max-height:calc(100dvh - 24px);overflow-y:auto;position:relative;margin:0 auto;}
 html.modal-open,body.modal-open{overflow:hidden;height:100%;}
 
@@ -1436,29 +1436,25 @@ function filterCourses(cat) {
    ============================================================ */
 function openPaymentModal(courseName, price) {
   if(!courseName || !courseName.trim()) return;
-  document.getElementById('pay-course-name').innerText=courseName;
-  document.getElementById('pay-course-price').innerText=`₹${price}`;
-  // Update QR with amount
-  const qrImg=document.querySelector('#payment-modal .qr-box img');
+  document.getElementById('pay-course-name').innerText = courseName;
+  document.getElementById('pay-course-price').innerText = `₹${price}`;
+
+  const qrImg = document.querySelector('#payment-modal .qr-box img');
   if(qrImg) {
-    const upiData=`upi://pay?pa=${UPI_ID}&pn=${encodeURIComponent(UPI_NAME)}&am=${price}&cu=INR&tn=${encodeURIComponent('Course: '+courseName)}`;
-    qrImg.src=`https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(upiData)}&size=160x160&margin=10`;
+    const upiData = `upi://pay?pa=${UPI_ID}&pn=${encodeURIComponent(UPI_NAME)}&am=${price}&cu=INR&tn=${encodeURIComponent('Course: '+courseName)}`;
+    qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(upiData)}&size=160x160&margin=10`;
   }
- document.documentElement.classList.add('modal-open');
-document.body.classList.add('modal-open');
-document.getElementById('payment-modal').classList.remove('hidden');
+
+  document.documentElement.classList.add('modal-open');
+  document.body.classList.add('modal-open');
+  document.getElementById('payment-modal').classList.remove('hidden');
 }
 
 function closePaymentModal() {
   document.getElementById('payment-modal').classList.add('hidden');
- document.documentElement.classList.remove('modal-open');
-document.body.classList.remove('modal-open');
+  document.documentElement.classList.remove('modal-open');
+  document.body.classList.remove('modal-open');
 }
-
-function copyUPI() {
-  navigator.clipboard.writeText(UPI_ID).then(()=>alert('UPI ID copied: ' + UPI_ID)).catch(()=>alert('UPI ID: ' + UPI_ID));
-}
-
 /* ============================================================
    SHARE SYSTEM
    ============================================================ */
