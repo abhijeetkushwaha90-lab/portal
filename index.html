@@ -2349,51 +2349,84 @@ function switchExamType(type){
 function examScreenBack(){renderExamCategories();}
 
 function renderFilteredTestsList(){
-  const c=document.getElementById('tests-list');if(!c)return;
-  const hist=getHistoryMap();
-  const filtered=cachedTests.filter(t=>t.categoryKey===examScreenState.category&&t.type===examScreenState.type);
-  if(!filtered.length){c.innerHTML=`<div class="premium-card rounded-xl p-4 text-xs text-muted col-span-2">Is category/type mein koi test nahi hai abhi.</div>`;return;}
+  const c = document.getElementById('tests-list'); if(!c) return;
+  const hist = getHistoryMap();
+  const filtered = cachedTests.filter(t => t.categoryKey === examScreenState.category && t.type === examScreenState.type);
 
-  const SUBJECT_ICONS={'Mathematics':'🧮','Math':'🧮','Maths':'🧮','English':'📝','ENGLISH':'📝','GK/GS':'🌍','GS/GA':'🌍','General Knowledge':'🌍','GS':'🌍','GA':'🌍','History':'🏛️','Geography':'🗺️','Science':'🔬','Reasoning':'🧠','Mixed':'📋','General':'📋'};
+  if(!filtered.length){
+    c.innerHTML = `<div class="premium-card rounded-xl p-4 text-xs text-muted col-span-2">Is category/type mein koi test nahi hai abhi.</div>`;
+    return;
+  }
 
-  const subjectMap={};
-  filtered.forEach(t=>{
-    const subj=(t.subject||'General').trim();
-    if(!subjectMap[subj])subjectMap[subj]=[];
+  const SUBJECT_ICONS = {
+    'Mathematics':'🧮','Math':'🧮','Maths':'🧮',
+    'English':'📝','ENGLISH':'📝',
+    'GK/GS':'🌍','GS/GA':'🌍','General Knowledge':'🌍','GS':'🌍','GA':'🌍',
+    'History':'🏛️','Geography':'🗺️','Science':'🔬','Reasoning':'🧠',
+    'Mixed':'📋','General':'📋'
+  };
+
+  // Subject-wise grouping
+  const subjectMap = {};
+  filtered.forEach(t => {
+    const subj = (t.subject || 'General').trim();
+    if(!subjectMap[subj]) subjectMap[subj] = [];
     subjectMap[subj].push(t);
   });
 
-  let html='';
-  Object.keys(subjectMap).sort().forEach(subj=>{
-    const icon=SUBJECT_ICONS[subj]||'📄';
-    const tests=subjectMap[subj];
-    html+=`<div class="col-span-1 md:col-span-2 mb-1">
-      <div class="flex items-center gap-2 mb-2 mt-4">
-        <span class="text-lg">${icon}</span>
-        <span class="font-black text-sm text-accent uppercase tracking-wider">${escapeHtml(subj)}</span>
-        <span class="text-[9px] font-bold text-muted px-2 py-0.5 rounded-full surface">${tests.length} test${tests.length===1?'':'s'}</span>
-        <div class="flex-1 h-px" style="background:var(--border)"></div>
+  let html = '';
+  Object.keys(subjectMap).sort().forEach(subj => {
+    const icon = SUBJECT_ICONS[subj] || '📄';
+    const tests = subjectMap[subj];
+
+    html += `
+    <div style="margin-bottom:1.5rem;">
+      <!-- Subject Header -->
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;padding-bottom:8px;border-bottom:0.5px solid rgba(255,255,255,0.08);">
+        <span style="font-size:18px;">${icon}</span>
+        <span style="font-size:12px;font-weight:800;color:var(--accent);letter-spacing:.04em;text-transform:uppercase;">${escapeHtml(subj)}</span>
+        <span style="font-size:9px;font-weight:700;color:var(--text-dim);background:var(--bg);border:0.5px solid var(--border);padding:2px 8px;border-radius:999px;">${tests.length} test${tests.length===1?'':'s'}</span>
       </div>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-        ${tests.map(t=>{
-          const i=cachedTests.indexOf(t);
-          const alreadyDone=hist[t.title];
-          let btn='';
-          if(t.isPremium&&currentUserData?.role!=='admin'){
-            if(alreadyDone){btn=`<button onclick="viewLockedResultByIdx(${i})" class="w-full btn-neutral py-2 rounded-xl text-xs font-bold cursor-pointer mt-2"><i class="fas fa-eye mr-1"></i>View Result</button>`;}
-            else{btn=`<button onclick="buyPremiumTestByIdx(${i})" class="w-full btn-accent py-2 rounded-xl text-xs font-bold cursor-pointer mt-2"><i class="fas fa-crown mr-1"></i>Unlock (100 Coins)</button>`;}
-          }else{
-            if(alreadyDone){btn=`<div class="flex gap-2 mt-2"><button onclick="launchExamEngineByIdx(${i})" class="flex-1 btn-success py-2 rounded-xl text-xs font-bold cursor-pointer"><i class="fas fa-redo mr-1"></i>Reattempt</button><button onclick="viewLockedResultByIdx(${i})" class="flex-1 btn-neutral py-2 rounded-xl text-xs font-bold cursor-pointer"><i class="fas fa-eye mr-1"></i>View Result</button></div>`;}
-            else{btn=`<button onclick="launchExamEngineByIdx(${i})" class="w-full btn-success py-2 rounded-xl text-xs font-bold cursor-pointer mt-2"><i class="fas fa-play mr-1"></i>Start Test</button>`;}
+
+      <!-- Tests Grid -->
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px;">
+        ${tests.map(t => {
+          const i = cachedTests.indexOf(t);
+          const alreadyDone = hist[t.title];
+          let btn = '';
+
+          if(t.isPremium && currentUserData?.role !== 'admin'){
+            if(alreadyDone){
+              btn = `<button onclick="viewLockedResultByIdx(${i})" style="width:100%;padding:8px;border-radius:10px;background:var(--bg);border:0.5px solid var(--border);color:var(--text-dim);font-size:11px;font-weight:700;cursor:pointer;"><i class="fas fa-eye mr-1"></i>View Result</button>`;
+            } else {
+              btn = `<button onclick="buyPremiumTestByIdx(${i})" style="width:100%;padding:8px;border-radius:10px;background:rgba(245,158,11,0.12);border:0.5px solid rgba(245,158,11,0.4);color:#f59e0b;font-size:11px;font-weight:700;cursor:pointer;"><i class="fas fa-crown mr-1"></i>Unlock (100 Coins)</button>`;
+            }
+          } else {
+            if(alreadyDone){
+              btn = `<div style="display:flex;gap:6px;">
+                <button onclick="launchExamEngineByIdx(${i})" style="flex:1;padding:8px;border-radius:10px;background:rgba(245,158,11,0.12);border:0.5px solid rgba(245,158,11,0.4);color:#f59e0b;font-size:11px;font-weight:700;cursor:pointer;"><i class="fas fa-redo mr-1"></i>Reattempt</button>
+                <button onclick="viewLockedResultByIdx(${i})" style="flex:1;padding:8px;border-radius:10px;background:var(--bg);border:0.5px solid var(--border);color:var(--text-dim);font-size:11px;font-weight:700;cursor:pointer;"><i class="fas fa-eye mr-1"></i>View</button>
+              </div>`;
+            } else {
+              btn = `<button onclick="launchExamEngineByIdx(${i})" style="width:100%;padding:8px;border-radius:10px;background:var(--success);border:none;color:#fff;font-size:11px;font-weight:700;cursor:pointer;"><i class="fas fa-play mr-1"></i>Start Test</button>`;
+            }
           }
-          return`<div class="premium-card rounded-2xl p-4 border-t-2" style="border-top-color:var(--accent)">
-            <div class="flex justify-between items-center">
-              <div class="text-[9px] text-muted font-black uppercase">${escapeHtml(t.exam)} • ${escapeHtml(t.subject)}</div>
-              <span class="type-pill ${t.type==='PYQ'?'pyq':'mock'}">${t.type}</span>
+
+          return `
+          <div style="background:var(--card);border:0.5px solid var(--border);border-radius:14px;padding:14px;border-top:2px solid var(--accent);display:flex;flex-direction:column;gap:7px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <span style="font-size:9px;color:var(--text-dim);font-weight:700;text-transform:uppercase;">${escapeHtml(t.exam)} • ${escapeHtml(t.subject)}</span>
+              <div style="display:flex;gap:4px;align-items:center;">
+                ${t.isPremium ? `<span style="font-size:8px;font-weight:900;padding:2px 6px;border-radius:999px;background:linear-gradient(90deg,#b45309,#dc2626);color:#fff;">VIP</span>` : ''}
+                <span class="type-pill ${t.type==='PYQ'?'pyq':'mock'}">${t.type}</span>
+              </div>
             </div>
-            <h3 class="font-black text-sm text-accent mt-0.5">${escapeHtml(t.displayTitle)}</h3>
-            <p class="text-xs text-muted mt-1">${escapeHtml(t.description)}</p>
-            <span class="text-[10px] text-emerald-400 mt-2 font-bold block">+${t.positiveMarks}/-${t.negativeMarks} • ${t.parsedQuestions?.length||0} Qs</span>
+            <div style="font-size:13px;font-weight:800;color:var(--accent);line-height:1.35;">${escapeHtml(t.displayTitle)}</div>
+            <div style="font-size:11px;color:var(--text-dim);">${escapeHtml(t.description)}</div>
+            <div style="display:flex;align-items:center;justify-content:space-between;">
+              <span style="font-size:10px;color:#10b981;font-weight:700;">${t.positiveMarks}/-${t.negativeMarks} • ${t.parsedQuestions?.length||0} Qs</span>
+              ${alreadyDone ? `<span style="font-size:9px;padding:2px 7px;border-radius:999px;background:rgba(16,185,129,0.12);color:#10b981;border:0.5px solid rgba(16,185,129,0.3);"><i class="fas fa-check" style="font-size:8px;"></i> Done</span>` : ''}
+            </div>
             ${btn}
           </div>`;
         }).join('')}
@@ -2401,10 +2434,9 @@ function renderFilteredTestsList(){
     </div>`;
   });
 
-  c.className='grid grid-cols-1 md:grid-cols-2 gap-0';
-  c.innerHTML=html;
-}
-function viewLockedResultByIdx(i){const t=cachedTests[i];if(t)viewLockedResult(t.title);}
+  c.className = 'grid grid-cols-1 gap-0';
+  c.innerHTML = html;
+}function viewLockedResultByIdx(i){const t=cachedTests[i];if(t)viewLockedResult(t.title);}
 function buyPremiumTestByIdx(i){const t=cachedTests[i];if(t)buyPremiumTest(t.title);}
 function launchExamEngineByIdx(i){const t=cachedTests[i];if(t)launchExamEngine(t.title);}
 
