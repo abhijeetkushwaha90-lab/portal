@@ -2353,37 +2353,56 @@ function renderFilteredTestsList(){
   const hist=getHistoryMap();
   const filtered=cachedTests.filter(t=>t.categoryKey===examScreenState.category&&t.type===examScreenState.type);
   if(!filtered.length){c.innerHTML=`<div class="premium-card rounded-xl p-4 text-xs text-muted col-span-2">Is category/type mein koi test nahi hai abhi.</div>`;return;}
-  c.innerHTML=filtered.map((t)=>{
-  const i = cachedTests.indexOf(t);
-    const alreadyDone = hist[t.title];
-    let btn = '';
-    if(t.isPremium && currentUserData?.role !== 'admin'){
-      if(alreadyDone){
-        btn = `<button onclick="viewLockedResultByIdx(${i})" class="w-full btn-neutral py-2 rounded-xl text-xs font-bold cursor-pointer mt-2"><i class="fas fa-eye mr-1"></i>View Result</button>`;
-      } else {
-        btn = `<button onclick="buyPremiumTestByIdx(${i})" class="w-full btn-accent py-2 rounded-xl text-xs font-bold cursor-pointer mt-2"><i class="fas fa-crown mr-1"></i>Unlock (100 Coins)</button>`;
-      }
-    } else {
-      if(alreadyDone){
-        btn = `<div class="flex gap-2 mt-2">
-          <button onclick="launchExamEngineByIdx(${i})" class="flex-1 btn-success py-2 rounded-xl text-xs font-bold cursor-pointer"><i class="fas fa-redo mr-1"></i>Reattempt</button>
-          <button onclick="viewLockedResultByIdx(${i})" class="flex-1 btn-neutral py-2 rounded-xl text-xs font-bold cursor-pointer"><i class="fas fa-eye mr-1"></i>View Result</button>
-        </div>`;
-      } else {
-        btn = `<button onclick="launchExamEngineByIdx(${i})" class="w-full btn-success py-2 rounded-xl text-xs font-bold cursor-pointer mt-2"><i class="fas fa-play mr-1"></i>Start Test</button>`;
-      }
-    }
-    return`<div class="premium-card rounded-2xl p-4 border-t-2" style="border-top-color:var(--accent)">
-      <div class="flex justify-between items-center">
-        <div class="text-[9px] text-muted font-black uppercase">${escapeHtml(t.exam)} • ${escapeHtml(t.subject)}</div>
-        <span class="type-pill ${t.type==='PYQ'?'pyq':'mock'}">${t.type}</span>
+
+  const SUBJECT_ICONS={'Mathematics':'🧮','Math':'🧮','Maths':'🧮','English':'📝','ENGLISH':'📝','GK/GS':'🌍','GS/GA':'🌍','General Knowledge':'🌍','GS':'🌍','GA':'🌍','History':'🏛️','Geography':'🗺️','Science':'🔬','Reasoning':'🧠','Mixed':'📋','General':'📋'};
+
+  const subjectMap={};
+  filtered.forEach(t=>{
+    const subj=(t.subject||'General').trim();
+    if(!subjectMap[subj])subjectMap[subj]=[];
+    subjectMap[subj].push(t);
+  });
+
+  let html='';
+  Object.keys(subjectMap).sort().forEach(subj=>{
+    const icon=SUBJECT_ICONS[subj]||'📄';
+    const tests=subjectMap[subj];
+    html+=`<div class="col-span-1 md:col-span-2 mb-1">
+      <div class="flex items-center gap-2 mb-2 mt-4">
+        <span class="text-lg">${icon}</span>
+        <span class="font-black text-sm text-accent uppercase tracking-wider">${escapeHtml(subj)}</span>
+        <span class="text-[9px] font-bold text-muted px-2 py-0.5 rounded-full surface">${tests.length} test${tests.length===1?'':'s'}</span>
+        <div class="flex-1 h-px" style="background:var(--border)"></div>
       </div>
-      <h3 class="font-black text-sm text-accent mt-0.5">${escapeHtml(t.displayTitle)}</h3>
-      <p class="text-xs text-muted mt-1">${escapeHtml(t.description)}</p>
-      <span class="text-[10px] text-emerald-400 mt-2 font-bold block">+${t.positiveMarks}/-${t.negativeMarks} • ${t.parsedQuestions?.length||0} Qs</span>
-      ${btn}
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+        ${tests.map(t=>{
+          const i=cachedTests.indexOf(t);
+          const alreadyDone=hist[t.title];
+          let btn='';
+          if(t.isPremium&&currentUserData?.role!=='admin'){
+            if(alreadyDone){btn=`<button onclick="viewLockedResultByIdx(${i})" class="w-full btn-neutral py-2 rounded-xl text-xs font-bold cursor-pointer mt-2"><i class="fas fa-eye mr-1"></i>View Result</button>`;}
+            else{btn=`<button onclick="buyPremiumTestByIdx(${i})" class="w-full btn-accent py-2 rounded-xl text-xs font-bold cursor-pointer mt-2"><i class="fas fa-crown mr-1"></i>Unlock (100 Coins)</button>`;}
+          }else{
+            if(alreadyDone){btn=`<div class="flex gap-2 mt-2"><button onclick="launchExamEngineByIdx(${i})" class="flex-1 btn-success py-2 rounded-xl text-xs font-bold cursor-pointer"><i class="fas fa-redo mr-1"></i>Reattempt</button><button onclick="viewLockedResultByIdx(${i})" class="flex-1 btn-neutral py-2 rounded-xl text-xs font-bold cursor-pointer"><i class="fas fa-eye mr-1"></i>View Result</button></div>`;}
+            else{btn=`<button onclick="launchExamEngineByIdx(${i})" class="w-full btn-success py-2 rounded-xl text-xs font-bold cursor-pointer mt-2"><i class="fas fa-play mr-1"></i>Start Test</button>`;}
+          }
+          return`<div class="premium-card rounded-2xl p-4 border-t-2" style="border-top-color:var(--accent)">
+            <div class="flex justify-between items-center">
+              <div class="text-[9px] text-muted font-black uppercase">${escapeHtml(t.exam)} • ${escapeHtml(t.subject)}</div>
+              <span class="type-pill ${t.type==='PYQ'?'pyq':'mock'}">${t.type}</span>
+            </div>
+            <h3 class="font-black text-sm text-accent mt-0.5">${escapeHtml(t.displayTitle)}</h3>
+            <p class="text-xs text-muted mt-1">${escapeHtml(t.description)}</p>
+            <span class="text-[10px] text-emerald-400 mt-2 font-bold block">+${t.positiveMarks}/-${t.negativeMarks} • ${t.parsedQuestions?.length||0} Qs</span>
+            ${btn}
+          </div>`;
+        }).join('')}
+      </div>
     </div>`;
-  }).join('');
+  });
+
+  c.className='grid grid-cols-1 md:grid-cols-2 gap-0';
+  c.innerHTML=html;
 }
 function viewLockedResultByIdx(i){const t=cachedTests[i];if(t)viewLockedResult(t.title);}
 function buyPremiumTestByIdx(i){const t=cachedTests[i];if(t)buyPremiumTest(t.title);}
