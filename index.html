@@ -2472,9 +2472,9 @@ function stopSessionWatcher() {
   clearTimeout(sessionWarningTimer);
 }
 async function syncAnnouncements() {
- try {
-    const res=await fetch(APPS_SCRIPT_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:"signup",name,phone,email,password,gender:suGenderSelected,targetExam:exam,targetYear:year,profileImage:suAvatarBase64,city,state})});
-    const d=await res.json();
+  try {
+    const r = await fetch(APPS_SCRIPT_URL+"?action=get_announcements");
+    const d = await r.json();
     if(d.announcement) {
       document.getElementById('broadcast-text').innerText = d.announcement;
       document.getElementById('global-broadcast').classList.remove('hidden');
@@ -2554,9 +2554,8 @@ async function doSignup() {
     err.innerText="Kripya sabhi (*) fields bharein aur photo upload karein.";err.classList.remove('hidden');return;
   }
   try {
-    const r = await fetch(APPS_SCRIPT_URL+"?action=get_announcements");
-    const d = await r.json();    const d=await res.json();
-    if(d.status==="success"){document.getElementById('signup-success').innerText=d.message;document.getElementById('signup-success').classList.remove('hidden');showAuthTab('login');}
+   const res=await fetch(APPS_SCRIPT_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:"signup",name,phone,email,password,gender:suGenderSelected,targetExam:exam,targetYear:year,profileImage:suAvatarBase64,city,state})});
+    const d=await res.json();    if(d.status==="success"){document.getElementById('signup-success').innerText=d.message;document.getElementById('signup-success').classList.remove('hidden');showAuthTab('login');}
     else{err.innerText=d.message;err.classList.remove('hidden');}
   }catch(e){err.innerText="Server error.";err.classList.remove('hidden');}
 }
