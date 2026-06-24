@@ -118,14 +118,96 @@ body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,
 .rank-silver{background:linear-gradient(135deg,rgba(148,163,184,0.1),transparent);border-color:rgba(148,163,184,0.3)!important;}
 .rank-bronze{background:linear-gradient(135deg,rgba(180,83,9,0.1),transparent);border-color:rgba(180,83,9,0.3)!important;}
 @media print{.no-print{display:none!important;}.print-block{display:block!important;}}
+  /* ===== MOBILE RESPONSIVE ===== */
+*{box-sizing:border-box;}
+body{overflow-x:hidden;}
+
+@media(max-width:480px){
+  header h1{font-size:1.5rem!important;}
+  .home-grid{
+    grid-template-columns:repeat(2,1fr)!important;
+    gap:6px!important;
+    padding:4px!important;
+  }
+  .home-card{
+    min-height:72px!important;
+    padding:8px 6px!important;
+  }
+  .home-card .card-icon{
+    width:28px!important;
+    height:28px!important;
+    font-size:.8rem!important;
+  }
+  .home-card .card-label{font-size:9px!important;}
+  .home-card .card-sub{font-size:7px!important;}
+  .premium-card{padding:12px!important;}
+  #digital-question-text{font-size:13px!important;}
+  .standards-table{font-size:9px!important;}
+  .standards-table th,
+  .standards-table td{padding:5px 4px!important;}
+  .modal-box{
+    padding:14px!important;
+    border-radius:14px!important;
+    max-width:95vw!important;
+  }
+  .type-tab-btn,
+  .ssb-tab-btn,
+  .admin-tab{
+    padding:6px 10px!important;
+    font-size:10px!important;
+  }
+  .grid.grid-cols-3{
+    grid-template-columns:repeat(2,1fr)!important;
+  }
+  .wat-word-card{padding:16px 10px!important;}
+  #wat-word{font-size:2.2rem!important;}
+}
+
+/* Table scroll on mobile */
+  /* ===== SKELETON LOADERS ===== */
+.skeleton{
+  background:linear-gradient(90deg,
+    var(--card) 25%,
+    color-mix(in srgb,var(--accent) 8%,var(--card)) 50%,
+    var(--card) 75%);
+  background-size:200% 100%;
+  animation:skeleton-wave 1.4s infinite;
+  border-radius:8px;
+}
+@keyframes skeleton-wave{
+  0%{background-position:200% 0}
+  100%{background-position:-200% 0}
+}
+.skeleton-card{
+  background:var(--card);
+  border:0.5px solid var(--border);
+  border-radius:14px;
+  padding:14px;
+  margin-bottom:10px;
+}
+.standards-table{
+  display:block;
+  overflow-x:auto;
+  -webkit-overflow-scrolling:touch;
+}
+/* ===== SCREEN TRANSITIONS ===== */
 #screen-home,#screen-exam,#screen-notes,#screen-courses,
 #screen-ranking,#screen-profile,#screen-share,#screen-support,
-#screen-admin,#screen-results,#screen-ssb,#screen-medical,#screen-physical{display:none;}
+#screen-admin,#screen-results,#screen-ssb,#screen-medical,#screen-physical{
+  display:none;
+  opacity:0;
+  transform:translateY(14px);
+  transition:opacity .25s ease, transform .25s ease;
+}
 #screen-home.active,#screen-exam.active,#screen-notes.active,
 #screen-courses.active,#screen-ranking.active,#screen-profile.active,
 #screen-share.active,#screen-support.active,#screen-admin.active,
-#screen-results.active,#screen-ssb.active,#screen-medical.active,#screen-physical.active{display:block;}
-.exam-container{min-height:85vh;}
+#screen-results.active,#screen-ssb.active,#screen-medical.active,
+#screen-physical.active{
+  display:block;
+  opacity:1;
+  transform:translateY(0);
+}.exam-container{min-height:85vh;}
 .admin-tab{padding:8px 16px;border-radius:10px;font-weight:700;font-size:11px;cursor:pointer;color:var(--text-dim);border:0.5px solid transparent;}
 .admin-tab.active{background:var(--accent);color:var(--accent-text);}
 .xp-pill{background:var(--bg);border:0.5px solid var(--border);border-radius:999px;padding:4px 10px;display:flex;align-items:center;gap:6px;font-size:10px;font-weight:800;}
@@ -185,6 +267,24 @@ body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,
 .medical-quiz-opt.wrong{background:rgba(244,63,94,0.12);border-color:var(--danger2);color:var(--danger2);}
 .tip-box{background:rgba(245,158,11,0.08);border-left:3px solid var(--accent);border-radius:0 10px 10px 0;padding:10px 12px;font-size:11px;margin-top:8px;}
 .progress-ring-text{font-size:28px;font-weight:900;color:var(--accent);}
+  /* ===== BOTTOM NAV ===== */
+.bn-btn{
+  display:flex;flex-direction:column;align-items:center;
+  gap:3px;padding:4px 0;flex:1;
+  background:none;border:none;cursor:pointer;
+  color:var(--text-dim);font-size:9px;font-weight:800;
+  letter-spacing:.03em;transition:all .2s ease;
+}
+.bn-btn i{font-size:18px;transition:all .2s ease;}
+.bn-btn.active{color:var(--accent);}
+.bn-btn.active i{transform:translateY(-2px);}
+.bn-btn:active{transform:scale(0.88);}
+@media(min-width:640px){
+  #bottom-nav{display:none!important;}
+}
+@media(max-width:639px){
+  body{padding-bottom:72px!important;}
+}
 </style>
 </head>
 <body class="min-h-screen flex flex-col p-2 md:p-3">
@@ -1137,6 +1237,28 @@ ANSWER KEY:
     </div>
   </div>
 </div>
+  <nav id="bottom-nav" class="hidden" style="position:fixed;bottom:0;left:0;right:0;z-index:500;border-top:0.5px solid var(--border);display:flex;justify-content:space-around;align-items:center;padding:8px 4px 14px;background:color-mix(in srgb,var(--card) 95%,transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);">
+  <button onclick="goHome();bnav('home')" id="bn-home" class="bn-btn active">
+    <i class="fas fa-home"></i>
+    <span>Home</span>
+  </button>
+  <button onclick="showScreen('exam');bnav('exam')" id="bn-exam" class="bn-btn">
+    <i class="fas fa-file-alt"></i>
+    <span>Exam</span>
+  </button>
+  <button onclick="showScreen('notes');bnav('notes')" id="bn-notes" class="bn-btn">
+    <i class="fas fa-book-open"></i>
+    <span>Notes</span>
+  </button>
+  <button onclick="showScreen('ranking');bnav('rank')" id="bn-rank" class="bn-btn">
+    <i class="fas fa-trophy"></i>
+    <span>Rank</span>
+  </button>
+  <button onclick="showScreen('profile');bnav('profile')" id="bn-profile" class="bn-btn">
+    <i class="fas fa-user"></i>
+    <span>Me</span>
+  </button>
+</nav>
 
 <footer class="w-full text-center text-[9px] text-muted uppercase tracking-widest pt-3 mt-4 border-t border-slate-800">
   Operation Baaz Platform v14.0 • Architected by Abhijeet Kushwaha • UPI: 7068252052@axl
@@ -1689,8 +1811,9 @@ function loginSuccess(u) {
   }
   updateGamificationUI(u.xp||0,u.streak||0,u.badges||[]);
   loadProfile();loadTests();loadNotes();renderCourses();updateQuickStats();updateShareLinks();
+  showBottomNav();
+  startSessionWatcher();
 }
-
 function logout(){localStorage.clear();location.reload();}
 
 /* ============================================================
@@ -1750,8 +1873,17 @@ function fireConfetti(){
    ============================================================ */
 function showScreen(name){
   const screens=['home','exam','notes','courses','ranking','profile','share','support','admin','results','ssb','medical','physical'];
-  screens.forEach(s=>{const el=document.getElementById(`screen-${s}`);if(el)el.classList.toggle('active',s===name);});
-  if(name==='exam'){examScreenState={view:'categories',category:null,type:'MOCK'};renderExamCategories();}
+  screens.forEach(s=>{
+    const el=document.getElementById(`screen-${s}`);
+    if(!el) return;
+    if(s===name){
+      el.style.display='block';
+      requestAnimationFrame(()=>requestAnimationFrame(()=>el.classList.add('active')));
+    } else {
+      el.classList.remove('active');
+      setTimeout(()=>{ if(!el.classList.contains('active')) el.style.display='none'; },260);
+    }
+  });  if(name==='exam'){examScreenState={view:'categories',category:null,type:'MOCK'};renderExamCategories();}
   if(name==='ranking')loadLeaderboard();
   if(name==='ssb'){ssbTab('wat');initSSBContent();}
   if(name==='medical'){medTab('standards');initMedContent();}
@@ -2609,6 +2741,7 @@ currentTestQuestions=(test.parsedQuestions||[]).map(q=>({
   currentIndex=1;qTimeLeft=2700;testRunningMode=true;tabViolationsCount=0;
   document.getElementById('disp-total-count').innerText=totalQuestionsCount;
   document.getElementById('app-container').classList.add('hidden');
+  hideBottomNav();
   document.getElementById('exam-engine-container').classList.remove('hidden');
   document.getElementById('result-screen').classList.add('hidden');
   buildPaletteGrid();loadQuestionNode(1);
@@ -2968,6 +3101,20 @@ function setPaletteFilter(f){currentPaletteFilter=f;buildPaletteGrid();}
     msg.style.color='var(--danger2)';
     msg.classList.remove('hidden');
   }
+}
+  /* ===== BOTTOM NAV HELPERS ===== */
+function bnav(tab){
+  document.querySelectorAll('.bn-btn').forEach(b=>b.classList.remove('active'));
+  const map={home:'bn-home',exam:'bn-exam',notes:'bn-notes',rank:'bn-rank',profile:'bn-profile'};
+  if(map[tab]){const el=document.getElementById(map[tab]);if(el)el.classList.add('active');}
+}
+function showBottomNav(){
+  const n=document.getElementById('bottom-nav');
+  if(n)n.classList.remove('hidden');
+}
+function hideBottomNav(){
+  const n=document.getElementById('bottom-nav');
+  if(n)n.classList.add('hidden');
 }
 function escapeHtml(s){return String(s||"").replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 function escapeAttr(s){return escapeHtml(s);}
