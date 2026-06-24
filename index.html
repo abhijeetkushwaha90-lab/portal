@@ -1237,8 +1237,7 @@ ANSWER KEY:
     </div>
   </div>
 </div>
-  <nav id="bottom-nav" class="hidden" style="position:fixed;bottom:0;left:0;right:0;z-index:500;border-top:0.5px solid var(--border);display:flex;justify-content:space-around;align-items:center;padding:8px 4px 14px;background:color-mix(in srgb,var(--card) 95%,transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);">
-  <button onclick="goHome();bnav('home')" id="bn-home" class="bn-btn active">
+  <nav id="bottom-nav" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:500;border-top:0.5px solid var(--border);justify-content:space-around;align-items:center;padding:8px 4px 14px;background:color-mix(in srgb,var(--card) 95%,transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);">  <button onclick="goHome();bnav('home')" id="bn-home" class="bn-btn active">
     <i class="fas fa-home"></i>
     <span>Home</span>
   </button>
@@ -3110,11 +3109,11 @@ function bnav(tab){
 }
 function showBottomNav(){
   const n=document.getElementById('bottom-nav');
-  if(n)n.classList.remove('hidden');
+  if(n)n.style.display='flex';
 }
 function hideBottomNav(){
   const n=document.getElementById('bottom-nav');
-  if(n)n.classList.add('hidden');
+  if(n)n.style.display='none';
 }
 function escapeHtml(s){return String(s||"").replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 function escapeAttr(s){return escapeHtml(s);}
