@@ -991,6 +991,7 @@ body{overflow-x:hidden;}
       <button onclick="switchAdminTab('students')" class="admin-tab" data-atab="students"><i class="fas fa-users mr-1"></i>Students</button>
       <button onclick="switchAdminTab('support-admin')" class="admin-tab" data-atab="support-admin"><i class="fas fa-headset mr-1"></i>Support</button>
       <button onclick="switchAdminTab('announce')" class="admin-tab" data-atab="announce"><i class="fas fa-bullhorn mr-1"></i>Announce</button>
+      <button onclick="switchAdminTab('ssb-admin')" class="admin-tab" data-atab="ssb-admin"><i class="fas fa-people-group mr-1"></i>SSB Content</button>
     </div>
 
     <div id="atab-exams" class="space-y-3">
@@ -1144,6 +1145,88 @@ ANSWER KEY:
       </div>
     </div>
   </div>
+  <div id="atab-ssb-admin" class="hidden space-y-3">
+  <div class="premium-card rounded-xl p-5 space-y-3" style="border:1px solid rgba(245,158,11,0.3)">
+    <div class="font-bold text-amber-500 text-sm"><i class="fas fa-people-group mr-1"></i>SSB Content Manager</div>
+
+    <!-- TYPE SELECTOR -->
+    <div>
+      <label class="block text-xs font-bold text-muted uppercase mb-1">Content Type</label>
+      <select id="ssb-admin-type" onchange="ssbAdminTypeChange()" class="w-full input-field rounded-xl px-3 py-2 text-xs cursor-pointer">
+        <option value="WAT">📝 WAT — Word Association</option>
+        <option value="SRT">⚡ SRT — Situation Reaction</option>
+        <option value="TAT">🖼️ TAT — Thematic Apperception</option>
+        <option value="OIR">🧠 OIR — Officer Intelligence</option>
+        <option value="PI">🎙️ PI — Personal Interview</option>
+        <option value="GAT">👥 GAT — Group Tasks</option>
+      </select>
+    </div>
+
+    <!-- WAT FIELDS -->
+    <div id="ssb-fields-WAT" class="space-y-2">
+      <input id="ssb-wat-word" placeholder="Word (e.g. LEADERSHIP)" class="w-full input-field rounded-xl px-3 py-2 text-xs uppercase">
+      <input id="ssb-wat-tip" placeholder="Tip / Example sentence" class="w-full input-field rounded-xl px-3 py-2 text-xs">
+    </div>
+
+    <!-- SRT FIELDS -->
+    <div id="ssb-fields-SRT" class="hidden space-y-2">
+      <textarea id="ssb-srt-sit" rows="3" placeholder="Situation description..." class="w-full input-field rounded-xl px-3 py-2 text-xs outline-none resize-none"></textarea>
+      <input id="ssb-srt-ideal" placeholder="Ideal response..." class="w-full input-field rounded-xl px-3 py-2 text-xs">
+    </div>
+
+    <!-- TAT FIELDS -->
+    <div id="ssb-fields-TAT" class="hidden space-y-2">
+      <input id="ssb-tat-url" placeholder="Image URL (Google Drive / Imgur link)" class="w-full input-field rounded-xl px-3 py-2 text-xs">
+      <textarea id="ssb-tat-scene" rows="2" placeholder="Scene description..." class="w-full input-field rounded-xl px-3 py-2 text-xs outline-none resize-none"></textarea>
+      <input id="ssb-tat-hint" placeholder="Hint for students..." class="w-full input-field rounded-xl px-3 py-2 text-xs">
+    </div>
+
+    <!-- OIR FIELDS -->
+    <div id="ssb-fields-OIR" class="hidden space-y-2">
+      <textarea id="ssb-oir-q" rows="2" placeholder="Question..." class="w-full input-field rounded-xl px-3 py-2 text-xs outline-none resize-none"></textarea>
+      <div class="grid grid-cols-2 gap-2">
+        <input id="ssb-oir-a" placeholder="Option A" class="input-field rounded-xl px-3 py-2 text-xs">
+        <input id="ssb-oir-b" placeholder="Option B" class="input-field rounded-xl px-3 py-2 text-xs">
+        <input id="ssb-oir-c" placeholder="Option C" class="input-field rounded-xl px-3 py-2 text-xs">
+        <input id="ssb-oir-d" placeholder="Option D" class="input-field rounded-xl px-3 py-2 text-xs">
+      </div>
+      <select id="ssb-oir-ans" class="w-full input-field rounded-xl px-3 py-2 text-xs cursor-pointer">
+        <option value="A">Correct Answer: A</option>
+        <option value="B">Correct Answer: B</option>
+        <option value="C">Correct Answer: C</option>
+        <option value="D">Correct Answer: D</option>
+      </select>
+      <input id="ssb-oir-exp" placeholder="Explanation..." class="w-full input-field rounded-xl px-3 py-2 text-xs">
+    </div>
+
+    <!-- PI FIELDS -->
+    <div id="ssb-fields-PI" class="hidden space-y-2">
+      <textarea id="ssb-pi-q" rows="2" placeholder="Interview question..." class="w-full input-field rounded-xl px-3 py-2 text-xs outline-none resize-none"></textarea>
+      <textarea id="ssb-pi-tip" rows="2" placeholder="Tip / ideal answer guidance..." class="w-full input-field rounded-xl px-3 py-2 text-xs outline-none resize-none"></textarea>
+    </div>
+
+    <!-- GAT FIELDS -->
+    <div id="ssb-fields-GAT" class="hidden space-y-2">
+      <input id="ssb-gat-title" placeholder="Task title (e.g. Group Discussion)" class="w-full input-field rounded-xl px-3 py-2 text-xs">
+      <input id="ssb-gat-icon" placeholder="Emoji icon (e.g. 💬)" class="w-full input-field rounded-xl px-3 py-2 text-xs">
+      <textarea id="ssb-gat-tip" rows="2" placeholder="Strategy / tip..." class="w-full input-field rounded-xl px-3 py-2 text-xs outline-none resize-none"></textarea>
+    </div>
+
+    <button onclick="adminAddSSBContent()" class="w-full btn-success font-bold py-2.5 rounded-xl text-xs cursor-pointer">
+      <i class="fas fa-rocket mr-1"></i>Add to Sheet
+    </button>
+    <p id="ssb-admin-status" class="text-[10px] text-muted"></p>
+  </div>
+
+  <!-- PUBLISHED LIST -->
+  <div class="premium-card rounded-xl p-4">
+    <div class="flex justify-between items-center mb-3">
+      <div class="font-bold text-xs text-accent"><i class="fas fa-list mr-1"></i>Published SSB Content</div>
+      <button onclick="loadSSBAdminList()" class="btn-neutral px-3 py-1.5 rounded-xl text-xs font-bold cursor-pointer"><i class="fas fa-sync mr-1"></i>Refresh</button>
+    </div>
+    <div id="ssb-admin-list" class="space-y-2 max-h-80 overflow-y-auto"></div>
+  </div>
+</div>
 
   <!-- MY RESULTS -->
   <div id="screen-results">
@@ -3102,16 +3185,46 @@ function tatJump(idx){
   tatCurrentIdx = idx;
   renderTATCard();
 }
-
 function initSSBContent(){
-  initWAT();
-  initSRTNew();
-  initSRT();
-  initPPDT();
-  initTAT();
-  initOIR();
-  initGAT();
-  initPI();
+  loadDynamicSSBData().then(data => {
+    if(data && data.wat && data.wat.length > 0) {
+      WAT_WORDS.length = 0;
+      data.wat.forEach(w => WAT_WORDS.push(w.word));
+      Object.keys(WAT_TIPS).forEach(k => delete WAT_TIPS[k]);
+      data.wat.forEach(w => { if(w.tip) WAT_TIPS[w.word] = w.tip; });
+    }
+    if(data && data.srt && data.srt.length > 0) {
+      SRT_60.length = 0;
+      data.srt.forEach((s,i) => SRT_60.push({ id:i+1, sit:s.sit, ideal:s.ideal }));
+    }
+    if(data && data.tat && data.tat.length > 0) {
+      TAT_IMAGES.length = 0;
+      data.tat.forEach((t,i) => TAT_IMAGES.push({ id:i+1, scene:t.scene, hint:t.hint, imageUrl:t.imageUrl }));
+    }
+    if(data && data.oir && data.oir.length > 0) {
+      OIR_QUESTIONS.length = 0;
+      data.oir.forEach((q,i) => {
+        const ansMap = {'A':0,'B':1,'C':2,'D':3};
+        OIR_QUESTIONS.push({ q:q.q, opts:q.opts, ans:ansMap[q.ans]||0, exp:q.exp });
+      });
+    }
+    if(data && data.pi && data.pi.length > 0) {
+      PI_QUESTIONS.length = 0;
+      data.pi.forEach(p => PI_QUESTIONS.push({ q:p.q, tip:p.tip }));
+    }
+    if(data && data.gat && data.gat.length > 0) {
+      GAT_TIPS.length = 0;
+      data.gat.forEach(g => GAT_TIPS.push({ title:g.title, icon:g.icon, tip:g.tip }));
+    }
+    initWAT();
+    initSRTNew();
+    initSRT();
+    initPPDT();
+    initTAT();
+    initOIR();
+    initGAT();
+    initPI();
+  });
 }
 
 // WAT
@@ -4675,13 +4788,14 @@ function loadAnnouncementsHistory(){
 
 function switchAdminTab(tab){
   document.querySelectorAll('.admin-tab[data-atab]').forEach(b=>b.classList.toggle('active',b.dataset.atab===tab));
-  ['exams','bulk','notes','students','support-admin','announce'].forEach(t=>{
+  ['exams','bulk','notes','students','support-admin','announce','ssb-admin'].forEach(t=>{
     const el=document.getElementById(`atab-${t}`);if(el)el.classList.toggle('hidden',t!==tab);
   });
   if(tab==='students')loadStudentList();
   if(tab==='notes')loadAdminNotesList();
   if(tab==='support-admin')loadAdminSupport();
   if(tab==='announce')loadAnnouncementsHistory();
+  if(tab==='ssb-admin'){ssbAdminTypeChange();loadSSBAdminList();}
 }
 
 function setPaletteFilter(f){currentPaletteFilter=f;buildPaletteGrid();}
@@ -5284,6 +5398,162 @@ loadProfile = function(){
     }
   },100);
 };
+  /* ============================================================
+   SSB ADMIN — CONTENT MANAGER
+   ============================================================ */
+function ssbAdminTypeChange() {
+  const type = document.getElementById('ssb-admin-type').value;
+  ['WAT','SRT','TAT','OIR','PI','GAT'].forEach(t => {
+    const el = document.getElementById(`ssb-fields-${t}`);
+    if(el) el.classList.toggle('hidden', t !== type);
+  });
+  loadSSBAdminList();
+}
+
+async function adminAddSSBContent() {
+  const type = document.getElementById('ssb-admin-type').value;
+  const status = document.getElementById('ssb-admin-status');
+  let payload = { action: 'add_ssb_content', type };
+
+  if(type === 'WAT') {
+    payload.word  = document.getElementById('ssb-wat-word').value.trim().toUpperCase();
+    payload.tip   = document.getElementById('ssb-wat-tip').value.trim();
+    if(!payload.word) { status.innerText = '❌ Word required.'; return; }
+  }
+  if(type === 'SRT') {
+    payload.sit   = document.getElementById('ssb-srt-sit').value.trim();
+    payload.ideal = document.getElementById('ssb-srt-ideal').value.trim();
+    if(!payload.sit) { status.innerText = '❌ Situation required.'; return; }
+  }
+  if(type === 'TAT') {
+    payload.imageUrl = document.getElementById('ssb-tat-url').value.trim();
+    payload.scene    = document.getElementById('ssb-tat-scene').value.trim();
+    payload.hint     = document.getElementById('ssb-tat-hint').value.trim();
+    if(!payload.scene) { status.innerText = '❌ Scene required.'; return; }
+  }
+  if(type === 'OIR') {
+    payload.q    = document.getElementById('ssb-oir-q').value.trim();
+    payload.optA = document.getElementById('ssb-oir-a').value.trim();
+    payload.optB = document.getElementById('ssb-oir-b').value.trim();
+    payload.optC = document.getElementById('ssb-oir-c').value.trim();
+    payload.optD = document.getElementById('ssb-oir-d').value.trim();
+    payload.ans  = document.getElementById('ssb-oir-ans').value;
+    payload.exp  = document.getElementById('ssb-oir-exp').value.trim();
+    if(!payload.q || !payload.optA) { status.innerText = '❌ Question + Options required.'; return; }
+  }
+  if(type === 'PI') {
+    payload.q   = document.getElementById('ssb-pi-q').value.trim();
+    payload.tip = document.getElementById('ssb-pi-tip').value.trim();
+    if(!payload.q) { status.innerText = '❌ Question required.'; return; }
+  }
+  if(type === 'GAT') {
+    payload.title = document.getElementById('ssb-gat-title').value.trim();
+    payload.icon  = document.getElementById('ssb-gat-icon').value.trim();
+    payload.tip   = document.getElementById('ssb-gat-tip').value.trim();
+    if(!payload.title) { status.innerText = '❌ Title required.'; return; }
+  }
+
+  status.innerText = 'Saving...';
+  try {
+    const res = await fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(payload)
+    });
+    const d = await res.json();
+    if(d.status === 'success') {
+      status.innerText = '✅ Added! Sheet mein save ho gaya.';
+      status.style.color = 'var(--success2)';
+      loadSSBAdminList();
+      clearSSBAdminFields(type);
+    } else {
+      status.innerText = '❌ ' + d.message;
+      status.style.color = 'var(--danger2)';
+    }
+  } catch(e) {
+    status.innerText = '❌ Server error.';
+    status.style.color = 'var(--danger2)';
+  }
+}
+
+function clearSSBAdminFields(type) {
+  if(type==='WAT'){document.getElementById('ssb-wat-word').value='';document.getElementById('ssb-wat-tip').value='';}
+  if(type==='SRT'){document.getElementById('ssb-srt-sit').value='';document.getElementById('ssb-srt-ideal').value='';}
+  if(type==='TAT'){document.getElementById('ssb-tat-url').value='';document.getElementById('ssb-tat-scene').value='';document.getElementById('ssb-tat-hint').value='';}
+  if(type==='OIR'){document.getElementById('ssb-oir-q').value='';document.getElementById('ssb-oir-a').value='';document.getElementById('ssb-oir-b').value='';document.getElementById('ssb-oir-c').value='';document.getElementById('ssb-oir-d').value='';document.getElementById('ssb-oir-exp').value='';}
+  if(type==='PI'){document.getElementById('ssb-pi-q').value='';document.getElementById('ssb-pi-tip').value='';}
+  if(type==='GAT'){document.getElementById('ssb-gat-title').value='';document.getElementById('ssb-gat-icon').value='';document.getElementById('ssb-gat-tip').value='';}
+}
+
+async function loadSSBAdminList() {
+  const type = document.getElementById('ssb-admin-type')?.value || 'WAT';
+  const c = document.getElementById('ssb-admin-list');
+  if(!c) return;
+  c.innerHTML = '<div class="spinner"></div>';
+  try {
+    const res = await fetch(APPS_SCRIPT_URL + '?action=get_ssb_data');
+    const d = await res.json();
+    const map = { WAT: d.wat, SRT: d.srt, TAT: d.tat, OIR: d.oir, PI: d.pi, GAT: d.gat };
+    const items = map[type] || [];
+    if(!items.length) { c.innerHTML = '<p class="text-xs text-muted">Koi content nahi abhi. Upar se add karo.</p>'; return; }
+    c.innerHTML = items.map((item, i) => {
+      const label = type==='WAT' ? item.word :
+                    type==='SRT' ? item.sit.substring(0,60)+'...' :
+                    type==='TAT' ? item.scene.substring(0,60)+'...' :
+                    type==='OIR' ? item.q.substring(0,60)+'...' :
+                    type==='PI'  ? item.q.substring(0,60)+'...' :
+                    type==='GAT' ? item.icon+' '+item.title : '';
+      return `<div class="surface rounded-xl p-2 flex justify-between items-center gap-2">
+        <span class="text-xs font-bold flex-1">${escapeHtml(label)}</span>
+        <button onclick="deleteSSBContent('${type}',${i})" class="btn-danger-outline px-2 py-1 rounded-lg text-[10px] cursor-pointer flex-shrink-0">
+          <i class="fas fa-trash"></i>
+        </button>
+      </div>`;
+    }).join('');
+  } catch(e) {
+    c.innerHTML = '<p class="text-xs text-muted">Load failed.</p>';
+  }
+}
+
+async function deleteSSBContent(type, rowIndex) {
+  if(!confirm('Delete karein?')) return;
+  try {
+    const res = await fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({ action: 'delete_ssb_content', type, rowIndex })
+    });
+    const d = await res.json();
+    if(d.status === 'success') loadSSBAdminList();
+    else alert('Delete failed: ' + d.message);
+  } catch(e) { alert('Server error.'); }
+}
+
+/* ============================================================
+   SSB DYNAMIC FETCH — Students ke liye
+   ============================================================ */
+let dynamicSSBData = null;
+
+async function loadDynamicSSBData() {
+  const cached = localStorage.getItem('baaz_ssb_cache');
+  const cacheTime = localStorage.getItem('baaz_ssb_cache_time');
+  const ONE_HOUR = 60 * 60 * 1000;
+  if(cached && cacheTime && (Date.now() - parseInt(cacheTime)) < ONE_HOUR) {
+    dynamicSSBData = JSON.parse(cached);
+    return dynamicSSBData;
+  }
+  try {
+    const res = await fetch(APPS_SCRIPT_URL + '?action=get_ssb_data');
+    const d = await res.json();
+    dynamicSSBData = d;
+    localStorage.setItem('baaz_ssb_cache', JSON.stringify(d));
+    localStorage.setItem('baaz_ssb_cache_time', Date.now().toString());
+    return d;
+  } catch(e) {
+    dynamicSSBData = null;
+    return null;
+  }
+}
 </script>
   <!-- EXAM INSTRUCTIONS MODAL -->
 <div id="instructions-modal" class="modal-bg hidden">
