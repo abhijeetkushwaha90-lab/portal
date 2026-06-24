@@ -1164,41 +1164,417 @@ ANSWER KEY:
     </div>
     <div class="disclaimer-box mb-4"><i class="fas fa-circle-info mr-1"></i>Yeh practice questions SSB pattern par based hain. Actual SSB mein format board ke hisaab se thoda differ kar sakta hai.</div>
 
-    <!-- SSB Sub-tabs -->
-    <div class="flex gap-2 flex-wrap mb-4">
-      <button class="ssb-tab-btn active" onclick="ssbTab('wat')">WAT</button>
-      <button class="ssb-tab-btn" onclick="ssbTab('srt')">SRT</button>
-      <button class="ssb-tab-btn" onclick="ssbTab('oir')">OIR Practice</button>
-      <button class="ssb-tab-btn" onclick="ssbTab('gat')">GAT Tips</button>
-      <button class="ssb-tab-btn" onclick="ssbTab('pi')">Personal Interview</button>
+    <!-- SSB Sub-tabs — Phase 7 -->
+<div class="flex gap-2 flex-wrap mb-4">
+  <button class="ssb-tab-btn active" onclick="ssbTab('wat')">
+    <i class="fas fa-pen-fancy mr-1"></i>WAT
+  </button>
+  <button class="ssb-tab-btn" onclick="ssbTab('srt')">
+    <i class="fas fa-bolt mr-1"></i>SRT
+  </button>
+  <button class="ssb-tab-btn" onclick="ssbTab('ppdt')">
+    <i class="fas fa-users mr-1"></i>PPDT
+  </button>
+  <button class="ssb-tab-btn" onclick="ssbTab('tat')">
+    <i class="fas fa-image mr-1"></i>TAT
+  </button>
+  <button class="ssb-tab-btn" onclick="ssbTab('oir')">
+    <i class="fas fa-brain mr-1"></i>OIR
+  </button>
+  <button class="ssb-tab-btn" onclick="ssbTab('gat')">
+    <i class="fas fa-people-group mr-1"></i>GTO
+  </button>
+  <button class="ssb-tab-btn" onclick="ssbTab('pi')">
+    <i class="fas fa-user-tie mr-1"></i>PI
+  </button>
+</div>
+
+    <!-- WAT — Phase 7 Exam Style -->
+<div id="ssb-wat" class="space-y-4">
+  <!-- Header Card -->
+  <div class="premium-card rounded-2xl p-5" style="border-left:4px solid var(--accent)">
+    <div class="flex items-center justify-between flex-wrap gap-3">
+      <div>
+        <div class="text-[10px] font-black text-muted uppercase mb-1">SSB Psychologist Test</div>
+        <h2 class="text-lg font-black text-accent">WAT — Word Association Test</h2>
+        <p class="text-xs text-muted mt-1">60 words • 15 seconds each • Positive sentence likhein</p>
+      </div>
+      <div class="flex gap-2 flex-wrap">
+        <div class="surface rounded-xl px-4 py-2 text-center">
+          <div class="text-xl font-black text-accent" id="wat-word-count">1/60</div>
+          <div class="text-[9px] text-muted font-bold uppercase">Word No.</div>
+        </div>
+        <div class="surface rounded-xl px-4 py-2 text-center">
+          <div class="text-xl font-black text-emerald-400" id="wat-done-count">0</div>
+          <div class="text-[9px] text-muted font-bold uppercase">Done</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WORD DISPLAY — Exam Style -->
+  <div class="premium-card rounded-2xl p-6 text-center relative overflow-hidden"
+    style="background:linear-gradient(135deg,rgba(124,58,237,0.12),rgba(212,137,26,0.06));border:2px solid rgba(124,58,237,0.3)">
+    <div class="watermark-overlay"><span>WAT PRACTICE</span></div>
+    <div class="text-[10px] font-black text-muted uppercase mb-3 tracking-widest">Word</div>
+    <div id="wat-word" class="text-5xl font-black text-accent mb-4" 
+      style="letter-spacing:.08em;text-shadow:0 0 30px rgba(212,137,26,0.3)">
+      LEADERSHIP
+    </div>
+    <!-- Timer Bar -->
+    <div class="w-full h-3 rounded-full mb-2" style="background:var(--border)">
+      <div id="wat-timer-fill" class="h-full rounded-full transition-none"
+        style="background:linear-gradient(90deg,var(--accent),#f59e0b);width:100%"></div>
+    </div>
+    <div class="flex justify-between text-[10px] font-black text-muted mb-4">
+      <span>0s</span>
+      <span id="wat-timer-text" class="text-accent text-sm font-black">15s</span>
+      <span>15s</span>
+    </div>
+    <!-- Answer Box -->
+    <textarea id="wat-input" rows="2"
+      placeholder="Apna sentence yahan likhein... (English mein)"
+      class="w-full input-field rounded-xl p-3 text-sm font-semibold outline-none resize-none mb-4"
+      style="border:1px solid rgba(124,58,237,0.4)"></textarea>
+    <!-- Buttons -->
+    <div class="flex gap-3 justify-center flex-wrap">
+      <button onclick="watNewWord()"
+        class="btn-accent px-6 py-2.5 rounded-xl text-xs font-black cursor-pointer">
+        <i class="fas fa-forward mr-1"></i>Next Word
+      </button>
+      <button onclick="watShowTip()"
+        class="btn-neutral px-6 py-2.5 rounded-xl text-xs font-black cursor-pointer">
+        <i class="fas fa-lightbulb mr-1"></i>Tip + Example
+      </button>
+      <button onclick="resetWAT()"
+        class="btn-danger-outline px-4 py-2.5 rounded-xl text-xs font-black cursor-pointer">
+        <i class="fas fa-redo mr-1"></i>Reset
+      </button>
+    </div>
+    <!-- Tip Box -->
+    <div id="wat-tip" class="hidden mt-4 text-left tip-box text-xs leading-relaxed"></div>
+  </div>
+
+  <!-- Word Bank -->
+  <div class="premium-card rounded-xl p-4">
+    <div class="flex items-center justify-between mb-3">
+      <div class="font-black text-sm text-accent">
+        <i class="fas fa-list mr-1"></i>WAT Word Bank (500 Words)
+      </div>
+      <div class="text-[10px] text-muted font-bold">Click karo practice ke liye</div>
+    </div>
+    <div id="wat-wordbank" class="flex flex-wrap gap-1.5 max-h-48 overflow-y-auto"></div>
+  </div>
+
+  <!-- WAT Tips Card -->
+  <div class="premium-card rounded-xl p-4"
+    style="background:linear-gradient(135deg,rgba(16,185,129,0.06),transparent)">
+    <div class="font-black text-sm text-emerald-400 mb-3">
+      <i class="fas fa-star mr-1"></i>WAT Mein Top Score ke Tips
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+      <div class="surface rounded-xl p-3">
+        <div class="text-xs font-black text-accent mb-1">✅ Sahi Tarika</div>
+        <ul class="text-xs text-muted space-y-1">
+          <li>• Positive sentence likho</li>
+          <li>• Subject + Action + Result format</li>
+          <li>• 8-12 words ideal length</li>
+          <li>• Hero-oriented story</li>
+          <li>• English mein likhein</li>
+        </ul>
+      </div>
+      <div class="surface rounded-xl p-3">
+        <div class="text-xs font-black text-danger2 mb-1">❌ Galat Tarika</div>
+        <ul class="text-xs text-muted space-y-1">
+          <li>• Negative words use karna</li>
+          <li>• Violence ya crime describe karna</li>
+          <li>• Definition likhna (dictionary)</li>
+          <li>• Blank chhod dena</li>
+          <li>• Bahut lamba sentence</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+    <!-- PPDT — Phase 7 -->
+<div id="ssb-ppdt" class="hidden space-y-4">
+  <div class="premium-card rounded-2xl p-5" style="border-left:4px solid #8b5cf6">
+    <div class="text-[10px] font-black text-muted uppercase mb-1">SSB Psychologist Test</div>
+    <h2 class="text-lg font-black" style="color:#a78bfa">PPDT — Picture Perception & Discussion Test</h2>
+    <p class="text-xs text-muted mt-1">30 sec image dekho → 4 min story likho → Group discussion</p>
+  </div>
+
+  <!-- Story Writing Area -->
+  <div class="premium-card rounded-2xl p-5"
+    style="border:2px solid rgba(139,92,246,0.4);background:linear-gradient(135deg,rgba(139,92,246,0.06),transparent)">
+    <div class="flex items-center justify-between mb-4 flex-wrap gap-2">
+      <div class="font-black text-sm" style="color:#a78bfa">
+        <i class="fas fa-image mr-1"></i>Scene <span id="ppdt-scene-no">1</span> / 3
+      </div>
+      <div class="flex gap-2">
+        <div class="surface rounded-xl px-3 py-1.5 text-center">
+          <div class="text-lg font-black text-amber-400" id="ppdt-timer">4:00</div>
+          <div class="text-[9px] text-muted font-bold">Time Left</div>
+        </div>
+        <button onclick="startPPDTTimer()"
+          class="btn-success px-4 py-2 rounded-xl text-xs font-black cursor-pointer">
+          <i class="fas fa-play mr-1"></i>Start (4 min)
+        </button>
+      </div>
     </div>
 
-    <!-- WAT -->
-    <div id="ssb-wat" class="space-y-4">
-      <div class="ssb-stage-card">
-        <h3><i class="fas fa-pen-fancy mr-1"></i>WAT — Word Association Test</h3>
-        <p class="text-xs text-muted">15 seconds mein ek word dikhega, fauran ek positive sentence banao. Niche "New Word" dabao aur practice karo.</p>
+    <!-- Scene Description Box -->
+    <div class="rounded-xl p-4 mb-4"
+      style="background:rgba(139,92,246,0.08);border:1px solid rgba(139,92,246,0.25)">
+      <div class="text-[10px] font-black uppercase mb-2" style="color:#a78bfa">
+        <i class="fas fa-eye mr-1"></i>Scene (30 sec mein dekho)
       </div>
-      <div class="wat-word-card">
-        <div class="text-[10px] text-muted font-bold uppercase mb-2">Word of the Day</div>
-        <div id="wat-word" class="text-4xl font-black text-accent mb-4">LEADERSHIP</div>
-        <div id="wat-timer-bar" class="w-full h-2 rounded-full mb-3" style="background:var(--border)">
-          <div id="wat-timer-fill" class="h-full rounded-full transition-all" style="background:var(--accent);width:100%"></div>
-        </div>
-        <textarea id="wat-input" rows="2" placeholder="Apna sentence yahan likhein..." class="w-full input-field rounded-xl p-3 text-xs mb-3 outline-none"></textarea>
-        <div class="flex gap-2 justify-center flex-wrap">
-          <button onclick="watNewWord()" class="btn-accent px-5 py-2 rounded-xl text-xs font-bold cursor-pointer"><i class="fas fa-shuffle mr-1"></i>New Word (15s)</button>
-          <button onclick="watShowTip()" class="btn-neutral px-5 py-2 rounded-xl text-xs font-bold cursor-pointer"><i class="fas fa-lightbulb mr-1"></i>Show Tip</button>
-        </div>
-        <div id="wat-tip" class="tip-box hidden mt-3 text-xs"></div>
+      <p id="ppdt-scene-text" class="font-bold text-sm leading-relaxed"></p>
+    </div>
+
+    <!-- Story Format Guide -->
+    <div class="grid grid-cols-4 gap-2 mb-4">
+      <div class="surface rounded-xl p-2 text-center">
+        <div class="text-lg">👤</div>
+        <div class="text-[9px] font-black text-accent">Hero</div>
+        <div class="text-[8px] text-muted">Age, mood, background</div>
       </div>
-      <div class="premium-card rounded-xl p-4">
-        <div class="font-bold text-xs text-accent mb-2">📚 WAT Word Bank (100 Common SSB Words)</div>
-        <div id="wat-wordbank" class="flex flex-wrap gap-2"></div>
+      <div class="surface rounded-xl p-2 text-center">
+        <div class="text-lg">⚡</div>
+        <div class="text-[9px] font-black text-accent">Problem</div>
+        <div class="text-[8px] text-muted">Kya ho raha hai</div>
+      </div>
+      <div class="surface rounded-xl p-2 text-center">
+        <div class="text-lg">🎯</div>
+        <div class="text-[9px] font-black text-accent">Action</div>
+        <div class="text-[8px] text-muted">Hero ne kya kiya</div>
+      </div>
+      <div class="surface rounded-xl p-2 text-center">
+        <div class="text-lg">✅</div>
+        <div class="text-[9px] font-black text-accent">Result</div>
+        <div class="text-[8px] text-muted">Positive ending</div>
       </div>
     </div>
 
-    <!-- SRT -->
+    <!-- Story Input -->
+    <textarea id="ppdt-story" rows="6"
+      placeholder="Apni story yahan likhein...&#10;&#10;Example format:&#10;Rahul (22, determined) ek flood-affected area mein tha. Logon ko help ki zaroorat thi. Usne apni team organize ki aur rescue operation shuru kiya. Sab log safe ho gaye aur Rahul ko bravery award mila."
+      class="w-full input-field rounded-xl p-4 text-sm outline-none resize-none mb-3"
+      style="border:1px solid rgba(139,92,246,0.3);line-height:1.8"></textarea>
+
+    <!-- Word Counter -->
+    <div class="flex justify-between items-center mb-3">
+      <span class="text-[10px] text-muted font-bold">
+        Words: <span id="ppdt-word-count" class="text-accent font-black">0</span>
+        <span class="text-muted"> (ideal: 80-120)</span>
+      </span>
+      <button onclick="checkPPDTStory()"
+        class="btn-accent px-4 py-2 rounded-xl text-xs font-black cursor-pointer">
+        <i class="fas fa-check mr-1"></i>Story Check Karo
+      </button>
+    </div>
+
+    <!-- Feedback Box -->
+    <div id="ppdt-feedback" class="hidden rounded-xl p-3 text-xs space-y-1"></div>
+
+    <!-- Navigation -->
+    <div class="flex gap-2 mt-3">
+      <button onclick="ppdtPrev()"
+        class="flex-1 btn-neutral py-2.5 rounded-xl text-xs font-black cursor-pointer">
+        <i class="fas fa-arrow-left mr-1"></i>Prev
+      </button>
+      <button onclick="ppdtNext()"
+        class="flex-1 btn-accent py-2.5 rounded-xl text-xs font-black cursor-pointer">
+        Next Scene<i class="fas fa-arrow-right ml-1"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- PPDT Tips -->
+  <div class="premium-card rounded-xl p-4">
+    <div class="font-black text-sm mb-3" style="color:#a78bfa">
+      <i class="fas fa-lightbulb mr-1"></i>PPDT Winning Strategy
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+      <div class="space-y-2">
+        <div class="surface rounded-xl p-3">
+          <div class="font-black text-accent mb-1">👤 Hero Rules</div>
+          <ul class="text-muted space-y-1">
+            <li>• Hero hamesha positive aur active hona chahiye</li>
+            <li>• Age 18-30 rakho</li>
+            <li>• Mood: determined, calm, confident</li>
+            <li>• Ek hi hero — group nahi</li>
+          </ul>
+        </div>
+        <div class="surface rounded-xl p-3">
+          <div class="font-black text-accent mb-1">📝 Story Rules</div>
+          <ul class="text-muted space-y-1">
+            <li>• 4 parts: Hero → Problem → Action → Result</li>
+            <li>• Ending hamesha positive</li>
+            <li>• 80-120 words ideal</li>
+            <li>• Real life se inspired</li>
+          </ul>
+        </div>
+      </div>
+      <div class="space-y-2">
+        <div class="surface rounded-xl p-3">
+          <div class="font-black text-accent mb-1">🗣️ Discussion Rules</div>
+          <ul class="text-muted space-y-1">
+            <li>• Apni story clearly present karo</li>
+            <li>• Dusron ki baat suno</li>
+            <li>• Common story banana hai — fight nahi</li>
+            <li>• Leader ki tarah contribute karo</li>
+          </ul>
+        </div>
+        <div class="surface rounded-xl p-3">
+          <div class="font-black text-accent mb-1">❌ Avoid Karo</div>
+          <ul class="text-muted space-y-1">
+            <li>• Death, murder, suicide mention mat karo</li>
+            <li>• Negative ending mat likho</li>
+            <li>• Bhoota ya supernatural mat likho</li>
+            <li>• Blank mat chhodo</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TAT — Phase 7 -->
+<div id="ssb-tat" class="hidden space-y-4">
+  <div class="premium-card rounded-2xl p-5" style="border-left:4px solid #10b981">
+    <div class="text-[10px] font-black text-muted uppercase mb-1">SSB Psychologist Test</div>
+    <h2 class="text-lg font-black text-emerald-400">TAT — Thematic Apperception Test</h2>
+    <p class="text-xs text-muted mt-1">11 images + 1 blank • 4 min each • Story likhein</p>
+  </div>
+
+  <!-- TAT Card -->
+  <div class="premium-card rounded-2xl p-5"
+    style="border:2px solid rgba(16,185,129,0.4);background:linear-gradient(135deg,rgba(16,185,129,0.06),transparent)">
+    <div class="flex items-center justify-between mb-4 flex-wrap gap-2">
+      <div class="font-black text-sm text-emerald-400">
+        Image <span id="tat-img-no">1</span> / 11
+      </div>
+      <div class="flex gap-2 items-center">
+        <div class="surface rounded-xl px-3 py-1.5 text-center">
+          <div class="text-lg font-black text-amber-400" id="tat-timer">4:00</div>
+          <div class="text-[9px] text-muted font-bold">Time Left</div>
+        </div>
+        <button onclick="startTATTimer()"
+          class="btn-success px-4 py-2 rounded-xl text-xs font-black cursor-pointer">
+          <i class="fas fa-play mr-1"></i>Start
+        </button>
+      </div>
+    </div>
+
+    <!-- Image Scene Box -->
+    <div class="rounded-2xl p-5 mb-4 text-center relative overflow-hidden"
+      style="background:linear-gradient(135deg,#0f1b12,#1a2f1d);border:1px solid rgba(16,185,129,0.3);min-height:160px">
+      <div id="tat-scene-visual" class="text-6xl mb-3">🏔️</div>
+      <div class="text-[10px] font-black uppercase mb-2 text-emerald-400">Scene Description</div>
+      <p id="tat-scene-text" class="font-bold text-sm leading-relaxed text-muted"></p>
+      <div class="mt-3 text-[9px] text-muted italic">
+        (Actual TAT mein real blurry image hoti hai — practice ke liye scene description di gayi hai)
+      </div>
+    </div>
+
+    <!-- Hint -->
+    <div id="tat-hint-box" class="tip-box text-xs mb-4">
+      <span class="font-black text-accent">💡 Hint: </span>
+      <span id="tat-hint-text"></span>
+    </div>
+
+    <!-- Story Input -->
+    <textarea id="tat-story" rows="5"
+      placeholder="Apni story likhein...&#10;&#10;Format: [Hero naam + age] → [Kya ho raha hai] → [Hero ne kya action liya] → [Positive result]"
+      class="w-full input-field rounded-xl p-4 text-sm outline-none resize-none mb-3"
+      style="border:1px solid rgba(16,185,129,0.3);line-height:1.8"></textarea>
+
+    <div class="flex justify-between items-center mb-3">
+      <span class="text-[10px] text-muted font-bold">
+        Words: <span id="tat-word-count" class="text-emerald-400 font-black">0</span>
+        <span class="text-muted"> / 120 ideal</span>
+      </span>
+    </div>
+
+    <!-- Navigation -->
+    <div class="flex gap-2">
+      <button onclick="tatPrev()"
+        class="flex-1 btn-neutral py-2.5 rounded-xl text-xs font-black cursor-pointer">
+        <i class="fas fa-arrow-left mr-1"></i>Prev
+      </button>
+      <button onclick="tatNext()"
+        class="flex-1 btn-success py-2.5 rounded-xl text-xs font-black cursor-pointer">
+        Next Image<i class="fas fa-arrow-right ml-1"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- TAT Progress -->
+  <div class="premium-card rounded-xl p-4">
+    <div class="flex justify-between text-xs font-bold mb-2">
+      <span class="text-muted">Stories Written</span>
+      <span class="text-emerald-400" id="tat-progress-text">0 / 11</span>
+    </div>
+    <div class="xp-bar-track">
+      <div id="tat-progress-fill" class="xp-bar-fill"
+        style="width:0%;background:linear-gradient(90deg,#10b981,#34d399)"></div>
+    </div>
+    <div id="tat-mini-grid" class="grid mt-3"
+      style="grid-template-columns:repeat(11,1fr);gap:4px"></div>
+  </div>
+
+  <!-- TAT Tips -->
+  <div class="premium-card rounded-xl p-4"
+    style="background:linear-gradient(135deg,rgba(16,185,129,0.06),transparent)">
+    <div class="font-black text-sm text-emerald-400 mb-3">
+      <i class="fas fa-star mr-1"></i>TAT Story Writing Formula
+    </div>
+    <div class="surface rounded-xl p-4 text-xs">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <div class="font-black text-accent mb-2">✍️ Perfect Story Structure:</div>
+          <div class="space-y-2">
+            <div class="flex gap-2">
+              <span class="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-black flex-shrink-0"
+                style="background:var(--accent);color:var(--accent-text)">1</span>
+              <span class="text-muted"><b class="text-accent">Past:</b> Hero kaun hai, background kya tha</span>
+            </div>
+            <div class="flex gap-2">
+              <span class="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-black flex-shrink-0"
+                style="background:var(--accent);color:var(--accent-text)">2</span>
+              <span class="text-muted"><b class="text-accent">Present:</b> Abhi kya situation hai</span>
+            </div>
+            <div class="flex gap-2">
+              <span class="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-black flex-shrink-0"
+                style="background:var(--accent);color:var(--accent-text)">3</span>
+              <span class="text-muted"><b class="text-accent">Action:</b> Hero ne kya decided aur kiya</span>
+            </div>
+            <div class="flex gap-2">
+              <span class="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-black flex-shrink-0"
+                style="background:var(--accent);color:var(--accent-text)">4</span>
+              <span class="text-muted"><b class="text-accent">Future:</b> Kya positive result aaya</span>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="font-black text-emerald-400 mb-2">✅ Example Story:</div>
+          <div class="surface rounded-xl p-3 text-muted leading-relaxed italic">
+            "Arjun (24) ek dedicated engineering student tha jo defence join karna chahta tha.
+            Ek din usne dekha ki ek bachcha nadi mein dub raha hai.
+            Bina der kiye woh paani mein kud gaya aur bachche ko bacha liya.
+            Uski bravery ko dekh kar lokl log ne uski tarif ki aur woh apne sapne ki taraf
+            aur motivated ho gaya."
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- OIR -->
+
+<!-- SRT -->
     <div id="ssb-srt" class="hidden space-y-4">
       <div class="ssb-stage-card">
         <h3><i class="fas fa-comments mr-1"></i>SRT — Situation Reaction Test</h3>
@@ -1208,19 +1584,115 @@ ANSWER KEY:
       <button onclick="loadMoreSRT()" class="w-full btn-neutral py-2.5 rounded-xl text-xs font-bold cursor-pointer"><i class="fas fa-refresh mr-1"></i>Load More Situations</button>
     </div>
 
-    <!-- OIR -->
-    <div id="ssb-oir" class="hidden space-y-4">
-      <div class="ssb-stage-card">
-        <h3><i class="fas fa-brain mr-1"></i>OIR — Officer Intelligence Rating Practice</h3>
-        <p class="text-xs text-muted">Verbal & non-verbal reasoning questions. Har question solve karo aur score dekho.</p>
-      </div>
-      <div class="premium-card rounded-xl p-3 flex justify-between items-center mb-2">
-        <span class="text-xs font-bold">Score: <span id="oir-score" class="text-accent">0</span> / <span id="oir-total">0</span></span>
-        <button onclick="resetOIR()" class="btn-neutral px-3 py-1.5 rounded-xl text-xs font-bold cursor-pointer"><i class="fas fa-redo mr-1"></i>Reset</button>
-      </div>
-      <div id="oir-container" class="space-y-4"></div>
-    </div>
+    <!-- SRT — Phase 7 Exam Style -->
+<div id="ssb-srt" class="hidden space-y-4">
 
+  <!-- Header -->
+  <div class="premium-card rounded-2xl p-5" style="border-left:4px solid #3b82f6">
+    <div class="flex items-center justify-between flex-wrap gap-3">
+      <div>
+        <div class="text-[10px] font-black text-muted uppercase mb-1">SSB Psychologist Test</div>
+        <h2 class="text-lg font-black" style="color:#60a5fa">SRT — Situation Reaction Test</h2>
+        <p class="text-xs text-muted mt-1">60 situations • 30 minutes • Practical reaction likhein</p>
+      </div>
+      <div class="flex gap-2 flex-wrap">
+        <div class="surface rounded-xl px-4 py-2 text-center">
+          <div class="text-xl font-black" style="color:#60a5fa" id="srt-current-no">1</div>
+          <div class="text-[9px] text-muted font-bold uppercase">Current</div>
+        </div>
+        <div class="surface rounded-xl px-4 py-2 text-center">
+          <div class="text-xl font-black text-emerald-400" id="srt-done-no">0</div>
+          <div class="text-[9px] text-muted font-bold uppercase">Done</div>
+        </div>
+        <div class="surface rounded-xl px-4 py-2 text-center">
+          <div class="text-xl font-black text-amber-400" id="srt-timer-disp">30:00</div>
+          <div class="text-[9px] text-muted font-bold uppercase">Time Left</div>
+        </div>
+      </div>
+    </div>
+    <!-- SRT Controls -->
+    <div class="flex gap-2 mt-3 flex-wrap">
+      <button onclick="startSRTTimer()" 
+        class="btn-success px-4 py-2 rounded-xl text-xs font-black cursor-pointer">
+        <i class="fas fa-play mr-1"></i>Start Timer (30 min)
+      </button>
+      <button onclick="resetSRT()" 
+        class="btn-danger-outline px-4 py-2 rounded-xl text-xs font-black cursor-pointer">
+        <i class="fas fa-redo mr-1"></i>Reset All
+      </button>
+    </div>
+  </div>
+
+  <!-- SRT Question Card — Exam Style -->
+  <div id="srt-active-card" class="premium-card rounded-2xl p-5"
+    style="border:2px solid rgba(59,130,246,0.4);background:linear-gradient(135deg,rgba(59,130,246,0.06),transparent)">
+    <div class="flex items-center justify-between mb-3">
+      <span class="text-[10px] font-black uppercase px-3 py-1 rounded-full"
+        style="background:rgba(59,130,246,0.15);color:#60a5fa">
+        Situation <span id="srt-q-num">1</span> / 60
+      </span>
+      <div class="flex gap-2">
+        <button onclick="srtPrev()" 
+          class="btn-neutral px-3 py-1.5 rounded-xl text-xs font-black cursor-pointer">
+          <i class="fas fa-arrow-left"></i>
+        </button>
+        <button onclick="srtNext()" 
+          class="btn-accent px-3 py-1.5 rounded-xl text-xs font-black cursor-pointer">
+          <i class="fas fa-arrow-right"></i>
+        </button>
+      </div>
+    </div>
+    <!-- Situation Text -->
+    <div class="rounded-xl p-4 mb-4"
+      style="background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.25)">
+      <div class="text-[10px] font-black uppercase mb-2" style="color:#60a5fa">
+        <i class="fas fa-bolt mr-1"></i>Situation
+      </div>
+      <p id="srt-situation-text" class="font-bold text-sm leading-relaxed"></p>
+    </div>
+    <!-- Answer Box -->
+    <div class="mb-3">
+      <div class="text-[10px] font-black text-muted uppercase mb-2">Aapka Response:</div>
+      <textarea id="srt-answer-box" rows="3"
+        placeholder="Aap kya karenge? Short mein likhein..."
+        class="w-full input-field rounded-xl p-3 text-sm outline-none resize-none"
+        style="border:1px solid rgba(59,130,246,0.3)"
+        oninput="saveSRTAnswer()"></textarea>
+    </div>
+    <!-- Show Ideal -->
+    <button onclick="toggleSRTIdealNew()"
+      class="w-full py-2 rounded-xl text-xs font-black cursor-pointer mb-2"
+      id="srt-ideal-btn"
+      style="background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.3);color:var(--accent)">
+      <i class="fas fa-eye mr-1"></i>Ideal Response Dekho
+    </button>
+    <div id="srt-ideal-box" class="hidden tip-box text-xs leading-relaxed"></div>
+  </div>
+
+  <!-- SRT Progress Bar -->
+  <div class="premium-card rounded-xl p-4">
+    <div class="flex justify-between text-xs font-bold mb-2">
+      <span class="text-muted">Progress</span>
+      <span class="text-accent" id="srt-progress-text">0 / 60 complete</span>
+    </div>
+    <div class="xp-bar-track">
+      <div id="srt-progress-fill" class="xp-bar-fill" style="width:0%"></div>
+    </div>
+    <!-- Mini situation grid -->
+    <div id="srt-mini-grid" class="grid mt-3"
+      style="grid-template-columns:repeat(10,1fr);gap:4px"></div>
+  </div>
+
+  <!-- SRT Tips -->
+  <div class="premium-card rounded-xl p-4"
+    style="background:linear-gradient(135deg,rgba(59,130,246,0.06),transparent)">
+    <div class="font-black text-sm mb-3" style="color:#60a5fa">
+      <i class="fas fa-lightbulb mr-1"></i>SRT Mein Top Score Tips
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+      <div class="surface rounded-xl p-3">
+        <div class="font-black text-accent mb-1">⚡ Speed</div>
+        <p class="text-muted">30 min mein 60
     <!-- GAT -->
     <div id="ssb-gat" class="hidden space-y-4">
       <div class="ssb-stage-card">
@@ -2297,19 +2769,327 @@ function cycleQuickFact(){quickFactIndex=(quickFactIndex+1)%QUICK_FACTS.length;s
 /* ============================================================
    ✅ FIX 2 & 3: SSB PRACTICE CONTENT — ACTUAL QUESTIONS
    ============================================================ */
+  /* ============================================================
+   PHASE 7 — SSB COMPLETE MODULE DATA
+   ============================================================ */
+const WAT_WORDS_500 = [
+  "LEADERSHIP","COURAGE","DISCIPLINE","TEAMWORK","LOYALTY","SACRIFICE","PATRIOTISM",
+  "DETERMINATION","HONESTY","RESILIENCE","INITIATIVE","CONFIDENCE","INTEGRITY","ADVENTURE",
+  "RESPONSIBILITY","FRIENDSHIP","COMPASSION","GOAL","STRATEGY","VICTORY","CHALLENGE",
+  "DUTY","PERSEVERANCE","TRUST","INNOVATION","EXCELLENCE","COMMITMENT","HARDSHIP",
+  "MOTIVATION","COOPERATION","BRAVERY","SERVICE","RESPECT","WISDOM","DEDICATION",
+  "FREEDOM","JUSTICE","STRENGTH","UNITY","SUCCESS","FAILURE","OPPORTUNITY","RISK",
+  "NATION","SOLDIER","HERO","MISSION","OBSTACLE","GROWTH","CHANGE","AMBITION",
+  "ACHIEVEMENT","ACTION","ADAPTABILITY","ALERTNESS","ASPIRATION","ATTITUDE","BALANCE",
+  "BOLDNESS","CALM","CAPABILITY","CHARACTER","CLARITY","COMMAND","COMPETITION",
+  "CONTROL","CREATIVITY","CRISIS","CULTURE","DANGER","DECISION","DEFENCE","EFFORT",
+  "EMOTION","ENDURANCE","ENERGY","ENTHUSIASM","ETHICS","EXCELLENCE","EXPERIENCE",
+  "EXPERTISE","FAIRNESS","FAITH","FAME","FEARLESSNESS","FOCUS","FORCE","FORESIGHT",
+  "FORTITUDE","GENEROSITY","GLORY","GRACE","GRATITUDE","GREATNESS","GROUND","GROWTH",
+  "GUIDANCE","HARDWORK","HARMONY","HELPING","HONESTY","HOPE","HUMILITY","IDENTITY",
+  "IMPACT","IMPROVEMENT","INDEPENDENCE","INFLUENCE","INSPIRATION","INTELLIGENCE",
+  "JUDGMENT","KNOWLEDGE","LAW","LEARN","LEGACY","LOGIC","MANAGEMENT","MATURITY",
+  "MENTOR","MINDSET","MORALE","NATIONALISM","NATURE","NOBILITY","OBEDIENCE","ORDER",
+  "PATIENCE","PEACE","PLANNING","POTENTIAL","POWER","PRECISION","PRIDE","PROBLEM",
+  "PROGRESS","PROTECTION","PURPOSE","QUALITY","QUICK","READINESS","REASON","REFORM",
+  "RELIABILITY","RESOLVE","SACRIFICE","SAFETY","SELFLESS","SENSITIVITY","SKILL",
+  "SOLUTION","SPEED","SPIRIT","STABILITY","STANDARD","SUPPORT","SURVIVAL","SYMPATHY",
+  "TALENT","TARGET","THINK","TIME","TRADITION","TRAINING","TRUTH","UNDERSTANDING",
+  "UNIFORM","VALOUR","VALUE","VICTORY","VIGILANCE","VISION","VOLUNTEER","WAR",
+  "WELFARE","WILLPOWER","WINNING","WORK","ZEAL","ALERT","BRAVE","CARE","DARE",
+  "EARN","FIGHT","GIVE","HELP","JOIN","KEEP","LEAD","MAKE","NEED","OPEN",
+  "PLAN","RISE","SAVE","TAKE","UPLIFT","VOICE","WATCH","XENIAL","YEARN","ZEST"
+];
+
+const WAT_TIPS_500 = {
+  "LEADERSHIP":"Leader woh hota hai jo mushkil mein bhi team ko sahi raasta dikhaye. Example: 'He led his team through the crisis with calm and clarity.'",
+  "COURAGE":"Himmat ka matlab darr ka na hona nahi, darr ke bawajood aage badhna hai. Example: 'She showed courage by speaking truth in front of all.'",
+  "DISCIPLINE":"Discipline hi success ki neev hai — har bade insaan ki pehchaan. Example: 'His discipline helped him clear the exam in first attempt.'",
+  "TEAMWORK":"Milke kaam karne se impossible bhi possible ho jaata hai. Example: 'Their teamwork made the project a grand success.'",
+  "LOYALTY":"Wafadari ek aisi khasiyat hai jo insaan ko mahaan banati hai. Example: 'His loyalty to the nation inspired everyone around him.'",
+  "SACRIFICE":"Desh ke liye diya gaya sacrifice kabhi vyarth nahi jaata. Example: 'He sacrificed his comfort for the welfare of his team.'",
+  "PATRIOTISM":"Desh se pyaar karna aur uske liye kuch karna hi sachcha deshbhakti hai. Example: 'Her patriotism drove her to join the defence forces.'",
+  "DETERMINATION":"Thaan lo toh koi nahi rok sakta — yahi determination hai. Example: 'With determination, he cleared SSB in his second attempt.'",
+  "HONESTY":"Sachcha insaan hamesha izzat paata hai. Example: 'His honesty in reporting the mistake saved the whole unit.'",
+  "RESILIENCE":"Girkar uthna hi asli jeet hai. Example: 'Despite failures, her resilience kept her moving forward.'",
+  "DEFAULT":"Positive, action-oriented sentence likhein. Subject (I/He/She/They) + action + positive result. Example: 'He used this quality to serve his nation with pride.'"
+};
+
+const SRT_60 = [
+  {id:1,sit:"Aap train mein hain. Ek budhi aurat ko seat nahi mil rahi, coach full hai.",ideal:"Apni seat de do, khade rehkar safar karo."},
+  {id:2,sit:"Exam mein paas wala student copy karne ki koshish kar raha hai.",ideal:"Politely mana karo, answer sheet dhako, invigilator ko inform karo."},
+  {id:3,sit:"Raat ko neighbor ke ghar mein aag lagi hai.",ideal:"Fire brigade (101) call karo, logon ko jagao, bahar nikalne mein help karo."},
+  {id:4,sit:"Team member project mein contribute nahi kar raha, deadline kal hai.",ideal:"Meeting karo, workload baanto, motivate karo."},
+  {id:5,sit:"Road par accident hua, log sirf dekh rahe hain.",ideal:"Ambulance (108) call karo, first aid do, traffic control karo."},
+  {id:6,sit:"Close friend ne exam mein cheat kiya — tumhe pata chala.",ideal:"Pehle dost se seedha baat karo, samjhao. Nahi maana to authorities ko batao."},
+  {id:7,sit:"Trek mein group rasta bhatk gaya, andhera ho raha hai.",ideal:"Calm raho, high ground dhundo, stars se direction lo, help signal karo."},
+  {id:8,sit:"Boss galat kaam karne ka pressure de raha hai.",ideal:"Politely refuse karo, ethics cite karo, HR ko report karo agar continue hue."},
+  {id:9,sit:"Bus mein ek bachcha rota hua akela khada hai.",ideal:"Bachche ke paas jao, reassure karo, announcement karwao, police ko batao."},
+  {id:10,sit:"Team mein 2 members jhagad rahe hain, project ruka hai.",ideal:"Beech mein jao, dono ki baat suno, common goal remind karao."},
+  {id:11,sit:"Swimming pool ke paas bachcha paani mein gir gaya.",ideal:"Fauran paani mein kudo, bachche ko bachao, medical help bulao."},
+  {id:12,sit:"Market mein purse mila jisme ID cards aur cash hai.",ideal:"Nearest police station ya lost-and-found mein jama karao."},
+  {id:13,sit:"Group leader galat direction mein le ja raha hai.",ideal:"Respectfully disagree karo, evidence dikhao, group vote lo."},
+  {id:14,sit:"Interview mein aisa sawaal poocha jiska jawab nahi pata.",ideal:"Honestly bolo 'abhi pata nahi, lekin main pata kar sakta hoon', approach explain karo."},
+  {id:15,sit:"Dost ka accident hua, parents door hain.",ideal:"Ambulance bulao, parents ko call karo, hospital mein unka intezaar karo."},
+  {id:16,sit:"Aap officer ho. Ek jawan ki tabiyat thik nahi par woh duty par aana chahta hai.",ideal:"Use rest karne ko kaho, medical officer ke paas bhejo, duty cover karo."},
+  {id:17,sit:"Exam mein ek question ka answer pata hai par galat lagta hai.",ideal:"Jo best answer lagta hai woh likho, guess work se better hai knowledge-based answer."},
+  {id:18,sit:"Aapke unit mein ek naya recruit bahut nervous hai.",ideal:"Encourage karo, guide karo, confidence badhao, senior ki tarah support do."},
+  {id:19,sit:"Aap akele jungle mein bhatk gaye hain, phone ki battery low hai.",ideal:"Emergency number dial karo, jagah note karo, high ground par jao, signal do."},
+  {id:20,sit:"Flood mein ek gaon phansa hua hai, aap nearest officer ho.",ideal:"Relief team organize karo, evacuation plan banao, medical help bulao."},
+  {id:21,sit:"Aapki team ne mission half-way mein chhod diya, aap akele ho.",ideal:"Mission continue karo jitna possible ho, backup plan use karo, report karo."},
+  {id:22,sit:"Ek civil ne aap par galat ilzaam lagaya hai public mein.",ideal:"Calm raho, baat suno, facts clearly rakhho, legal process follow karo."},
+  {id:23,sit:"Aapko pata chala ki unit ka ek member classified info leak kar raha hai.",ideal:"Fauran commanding officer ko report karo, khud investigate mat karo."},
+  {id:24,sit:"Aapki post par enemy attack expected hai, backup 2 ghante door hai.",ideal:"Position defend karo, team brief karo, backup ko inform karo, positions strong karo."},
+  {id:25,sit:"Ek senior officer aapko unethical kaam karne ko bol raha hai.",ideal:"Politely refuse karo, apna stand clear karo, higher authority ko report karo."},
+  {id:26,sit:"Aap driving kar rahe ho, saamne accident ho gaya.",ideal:"Gaadi rokko, hazard lights jalao, 108 call karo, jab tak help aaye first aid do."},
+  {id:27,sit:"Class mein aapka presentation fail ho gaya, sab haas rahe hain.",ideal:"Calm raho, apni galti accept karo, kal aur better presentation ki tayari karo."},
+  {id:28,sit:"Aapka best friend drugs le raha hai, aapne pakda.",ideal:"Seedha baat karo, professional help ke baare mein batao, family ko inform karo."},
+  {id:29,sit:"College mein ragging ho rahi hai, aap witness ho.",ideal:"Turant authorities ko report karo, victim ko support karo, evidence preserve karo."},
+  {id:30,sit:"Aap night duty par ho, suspicious person unit ke bahar dikh raha hai.",ideal:"Protocol follow karo, alert karo, proper challenge do, senior ko inform karo."},
+  {id:31,sit:"Disaster relief mission mein resources kam pad rahe hain.",ideal:"Priority tay karo, available resources efficiently use karo, HQ se aur mangwao."},
+  {id:32,sit:"Ek wounded soldier ko hospital le jaana hai par vehicle nahi hai.",ideal:"Emergency vehicle arrange karo, local transport use karo, helicopter request karo."},
+  {id:33,sit:"Aapki team ka morale low hai, mission ka 3rd day hai.",ideal:"Team ko encourage karo, achievements highlight karo, short break do, food ensure karo."},
+  {id:34,sit:"Aap marathon mein ho, aadha rasta baaki hai par thakaan aa gayi.",ideal:"Pace slow karo, breathe karo, mental strength use karo, finish line pe focus karo."},
+  {id:35,sit:"Ek chhote bachche ko koi stranger le jaane ki koshish kar raha hai.",ideal:"Immediately intervene karo, bachche ko safe karo, police call karo, witnesses lo."},
+  {id:36,sit:"Aapka exam kal hai aur notes kho gaye hain.",ideal:"Classmates se notes maango, key topics revise karo, panic mat karo."},
+  {id:37,sit:"Border par tension hai, civilians area nahi chhod rahe.",ideal:"Calmly explain karo, evacuation routes dikhao, force avoid karo, superiors ko batao."},
+  {id:38,sit:"Helicopter crash hua, aap sole survivor ho jungle mein.",ideal:"Signal fire jalaao, paani dhundo, shelter banao, rescue ka wait karo."},
+  {id:39,sit:"Aapki unit mein food poisoning ho gayi, mission kal hai.",ideal:"Medical help bulao, affected logon ko rest do, mission delay ki request karo."},
+  {id:40,sit:"Aap mounted guard duty par ho, neend aa rahi hai.",ideal:"Stand karo, walk karo, pani piyo, duty ke waqt kisi ko bhi compromise mat karo."},
+  {id:41,sit:"Ek local leader aapko bribe dene ki koshish kar raha hai.",ideal:"Strictly refuse karo, warn karo, senior ko report karo, documented evidence rakho."},
+  {id:42,sit:"Aapke captain ki accident mein mrityu ho gayi, aap senior most ho.",ideal:"Calm raho, team sambhalo, HQ ko inform karo, mission continue karo ya abort decide."},
+  {id:43,sit:"Enemy ke haath ek important document lag sakta hai.",ideal:"Document destroy karo ya secure karo, HQ alert karo, position defend karo."},
+  {id:44,sit:"Aap peace mission par ho, local protest ho rahi hai.",ideal:"Provoke mat karo, neutral raho, leaders se baat karo, HQ ko situation batao."},
+  {id:45,sit:"Aapka radio kharab ho gaya, mission mein ho.",ideal:"Backup communication use karo, signal fire jalaao, rendezvous point pe jao."},
+  {id:46,sit:"Unit ka ek member chhoti galti par bahut zyada punish hua.",ideal:"Commanding officer se baat karo, proper channels use karo, grievance redressal lo."},
+  {id:47,sit:"Jungle mein poisonous snake ne bite kiya team member ko.",ideal:"Calm rakho, affected area ko immobilize karo, antivenom ke liye evacuate karo."},
+  {id:48,sit:"Ek politician aapko apne favour mein kaam karne ko bol raha hai.",ideal:"Strictly refuse karo, apna constitutional duty yaad karo, superior ko report karo."},
+  {id:49,sit:"Flood mein ek pul toot gaya, gaon isolated ho gaya.",ideal:"Alternate route dhundo, boat arrange karo, airstrike/helicopter request karo."},
+  {id:50,sit:"Aap sports competition mein ho, referee ne galat decision diya.",ideal:"Calmly protest karo proper channel se, accept decision, team ka morale banaye rakho."},
+  {id:51,sit:"Team mein communication gap ki wajah se mission fail hua.",ideal:"Post-mission review karo, communication protocol improve karo, lesson learn karo."},
+  {id:52,sit:"Ek reporter aapko sensitive information share karne ko bol raha hai.",ideal:"Strictly refuse karo, PRO ke paas refer karo, official channels follow karo."},
+  {id:53,sit:"Aapke unit mein ek jawan ne suicide ki koshish ki.",ideal:"Medical help bulao, use safe rakho, counseling arrange karo, CO ko inform karo."},
+  {id:54,sit:"Mission mein enemy ki position pata nahi, reconnaissance nahi ho paya.",ideal:"Available intel use karo, cautiously advance karo, HQ se guidance lo."},
+  {id:55,sit:"Aapki unit ne galti se civilian area mein fire kiya.",ideal:"Ceasefire karo, casualties assess karo, medical help do, HQ ko immediately report karo."},
+  {id:56,sit:"Ek jawan repeatedly orders follow nahi kar raha.",ideal:"Private mein baat karo, reason samjho, counseling do, agar na maane disciplinary action lo."},
+  {id:57,sit:"Aap ek aisi jagah post hue ho jahan bahut zyada corruption hai.",ideal:"Integrity maintain karo, report karo, anonymous complaint karo, khud involve mat ho."},
+  {id:58,sit:"Aapke paas 10 minute hain aur 3 important decisions lene hain.",ideal:"Prioritize karo, available info se best decision lo, team ko brief karo, execute karo."},
+  {id:59,sit:"Mission mein aap injured ho gaye, team depend karti hai aap par.",ideal:"Injury report karo, possible ho to continue karo, 2IC ko command do agar needed."},
+  {id:60,sit:"War memorial ceremony mein ek civilian ne disrespect ki.",ideal:"Calmly explain importance, involve authorities agar needed, public mein scene avoid karo."}
+];
+
+const TAT_IMAGES = [
+  {id:1,scene:"Ek akela insaan pahaad ki choti par khada hai, neeche ghati hai.",hint:"Achievement, loneliness, determination, challenge overcome."},
+  {id:2,scene:"Ek jawan apne ghar se bidayi le raha hai, maa aankhon mein aansu liye khadi hai.",hint:"Duty vs family, sacrifice, patriotism, emotional strength."},
+  {id:3,scene:"Do log ek barish mein bheeg rahe hain, ek chhata share kar rahe hain.",hint:"Friendship, sharing, helping others, compassion."},
+  {id:4,scene:"Ek student raat ko akele pad raha hai, room mein sirf lamp jal raha hai.",hint:"Hard work, determination, goal focus, perseverance."},
+  {id:5,scene:"Ek officer apni team ko briefing de raha hai, sab dhyan se sun rahe hain.",hint:"Leadership, communication, teamwork, mission focus."},
+  {id:6,scene:"Ek bachcha gir gaya hai, ek bada aadmi usse uthane aa raha hai.",hint:"Helping, compassion, care, humanity."},
+  {id:7,scene:"Ek factory mein aag lagi hai, log bhaag rahe hain.",hint:"Crisis management, bravery, leadership, saving lives."},
+  {id:8,scene:"Ek insaan tez bhaag raha hai, finish line dikh rahi hai door.",hint:"Determination, goal, perseverance, winning spirit."},
+  {id:9,scene:"Ek gaon mein flood aa gayi hai, ek young man log ko bacha raha hai.",hint:"Bravery, selflessness, community service, courage."},
+  {id:10,scene:"Ek doctor jungle camp mein ghayalon ka ilaaj kar raha hai.",hint:"Service, dedication, duty, sacrifice, medical care."}
+];
+
+const PPDT_STORIES = [
+  {id:1,scene:"Ek blurry image jisme kuch log kisi jagah khade hain, ek ke haath mein kuch hai.",tip:"Hero identify karo → Problem identify karo → Action describe karo → Positive ending likho. Story 4 sentences mein complete honi chahiye."},
+  {id:2,scene:"Ek image jisme ek insaan kuch uthane ki koshish kar raha hai.",tip:"Hero ka naam lo → Situation describe karo → Usne kya action liya → Result positive rakho."},
+  {id:3,scene:"Group of people, kuch agitated dikh rahe hain.",tip:"Conflict resolution story likho — Hero ne leadership dikhai aur situation sambhali."}
+];
 function ssbTab(tab){
-  ['wat','srt','oir','gat','pi'].forEach(t=>{
+  ['wat','srt','ppdt','tat','oir','gat','pi'].forEach(t=>{
     const el=document.getElementById(`ssb-${t}`);
     if(el)el.classList.toggle('hidden',t!==tab);
   });
   document.querySelectorAll('.ssb-tab-btn').forEach((b,i)=>{
-    b.classList.toggle('active',['wat','srt','oir','gat','pi'][i]===tab);
+    b.classList.toggle('active',['wat','srt','ppdt','tat','oir','gat','pi'][i]===tab);
   });
+}  // PPDT Functions
+let ppdtCurrentIdx = 0;
+let ppdtTimerInterval = null;
+let ppdtTimeLeft = 240;
+let ppdtTimerRunning = false;
+let ppdtStories = {};
+
+function initPPDT(){
+  ppdtCurrentIdx = 0;
+  renderPPDTCard();
+  document.getElementById('ppdt-story').addEventListener('input', ()=>{
+    const words = document.getElementById('ppdt-story').value.trim().split(/\s+/).filter(w=>w).length;
+    document.getElementById('ppdt-word-count').innerText = words;
+  });
+}
+
+function renderPPDTCard(){
+  const s = PPDT_STORIES[ppdtCurrentIdx];
+  if(!s) return;
+  document.getElementById('ppdt-scene-no').innerText = s.id;
+  document.getElementById('ppdt-scene-text').innerText = s.scene;
+  document.getElementById('ppdt-story').value = ppdtStories[s.id] || '';
+  document.getElementById('ppdt-feedback').classList.add('hidden');
+  const words = (ppdtStories[s.id]||'').trim().split(/\s+/).filter(w=>w).length;
+  document.getElementById('ppdt-word-count').innerText = words;
+  clearInterval(ppdtTimerInterval);
+  ppdtTimerRunning = false;
+  ppdtTimeLeft = 240;
+  document.getElementById('ppdt-timer').innerText = '4:00';
+}
+
+function ppdtNext(){
+  ppdtStories[PPDT_STORIES[ppdtCurrentIdx].id] = document.getElementById('ppdt-story').value;
+  if(ppdtCurrentIdx < PPDT_STORIES.length - 1){
+    ppdtCurrentIdx++;
+    renderPPDTCard();
+  } else {
+    alert("🎉 Saari PPDT scenes complete!");
+  }
+}
+
+function ppdtPrev(){
+  ppdtStories[PPDT_STORIES[ppdtCurrentIdx].id] = document.getElementById('ppdt-story').value;
+  if(ppdtCurrentIdx > 0){ ppdtCurrentIdx--; renderPPDTCard(); }
+}
+
+function startPPDTTimer(){
+  if(ppdtTimerRunning){
+    clearInterval(ppdtTimerInterval);
+    ppdtTimerRunning = false;
+    return;
+  }
+  ppdtTimerRunning = true;
+  ppdtTimerInterval = setInterval(()=>{
+    ppdtTimeLeft--;
+    const mm = Math.floor(ppdtTimeLeft/60);
+    const ss = ppdtTimeLeft % 60;
+    const el = document.getElementById('ppdt-timer');
+    if(el) el.innerText = `${mm}:${String(ss).padStart(2,'0')}`;
+    if(ppdtTimeLeft <= 0){
+      clearInterval(ppdtTimerInterval);
+      alert("⏱️ 4 minutes khatam! Story band karo.");
+    }
+  }, 1000);
+}
+
+function checkPPDTStory(){
+  const story = document.getElementById('ppdt-story').value.trim();
+  const words = story.split(/\s+/).filter(w=>w).length;
+  const fb = document.getElementById('ppdt-feedback');
+  fb.classList.remove('hidden');
+  let issues = [];
+  let good = [];
+  if(words < 50) issues.push("❌ Story bahut chhoti hai — kam se kam 80 words likhein");
+  else if(words > 150) issues.push("⚠️ Story thodi lambi hai — 80-120 words ideal hai");
+  else good.push("✅ Word count sahi hai (" + words + " words)");
+  if(story.toLowerCase().includes('death')||story.toLowerCase().includes('murder')||
+     story.toLowerCase().includes('suicide')) issues.push("❌ Negative/dark content avoid karo");
+  else good.push("✅ Content appropriate hai");
+  if(story.includes('.')||story.includes(',')) good.push("✅ Proper punctuation hai");
+  const positiveWords = ['success','won','saved','helped','achieved','overcame','proud','happy','celebrated'];
+  if(positiveWords.some(w=>story.toLowerCase().includes(w))) good.push("✅ Positive ending hai");
+  else issues.push("⚠️ Positive ending aur clear result add karo");
+  fb.style.background = issues.length ? 'rgba(244,63,94,0.08)' : 'rgba(16,185,129,0.08)';
+  fb.style.border = issues.length ? '1px solid rgba(244,63,94,0.3)' : '1px solid rgba(16,185,129,0.3)';
+  fb.innerHTML = [...good,...issues].map(i=>`<div class="font-bold">${i}</div>`).join('');
+}
+
+// TAT Functions
+let tatCurrentIdx = 0;
+let tatTimerInterval = null;
+let tatTimeLeft = 240;
+let tatTimerRunning = false;
+let tatStories = {};
+
+const TAT_ICONS = ['🏔️','🪖','🌧️','📚','👮','👶','🔥','🏃','🌊','🏥','⬜'];
+
+function initTAT(){
+  tatCurrentIdx = 0;
+  renderTATCard();
+  buildTATMiniGrid();
+  document.getElementById('tat-story').addEventListener('input', ()=>{
+    const words = document.getElementById('tat-story').value.trim().split(/\s+/).filter(w=>w).length;
+    document.getElementById('tat-word-count').innerText = words;
+  });
+}
+
+function renderTATCard(){
+  const allTAT = [...TAT_IMAGES, {id:11,scene:"Blank image — apni khud ki scene imagine karo aur story likho.",hint:"Complete freedom — apna best story likho. Hero strong, action clear, ending positive."}];
+  const s = allTAT[tatCurrentIdx];
+  if(!s) return;
+  document.getElementById('tat-img-no').innerText = tatCurrentIdx + 1;
+  document.getElementById('tat-scene-text').innerText = s.scene;
+  document.getElementById('tat-hint-text').innerText = s.hint || '';
+  document.getElementById('tat-scene-visual').innerText = TAT_ICONS[tatCurrentIdx] || '🖼️';
+  document.getElementById('tat-story').value = tatStories[tatCurrentIdx] || '';
+  const words = (tatStories[tatCurrentIdx]||'').trim().split(/\s+/).filter(w=>w).length;
+  document.getElementById('tat-word-count').innerText = words;
+  clearInterval(tatTimerInterval);
+  tatTimerRunning = false;
+  tatTimeLeft = 240;
+  document.getElementById('tat-timer').innerText = '4:00';
+  buildTATMiniGrid();
+}
+
+function tatNext(){
+  tatStories[tatCurrentIdx] = document.getElementById('tat-story').value;
+  if(tatCurrentIdx < 10){ tatCurrentIdx++; renderTATCard(); }
+  else alert("🎉 Saari 11 TAT images complete!");
+}
+
+function tatPrev(){
+  tatStories[tatCurrentIdx] = document.getElementById('tat-story').value;
+  if(tatCurrentIdx > 0){ tatCurrentIdx--; renderTATCard(); }
+}
+
+function startTATTimer(){
+  if(tatTimerRunning){
+    clearInterval(tatTimerInterval);
+    tatTimerRunning = false;
+    return;
+  }
+  tatTimerRunning = true;
+  tatTimerInterval = setInterval(()=>{
+    tatTimeLeft--;
+    const mm = Math.floor(tatTimeLeft/60);
+    const ss = tatTimeLeft % 60;
+    const el = document.getElementById('tat-timer');
+    if(el) el.innerText = `${mm}:${String(ss).padStart(2,'0')}`;
+    if(tatTimeLeft <= 0){
+      clearInterval(tatTimerInterval);
+      alert("⏱️ 4 minutes khatam! Story band karo.");
+      tatNext();
+    }
+  }, 1000);
+}
+
+function buildTATMiniGrid(){
+  const g = document.getElementById('tat-mini-grid');
+  if(!g) return;
+  const done = Object.keys(tatStories).filter(k=>tatStories[k]&&tatStories[k].trim()).length;
+  document.getElementById('tat-progress-text').innerText = done + ' / 11';
+  document.getElementById('tat-progress-fill').style.width = Math.round((done/11)*100)+'%';
+  g.innerHTML = TAT_ICONS.map((icon,i)=>{
+    const isDone = tatStories[i] && tatStories[i].trim();
+    const isCurrent = i === tatCurrentIdx;
+    return `<div onclick="tatJump(${i})"
+      style="height:28px;border-radius:6px;cursor:pointer;font-size:12px;
+      display:flex;align-items:center;justify-content:center;
+      background:${isCurrent?'var(--accent)':isDone?'rgba(16,185,129,0.3)':'var(--border)'};
+      border:${isCurrent?'2px solid var(--accent)':'none'}">${icon}</div>`;
+  }).join('');
+}
+
+function tatJump(idx){
+  tatStories[tatCurrentIdx] = document.getElementById('tat-story').value;
+  tatCurrentIdx = idx;
+  renderTATCard();
 }
 
 function initSSBContent(){
   initWAT();
+  initSRTNew();
   initSRT();
+  initPPDT();
+  initTAT();
   initOIR();
   initGAT();
   initPI();
@@ -2365,6 +3145,141 @@ function watShowTip(){
 
 // SRT
 let srtShownCount=0;
+  // SRT Phase 7 — New Functions
+let srtCurrentIdx = 0;
+let srtAnswers = {};
+let srtTimerInterval = null;
+let srtTimeLeft = 1800;
+let srtTimerRunning = false;
+
+function initSRTNew(){
+  srtCurrentIdx = 0;
+  renderSRTCard();
+  buildSRTMiniGrid();
+}
+
+function renderSRTCard(){
+  const s = SRT_60[srtCurrentIdx];
+  if(!s) return;
+  document.getElementById('srt-q-num').innerText = s.id;
+  document.getElementById('srt-current-no').innerText = s.id;
+  document.getElementById('srt-situation-text').innerText = s.sit;
+  document.getElementById('srt-answer-box').value = srtAnswers[s.id] || '';
+  document.getElementById('srt-ideal-box').classList.add('hidden');
+  document.getElementById('srt-ideal-btn').innerHTML = 
+    '<i class="fas fa-eye mr-1"></i>Ideal Response Dekho';
+  updateSRTProgress();
+}
+
+function srtNext(){
+  saveSRTAnswer();
+  if(srtCurrentIdx < SRT_60.length - 1){
+    srtCurrentIdx++;
+    renderSRTCard();
+  } else {
+    alert("🎉 Saari 60 situations complete ho gayi!");
+  }
+}
+
+function srtPrev(){
+  saveSRTAnswer();
+  if(srtCurrentIdx > 0){
+    srtCurrentIdx--;
+    renderSRTCard();
+  }
+}
+
+function saveSRTAnswer(){
+  const s = SRT_60[srtCurrentIdx];
+  if(!s) return;
+  srtAnswers[s.id] = document.getElementById('srt-answer-box').value;
+  updateSRTProgress();
+  buildSRTMiniGrid();
+}
+
+function toggleSRTIdealNew(){
+  const box = document.getElementById('srt-ideal-box');
+  const btn = document.getElementById('srt-ideal-btn');
+  const s = SRT_60[srtCurrentIdx];
+  box.classList.toggle('hidden');
+  if(!box.classList.contains('hidden')){
+    box.innerText = '✅ Ideal: ' + s.ideal;
+    btn.innerHTML = '<i class="fas fa-eye-slash mr-1"></i>Chhupao';
+  } else {
+    btn.innerHTML = '<i class="fas fa-eye mr-1"></i>Ideal Response Dekho';
+  }
+}
+
+function updateSRTProgress(){
+  const done = Object.keys(srtAnswers).filter(k => srtAnswers[k].trim()).length;
+  document.getElementById('srt-done-no').innerText = done;
+  document.getElementById('srt-progress-text').innerText = done + ' / 60 complete';
+  document.getElementById('srt-progress-fill').style.width = 
+    Math.round((done/60)*100) + '%';
+}
+
+function buildSRTMiniGrid(){
+  const g = document.getElementById('srt-mini-grid');
+  if(!g) return;
+  g.innerHTML = SRT_60.map((s,i) => {
+    const done = srtAnswers[s.id] && srtAnswers[s.id].trim();
+    const current = i === srtCurrentIdx;
+    return `<div onclick="jumpSRT(${i})" 
+      style="height:20px;border-radius:4px;cursor:pointer;font-size:8px;font-weight:800;
+      display:flex;align-items:center;justify-content:center;
+      background:${current?'var(--accent)':done?'rgba(16,185,129,0.4)':'var(--border)'};
+      color:${current?'var(--accent-text)':done?'#10b981':'var(--text-dim)'};
+      border:${current?'1px solid var(--accent)':'none'}">${s.id}</div>`;
+  }).join('');
+}
+
+function jumpSRT(idx){
+  saveSRTAnswer();
+  srtCurrentIdx = idx;
+  renderSRTCard();
+}
+
+function startSRTTimer(){
+  if(srtTimerRunning){
+    clearInterval(srtTimerInterval);
+    srtTimerRunning = false;
+    document.querySelector('[onclick="startSRTTimer()"]').innerHTML = 
+      '<i class="fas fa-play mr-1"></i>Resume Timer';
+    return;
+  }
+  srtTimerRunning = true;
+  document.querySelector('[onclick="startSRTTimer()"]').innerHTML = 
+    '<i class="fas fa-pause mr-1"></i>Pause Timer';
+  srtTimerInterval = setInterval(()=>{
+    srtTimeLeft--;
+    const mm = Math.floor(srtTimeLeft/60);
+    const ss = srtTimeLeft % 60;
+    const disp = document.getElementById('srt-timer-disp');
+    if(disp){
+      disp.innerText = `${String(mm).padStart(2,'0')}:${String(ss).padStart(2,'0')}`;
+      disp.style.color = srtTimeLeft < 300 ? 'var(--danger2)' : 'var(--accent)';
+    }
+    if(srtTimeLeft <= 0){
+      clearInterval(srtTimerInterval);
+      alert("⏱️ 30 minutes complete! SRT khatam hua.");
+    }
+  }, 1000);
+}
+
+function resetSRT(){
+  if(!confirm("Saare answers reset karein?")) return;
+  clearInterval(srtTimerInterval);
+  srtTimerRunning = false;
+  srtTimeLeft = 1800;
+  srtCurrentIdx = 0;
+  srtAnswers = {};
+  document.getElementById('srt-timer-disp').innerText = '30:00';
+  document.getElementById('srt-timer-disp').style.color = 'var(--accent)';
+  document.querySelector('[onclick="startSRTTimer()"]').innerHTML = 
+    '<i class="fas fa-play mr-1"></i>Start Timer (30 min)';
+  renderSRTCard();
+  buildSRTMiniGrid();
+}
 function initSRT(){
   const c=document.getElementById('srt-container');
   if(!c||c.children.length>0)return;
@@ -4337,16 +5252,6 @@ loadProfile = function(){
     renderOverview();
     renderStreakCalendar();
     // Track today's activity
-    if(currentUserData){
-      const actKey='baaz_activity_'+(currentUserData.email);
-      const actData=JSON.parse(localStorage.getItem(actKey)||'{}');
-      const today=new Date().toISOString().split('T')[0];
-      actData[today]=true;
-      localStorage.setItem(actKey,JSON.stringify(actData));
-    }
-  },100);
-};
-  // Track today's activity
     if(currentUserData){
       const actKey='baaz_activity_'+(currentUserData.email);
       const actData=JSON.parse(localStorage.getItem(actKey)||'{}');
