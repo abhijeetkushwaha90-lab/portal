@@ -193,7 +193,7 @@ body{overflow-x:hidden;}
 /* ===== SCREEN TRANSITIONS ===== */
 #screen-home,#screen-exam,#screen-notes,#screen-courses,
 #screen-ranking,#screen-profile,#screen-share,#screen-support,
-#screen-admin,#screen-results,#screen-ssb,#screen-medical,#screen-physical{
+#screen-admin,#screen-results,#screen-ssb,#screen-medical,#screen-physical,#screen-friends{
   display:none;
   opacity:0;
   transform:translateY(14px);
@@ -203,7 +203,7 @@ body{overflow-x:hidden;}
 #screen-courses.active,#screen-ranking.active,#screen-profile.active,
 #screen-share.active,#screen-support.active,#screen-admin.active,
 #screen-results.active,#screen-ssb.active,#screen-medical.active,
-#screen-physical.active{
+#screen-physical.active,#screen-friends.active{
   display:block;
   opacity:1;
   transform:translateY(0);
@@ -360,6 +360,20 @@ body{overflow-x:hidden;}
       <h2 class="text-lg font-black"><i class="fas fa-shield-alt text-accent mr-1"></i>Secure Gateway Access</h2>
       <div><label class="block text-[11px] font-bold text-muted uppercase mb-1">Email Address</label>
         <input type="email" id="login-email" placeholder="aapka@email.com" class="w-full input-field rounded-xl px-4 py-3 transition"></div>
+      <div><label class="block text-[11px] font-bold text-muted uppercase mb-1">City *</label><input id="su-city" placeholder="e.g. Lucknow" class="w-full input-field rounded-xl px-3 py-2.5 transition"></div>
+        <div><label class="block text-[11px] font-bold text-muted uppercase mb-1">State *</label>
+          <select id="su-state" class="w-full input-field rounded-xl px-3 py-2.5 cursor-pointer">
+            <option value="">Select State</option>
+            <option>Uttar Pradesh</option><option>Bihar</option><option>Madhya Pradesh</option>
+            <option>Rajasthan</option><option>Haryana</option><option>Punjab</option>
+            <option>Delhi</option><option>Maharashtra</option><option>Gujarat</option>
+            <option>West Bengal</option><option>Jharkhand</option><option>Chhattisgarh</option>
+            <option>Uttarakhand</option><option>Himachal Pradesh</option><option>J&K</option>
+            <option>Odisha</option><option>Assam</option><option>Karnataka</option>
+            <option>Tamil Nadu</option><option>Andhra Pradesh</option><option>Telangana</option>
+            <option>Kerala</option><option>Other</option>
+          </select>
+        </div>
       <div><label class="block text-[11px] font-bold text-muted uppercase mb-1">Password</label>
         <input type="password" id="login-password" placeholder="••••••••" class="w-full input-field rounded-xl px-4 py-3 transition"></div>
       <button onclick="doLogin()" class="w-full btn-accent font-bold py-3 rounded-xl cursor-pointer transition shadow-lg flex items-center justify-center gap-2">
@@ -461,6 +475,7 @@ body{overflow-x:hidden;}
   <!-- HOME -->
   <div id="screen-home" class="active">
     <div id="home-announce" class="hidden premium-card rounded-xl p-3 mb-3 border-l-4 border-amber-500 text-xs font-bold text-amber-400"></div>
+    <div id="daily-challenge-box" class="premium-card rounded-xl p-3 mb-3 border-l-4 border-violet-500"></div>
     <div class="home-grid">
       <div class="home-card card-g1" onclick="showScreen('exam')">
         <div class="card-icon" style="background:linear-gradient(135deg,#1e40af,#3b82f6)"><i class="fas fa-file-alt text-white"></i></div>
@@ -493,6 +508,10 @@ body{overflow-x:hidden;}
       <div class="home-card card-g8" onclick="showResultsHistory()">
         <div class="card-icon" style="background:linear-gradient(135deg,#701a75,#d946ef)"><i class="fas fa-chart-bar text-white"></i></div>
         <div class="card-label">My Results</div><div class="card-sub">Score History</div>
+        <div class="home-card card-g4" onclick="showScreen('friends')">
+        <div class="card-icon" style="background:linear-gradient(135deg,#86198f,#e879f9)"><i class="fas fa-user-group text-white"></i></div>
+        <div class="card-label">Study Buddies</div><div class="card-sub">Add & Compare</div>
+      </div>
       </div>
       <div class="home-card card-g10" onclick="showScreen('ssb')">
         <div class="card-icon" style="background:linear-gradient(135deg,#92400e,#f59e0b)"><i class="fas fa-people-group text-white"></i></div>
@@ -829,12 +848,44 @@ body{overflow-x:hidden;}
       </div>
     </div>
   </div>
-
-  <!-- RANKING -->
+<!-- FRIENDS / STUDY BUDDY -->
+  <div id="screen-friends">
+    <div class="flex items-center gap-3 mb-3">
+      <button onclick="goHome()" class="btn-neutral px-3 py-2 rounded-xl text-xs font-bold cursor-pointer"><i class="fas fa-arrow-left mr-1"></i>Back</button>
+      <h2 class="text-base font-black text-accent"><i class="fas fa-user-group mr-1"></i>Study Buddies</h2>
+    </div>
+    <div class="premium-card rounded-2xl p-5 space-y-3 mb-4">
+      <div class="font-bold text-sm"><i class="fas fa-user-plus text-accent mr-1"></i>Add a Study Buddy</div>
+      <p class="text-xs text-muted">Dost ka Referral Code daalo aur unke saath progress compare karo!</p>
+      <div class="flex gap-2">
+        <input id="buddy-code-input" placeholder="Friend's Referral Code" class="flex-1 input-field rounded-xl px-3 py-2.5 text-xs">
+        <button onclick="addStudyBuddy()" class="btn-success px-4 py-2.5 rounded-xl text-xs font-bold cursor-pointer"><i class="fas fa-plus mr-1"></i>Add</button>
+      </div>
+      <p id="buddy-msg" class="hidden text-xs text-center font-bold"></p>
+    </div>
+    <div class="premium-card rounded-2xl p-5">
+      <div class="font-bold text-sm mb-3"><i class="fas fa-users text-accent mr-1"></i>My Study Buddies</div>
+      <div id="buddy-list" class="space-y-2"></div>
+    </div>
+  </div>
+ <!-- RANKING -->
   <div id="screen-ranking">
     <div class="flex items-center gap-3 mb-3">
       <button onclick="goHome()" class="btn-neutral px-3 py-2 rounded-xl text-xs font-bold cursor-pointer"><i class="fas fa-arrow-left mr-1"></i>Back</button>
       <h2 class="text-base font-black text-accent"><i class="fas fa-trophy mr-1"></i>Leaderboard</h2>
+    </div>
+    <div id="tournament-banner" class="premium-card rounded-xl p-4 mb-4" style="border:1px solid rgba(245,158,11,0.4);background:linear-gradient(135deg,rgba(245,158,11,0.1),rgba(168,50,32,0.05))"></div>   <div class="flex gap-2 flex-wrap mb-4">
+      <select id="leaderboard-state-filter" onchange="loadLeaderboard()" class="input-field rounded-xl px-3 py-2 text-xs cursor-pointer">
+        <option value="">🌍 All India</option>
+        <option>Uttar Pradesh</option><option>Bihar</option><option>Madhya Pradesh</option>
+        <option>Rajasthan</option><option>Haryana</option><option>Punjab</option>
+        <option>Delhi</option><option>Maharashtra</option><option>Gujarat</option>
+        <option>West Bengal</option><option>Jharkhand</option><option>Chhattisgarh</option>
+        <option>Uttarakhand</option><option>Himachal Pradesh</option><option>J&K</option>
+        <option>Odisha</option><option>Assam</option><option>Karnataka</option>
+        <option>Tamil Nadu</option><option>Andhra Pradesh</option><option>Telangana</option>
+        <option>Kerala</option><option>Other</option>
+      </select>
     </div>
     <div id="leaderboard-podium" class="grid grid-cols-3 gap-2 mb-4"></div>
     <div class="premium-card rounded-2xl p-4"><div id="leaderboard-table"><div class="spinner my-4"></div></div></div>
@@ -1383,9 +1434,10 @@ ANSWER KEY:
     <h3 class="text-xs font-bold text-muted uppercase mb-2"><i class="fas fa-list-check text-accent mr-1"></i>Detailed Review</h3>
     <div id="review-matrix-container" class="space-y-2.5 max-h-72 overflow-y-auto pr-1"></div>
   </div>
-  <div class="grid grid-cols-2 gap-2 text-xs font-bold">
+  <div class="grid grid-cols-3 gap-2 text-xs font-bold">
     <button onclick="window.print()" class="w-full btn-neutral py-3 rounded-xl cursor-pointer uppercase no-print"><i class="fas fa-download mr-1"></i>Download PDF</button>
     <button onclick="returnToPortal()" class="w-full btn-accent py-3 rounded-xl cursor-pointer uppercase">Back to Home</button>
+    <button onclick="generateCertificate()" class="w-full btn-accent py-3 rounded-xl cursor-pointer uppercase no-print"><i class="fas fa-certificate mr-1"></i>Get Certificate</button>
   </div>
 </div>
 
@@ -1960,11 +2012,13 @@ async function doSignup() {
   const year=document.getElementById('su-year').value.trim();
   const err=document.getElementById('signup-error');
   err.classList.add('hidden');
+  const city=document.getElementById('su-city').value.trim();
+  const state=document.getElementById('su-state').value;
   if(!name||!phone||!email||!password||!suGenderSelected||!suAvatarBase64){
     err.innerText="Kripya sabhi (*) fields bharein aur photo upload karein.";err.classList.remove('hidden');return;
   }
   try {
-    const res=await fetch(APPS_SCRIPT_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:"signup",name,phone,email,password,gender:suGenderSelected,targetExam:exam,targetYear:year,profileImage:suAvatarBase64})});
+    const res=await fetch(APPS_SCRIPT_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:"signup",name,phone,email,password,gender:suGenderSelected,targetExam:exam,targetYear:year,profileImage:suAvatarBase64,city,state})});
     const d=await res.json();
     if(d.status==="success"){document.getElementById('signup-success').innerText=d.message;document.getElementById('signup-success').classList.remove('hidden');showAuthTab('login');}
     else{err.innerText=d.message;err.classList.remove('hidden');}
@@ -2007,6 +2061,7 @@ async function doLogin() {
 function loginSuccess(u) {
   currentUserData=u;
   fixOldHistoryDates();
+  checkDailyChallenge('login',1);
   document.getElementById('auth-container').classList.add('hidden');  document.getElementById('app-container').classList.remove('hidden');
   document.getElementById('student-name').innerText=u.name;
   document.getElementById('wallet-balance-disp').innerText=u.walletBalance||0;
@@ -2087,7 +2142,7 @@ function fireConfetti(){
    SCREEN NAVIGATION
    ============================================================ */
 function showScreen(name){
-  const screens=['home','exam','notes','courses','ranking','profile','share','support','admin','results','ssb','medical','physical'];
+  const screens=['home','exam','notes','courses','ranking','profile','share','support','admin','results','ssb','medical','physical','friends'];
   screens.forEach(s=>{
     const el=document.getElementById(`screen-${s}`);
     if(!el) return;
@@ -2100,7 +2155,7 @@ function showScreen(name){
     }
   });  if(name==='exam'){examScreenState={view:'categories',category:null,type:'MOCK'};renderExamCategories();}
   if(name==='ranking')loadLeaderboard();
-  if(name==='ssb'){ssbTab('wat');initSSBContent();}
+  if(name==='ssb'){ssbTab('wat');initSSBContent();}   if(name==='friends')renderBuddyList();
   if(name==='medical'){medTab('standards');initMedContent();}
   if(name==='admin'){
     if(currentUserData?.role!=='admin'){showScreen('home');return;}
@@ -2111,6 +2166,7 @@ function showScreen(name){
 }
 
 function goHome(){
+  renderDailyChallenge();
   document.getElementById('exam-engine-container').classList.add('hidden');
   document.getElementById('result-screen').classList.add('hidden');
   document.getElementById('app-container').classList.remove('hidden');
@@ -2120,6 +2176,80 @@ function goHome(){
 /* ============================================================
    QUICK FACTS
    ============================================================ */
+  /* ============================================================
+   PHASE 6 — DAILY CHALLENGE
+   ============================================================ */
+const DAILY_CHALLENGES = [
+  {id:'attempt1',text:'Aaj 1 test attempt karo',target:1,type:'tests',reward:20},
+  {id:'score80',text:'Kisi bhi test mein 70%+ accuracy lao',target:70,type:'accuracy',reward:30},
+  {id:'streak',text:'Apna streak banaye rakho — login karo',target:1,type:'login',reward:10},
+  {id:'notes',text:'2 study notes padho',target:2,type:'notes',reward:15}
+];
+
+function getTodayChallenge(){
+  const dayIndex=new Date().getDate()%DAILY_CHALLENGES.length;
+  return DAILY_CHALLENGES[dayIndex];
+}
+
+function getChallengeProgress(){
+  if(!currentUserData)return{done:false,progress:0};
+  const key='baaz_challenge_'+currentUserData.email;
+  const today=new Date().toISOString().split('T')[0];
+  const data=JSON.parse(localStorage.getItem(key)||'{}');
+  if(data.date!==today){
+    return{done:false,progress:0,date:today};
+  }
+  return data;
+}
+
+function saveChallengeProgress(progress,done){
+  if(!currentUserData)return;
+  const key='baaz_challenge_'+currentUserData.email;
+  const today=new Date().toISOString().split('T')[0];
+  localStorage.setItem(key,JSON.stringify({date:today,progress,done}));
+}
+
+function renderDailyChallenge(){
+  const el=document.getElementById('daily-challenge-box');
+  if(!el)return;
+  const ch=getTodayChallenge();
+  const prog=getChallengeProgress();
+  if(prog.done){
+    el.innerHTML=`<div class="flex items-center justify-between">
+      <div><div class="text-[10px] text-muted font-bold uppercase">Daily Challenge</div>
+      <div class="font-black text-sm text-emerald-400">✅ Complete! +${ch.reward} Coins earned</div></div>
+      <div class="text-2xl">🎉</div></div>`;
+  }else{
+    el.innerHTML=`<div class="flex items-center justify-between">
+      <div><div class="text-[10px] text-muted font-bold uppercase">🎯 Daily Challenge</div>
+      <div class="font-black text-sm text-accent">${ch.text}</div>
+      <div class="text-[9px] text-muted mt-1">Reward: +${ch.reward} Coins</div></div>
+      <div class="text-2xl">🏆</div></div>`;
+  }
+}
+
+function checkDailyChallenge(type,value){
+  if(!currentUserData)return;
+  const ch=getTodayChallenge();
+  if(ch.type!==type)return;
+  const prog=getChallengeProgress();
+  if(prog.done)return;
+  let newProgress=(prog.progress||0);
+  if(type==='accuracy'){
+    if(value>=ch.target)newProgress=ch.target;
+  }else{
+    newProgress+=1;
+  }
+  const isDone=newProgress>=ch.target;
+  saveChallengeProgress(newProgress,isDone);
+  if(isDone){
+    currentUserData.walletBalance=(currentUserData.walletBalance||0)+ch.reward;
+    localStorage.setItem('baaz_userdata',JSON.stringify(currentUserData));
+    document.getElementById('wallet-balance-disp').innerText=currentUserData.walletBalance;
+    alert(`🎉 Daily Challenge Complete! +${ch.reward} Coins milay!`);
+  }
+  renderDailyChallenge();
+}
 function showQuickFact(){
   const el=document.getElementById('quickfact-display');
   if(el)el.innerText=QUICK_FACTS[quickFactIndex];
@@ -2709,6 +2839,74 @@ function copyReferral(){
   if(!ref){alert('Referral code nahi mila.');return;}
   navigator.clipboard.writeText(ref).then(()=>alert('Copied: '+ref)).catch(()=>alert('Code: '+ref));
 }
+  /* ============================================================
+   PHASE 6 — STUDY BUDDY SYSTEM
+   ============================================================ */
+function getBuddyList(){
+  if(!currentUserData)return[];
+  return JSON.parse(localStorage.getItem('baaz_buddies_'+currentUserData.email)||'[]');
+}
+
+function saveBuddyList(list){
+  if(!currentUserData)return;
+  localStorage.setItem('baaz_buddies_'+currentUserData.email,JSON.stringify(list));
+}
+
+async function addStudyBuddy(){
+  const code=document.getElementById('buddy-code-input').value.trim();
+  const msg=document.getElementById('buddy-msg');
+  msg.classList.add('hidden');
+  if(!code){msg.innerText='❌ Referral code daalo.';msg.style.color='var(--danger2)';msg.classList.remove('hidden');return;}
+  if(code===currentUserData?.referralCode){msg.innerText='❌ Apna khud ka code add nahi kar sakte.';msg.style.color='var(--danger2)';msg.classList.remove('hidden');return;}
+  const list=getBuddyList();
+  if(list.find(b=>b.code===code)){msg.innerText='⚠️ Yeh buddy already added hai.';msg.style.color='var(--accent)';msg.classList.remove('hidden');return;}
+  try{
+    const res=await fetch(APPS_SCRIPT_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:"find_by_referral",referralCode:code})});
+    const d=await res.json();
+    if(d.status==="success"&&d.name){
+      list.push({code,name:d.name,email:d.email||'',addedOn:new Date().toLocaleDateString()});
+      saveBuddyList(list);
+      document.getElementById('buddy-code-input').value='';
+      msg.innerText='✅ '+d.name+' add ho gaya!';msg.style.color='var(--success2)';msg.classList.remove('hidden');
+      renderBuddyList();
+    }else{
+      msg.innerText='❌ Yeh referral code valid nahi hai.';msg.style.color='var(--danger2)';msg.classList.remove('hidden');
+    }
+  }catch(e){
+    msg.innerText='⚠️ Server check nahi ho paya — local entry add kar di.';msg.style.color='var(--accent)';msg.classList.remove('hidden');
+    list.push({code,name:'Buddy ('+code+')',email:'',addedOn:new Date().toLocaleDateString()});
+    saveBuddyList(list);
+    document.getElementById('buddy-code-input').value='';
+    renderBuddyList();
+  }
+}
+
+function removeBuddy(idx){
+  if(!confirm("Is buddy ko remove karein?"))return;
+  const list=getBuddyList();
+  list.splice(idx,1);
+  saveBuddyList(list);
+  renderBuddyList();
+}
+
+function renderBuddyList(){
+  const c=document.getElementById('buddy-list');
+  if(!c)return;
+  const list=getBuddyList();
+  if(!list.length){c.innerHTML='<p class="text-xs text-muted text-center py-4">Koi study buddy add nahi kiya abhi. Upar code daal ke add karo!</p>';return;}
+  const myHist=getHistoryMap();
+  const myTests=Object.keys(myHist).length;
+  const myScore=Object.keys(myHist).reduce((s,k)=>s+(myHist[k].score||0),0);
+  c.innerHTML=list.map((b,i)=>`
+    <div class="surface rounded-xl p-3 flex justify-between items-center">
+      <div>
+        <div class="font-bold text-sm">${escapeHtml(b.name)}</div>
+        <div class="text-[9px] text-muted">Added: ${escapeHtml(b.addedOn)}</div>
+        <div class="text-[10px] text-violet-400 font-bold mt-1">vs You: ${myTests} tests • ${myScore} score</div>
+      </div>
+      <button onclick="removeBuddy(${i})" class="btn-danger-outline px-2 py-1.5 rounded-lg text-[10px] cursor-pointer"><i class="fas fa-trash"></i></button>
+    </div>`).join('');
+}
 
 /* ============================================================
    SUPPORT
@@ -2761,6 +2959,67 @@ function deleteSupport(i){
 /* ============================================================
    LEADERBOARD
    ============================================================ */
+  /* ============================================================
+   PHASE 6 — WEEKLY TOURNAMENT
+   ============================================================ */
+function getWeekKey(){
+  const dt=new Date();
+  const onejan=new Date(dt.getFullYear(),0,1);
+  const week=Math.ceil((((dt-onejan)/86400000)+onejan.getDay()+1)/7);
+  return `${dt.getFullYear()}-W${week}`;
+}
+
+function getWeekEndDate(){
+  const dt=new Date();
+  const day=dt.getDay();
+  const diff=7-day;
+  const sunday=new Date(dt);
+  sunday.setDate(dt.getDate()+diff);
+  return sunday;
+}
+
+const TOURNAMENT_PRIZES=[
+  {rank:1,coins:200,label:'🥇 1st Place'},
+  {rank:2,coins:100,label:'🥈 2nd Place'},
+  {rank:3,coins:50,label:'🥉 3rd Place'}
+];
+
+function renderTournamentBanner(){
+  const el=document.getElementById('tournament-banner');
+  if(!el)return;
+  const weekKey=getWeekKey();
+  const endDate=getWeekEndDate();
+  const daysLeft=Math.ceil((endDate-new Date())/86400000);
+  const claimKey='baaz_tournament_claimed_'+(currentUserData?.email)+'_'+weekKey;
+  const alreadyClaimed=localStorage.getItem(claimKey);
+  el.innerHTML=`
+    <div class="flex items-center justify-between flex-wrap gap-2">
+      <div>
+        <div class="text-[10px] font-black text-amber-400 uppercase">🏆 Weekly Tournament — ${weekKey}</div>
+        <div class="text-xs text-muted mt-1">Top 3 scorers ko coins milenge. ${daysLeft} din baaki hain!</div>
+      </div>
+      <div class="flex gap-2">
+        ${TOURNAMENT_PRIZES.map(p=>`<div class="surface rounded-lg px-2 py-1.5 text-center"><div class="text-[9px] font-bold">${p.label}</div><div class="text-xs font-black text-amber-400">+${p.coins}</div></div>`).join('')}
+      </div>
+    </div>
+    ${alreadyClaimed?`<div class="mt-2 text-[10px] font-bold text-emerald-400">✅ Is week ka prize already claim ho gaya hai.</div>`:''}
+  `;
+}
+
+function checkTournamentPrize(rankPosition){
+  if(!currentUserData)return;
+  const weekKey=getWeekKey();
+  const claimKey='baaz_tournament_claimed_'+currentUserData.email+'_'+weekKey;
+  if(localStorage.getItem(claimKey))return;
+  const prize=TOURNAMENT_PRIZES.find(p=>p.rank===rankPosition);
+  if(!prize)return;
+  currentUserData.walletBalance=(currentUserData.walletBalance||0)+prize.coins;
+  localStorage.setItem('baaz_userdata',JSON.stringify(currentUserData));
+  localStorage.setItem(claimKey,'true');
+  document.getElementById('wallet-balance-disp').innerText=currentUserData.walletBalance;
+  alert(`🎉 Tournament Prize! ${prize.label} — +${prize.coins} Coins milay!`);
+  renderTournamentBanner();
+}
 async function loadLeaderboard(){
   const table=document.getElementById('leaderboard-table');const podium=document.getElementById('leaderboard-podium');
   if(!table)return;table.innerHTML='<div class="spinner my-4"></div>';
@@ -2768,7 +3027,9 @@ async function loadLeaderboard(){
     const res=await fetch(APPS_SCRIPT_URL+"?action=get_leaderboard");
     const d=await res.json();
     const local=getLocalRankers();
-    const merged=mergeLeaderboard(d,local);
+    let merged=mergeLeaderboard(d,local);
+    const stateFilter=document.getElementById('leaderboard-state-filter')?.value||'';
+    if(stateFilter)merged=merged.filter(r=>r.state===stateFilter);
     if(podium){
       const medals=['🥇','🥈','🥉'];const colors=['rank-gold','rank-silver','rank-bronze'];
       podium.innerHTML=merged.slice(0,3).map((r,i)=>`
@@ -2790,17 +3051,18 @@ async function loadLeaderboard(){
         <td class="p-2 text-center font-black text-emerald-400">${r.totalScore||0}</td>
       </tr>`).join('')}
       </tbody></table></div>`;
-    document.getElementById('stat-rank').innerText='#'+(merged.findIndex(r=>r.email===currentUserData?.email)+1||'—');
-  }catch(e){table.innerHTML='<p class="text-xs text-muted text-center">Load error.</p>';}
+    const myRank=merged.findIndex(r=>r.email===currentUserData?.email)+1;
+    document.getElementById('stat-rank').innerText='#'+(myRank||'—');
+    renderTournamentBanner();
+    if(myRank>=1&&myRank<=3)checkTournamentPrize(myRank);  }catch(e){table.innerHTML='<p class="text-xs text-muted text-center">Load error.</p>';}
 }
 
 function getLocalRankers(){
   const hist=getHistoryMap();const tests=Object.keys(hist);
   if(!tests.length)return[];
   const totalScore=tests.reduce((s,k)=>s+(hist[k].score||0),0);
-  return[{name:currentUserData?.name||'Me',email:currentUserData?.email||'',totalScore,totalTests:tests.length,level:levelForXP(currentUserData?.xp||0)}];
+  return[{name:currentUserData?.name||'Me',email:currentUserData?.email||'',totalScore,totalTests:tests.length,level:levelForXP(currentUserData?.xp||0),state:currentUserData?.state||''}];
 }
-
 function mergeLeaderboard(server,local){
   const merged=[...server];
   local.forEach(l=>{
@@ -3155,6 +3417,8 @@ async function calculateFinalResults(){
     if(d.status==="success"){
       const h=getHistoryMap();d.date=d.date||new Date().toISOString();h[activeTest.title]=d;localStorage.setItem(`baaz_hist_${currentUserData?.email}`,JSON.stringify(h));
       if(currentUserData){currentUserData.xp=d.totalXP??currentUserData.xp;currentUserData.level=d.level??currentUserData.level;currentUserData.streak=d.streak??currentUserData.streak;currentUserData.badges=d.badges??currentUserData.badges;localStorage.setItem('baaz_userdata',JSON.stringify(currentUserData));updateGamificationUI(currentUserData.xp||0,currentUserData.streak||0,currentUserData.badges||[]);}
+      checkDailyChallenge('tests',1);
+      checkDailyChallenge('accuracy',d.accuracy||0);
       displayResultScreen(d);fireConfetti();
     }else{document.getElementById('review-matrix-container').innerText='Submission error.';}
   }catch(e){stopProgress();document.getElementById('result-screen').classList.remove('hidden');document.getElementById('review-matrix-container').innerText='Connection error.';}
@@ -3229,6 +3493,61 @@ function showResultsHistory(){
 }
 
 function viewLockedResultFromHistory(i){const titles=window.__baazResultTitles||[];if(titles[i])viewLockedResult(titles[i]);}
+  /* ============================================================
+   PHASE 6 — CERTIFICATE GENERATOR
+   ============================================================ */
+function generateCertificate(){
+  if(!currentUserData||!activeTest)return;
+  const hist=getHistoryMap();
+  const result=hist[activeTest.title];
+  if(!result){alert("Result data nahi mila.");return;}
+
+  const certDate=new Date().toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'});
+  const certHtml=`
+<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Certificate</title>
+<style>
+body{margin:0;font-family:Georgia,serif;background:#f5f0e6;display:flex;align-items:center;justify-content:center;min-height:100vh;}
+.cert{width:800px;padding:60px;background:#fffdf7;border:12px solid #d4891a;position:relative;box-shadow:0 10px 40px rgba(0,0,0,0.2);}
+.cert::before{content:'';position:absolute;inset:18px;border:2px solid #a83220;}
+.inner{position:relative;z-index:2;text-align:center;}
+.badge{font-size:48px;margin-bottom:10px;}
+h1{font-size:36px;color:#a83220;margin:10px 0;letter-spacing:3px;text-transform:uppercase;}
+.sub{font-size:14px;color:#888;text-transform:uppercase;letter-spacing:2px;margin-bottom:30px;}
+.name{font-size:32px;color:#222;font-weight:bold;margin:20px 0;border-bottom:2px solid #d4891a;display:inline-block;padding-bottom:8px;}
+.desc{font-size:15px;color:#555;line-height:1.8;margin:20px auto;max-width:550px;}
+.stats{display:flex;justify-content:center;gap:40px;margin:30px 0;}
+.stat{text-align:center;}
+.stat .v{font-size:28px;font-weight:bold;color:#a83220;}
+.stat .l{font-size:11px;color:#888;text-transform:uppercase;letter-spacing:1px;}
+.footer{display:flex;justify-content:space-between;margin-top:50px;padding-top:20px;border-top:1px solid #ddd;}
+.sign{text-align:center;font-size:12px;color:#666;}
+.sign .line{font-size:18px;font-family:cursive;color:#a83220;border-bottom:1px solid #999;padding-bottom:4px;margin-bottom:4px;}
+@media print{body{background:#fff;}.cert{box-shadow:none;}}
+</style></head>
+<body>
+<div class="cert"><div class="inner">
+  <div class="badge">🎖️</div>
+  <div class="sub">Operation Baaz — Certificate of Achievement</div>
+  <h1>Certificate</h1>
+  <p style="font-size:14px;color:#555;">This is to certify that</p>
+  <div class="name">${escapeHtml(currentUserData.name||'Student')}</div>
+  <div class="desc">has successfully completed the test <b>"${escapeHtml(activeTest.displayTitle||activeTest.title)}"</b> under the <b>${escapeHtml(activeTest.exam||'General')}</b> category, demonstrating dedication towards Defence Exam preparation.</div>
+  <div class="stats">
+    <div class="stat"><div class="v">${result.score||0}</div><div class="l">Score</div></div>
+    <div class="stat"><div class="v">${result.accuracy||0}%</div><div class="l">Accuracy</div></div>
+    <div class="stat"><div class="v">${result.right||0}/${result.total||0}</div><div class="l">Correct</div></div>
+  </div>
+  <div class="footer">
+    <div class="sign"><div class="line">${certDate}</div>Date of Completion</div>
+    <div class="sign"><div class="line">Operation Baaz</div>Issuing Platform</div>
+  </div>
+</div></div>
+</body></html>`;
+
+  const w=window.open('','_blank');
+  w.document.write(certHtml);
+  w.document.close();
+}
 function returnToPortal(){document.getElementById('result-screen').classList.add('hidden');document.getElementById('app-container').classList.remove('hidden');showScreen('home');loadTests();}
 
 /* ============================================================
