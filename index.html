@@ -295,6 +295,25 @@ body{overflow-x:hidden;}
   background:var(--accent);color:var(--accent-text);
   border-color:var(--accent);
 }
+  /* PAUSE OVERLAY */
+.pause-overlay{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;}
+.pause-overlay h2{font-size:2rem;font-weight:900;color:var(--accent);}
+
+/* PER-Q TIMER */
+.per-q-timer{font-size:1.1rem;font-weight:900;color:var(--accent);font-family:monospace;padding:4px 12px;border-radius:8px;background:var(--bg);border:1px solid var(--border);}
+.per-q-timer.danger{color:var(--danger2);animation:pulse 1s infinite;border-color:var(--danger2);}
+
+/* CALCULATOR */
+.calc-modal{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:20px;width:300px;max-width:95vw;}
+.calc-display-box{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:12px 16px;text-align:right;margin-bottom:12px;}
+.calc-history{font-size:10px;color:var(--text-dim);min-height:14px;}
+.calc-display{font-size:2rem;font-weight:900;color:var(--text);word-break:break-all;}
+.calc-btn{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:14px 8px;font-size:14px;font-weight:800;cursor:pointer;transition:all .15s;color:var(--text);}
+.calc-btn:hover{background:var(--accent);color:var(--accent-text);border-color:var(--accent);}
+.calc-btn.op{color:var(--accent);}
+.calc-btn.eq{background:var(--accent);color:var(--accent-text);}
+.calc-btn.eq:hover{filter:brightness(1.2);}
+.calc-btn.danger{color:var(--danger2);}
 </style>
 </head>
 <body class="min-h-screen flex flex-col p-2 md:p-3">
@@ -1177,6 +1196,15 @@ ANSWER KEY:
 <div id="exam-engine-container" class="hidden w-full max-w-6xl mx-auto flex flex-col gap-3 exam-container">
   <div class="premium-card rounded-xl p-3 flex justify-between items-center text-center">
     <div><div class="text-[9px] text-muted font-bold uppercase">Questions</div><div id="disp-total-count" class="text-xl font-black text-accent">0</div></div>
+   <div class="flex items-center gap-2">
+  <div class="per-q-timer" id="per-q-timer-disp">90s</div>
+  <button onclick="togglePause()" id="pause-btn" class="btn-danger-outline px-3 py-1.5 rounded-xl text-xs font-bold cursor-pointer">
+    <i class="fas fa-pause mr-1"></i>Pause
+  </button>
+  <button onclick="openCalculator()" id="calc-toggle-btn" class="btn-neutral px-3 py-1.5 rounded-xl text-xs font-bold cursor-pointer hidden" id="calc-open-btn">
+    <i class="fas fa-calculator mr-1"></i>Calc
+  </button>
+</div>
     <div id="stopwatch-box" class="px-5 py-1.5 rounded-xl border border-red-500/20" style="background:rgba(225,29,72,0.05)">
       <div class="text-[8px] font-bold uppercase text-red-400">Time Left</div>
       <div id="stopwatch" class="text-xl font-mono font-black text-red-500">45:00</div>
@@ -2863,6 +2891,11 @@ async function buyPremiumTest(title){
 function launchExamEngine(title){
   const test=cachedTests.find(x=>x.title===title);if(!test)return;
   activeTest=test;
+  const calcBtn=document.getElementById('calc-toggle-btn');
+if(calcBtn){
+  const isMath=(test.subject||'').toLowerCase().includes('math');
+  calcBtn.classList.toggle('hidden',!isMath);
+}
 // Strip answer keys from questions shown during exam
 currentTestQuestions=(test.parsedQuestions||[]).map(q=>({
   id:q.id, text:q.text, A:q.A, B:q.B, C:q.C, D:q.D
@@ -2925,7 +2958,7 @@ function loadQuestionNode(n){
   const old=currentIndex;currentIndex=n;visitedQuestions[n]=true;
   clearInterval(singleQTimer);syncPaletteStatusNode(old);syncPaletteStatusNode(n);
   const q=currentTestQuestions[n-1];if(!q)return;
-  document.getElementById('digital-question-text').innerText=`Q${n}: ${q.text}`;
+  renderQuestionWithImage(q.text,document.getElementById('digital-question-text')); startPerQTimer();
   document.getElementById('lbl-opt-A').innerText=q.A||'—';
   document.getElementById('lbl-opt-B').innerText=q.B||'—';
   document.getElementById('lbl-opt-C').innerText=q.C||'—';
@@ -3394,6 +3427,124 @@ function startTestFromInstructions() {
   document.getElementById('instructions-modal').classList.add('hidden');
   if (pendingLaunchTitle) launchExamEngine(pendingLaunchTitle);
 }
+  let examPaused=false;
+let perQTimerInterval=null;
+let perQTimeLeft=90;
+
+function togglePause(){
+  if(!testRunningMode)return;
+  examPaused=!examPaused;
+  const btn=document.getElementById('pause-btn');
+  const overlay=document.getElementById('pause-overlay');
+  if(examPaused){
+    clearInterval(singleQTimer);
+    clearInterval(perQTimerInterval);
+    if(btn)btn.innerHTML='<i class="fas fa-play mr-1"></i>Resume';
+    if(overlay)overlay.classList.remove('hidden');
+  }else{
+    if(overlay)overlay.classList.add('hidden');
+    if(btn)btn.innerHTML='<i class="fas fa-pause mr-1"></i>Pause';
+    startPerQTimer();
+    singleQTimer=setInterval(()=>{
+      qTimeLeft--;
+      const mm=Math.floor(qTimeLeft/60),ss=qTimeLeft%60;
+      const disp=document.getElementById('stopwatch');
+      if(disp){disp.innerText=`${String(mm).padStart(2,'0')}:${String(ss).padStart(2,'0')}`;disp.classList.toggle('timer-critical',qTimeLeft<300);}
+      if(qTimeLeft<=0){clearInterval(singleQTimer);calculateFinalResults();}
+    },1000);
+  }
+}
+
+function getPerQTime(){
+  if(!activeTest)return90;
+  const total=activeTest.duration||2700;
+  const qcount=totalQuestionsCount||50;
+  return Math.max(30,Math.floor(total/qcount));
+}
+
+function startPerQTimer(){
+  clearInterval(perQTimerInterval);
+  perQTimeLeft=getPerQTime();
+  updatePerQTimerUI();
+  perQTimerInterval=setInterval(()=>{
+    if(examPaused)return;
+    perQTimeLeft--;
+    updatePerQTimerUI();
+    if(perQTimeLeft<=0){
+      clearInterval(perQTimerInterval);
+      if(currentIndex<totalQuestionsCount)loadQuestionNode(currentIndex+1);
+      else confirmSubmitTest();
+    }
+  },1000);
+}
+
+function updatePerQTimerUI(){
+  const el=document.getElementById('per-q-timer-disp');
+  if(!el)return;
+  el.innerText=perQTimeLeft+'s';
+  el.className=perQTimeLeft<=15?'per-q-timer danger':'per-q-timer';
+}
+
+let calcDisplay='0';
+let calcHistoryStr='';
+
+function openCalculator(){
+  document.getElementById('calc-modal').classList.remove('hidden');
+  updateCalcDisplay();
+}
+function closeCalculator(){
+  document.getElementById('calc-modal').classList.add('hidden');
+}
+function calcPress(val){
+  if(val==='C'){calcDisplay='0';calcHistoryStr='';}
+  else if(val==='⌫'){calcDisplay=calcDisplay.length>1?calcDisplay.slice(0,-1):'0';}
+  else if(val==='='){
+    try{
+      calcHistoryStr=calcDisplay+' =';
+      const expr=calcDisplay.replace(/×/g,'*').replace(/÷/g,'/').replace(/√\(/g,'Math.sqrt(');
+      calcDisplay=String(Function('"use strict";return('+expr+')')());
+      if(calcDisplay==='Infinity'||calcDisplay==='NaN')calcDisplay='Error';
+      const r=parseFloat(calcDisplay);
+      if(!isNaN(r))calcDisplay=String(Math.round(r*1e10)/1e10);
+    }catch(e){calcDisplay='Error';}
+  }
+  else if(val==='%'){try{calcDisplay=String(parseFloat(calcDisplay)/100);}catch(e){}}
+  else if(val==='+/-'){calcDisplay=calcDisplay.startsWith('-')?calcDisplay.slice(1):'-'+calcDisplay;}
+  else if(val==='√'){calcDisplay=calcDisplay==='0'?'Math.sqrt(':calcDisplay+'Math.sqrt(';}
+  else{
+    if(calcDisplay==='0'&&val!=='.'&&val!==')')calcDisplay=val;
+    else calcDisplay+=val;
+  }
+  updateCalcDisplay();
+}
+function updateCalcDisplay(){
+  const disp=document.getElementById('calc-display');
+  const hist=document.getElementById('calc-history');
+  if(disp)disp.innerText=calcDisplay.replace('Math.sqrt(','√(');
+  if(hist)hist.innerText=calcHistoryStr;
+}
+
+function renderQuestionWithImage(text,containerEl){
+  if(!containerEl)return;
+  containerEl.querySelectorAll('.q-image-box').forEach(e=>e.remove());
+  const imgRegex=/\[\[IMG:(https?:\/\/[^\]]+)\]\]/gi;
+  let match;
+  const urls=[];
+  while((match=imgRegex.exec(text))!==null)urls.push(match[1]);
+  const cleanText=text.replace(/\[\[IMG:(https?:\/\/[^\]]+)\]\]/gi,'').trim();
+  containerEl.innerText=`Q${currentIndex}: ${cleanText}`;
+  urls.forEach(url=>{
+    const box=document.createElement('div');
+    box.className='q-image-box';
+    box.style.cssText='margin:10px 0;text-align:center;';
+    const img=document.createElement('img');
+    img.src=url;
+    img.style.cssText='max-width:100%;max-height:240px;border-radius:10px;border:1px solid var(--border);object-fit:contain;';
+    img.onerror=()=>box.remove();
+    box.appendChild(img);
+    containerEl.appendChild(box);
+  });
+}
 </script>
   <!-- EXAM INSTRUCTIONS MODAL -->
 <div id="instructions-modal" class="modal-bg hidden">
@@ -3454,6 +3605,52 @@ function startTestFromInstructions() {
       <button onclick="startTestFromInstructions()" class="btn-success font-bold py-3 rounded-xl text-sm cursor-pointer" style="flex:2">
         <i class="fas fa-play mr-1"></i> Start Test!
       </button>
+    </div>
+  </div>
+</div>
+  <div id="pause-overlay" class="pause-overlay hidden">
+  <i class="fas fa-pause-circle" style="font-size:4rem;color:var(--accent)"></i>
+  <h2>Test Paused</h2>
+  <p class="text-sm text-muted">Aapka test pause hai — koi data save hai.</p>
+  <button onclick="togglePause()" class="btn-success px-8 py-3 rounded-xl font-black text-sm cursor-pointer">
+    <i class="fas fa-play mr-2"></i>Resume Test
+  </button>
+</div>
+
+<div id="calc-modal" class="modal-bg hidden" onclick="if(event.target===this)closeCalculator()">
+  <div class="calc-modal">
+    <div class="flex justify-between items-center mb-3">
+      <div class="font-black text-sm text-accent"><i class="fas fa-calculator mr-1"></i>Calculator</div>
+      <button onclick="closeCalculator()" class="text-red-400 font-bold text-xs cursor-pointer"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="calc-display-box">
+      <div class="calc-history" id="calc-history"></div>
+      <div class="calc-display" id="calc-display">0</div>
+    </div>
+    <div class="grid grid-cols-4 gap-1.5">
+      <button onclick="calcPress('C')" class="calc-btn danger col-span-2">C</button>
+      <button onclick="calcPress('⌫')" class="calc-btn danger">⌫</button>
+      <button onclick="calcPress('÷')" class="calc-btn op">÷</button>
+      <button onclick="calcPress('7')" class="calc-btn">7</button>
+      <button onclick="calcPress('8')" class="calc-btn">8</button>
+      <button onclick="calcPress('9')" class="calc-btn">9</button>
+      <button onclick="calcPress('×')" class="calc-btn op">×</button>
+      <button onclick="calcPress('4')" class="calc-btn">4</button>
+      <button onclick="calcPress('5')" class="calc-btn">5</button>
+      <button onclick="calcPress('6')" class="calc-btn">6</button>
+      <button onclick="calcPress('-')" class="calc-btn op">−</button>
+      <button onclick="calcPress('1')" class="calc-btn">1</button>
+      <button onclick="calcPress('2')" class="calc-btn">2</button>
+      <button onclick="calcPress('3')" class="calc-btn">3</button>
+      <button onclick="calcPress('+')" class="calc-btn op">+</button>
+      <button onclick="calcPress('+/-')" class="calc-btn">+/-</button>
+      <button onclick="calcPress('0')" class="calc-btn">0</button>
+      <button onclick="calcPress('.')" class="calc-btn">.</button>
+      <button onclick="calcPress('=')" class="calc-btn eq">=</button>
+      <button onclick="calcPress('%')" class="calc-btn op">%</button>
+      <button onclick="calcPress('√')" class="calc-btn op">√</button>
+      <button onclick="calcPress('(')" class="calc-btn op">(</button>
+      <button onclick="calcPress(')')" class="calc-btn op">)</button>
     </div>
   </div>
 </div>
