@@ -285,6 +285,16 @@ body{overflow-x:hidden;}
 @media(max-width:639px){
   body{padding-bottom:72px!important;}
 }
+  .notes-cat-pill{
+  background:var(--card);border:0.5px solid var(--border);
+  border-radius:999px;padding:5px 12px;font-size:10px;
+  font-weight:800;cursor:pointer;color:var(--text-dim);
+  transition:all .2s;
+}
+.notes-cat-pill.active{
+  background:var(--accent);color:var(--accent-text);
+  border-color:var(--accent);
+}
 </style>
 </head>
 <body class="min-h-screen flex flex-col p-2 md:p-3">
@@ -508,58 +518,117 @@ body{overflow-x:hidden;}
     </div>
   </div>
 
-  <!-- NOTES -->
-  <div id="screen-notes">
-    <div class="flex items-center gap-3 mb-3">
-      <button onclick="goHome()" class="btn-neutral px-3 py-2 rounded-xl text-xs font-bold cursor-pointer"><i class="fas fa-arrow-left mr-1"></i>Back</button>
-      <h2 class="text-base font-black text-accent"><i class="fas fa-book-bookmark mr-1"></i>Study Vault</h2>
-    </div>
-    <div class="premium-card rounded-xl p-4 mb-4">
-      <div class="flex items-center justify-between mb-2">
-        <div class="font-black text-sm text-violet-400"><i class="fas fa-bolt mr-1"></i>Quick Revision Facts</div>
-        <button onclick="cycleQuickFact()" class="btn-neutral px-3 py-1 rounded-xl text-[10px] font-bold cursor-pointer"><i class="fas fa-shuffle mr-1"></i>Next</button>
-      </div>
-      <div id="quickfact-display" class="quickfact-card text-xs font-semibold leading-relaxed">Loading...</div>
-    </div>
-    <div id="admin-note-adder" class="hidden premium-card rounded-xl p-4 mb-4 space-y-3" style="border:1px solid rgba(245,158,11,0.3)">
-      <div class="font-bold text-amber-500 text-xs uppercase"><i class="fas fa-plus mr-1"></i>Add New Note (Admin)</div>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
-        <input id="note-title" placeholder="Note Title *" class="input-field rounded-xl px-3 py-2 text-xs">
-        <select id="note-exam" class="input-field rounded-xl px-3 py-2 text-xs cursor-pointer">
-          <option value="">Select Exam</option>
-          <option>NDA</option><option>CDS</option><option>AFCAT</option><option>AIR FORCE X/Y</option><option>NAVY</option><option>ARMY GD</option><option>SSC</option>
-        </select>
-        <select id="note-subject" class="input-field rounded-xl px-3 py-2 text-xs cursor-pointer">
-          <option>Mathematics</option><option>English</option><option>History</option><option>Geography</option><option>Science</option><option>GK/GS</option><option>Reasoning</option>
-        </select>
-      </div>
-      <textarea id="note-content" rows="6" placeholder="Note content yahan likhein..." class="w-full input-field rounded-xl px-3 py-2 text-xs font-mono outline-none resize-none"></textarea>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
-        <input id="note-video-url" placeholder="YouTube video URL (optional)" class="w-full input-field rounded-xl px-3 py-2 text-xs">
-        <input id="note-resource-url" placeholder="PDF / Drive Resource Link (optional)" class="w-full input-field rounded-xl px-3 py-2 text-xs">
-      </div>
-      <button onclick="adminAddNote()" class="btn-success px-6 py-2 rounded-xl text-xs font-bold cursor-pointer"><i class="fas fa-save mr-1"></i>Publish Note</button>
-    </div>
-    <div class="flex gap-2 flex-wrap mb-3">
-      <select id="notes-filter-exam" onchange="filterNotes()" class="input-field rounded-xl px-3 py-2 text-xs cursor-pointer">
-        <option value="">All Exams</option>
-        <option>NDA</option><option>CDS</option><option>AFCAT</option><option>AIR FORCE X/Y</option><option>NAVY</option><option>ARMY GD</option><option>SSC</option>
-      </select>
-      <select id="notes-filter-subject" onchange="filterNotes()" class="input-field rounded-xl px-3 py-2 text-xs cursor-pointer">
-        <option value="">All Subjects</option>
-        <option>Mathematics</option><option>English</option><option>History</option><option>Geography</option><option>Science</option><option>GK/GS</option><option>Reasoning</option>
-      </select>
-    </div>
-    <div id="notes-list" class="grid grid-cols-1 md:grid-cols-2 gap-3"><div class="premium-card rounded-xl p-4"><div class="spinner"></div></div></div>
-    <div class="premium-card rounded-xl p-4 mt-4 border-l-4 border-red-500">
-      <div class="flex items-center justify-between mb-2">
-        <div class="font-black text-red-400 text-sm"><i class="fas fa-triangle-exclamation mr-1"></i>My Mistakes Ledger</div>
-        <button onclick="openMistakesLedger()" class="btn-danger-outline px-4 py-1.5 rounded-xl text-xs font-bold cursor-pointer">Open</button>
-      </div>
-      <p class="text-xs text-muted">Galat jawab wale sawaal automatically yahan save hote hain.</p>
-    </div>
+ <!-- NOTES -->
+<div id="screen-notes">
+  <div class="flex items-center gap-3 mb-3">
+    <button onclick="goHome()" class="btn-neutral px-3 py-2 rounded-xl text-xs font-bold cursor-pointer"><i class="fas fa-arrow-left mr-1"></i>Back</button>
+    <h2 class="text-base font-black text-accent"><i class="fas fa-book-bookmark mr-1"></i>Study Vault</h2>
   </div>
 
+  <!-- SEARCH BAR -->
+  <div class="premium-card rounded-xl p-3 mb-3 flex items-center gap-2">
+    <i class="fas fa-search text-muted text-sm"></i>
+    <input id="notes-search" type="text" placeholder="Notes search karein..." 
+      oninput="filterNotes()"
+      class="flex-1 bg-transparent outline-none text-sm font-semibold"
+      style="color:var(--text)">
+    <button onclick="document.getElementById('notes-search').value='';filterNotes()" 
+      class="text-muted text-xs cursor-pointer hover:text-accent">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+
+  <!-- QUICK FACT -->
+  <div class="premium-card rounded-xl p-4 mb-4">
+    <div class="flex items-center justify-between mb-2">
+      <div class="font-black text-sm text-violet-400"><i class="fas fa-bolt mr-1"></i>Quick Revision Facts</div>
+      <button onclick="cycleQuickFact()" class="btn-neutral px-3 py-1 rounded-xl text-[10px] font-bold cursor-pointer"><i class="fas fa-shuffle mr-1"></i>Next</button>
+    </div>
+    <div id="quickfact-display" class="quickfact-card text-xs font-semibold leading-relaxed">Loading...</div>
+  </div>
+
+  <!-- FILTERS + BOOKMARKS TAB -->
+  <div class="flex gap-2 flex-wrap mb-3">
+    <button onclick="setNotesTab('all')" id="ntab-all" class="type-tab-btn active text-xs px-3 py-2 rounded-xl font-bold cursor-pointer">
+      <i class="fas fa-list mr-1"></i>All Notes
+    </button>
+    <button onclick="setNotesTab('bookmarks')" id="ntab-bookmarks" class="type-tab-btn text-xs px-3 py-2 rounded-xl font-bold cursor-pointer">
+      <i class="fas fa-bookmark mr-1"></i>Bookmarks
+    </button>
+  </div>
+
+  <!-- CATEGORY FILTER WITH ICONS -->
+  <div class="flex gap-2 flex-wrap mb-3" id="notes-cat-pills">
+    <button onclick="setNotesCat('')" class="notes-cat-pill active" data-cat="">📚 All</button>
+    <button onclick="setNotesCat('Mathematics')" class="notes-cat-pill" data-cat="Mathematics">🧮 Maths</button>
+    <button onclick="setNotesCat('English')" class="notes-cat-pill" data-cat="English">📝 English</button>
+    <button onclick="setNotesCat('History')" class="notes-cat-pill" data-cat="History">🏛️ History</button>
+    <button onclick="setNotesCat('Geography')" class="notes-cat-pill" data-cat="Geography">🗺️ Geography</button>
+    <button onclick="setNotesCat('Science')" class="notes-cat-pill" data-cat="Science">🔬 Science</button>
+    <button onclick="setNotesCat('GK/GS')" class="notes-cat-pill" data-cat="GK/GS">🌍 GK/GS</button>
+    <button onclick="setNotesCat('Reasoning')" class="notes-cat-pill" data-cat="Reasoning">🧠 Reasoning</button>
+  </div>
+
+  <!-- EXAM FILTER -->
+  <div class="flex gap-2 flex-wrap mb-3">
+    <select id="notes-filter-exam" onchange="filterNotes()" class="input-field rounded-xl px-3 py-2 text-xs cursor-pointer">
+      <option value="">All Exams</option>
+      <option>NDA</option><option>CDS</option><option>AFCAT</option>
+      <option>AIR FORCE X/Y</option><option>NAVY</option><option>ARMY GD</option><option>SSC</option>
+    </select>
+  </div>
+
+  <!-- ADMIN NOTE ADDER -->
+  <div id="admin-note-adder" class="hidden premium-card rounded-xl p-4 mb-4 space-y-3" style="border:1px solid rgba(245,158,11,0.3)">
+    <div class="font-bold text-amber-500 text-xs uppercase"><i class="fas fa-plus mr-1"></i>Add New Note (Admin)</div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
+      <input id="note-title" placeholder="Note Title *" class="input-field rounded-xl px-3 py-2 text-xs">
+      <select id="note-exam" class="input-field rounded-xl px-3 py-2 text-xs cursor-pointer">
+        <option value="">Select Exam</option>
+        <option>NDA</option><option>CDS</option><option>AFCAT</option>
+        <option>AIR FORCE X/Y</option><option>NAVY</option><option>ARMY GD</option><option>SSC</option>
+      </select>
+      <select id="note-subject" class="input-field rounded-xl px-3 py-2 text-xs cursor-pointer">
+        <option>Mathematics</option><option>English</option><option>History</option>
+        <option>Geography</option><option>Science</option><option>GK/GS</option><option>Reasoning</option>
+      </select>
+    </div>
+    <textarea id="note-content" rows="6" placeholder="Note content yahan likhein..." 
+      class="w-full input-field rounded-xl px-3 py-2 text-xs font-mono outline-none resize-none"></textarea>
+
+    <!-- AUDIO NOTE UPLOAD -->
+    <div class="surface rounded-xl p-3 space-y-2">
+      <div class="text-xs font-bold text-accent"><i class="fas fa-microphone mr-1"></i>Audio Note (Optional)</div>
+      <label class="btn-neutral text-[11px] font-bold px-3 py-2 rounded-xl cursor-pointer inline-block">
+        <i class="fas fa-upload mr-1"></i> Upload Audio
+        <input type="file" id="note-audio-input" accept="audio/*" class="hidden" onchange="handleNoteAudio(event)">
+      </label>
+      <span id="note-audio-name" class="text-xs text-muted ml-2"></span>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+      <input id="note-video-url" placeholder="YouTube URL (optional)" class="w-full input-field rounded-xl px-3 py-2 text-xs">
+      <input id="note-resource-url" placeholder="PDF/Drive Link (optional)" class="w-full input-field rounded-xl px-3 py-2 text-xs">
+    </div>
+    <button onclick="adminAddNote()" class="btn-success px-6 py-2 rounded-xl text-xs font-bold cursor-pointer">
+      <i class="fas fa-save mr-1"></i>Publish Note
+    </button>
+  </div>
+
+  <!-- NOTES LIST -->
+  <div id="notes-list" class="grid grid-cols-1 md:grid-cols-2 gap-3">
+    <div class="premium-card rounded-xl p-4"><div class="spinner"></div></div>
+  </div>
+
+  <!-- MISTAKES LEDGER -->
+  <div class="premium-card rounded-xl p-4 mt-4 border-l-4 border-red-500">
+    <div class="flex items-center justify-between mb-2">
+      <div class="font-black text-red-400 text-sm"><i class="fas fa-triangle-exclamation mr-1"></i>My Mistakes Ledger</div>
+      <button onclick="openMistakesLedger()" class="btn-danger-outline px-4 py-1.5 rounded-xl text-xs font-bold cursor-pointer">Open</button>
+    </div>
+    <p class="text-xs text-muted">Galat jawab wale sawaal automatically yahan save hote hain.</p>
+  </div>
+</div>
   <!-- PROFILE -->
   <div id="screen-profile">
     <div class="flex items-center gap-3 mb-3">
@@ -2240,12 +2309,39 @@ function loadNotes(){
   renderNotes(allNotes);
 }
 
-function filterNotes(){
-  const exam=document.getElementById('notes-filter-exam').value;
-  const subj=document.getElementById('notes-filter-subject').value;
-  renderNotes(allNotes.filter(n=>(!exam||n.exam===exam)&&(!subj||n.subject===subj)));
+let notesCurrentTab='all';
+let notesCurrentCat='';
+
+function setNotesTab(tab){
+  notesCurrentTab=tab;
+  document.getElementById('ntab-all').classList.toggle('active',tab==='all');
+  document.getElementById('ntab-bookmarks').classList.toggle('active',tab==='bookmarks');
+  filterNotes();
 }
 
+function setNotesCat(cat){
+  notesCurrentCat=cat;
+  document.querySelectorAll('.notes-cat-pill').forEach(b=>
+    b.classList.toggle('active',b.dataset.cat===cat));
+  filterNotes();
+}
+
+function filterNotes(){
+  const exam=document.getElementById('notes-filter-exam')?.value||'';
+  const search=(document.getElementById('notes-search')?.value||'').toLowerCase();
+  const bookmarks=JSON.parse(localStorage.getItem('baaz_bookmarks_'+(currentUserData?.email))||'[]');
+  let filtered=allNotes.filter(n=>{
+    const matchExam=!exam||n.exam===exam;
+    const matchCat=!notesCurrentCat||n.subject===notesCurrentCat;
+    const matchSearch=!search||
+      (n.title||'').toLowerCase().includes(search)||
+      (n.content||'').toLowerCase().includes(search)||
+      (n.exam||'').toLowerCase().includes(search);
+    const matchBookmark=notesCurrentTab!=='bookmarks'||bookmarks.includes(n.title);
+    return matchExam&&matchCat&&matchSearch&&matchBookmark;
+  });
+  renderNotes(filtered);
+}
 function youtubeEmbedUrl(url){
   if(!url)return'';
   const m=url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([A-Za-z0-9_-]{6,})/);
@@ -2254,20 +2350,43 @@ function youtubeEmbedUrl(url){
 
 function renderNotes(notes){
   const c=document.getElementById('notes-list');if(!c)return;
-  if(!notes.length){c.innerHTML='<div class="premium-card rounded-xl p-4 text-xs text-muted">No notes yet.</div>';return;}
-  c.innerHTML=notes.map((n,i)=>`
-    <div class="premium-card rounded-xl p-4 space-y-2">
+  const bookmarks=JSON.parse(localStorage.getItem('baaz_bookmarks_'+(currentUserData?.email))||'[]');
+  if(!notes.length){
+    c.innerHTML='<div class="premium-card rounded-xl p-4 text-xs text-muted text-center col-span-2">Koi note nahi mila.</div>';
+    return;
+  }
+  c.innerHTML=notes.map((n,i)=>{
+    const isBookmarked=bookmarks.includes(n.title);
+    const realIdx=allNotes.findIndex(x=>x.title===n.title);
+    return`<div class="premium-card rounded-xl p-4 space-y-2">
       <div class="flex justify-between items-start">
-        <div>
-          <span class="text-[9px] font-bold text-muted uppercase">${escapeHtml(n.exam)} • ${escapeHtml(n.subject)}</span>
+        <div class="flex-1">
+          <span class="text-[9px] font-bold text-muted uppercase">${escapeHtml(n.exam||'')} • ${escapeHtml(n.subject||'')}</span>
           <h3 class="font-black text-sm text-accent mt-0.5">${escapeHtml(n.title)}</h3>
         </div>
-        ${currentUserData?.role==='admin'?`<button onclick="deleteNote(${i})" class="btn-danger-outline px-2 py-1 rounded-lg text-[10px] cursor-pointer"><i class="fas fa-trash"></i></button>`:''}
+        <div class="flex gap-2 items-center ml-2">
+          <button onclick="toggleBookmark('${escapeAttr(n.title)}',event)"
+            class="text-lg cursor-pointer transition"
+            title="${isBookmarked?'Bookmark hatao':'Bookmark karo'}">
+            ${isBookmarked?'🔖':'🏷️'}
+          </button>
+          ${currentUserData?.role==='admin'?`<button onclick="deleteNote(${realIdx})" class="btn-danger-outline px-2 py-1 rounded-lg text-[10px] cursor-pointer"><i class="fas fa-trash"></i></button>`:''}
+        </div>
       </div>
-      <button onclick="openNoteModal(${i})" class="w-full btn-accent font-bold py-2 rounded-xl text-xs cursor-pointer"><i class="fas fa-book-open mr-1"></i>Read Note</button>
-    </div>`).join('');
+      <p class="text-xs text-muted">${escapeHtml((n.content||'').substring(0,100))}...</p>
+      <div class="flex gap-2">
+        <button onclick="openNoteModal(${realIdx})"
+          class="flex-1 btn-accent font-bold py-2 rounded-xl text-xs cursor-pointer">
+          <i class="fas fa-book-open mr-1"></i>Read
+        </button>
+        <button onclick="downloadNoteAsPDF(${realIdx})"
+          class="btn-neutral px-3 py-2 rounded-xl text-xs font-bold cursor-pointer" title="Download">
+          <i class="fas fa-download"></i>
+        </button>
+      </div>
+    </div>`;
+  }).join('');
 }
-
 function adminAddNote(){
   const title=document.getElementById('note-title').value.trim();
   const exam=document.getElementById('note-exam').value;
@@ -3162,6 +3281,34 @@ async function loadNotes(){
     allNotes = JSON.parse(localStorage.getItem('baaz_notes') || '[]');
     renderNotes(allNotes);
   }
+}
+  function toggleBookmark(title,e){
+  e.stopPropagation();
+  const key='baaz_bookmarks_'+(currentUserData?.email);
+  const bookmarks=JSON.parse(localStorage.getItem(key)||'[]');
+  const idx=bookmarks.indexOf(title);
+  if(idx===-1)bookmarks.push(title);
+  else bookmarks.splice(idx,1);
+  localStorage.setItem(key,JSON.stringify(bookmarks));
+  filterNotes();
+}
+
+function downloadNoteAsPDF(i){
+  const note=allNotes[i];if(!note)return;
+  const content=`OPERATION BAAZ — Study Note\n${'='.repeat(40)}\n\nTitle: ${note.title}\nExam: ${note.exam} | Subject: ${note.subject}\n\n${'='.repeat(40)}\n\n${note.content}\n\n${'='.repeat(40)}\nDownloaded from Operation Baaz Platform`;
+  const blob=new Blob([content],{type:'text/plain;charset=utf-8'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;
+  a.download=`${(note.title||'note').replace(/\s+/g,'_')}_OperationBaaz.txt`;
+  document.body.appendChild(a);a.click();
+  document.body.removeChild(a);URL.revokeObjectURL(url);
+}
+
+function handleNoteAudio(e){
+  const file=e.target.files[0];
+  if(!file)return;
+  document.getElementById('note-audio-name').innerText=file.name;
 }
 </script>
 </body>
