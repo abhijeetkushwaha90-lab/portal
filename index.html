@@ -1758,7 +1758,7 @@ ANSWER KEY:
       class="w-full py-2 rounded-xl text-xs font-black cursor-pointer mb-2"
       id="srt-ideal-btn"
       style="background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.3);color:var(--accent)">
-      <i class="fas fa-eye mr-1"></i>Ideal Response Dekho
+      <i class="fas fa-check-circle mr-1"></i>Answer Check Karo
     </button>
     <div id="srt-ideal-box" class="hidden tip-box text-xs leading-relaxed"></div>
   </div>
@@ -3178,14 +3178,53 @@ function toggleSRTIdealNew(){
   const box = document.getElementById('srt-ideal-box');
   const btn = document.getElementById('srt-ideal-btn');
   const s = SRT_60[srtCurrentIdx];
+  if(!s) return;
   box.classList.toggle('hidden');
   if(!box.classList.contains('hidden')){
     const correct = s.correct || 'A';
     const correctText = s['opt'+correct] || '';
-    box.innerHTML = `✅ Correct Answer: <b>${correct}</b> — ${correctText}`;
+    const selected = srtAnswers[s.id];
+    const isCorrect = selected === correct;
+    let html = '';
+    ['A','B','C','D'].forEach(l => {
+      const txt = s['opt'+l] || '';
+      if(!txt) return;
+      let bg = 'var(--bg)';
+      let border = 'var(--border)';
+      let icon = '';
+      if(l === correct){
+        bg = 'rgba(16,185,129,0.15)';
+        border = 'var(--success2)';
+        icon = '✅ ';
+      }
+      if(l === selected && l !== correct){
+        bg = 'rgba(244,63,94,0.15)';
+        border = 'var(--danger2)';
+        icon = '❌ ';
+      }
+      html += `<div style="padding:8px 12px;border-radius:10px;
+        background:${bg};border:1px solid ${border};
+        font-size:12px;font-weight:600;margin-bottom:6px;">
+        ${icon}<b>${l}.</b> ${txt}
+      </div>`;
+    });
+    if(!selected){
+      html += `<div style="font-size:11px;color:var(--text-dim);margin-top:4px;">
+        ⚠️ Aapne koi option select nahi kiya
+      </div>`;
+    } else if(isCorrect){
+      html += `<div style="font-size:11px;color:var(--success2);margin-top:4px;font-weight:800;">
+        🎉 Sahi jawab diya!
+      </div>`;
+    } else {
+      html += `<div style="font-size:11px;color:var(--danger2);margin-top:4px;font-weight:800;">
+        ❌ Galat — Sahi answer: ${correct}
+      </div>`;
+    }
+    box.innerHTML = html;
     btn.innerHTML = '<i class="fas fa-eye-slash mr-1"></i>Chhupao';
   } else {
-    btn.innerHTML = '<i class="fas fa-eye mr-1"></i>Correct Answer Dekho';
+    btn.innerHTML = '<i class="fas fa-eye mr-1"></i>Answer Check Karo';
   }
 }
 
@@ -5255,9 +5294,13 @@ async function adminAddSSBContent() {
     payload.word  = document.getElementById('ssb-wat-word').value.trim().toUpperCase();
     payload.tip   = document.getElementById('ssb-wat-tip').value.trim();
     if(!payload.word) { status.innerText = '❌ Word required.'; return; }
-  }
-  if(type === 'SRT') {
-    payload.sit   = document.getElementById('ssb-srt-sit').value.trim();
+ if(type === 'SRT') {
+    payload.sit     = document.getElementById('ssb-srt-sit').value.trim();
+    payload.optA    = document.getElementById('ssb-srt-a').value.trim();
+    payload.optB    = document.getElementById('ssb-srt-b').value.trim();
+    payload.optC    = document.getElementById('ssb-srt-c').value.trim();
+    payload.optD    = document.getElementById('ssb-srt-d').value.trim();
+    payload.correct = document.getElementById('ssb-srt-correct').value;
     if(!payload.sit) { status.innerText = '❌ Situation required.'; return; }
   }
   if(type === 'TAT') {
