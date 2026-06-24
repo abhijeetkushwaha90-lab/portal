@@ -75,15 +75,23 @@ body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,
 .auth-tab{padding:.5rem 1.25rem;border-radius:.75rem;font-weight:700;font-size:.75rem;cursor:pointer;color:var(--text-dim);flex:1;}
 .auth-tab.active{background:var(--accent);color:var(--accent-text);}
 .broadcast-banner{background:linear-gradient(90deg,#1e293b,var(--card));border-bottom:1px solid var(--border);}
-.home-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:8px;}
+.home-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:6px;}
 @media(min-width:640px){.home-grid{grid-template-columns:repeat(4,1fr);}}
-@media(min-width:768px){.home-grid{grid-template-columns:repeat(3,1fr);}}
+@media(min-width:768px){.home-grid{grid-template-columns:repeat(4,1fr);}}
 .home-card{background:var(--card);border:0.5px solid var(--border);border-radius:18px;padding:20px 12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;cursor:pointer;transition:all .25s ease;position:relative;overflow:hidden;min-height:110px;text-align:center;}
 .home-card:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(0,0,0,.5);border-color:var(--accent);}
 .home-card:active{transform:scale(0.96);}
-.home-card .card-icon{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin-bottom:2px;}
-.home-card .card-label{font-size:11px;font-weight:800;color:var(--text);letter-spacing:.03em;line-height:1.2;}
-.home-card .card-sub{font-size:9px;color:var(--text-dim);font-weight:600;margin-top:2px;}
+.home-card{background:var(--card);border:0.5px solid var(--border);border-radius:14px;
+  padding:12px 8px;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;gap:6px;cursor:pointer;transition:all .25s ease;
+  position:relative;overflow:hidden;min-height:80px;text-align:center;}
+.home-card:hover{transform:translateY(-3px);box-shadow:0 10px 28px rgba(0,0,0,.4);border-color:var(--accent);}
+.home-card:active{transform:scale(0.96);}
+.home-card .card-icon{width:36px;height:36px;border-radius:10px;display:flex;
+  align-items:center;justify-content:center;font-size:1rem;margin-bottom:0;}
+.home-card .card-label{font-size:10px;font-weight:800;color:var(--text);
+  letter-spacing:.02em;line-height:1.2;}
+.home-card .card-sub{font-size:8px;color:var(--text-dim);font-weight:600;margin-top:1px;}
 .home-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,0.03),transparent);pointer-events:none;}
 .card-g1{background:linear-gradient(135deg,#1a1a2e,#16213e);}
 .card-g2{background:linear-gradient(135deg,#0f1b12,#1a2f1d);}
@@ -179,7 +187,7 @@ body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,
 .progress-ring-text{font-size:28px;font-weight:900;color:var(--accent);}
 </style>
 </head>
-<body class="min-h-screen flex flex-col p-3 md:p-4">
+<body class="min-h-screen flex flex-col p-2 md:p-3">
 
 <!-- BROADCAST -->
 <div id="global-broadcast" class="broadcast-banner w-full text-center py-2 px-4 rounded-xl hidden mb-3 text-xs font-bold text-accent shadow-md">
@@ -192,9 +200,13 @@ body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,
     <button onclick="setLanguage('hi')" id="lang-btn-hi-auth" class="active">हिं</button>
     <button onclick="setLanguage('en')" id="lang-btn-en-auth">EN</button>
   </div>
-  <h1 class="text-3xl md:text-5xl font-black tracking-widest brand-gradient">OPERATION BAAZ</h1>
-  <p class="text-[10px] text-muted uppercase tracking-widest mt-1 font-semibold">Complete Defence Learning Platform v14.0</p>
-</header>
+  <div class="flex items-center justify-center gap-3 mb-1">
+  <div style="width:38px;height:38px;background:linear-gradient(135deg,#d4891a,#a83220);border-radius:10px;display:flex;align-items:center;justify-content:center;">
+    <i class="fas fa-shield-halved" style="color:#fff;font-size:18px;"></i>
+  </div>
+  <h1 class="text-3xl md:text-4xl font-black tracking-widest brand-gradient">OPERATION BAAZ</h1>
+</div>
+<p class="text-[9px] text-muted uppercase tracking-widest font-semibold">⚔️ Complete Defence Learning Platform v14.0</p></header>
 
 <!-- AUTH -->
 <div id="auth-container" class="w-full max-w-md mx-auto my-auto pt-1">
