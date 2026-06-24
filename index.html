@@ -702,10 +702,7 @@ body{overflow-x:hidden;}
   </div>
 
   <!-- NOTES LIST -->
-  <div id="notes-list" class="grid grid-cols-1 md:grid-cols-2 gap-3">
-    <div class="premium-card rounded-xl p-4"><div class="spinner"></div></div>
-  </div>
-
+  <div id="notes-list" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
   <!-- MISTAKES LEDGER -->
   <div class="premium-card rounded-xl p-4 mt-4 border-l-4 border-red-500">
     <div class="flex items-center justify-between mb-2">
@@ -924,7 +921,7 @@ body{overflow-x:hidden;}
       </select>
     </div>
     <div id="leaderboard-podium" class="grid grid-cols-3 gap-2 mb-4"></div>
-    <div class="premium-card rounded-2xl p-4"><div id="leaderboard-table"><div class="spinner my-4"></div></div></div>
+    <div class="premium-card rounded-2xl p-4"><div id="leaderboard-table"></div></div>
   </div>
 
   <!-- COURSES -->
@@ -4005,7 +4002,7 @@ function checkTournamentPrize(rankPosition){
 }
 async function loadLeaderboard(){
   const table=document.getElementById('leaderboard-table');const podium=document.getElementById('leaderboard-podium');
-  if(!table)return;table.innerHTML='<div class="spinner my-4"></div>';
+  if(!table)return;table.innerHTML=skeletonCards(5);
   try{
     const res=await fetch(APPS_SCRIPT_URL+"?action=get_leaderboard");
     const d=await res.json();
@@ -4092,6 +4089,7 @@ function renderExamCategories(){
   document.getElementById('exam-view-categories').classList.remove('hidden');
   document.getElementById('exam-view-list').classList.add('hidden');
   document.getElementById('exam-back-btn').onclick=goHome;
+  const grid0=document.getElementById('category-grid');if(grid0)grid0.innerHTML='<div class="col-span-3" style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;">'+skeletonCards(6)+'</div>';
   const grid=document.getElementById('category-grid');if(!grid)return;
   grid.innerHTML=EXAM_CATEGORIES.map(c=>{
     const count=cachedTests.filter(t=>t.categoryKey===c.key).length;
@@ -4630,7 +4628,7 @@ async function submitBulkCsv(){
 
 async function loadStudentList(){
   const c=document.getElementById('student-list-container');if(!c)return;
-  c.innerHTML='<div class="spinner my-4"></div>';
+  c.innerHTML=skeletonCards(4);
   try{
     const res=await fetch(APPS_SCRIPT_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:"get_students"})});
     const data=await res.json();
@@ -4740,11 +4738,24 @@ function hideBottomNav(){
 }
 function escapeHtml(s){return String(s||"").replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 function escapeAttr(s){return escapeHtml(s);}
+  function skeletonCards(count, cols){
+  cols = cols || 1;
+  let html = '';
+  for(let i=0; i<count; i++){
+    html += `<div class="skeleton-card">
+      <div class="skeleton" style="height:14px;width:60%;margin-bottom:10px;"></div>
+      <div class="skeleton" style="height:10px;width:90%;margin-bottom:6px;"></div>
+      <div class="skeleton" style="height:10px;width:75%;"></div>
+    </div>`;
+  }
+  return html;
+}
   // ============================================================
 // OVERRIDE: LIVE GOOGLE SHEET NOTES SYSTEM
 // ============================================================
 async function loadNotes(){
   const c = document.getElementById('notes-list');
+  if (c) c.innerHTML = skeletonCards(4);
   if (!c) return;
   
   const NOTES_CSV_URL = APPS_SCRIPT_URL + "?action=get_notes";
