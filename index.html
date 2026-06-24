@@ -5293,8 +5293,9 @@ async function adminAddSSBContent() {
   if(type === 'WAT') {
     payload.word  = document.getElementById('ssb-wat-word').value.trim().toUpperCase();
     payload.tip   = document.getElementById('ssb-wat-tip').value.trim();
-    if(!payload.word) { status.innerText = '❌ Word required.'; return; }
- if(type === 'SRT') {
+   if(!payload.word) { status.innerText = '❌ Word required.'; return; }
+  }
+  if(type === 'SRT') {
     payload.sit     = document.getElementById('ssb-srt-sit').value.trim();
     payload.optA    = document.getElementById('ssb-srt-a').value.trim();
     payload.optB    = document.getElementById('ssb-srt-b').value.trim();
