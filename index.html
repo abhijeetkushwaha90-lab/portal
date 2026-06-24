@@ -314,6 +314,18 @@ body{overflow-x:hidden;}
 .calc-btn.eq{background:var(--accent);color:var(--accent-text);}
 .calc-btn.eq:hover{filter:brightness(1.2);}
 .calc-btn.danger{color:var(--danger2);}
+  /* ===== ANALYTICS DASHBOARD ===== */
+.analytics-tab{padding:6px 14px;border-radius:10px;font-size:11px;font-weight:800;cursor:pointer;background:var(--bg);border:0.5px solid var(--border);color:var(--text-dim);}
+.analytics-tab.active{background:var(--accent);color:var(--accent-text);}
+.chart-bar{background:var(--accent);border-radius:4px 4px 0 0;transition:height .6s ease;min-height:2px;}
+.chart-bar:hover{filter:brightness(1.3);}
+.pie-segment{transition:all .3s;}
+.streak-cell{width:12px;height:12px;border-radius:3px;background:var(--border);}
+.streak-cell.active{background:var(--accent);}
+.streak-cell.today{background:var(--success2);outline:2px solid var(--success);}
+.stat-ring{position:relative;display:inline-flex;align-items:center;justify-content:center;}
+.weak-tag{background:rgba(244,63,94,0.12);border:0.5px solid rgba(244,63,94,0.4);border-radius:8px;padding:4px 10px;font-size:10px;font-weight:800;color:var(--danger2);}
+.strong-tag{background:rgba(16,185,129,0.12);border:0.5px solid rgba(16,185,129,0.4);border-radius:8px;padding:4px 10px;font-size:10px;font-weight:800;color:var(--success2);}
 </style>
 </head>
 <body class="min-h-screen flex flex-col p-2 md:p-3">
@@ -708,6 +720,93 @@ body{overflow-x:hidden;}
         </div>
       </div>
     </div>
+    <!-- ANALYTICS DASHBOARD -->
+<div class="premium-card rounded-2xl p-5 mt-4">
+  <div class="font-black text-sm text-accent mb-3"><i class="fas fa-chart-line mr-1"></i>Performance Analytics</div>
+  
+  <!-- Analytics Tabs -->
+  <div class="flex gap-2 flex-wrap mb-4">
+    <button onclick="switchAnalyticsTab('overview')" class="analytics-tab active" data-atab="overview">📊 Overview</button>
+    <button onclick="switchAnalyticsTab('subjects')" class="analytics-tab" data-atab="subjects">📚 Subjects</button>
+    <button onclick="switchAnalyticsTab('progress')" class="analytics-tab" data-atab="progress">📈 Progress</button>
+    <button onclick="switchAnalyticsTab('streak')" class="analytics-tab" data-atab="streak">🔥 Streak</button>
+    <button onclick="switchAnalyticsTab('weak')" class="analytics-tab" data-atab="weak">⚠️ Weak Areas</button>
+  </div>
+
+  <!-- OVERVIEW TAB -->
+  <div id="atab-overview" class="space-y-3">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3" id="overview-stats"></div>
+    <div class="surface rounded-xl p-4">
+      <div class="text-xs font-black text-accent mb-3">📅 Last 7 Tests Performance</div>
+      <div id="mini-bar-chart" class="flex items-end gap-2 h-24 px-2"></div>
+      <div id="mini-bar-labels" class="flex gap-2 mt-1 px-2"></div>
+    </div>
+  </div>
+
+  <!-- SUBJECTS TAB -->
+  <div id="atab-subjects" class="hidden space-y-3">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="surface rounded-xl p-4">
+        <div class="text-xs font-black text-accent mb-3">🎯 Subject-wise Accuracy</div>
+        <div id="subject-pie-chart" class="flex justify-center mb-3">
+          <svg id="pie-svg" width="160" height="160" viewBox="0 0 160 160"></svg>
+        </div>
+        <div id="pie-legend" class="space-y-1"></div>
+      </div>
+      <div class="surface rounded-xl p-4">
+        <div class="text-xs font-black text-accent mb-3">📊 Subject Accuracy Bars</div>
+        <div id="subject-bars" class="space-y-2"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROGRESS TAB -->
+  <div id="atab-progress" class="hidden space-y-3">
+    <div class="surface rounded-xl p-4">
+      <div class="flex justify-between items-center mb-3">
+  <div class="text-xs font-black text-accent">📈 Score Trend</div>
+  <div class="flex gap-1">
+    <button onclick="setProgressView('all')" id="pview-all" class="analytics-tab active" style="padding:4px 10px;font-size:9px;">All</button>
+    <button onclick="setProgressView('week')" id="pview-week" class="analytics-tab" style="padding:4px 10px;font-size:9px;">Weekly</button>
+    <button onclick="setProgressView('month')" id="pview-month" class="analytics-tab" style="padding:4px 10px;font-size:9px;">Monthly</button>
+  </div>
+</div>      <div id="progress-chart" class="flex items-end gap-1 h-32 px-2 overflow-x-auto"></div>
+      <div id="progress-labels" class="flex gap-1 mt-1 px-2 overflow-x-auto"></div>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-3" id="progress-summary"></div>
+  </div>
+
+  <!-- STREAK CALENDAR TAB -->
+  <div id="atab-streak" class="hidden space-y-3">
+    <div class="surface rounded-xl p-4">
+      <div class="flex justify-between items-center mb-3">
+        <div class="text-xs font-black text-accent">🔥 Study Streak Calendar</div>
+        <div class="text-xs font-bold text-muted" id="streak-summary-text"></div>
+      </div>
+      <div class="text-[9px] text-muted mb-2 flex gap-3">
+        <span>Mon</span><span>Wed</span><span>Fri</span><span>Sun</span>
+      </div>
+      <div id="streak-calendar" class="flex flex-wrap gap-1"></div>
+      <div class="flex items-center gap-2 mt-3 text-[9px] text-muted">
+        <div class="streak-cell"></div><span>No activity</span>
+        <div class="streak-cell active ml-2"></div><span>Active</span>
+        <div class="streak-cell today ml-2"></div><span>Today</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- WEAK AREAS TAB -->
+  <div id="atab-weak" class="hidden space-y-3">
+    <div class="surface rounded-xl p-4">
+      <div class="text-xs font-black text-danger2 mb-3">⚠️ Topics to Improve</div>
+      <div id="weak-areas-list" class="space-y-2"></div>
+    </div>
+    <div class="surface rounded-xl p-4">
+      <div class="text-xs font-black text-success2 mb-3">✅ Strong Areas</div>
+      <div id="strong-areas-list" class="space-y-2"></div>
+    </div>
+  </div>
+</div>
     <div class="premium-card rounded-2xl p-5 mt-4">
       <div class="font-black text-sm text-accent mb-3"><i class="fas fa-medal mr-1"></i>All Badges</div>
       <div id="profile-badges-grid" class="grid grid-cols-4 md:grid-cols-8 gap-3"></div>
@@ -1906,6 +2005,9 @@ async function doLogin() {
   }catch(e){err.innerText="Login error.";err.classList.remove('hidden');}
 }
 function loginSuccess(u) {
+  function loginSuccess(u) {
+  currentUserData=u;
+  fixOldHistoryDates();
   currentUserData=u;
   document.getElementById('auth-container').classList.add('hidden');
   document.getElementById('app-container').classList.remove('hidden');
@@ -2306,6 +2408,16 @@ function setCheck(i,val,btn){
 /* ============================================================
    PROFILE
    ============================================================ */
+  function fixOldHistoryDates(){
+  if(!currentUserData)return;
+  const key=`baaz_hist_${currentUserData.email}`;
+  const h=JSON.parse(localStorage.getItem(key)||'{}');
+  let changed=false;
+  Object.keys(h).forEach(t=>{
+    if(!h[t].date){h[t].date=new Date().toISOString();changed=true;}
+  });
+  if(changed)localStorage.setItem(key,JSON.stringify(h));
+}
 function loadProfile(){
   const u=currentUserData;if(!u)return;
   document.getElementById('pf-name').innerText=u.name||'—';
@@ -3044,7 +3156,7 @@ async function calculateFinalResults(){
     document.getElementById('result-screen').classList.remove('hidden');
     document.getElementById('review-matrix-container').innerHTML='<div class="spinner my-4"></div>';
     if(d.status==="success"){
-      const h=getHistoryMap();h[activeTest.title]=d;localStorage.setItem(`baaz_hist_${currentUserData?.email}`,JSON.stringify(h));
+      const h=getHistoryMap();d.date=d.date||new Date().toISOString();h[activeTest.title]=d;localStorage.setItem(`baaz_hist_${currentUserData?.email}`,JSON.stringify(h));
       if(currentUserData){currentUserData.xp=d.totalXP??currentUserData.xp;currentUserData.level=d.level??currentUserData.level;currentUserData.streak=d.streak??currentUserData.streak;currentUserData.badges=d.badges??currentUserData.badges;localStorage.setItem('baaz_userdata',JSON.stringify(currentUserData));updateGamificationUI(currentUserData.xp||0,currentUserData.streak||0,currentUserData.badges||[]);}
       displayResultScreen(d);fireConfetti();
     }else{document.getElementById('review-matrix-container').innerText='Submission error.';}
@@ -3545,6 +3657,330 @@ function renderQuestionWithImage(text,containerEl){
     containerEl.appendChild(box);
   });
 }
+  /* ============================================================
+   PHASE 5 — ANALYTICS DASHBOARD
+   ============================================================ */
+function switchAnalyticsTab(tab){
+  ['overview','subjects','progress','streak','weak'].forEach(t=>{
+    const el=document.getElementById(`atab-${t}`);
+    if(el)el.classList.toggle('hidden',t!==tab);
+  });
+  document.querySelectorAll('.analytics-tab').forEach(b=>
+    b.classList.toggle('active',b.dataset.atab===tab));
+  if(tab==='overview')renderOverview();
+  if(tab==='subjects')renderSubjectCharts();
+  if(tab==='progress')renderProgressChart();
+  if(tab==='streak')renderStreakCalendar();
+  if(tab==='weak')renderWeakAreas();
+}
+
+function getAnalyticsData(){
+  const hist=getHistoryMap();
+  const tests=Object.keys(hist);
+  return tests.map(t=>({
+    title:decodeTestTitle(t).displayTitle,
+    rawTitle:t,
+    score:hist[t].score||0,
+    right:hist[t].right||0,
+    wrong:hist[t].wrong||0,
+    total:hist[t].total||0,
+    accuracy:hist[t].accuracy||0,
+    subject:(cachedTests.find(x=>x.title===t)?.subject)||'General'
+  }));
+}
+
+// OVERVIEW
+function renderOverview(){
+  const data=getAnalyticsData();
+  const el=document.getElementById('overview-stats');
+  if(!el)return;
+  if(!data.length){el.innerHTML='<p class="text-xs text-muted col-span-4 text-center py-4">Koi test attempt nahi kiya abhi.</p>';return;}
+  const totalTests=data.length;
+  const avgScore=Math.round(data.reduce((s,d)=>s+d.score,0)/totalTests);
+  const avgAccuracy=Math.round(data.reduce((s,d)=>s+(parseFloat(d.accuracy)||0),0)/totalTests);
+  const bestScore=Math.max(...data.map(d=>d.score));
+  el.innerHTML=[
+    {label:'Tests Done',val:totalTests,color:'text-accent'},
+    {label:'Avg Score',val:avgScore,color:'text-emerald-400'},
+    {label:'Avg Accuracy',val:avgAccuracy+'%',color:'text-amber-400'},
+    {label:'Best Score',val:bestScore,color:'text-violet-400'}
+  ].map(s=>`<div class="surface rounded-xl p-3 text-center">
+    <div class="text-xl font-black ${s.color}">${s.val}</div>
+    <div class="text-[9px] text-muted font-bold uppercase mt-1">${s.label}</div>
+  </div>`).join('');
+  // Mini bar chart last 7
+  const last7=data.slice(-7);
+  const maxS=Math.max(...last7.map(d=>d.score),1);
+  const bc=document.getElementById('mini-bar-chart');
+  const bl=document.getElementById('mini-bar-labels');
+  if(bc){
+    bc.innerHTML=last7.map(d=>{
+      const h=Math.max(4,Math.round((d.score/maxS)*88));
+      return`<div class="flex-1 flex flex-col items-center gap-1">
+        <div class="text-[8px] font-bold text-accent">${d.score}</div>
+        <div class="chart-bar w-full" style="height:${h}px"></div>
+      </div>`;
+    }).join('');
+  }
+  if(bl){
+    bl.innerHTML=last7.map(d=>`<div class="flex-1 text-center text-[7px] text-muted truncate">${d.title.substring(0,6)}</div>`).join('');
+  }
+}
+
+// SUBJECT PIE CHART
+function renderSubjectCharts(){
+  const data=getAnalyticsData();
+  const subjectMap={};
+  data.forEach(d=>{
+    const s=d.subject||'General';
+    if(!subjectMap[s])subjectMap[s]={right:0,total:0,tests:0};
+    subjectMap[s].right+=d.right;
+    subjectMap[s].total+=d.total;
+    subjectMap[s].tests++;
+  });
+  const subjects=Object.keys(subjectMap);
+  if(!subjects.length){
+    document.getElementById('subject-bars').innerHTML='<p class="text-xs text-muted">Koi data nahi.</p>';
+    return;
+  }
+  const colors=['#d4891a','#10b981','#3b82f6','#8b5cf6','#ef4444','#f59e0b','#14b8a6','#ec4899'];
+  // PIE SVG
+  const svg=document.getElementById('pie-svg');
+  if(svg){
+    const totalTests=data.length||1;
+    let startAngle=0;
+    const cx=80,cy=80,r=70;
+    let paths='';
+    subjects.forEach((s,i)=>{
+      const pct=subjectMap[s].tests/totalTests;
+      const angle=pct*2*Math.PI;
+      const x1=cx+r*Math.sin(startAngle);
+      const y1=cy-r*Math.cos(startAngle);
+      const x2=cx+r*Math.sin(startAngle+angle);
+      const y2=cy-r*Math.cos(startAngle+angle);
+      const large=angle>Math.PI?1:0;
+      paths+=`<path d="M${cx},${cy} L${x1.toFixed(1)},${y1.toFixed(1)} A${r},${r} 0 ${large},1 ${x2.toFixed(1)},${y2.toFixed(1)} Z" fill="${colors[i%colors.length]}" opacity="0.85"/>`;
+      startAngle+=angle;
+    });
+    // Center hole
+    paths+=`<circle cx="${cx}" cy="${cy}" r="35" fill="var(--bg)"/>`;
+    paths+=`<text x="${cx}" y="${cy+4}" text-anchor="middle" font-size="10" font-weight="900" fill="var(--text)">${data.length}</text>`;
+    paths+=`<text x="${cx}" y="${cy+16}" text-anchor="middle" font-size="7" fill="var(--text-dim)">Tests</text>`;
+    svg.innerHTML=paths;
+  }
+  // Legend
+  const legend=document.getElementById('pie-legend');
+  if(legend){
+    legend.innerHTML=subjects.map((s,i)=>{
+      const acc=subjectMap[s].total>0?Math.round((subjectMap[s].right/subjectMap[s].total)*100):0;
+      return`<div class="flex items-center gap-2">
+        <div style="width:10px;height:10px;border-radius:3px;background:${colors[i%colors.length]};flex-shrink:0"></div>
+        <span class="text-[10px] font-bold flex-1">${s}</span>
+        <span class="text-[10px] font-black" style="color:${colors[i%colors.length]}">${acc}%</span>
+      </div>`;
+    }).join('');
+  }
+  // Accuracy bars
+  const bars=document.getElementById('subject-bars');
+  if(bars){
+    bars.innerHTML=subjects.map((s,i)=>{
+      const acc=subjectMap[s].total>0?Math.round((subjectMap[s].right/subjectMap[s].total)*100):0;
+      return`<div>
+        <div class="flex justify-between text-[10px] font-bold mb-1">
+          <span>${s}</span><span style="color:${colors[i%colors.length]}">${acc}%</span>
+        </div>
+        <div class="xp-bar-track">
+          <div style="height:100%;width:${acc}%;background:${colors[i%colors.length]};border-radius:999px;transition:width .8s ease"></div>
+        </div>
+      </div>`;
+    }).join('');
+  }
+}
+
+// PROGRESS CHART
+let progressViewMode='all';
+
+function setProgressView(mode){
+  progressViewMode=mode;
+  document.querySelectorAll('#pview-all,#pview-week,#pview-month').forEach(b=>b.classList.remove('active'));
+  document.getElementById('pview-'+mode).classList.add('active');
+  renderProgressChart();
+}
+
+function groupDataByPeriod(data,mode){
+  if(mode==='all')return data;
+  const groups={};
+  data.forEach(d=>{
+    const dt=new Date(d.date||Date.now());
+    let key;
+    if(mode==='week'){
+      const onejan=new Date(dt.getFullYear(),0,1);
+      const week=Math.ceil((((dt-onejan)/86400000)+onejan.getDay()+1)/7);
+      key=`${dt.getFullYear()}-W${week}`;
+    }else{
+      key=`${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,'0')}`;
+    }
+    if(!groups[key])groups[key]={scores:[],label:key};
+    groups[key].scores.push(d.score);
+  });
+  return Object.keys(groups).map(k=>({
+    title:groups[k].label,
+    score:Math.round(groups[k].scores.reduce((a,b)=>a+b,0)/groups[k].scores.length)
+  }));
+}
+
+function renderProgressChart(){
+  const rawData=getAnalyticsData();
+  const data=groupDataByPeriod(rawData,progressViewMode);
+  const pc=document.getElementById('progress-chart');
+  const pl=document.getElementById('progress-labels');
+  const ps=document.getElementById('progress-summary');
+  if(!data.length){
+    if(pc)pc.innerHTML='<p class="text-xs text-muted">Koi data nahi.</p>';
+    return;
+  }
+  const maxS=Math.max(...data.map(d=>d.score),1);
+  if(pc){
+    pc.innerHTML=data.map((d,i)=>{
+      const h=Math.max(4,Math.round((d.score/maxS)*120));
+      const color=d.score>=0?'var(--accent)':'var(--danger2)';
+      return`<div class="flex flex-col items-center gap-1" style="min-width:28px">
+        <div class="text-[7px] font-bold" style="color:${color}">${d.score}</div>
+        <div style="height:${h}px;width:20px;background:${color};border-radius:4px 4px 0 0;transition:height .6s ease"></div>
+      </div>`;
+    }).join('');
+  }
+  if(pl){
+    pl.innerHTML=data.map((d,i)=>`<div style="min-width:28px" class="text-center text-[7px] text-muted">${progressViewMode==='all'?(i+1):d.title.split('-').pop()}</div>`).join('');
+  }
+  if(ps&&rawData.length>0){
+    const scores=rawData.map(d=>d.score);
+    const trend=scores.length>1?(scores[scores.length-1]>scores[0]?'📈 Improving':'📉 Needs work'):'➖ 1 test';
+    const best=Math.max(...scores);
+    const worst=Math.min(...scores);
+    ps.innerHTML=[
+      {label:'Trend',val:trend,color:'text-accent'},
+      {label:'Best Score',val:best,color:'text-emerald-400'},
+      {label:'Lowest Score',val:worst,color:'text-rose-400'}
+    ].map(s=>`<div class="surface rounded-xl p-3 text-center">
+      <div class="text-sm font-black ${s.color}">${s.val}</div>
+      <div class="text-[9px] text-muted font-bold uppercase mt-1">${s.label}</div>
+    </div>`).join('');
+  }
+}
+// STREAK CALENDAR (GitHub style - last 90 days)
+function renderStreakCalendar(){
+  const cal=document.getElementById('streak-calendar');
+  const sumText=document.getElementById('streak-summary-text');
+  if(!cal)return;
+  const hist=getHistoryMap();
+  const activeDays=new Set();
+  // Use localStorage for activity tracking
+  const actKey='baaz_activity_'+(currentUserData?.email);
+  const actData=JSON.parse(localStorage.getItem(actKey)||'{}');
+  // Mark today if any test done
+  const today=new Date().toISOString().split('T')[0];
+  if(Object.keys(hist).length>0)actData[today]=true;
+  localStorage.setItem(actKey,JSON.stringify(actData));
+  Object.keys(actData).forEach(d=>activeDays.add(d));
+  // Build 84 days (12 weeks)
+  const days=84;
+  const cells=[];
+  for(let i=days-1;i>=0;i--){
+    const d=new Date();d.setDate(d.getDate()-i);
+    const ds=d.toISOString().split('T')[0];
+    cells.push({date:ds,active:activeDays.has(ds),isToday:ds===today});
+  }
+  cal.innerHTML=cells.map(c=>`
+    <div class="streak-cell ${c.active?'active':''} ${c.isToday?'today':''}"
+      title="${c.date}${c.active?' — Active':''}"></div>`).join('');
+  const streak=currentUserData?.streak||0;
+  const totalActive=activeDays.size;
+  if(sumText)sumText.innerText=`🔥 ${streak} day streak • ${totalActive} active days`;
+}
+
+// WEAK AREAS
+function renderWeakAreas(){
+  const errors=JSON.parse(localStorage.getItem('baaz_errors_'+(currentUserData?.email))||'[]');
+  const hist=getHistoryMap();
+  const subjectStats={};
+  // From history
+  Object.keys(hist).forEach(t=>{
+    const subj=(cachedTests.find(x=>x.title===t)?.subject)||'General';
+    if(!subjectStats[subj])subjectStats[subj]={right:0,wrong:0,total:0};
+    subjectStats[subj].right+=(hist[t].right||0);
+    subjectStats[subj].wrong+=(hist[t].wrong||0);
+    subjectStats[subj].total+=(hist[t].total||0);
+  });
+  const weakEl=document.getElementById('weak-areas-list');
+  const strongEl=document.getElementById('strong-areas-list');
+  const subjects=Object.keys(subjectStats);
+  if(!subjects.length){
+    if(weakEl)weakEl.innerHTML='<p class="text-xs text-muted">Pehle kuch tests do!</p>';
+    if(strongEl)strongEl.innerHTML='<p class="text-xs text-muted">Data nahi hai.</p>';
+    return;
+  }
+  const weak=subjects.filter(s=>{
+    const acc=subjectStats[s].total>0?(subjectStats[s].right/subjectStats[s].total)*100:0;
+    return acc<50;
+  });
+  const strong=subjects.filter(s=>{
+    const acc=subjectStats[s].total>0?(subjectStats[s].right/subjectStats[s].total)*100:0;
+    return acc>=70;
+  });
+  if(weakEl){
+    weakEl.innerHTML=weak.length?weak.map(s=>{
+      const acc=Math.round((subjectStats[s].right/subjectStats[s].total)*100);
+      return`<div class="flex items-center justify-between surface rounded-xl p-3">
+        <div>
+          <span class="weak-tag">${s}</span>
+          <div class="text-[9px] text-muted mt-1">${subjectStats[s].wrong} galat • ${subjectStats[s].total} total</div>
+        </div>
+        <div class="text-lg font-black text-rose-400">${acc}%</div>
+      </div>`;
+    }).join(''):'<p class="text-xs text-emerald-400 font-bold">🎉 Koi weak area nahi! Great job!</p>';
+  }
+  if(strongEl){
+    strongEl.innerHTML=strong.length?strong.map(s=>{
+      const acc=Math.round((subjectStats[s].right/subjectStats[s].total)*100);
+      return`<div class="flex items-center justify-between surface rounded-xl p-3">
+        <div>
+          <span class="strong-tag">${s}</span>
+          <div class="text-[9px] text-muted mt-1">${subjectStats[s].right} sahi • ${subjectStats[s].total} total</div>
+        </div>
+        <div class="text-lg font-black text-emerald-400">${acc}%</div>
+      </div>`;
+    }).join(''):'<p class="text-xs text-muted">70%+ accuracy pe subject strong maana jayega.</p>';
+  }
+  // Recent mistakes
+  if(errors.length&&weakEl){
+    weakEl.innerHTML+=`<div class="mt-3">
+      <div class="text-[10px] font-black text-rose-400 mb-2">📝 Recent Wrong Questions (${errors.length})</div>
+      ${errors.slice(-5).reverse().map(e=>`
+        <div class="surface rounded-lg p-2 mb-1 border-l-2 border-red-500">
+          <div class="text-[9px] text-muted">${escapeHtml(e.testTitle||'')}</div>
+          <div class="text-xs font-bold">${escapeHtml((e.text||'').substring(0,80))}...</div>
+        </div>`).join('')}
+    </div>`;
+  }
+}
+
+// Auto-load overview when profile opens
+const _origLoadProfile = loadProfile;
+loadProfile = function(){
+  _origLoadProfile();
+  setTimeout(()=>{
+    renderOverview();
+    // Track today's activity
+    if(currentUserData){
+      const actKey='baaz_activity_'+(currentUserData.email);
+      const actData=JSON.parse(localStorage.getItem(actKey)||'{}');
+      const today=new Date().toISOString().split('T')[0];
+      actData[today]=true;
+      localStorage.setItem(actKey,JSON.stringify(actData));
+    }
+  },100);
+};
 </script>
   <!-- EXAM INSTRUCTIONS MODAL -->
 <div id="instructions-modal" class="modal-bg hidden">
