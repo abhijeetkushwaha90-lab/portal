@@ -2472,8 +2472,9 @@ function stopSessionWatcher() {
   clearTimeout(sessionWarningTimer);
 }
 async function syncAnnouncements() {
-  try {
-    const r = await fetch(APPS_SCRIPT_URL+"?action=get_announcements");    const d = await r.json();
+ try {
+    const res=await fetch(APPS_SCRIPT_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:"signup",name,phone,email,password,gender:suGenderSelected,targetExam:exam,targetYear:year,profileImage:suAvatarBase64,city,state})});
+    const d=await res.json();
     if(d.announcement) {
       document.getElementById('broadcast-text').innerText = d.announcement;
       document.getElementById('global-broadcast').classList.remove('hidden');
