@@ -2005,12 +2005,9 @@ async function doLogin() {
   }catch(e){err.innerText="Login error.";err.classList.remove('hidden');}
 }
 function loginSuccess(u) {
-  function loginSuccess(u) {
   currentUserData=u;
   fixOldHistoryDates();
-  currentUserData=u;
-  document.getElementById('auth-container').classList.add('hidden');
-  document.getElementById('app-container').classList.remove('hidden');
+  document.getElementById('auth-container').classList.add('hidden');  document.getElementById('app-container').classList.remove('hidden');
   document.getElementById('student-name').innerText=u.name;
   document.getElementById('wallet-balance-disp').innerText=u.walletBalance||0;
   document.getElementById('watermark-text').innerText=`${u.name} [${u.uid}]`;
