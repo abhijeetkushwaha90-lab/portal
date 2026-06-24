@@ -5258,7 +5258,6 @@ async function adminAddSSBContent() {
   }
   if(type === 'SRT') {
     payload.sit   = document.getElementById('ssb-srt-sit').value.trim();
-    payload.ideal = document.getElementById('ssb-srt-ideal').value.trim();
     if(!payload.sit) { status.innerText = '❌ Situation required.'; return; }
   }
   if(type === 'TAT') {
@@ -5314,7 +5313,7 @@ async function adminAddSSBContent() {
 
 function clearSSBAdminFields(type) {
   if(type==='WAT'){document.getElementById('ssb-wat-word').value='';document.getElementById('ssb-wat-tip').value='';}
-  if(type==='SRT'){document.getElementById('ssb-srt-sit').value='';document.getElementById('ssb-srt-ideal').value='';}
+  if(type==='SRT'){document.getElementById('ssb-srt-sit').value='';document.getElementById('ssb-srt-a').value='';document.getElementById('ssb-srt-b').value='';document.getElementById('ssb-srt-c').value='';document.getElementById('ssb-srt-d').value='';}
   if(type==='TAT'){document.getElementById('ssb-tat-url').value='';document.getElementById('ssb-tat-scene').value='';document.getElementById('ssb-tat-hint').value='';}
   if(type==='OIR'){document.getElementById('ssb-oir-q').value='';document.getElementById('ssb-oir-a').value='';document.getElementById('ssb-oir-b').value='';document.getElementById('ssb-oir-c').value='';document.getElementById('ssb-oir-d').value='';document.getElementById('ssb-oir-exp').value='';}
   if(type==='PI'){document.getElementById('ssb-pi-q').value='';document.getElementById('ssb-pi-tip').value='';}
