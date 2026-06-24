@@ -226,6 +226,18 @@ body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,
       </button>
       <p id="login-error" class="hidden text-xs text-center mt-1 font-bold" style="color:var(--danger2)"></p>
     </div>
+    <div id="forgot-section" class="hidden space-y-2 pt-2 border-t border-slate-700">
+  <p class="text-[10px] font-bold text-muted uppercase">Password Bhool Gaye?</p>
+  <input id="fp-email" type="email" placeholder="Registered Email" class="w-full input-field rounded-xl px-3 py-2.5 text-xs">
+  <input id="fp-phone" type="tel" placeholder="Registered Mobile Number" class="w-full input-field rounded-xl px-3 py-2.5 text-xs">
+  <button onclick="forgotPassword()" class="w-full btn-success font-bold py-2.5 rounded-xl text-xs cursor-pointer">
+    <i class="fab fa-whatsapp mr-1"></i> WhatsApp par Password Pao
+  </button>
+  <p id="fp-msg" class="hidden text-xs text-center font-bold"></p>
+</div>
+<button onclick="document.getElementById('forgot-section').classList.toggle('hidden')" class="w-full text-[10px] font-bold text-muted cursor-pointer mt-1 hover:text-accent">
+  🔑 Password bhool gaye?
+</button>
     <div id="form-signup" class="hidden space-y-3">
       <h2 class="text-lg font-black"><i class="fas fa-user-plus text-accent mr-1"></i>Create Profile</h2>
       <div class="flex items-center gap-3">
@@ -2922,6 +2934,41 @@ function setPaletteFilter(f){currentPaletteFilter=f;buildPaletteGrid();}
 /* ============================================================
    UTILITIES
    ============================================================ */
+  async function forgotPassword(){
+  const email=document.getElementById('fp-email').value.trim();
+  const phone=document.getElementById('fp-phone').value.trim();
+  const msg=document.getElementById('fp-msg');
+  msg.classList.add('hidden');
+  if(!email||!phone){
+    msg.innerText='Email aur Mobile dono zaroori hain.';
+    msg.style.color='var(--danger2)';
+    msg.classList.remove('hidden');
+    return;
+  }
+  try{
+    const res=await fetch(APPS_SCRIPT_URL,{method:"POST",
+      headers:{"Content-Type":"text/plain;charset=utf-8"},
+      body:JSON.stringify({action:"forgot_password",email,phone})
+    });
+    const d=await res.json();
+    if(d.status==="success"){
+      const waMsg=`Namaste! Mera Operation Baaz password yeh hai: ${d.password} — Email: ${email}`;
+      const waUrl=`https://api.whatsapp.com/send?phone=91${phone.replace(/\D/g,'')}&text=${encodeURIComponent(waMsg)}`;
+      window.open(waUrl,'_blank');
+      msg.innerText='✅ WhatsApp khul raha hai — apna password dekho!';
+      msg.style.color='var(--success2)';
+      msg.classList.remove('hidden');
+    }else{
+      msg.innerText='❌ '+d.message;
+      msg.style.color='var(--danger2)';
+      msg.classList.remove('hidden');
+    }
+  }catch(e){
+    msg.innerText='Server error. Baad mein try karein.';
+    msg.style.color='var(--danger2)';
+    msg.classList.remove('hidden');
+  }
+}
 function escapeHtml(s){return String(s||"").replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 function escapeAttr(s){return escapeHtml(s);}
   // ============================================================
