@@ -835,6 +835,26 @@ ANSWER KEY:
             <option value="TRUE">👑 VIP Premium</option>
           </select>
         </div>
+        <select id="admin-test-duration" class="input-field rounded-xl px-3 py-2 text-xs cursor-pointer">
+  <option value="9000">NDA — 150 min</option>
+  <option value="7200">CDS — 120 min</option>
+  <option value="7200">AFCAT — 120 min</option>
+  <option value="3600">Air Force X — 60 min</option>
+  <option value="2700">Air Force Y — 45 min</option>
+  <option value="1800">Navy MR/AA — 30 min</option>
+  <option value="3600">Army GD Agniveer — 60 min</option>
+  <option value="3600">SSC GD — 60 min</option>
+  <option value="3600">SSC CGL Tier 1 — 60 min</option>
+  <option value="7200">SSC CGL Tier 2 — 120 min</option>
+  <option value="3600">SSC CHSL — 60 min</option>
+  <option value="7200">SSC CPO — 120 min</option>
+  <option value="7200">UP Police Constable — 120 min</option>
+  <option value="7200">UP Police SI — 120 min</option>
+  <option value="7200">UPSSSC PET — 120 min</option>
+  <option value="7200">Bihar Police — 120 min</option>
+  <option value="7200">CRPF/BSF/CISF — 120 min</option>
+  <option value="2700">General/Mixed — 45 min</option>
+</select>
         <input id="admin-test-desc" placeholder="Test description for students..." class="w-full input-field rounded-xl px-3 py-2 text-xs">
         <textarea id="local-ai-text" rows="10" placeholder="Questions + Answer Key yahan paste karein..." class="w-full input-field rounded-xl p-3 text-xs font-mono outline-none resize-y"></textarea>
         
@@ -2815,7 +2835,7 @@ function toggleAccordion(id){
 }
 
 function viewLockedResultByIdx(i){const t=cachedTests[i];if(t)buyPremiumTest(t.title);}
-function launchExamEngineByIdx(i){const t=cachedTests[i];if(t)launchExamEngine(t.title);}
+function launchExamEngineByIdx(i){const t=cachedTests[i];if(t)showInstructionsModal(t.title);}
 
 function loadAdminTestsList(){
   const c=document.getElementById('admin-tests-list');if(!c)return;
@@ -2850,8 +2870,17 @@ currentTestQuestions=(test.parsedQuestions||[]).map(q=>({
 }));
   totalQuestionsCount=currentTestQuestions.length;
   if(!totalQuestionsCount){alert("Is test mein koi question nahi.");return;}
-  studentResponses={};flaggedQuestions={};visitedQuestions={};
-  currentIndex=1;qTimeLeft=2700;testRunningMode=true;tabViolationsCount=0;
+  const saved=loadAutoSave(title);
+  if(saved&&confirm("⚡ Pichla session mila! Wahan se continue karein?")){
+    studentResponses=saved.responses||{};
+    flaggedQuestions=saved.flagged||{};
+    qTimeLeft=saved.timeLeft||activeTest.duration||2700;
+    currentIndex=saved.currentIndex||1;
+  }else{
+    studentResponses={};flaggedQuestions={};qTimeLeft=activeTest.duration||2700;currentIndex=1;
+    clearAutoSave(title);
+  }
+  visitedQuestions={};testRunningMode=true;tabViolationsCount=0;
   document.getElementById('disp-total-count').innerText=totalQuestionsCount;
   document.getElementById('app-container').classList.add('hidden');
   hideBottomNav();
@@ -2917,8 +2946,40 @@ function loadQuestionNode(n){
   },1000);
 }
 
-function selectAnswer(ans){studentResponses[currentIndex]=ans;loadQuestionNode(currentIndex);}
-function clearAnswer(){delete studentResponses[currentIndex];loadQuestionNode(currentIndex);}
+function selectAnswer(ans){
+  studentResponses[currentIndex]=ans;
+  autoSaveResponses();
+  loadQuestionNode(currentIndex);
+}
+
+function autoSaveResponses(){
+  if(!activeTest||!currentUserData)return;
+  const saveKey=`baaz_autosave_${currentUserData.email}_${activeTest.title}`;
+  localStorage.setItem(saveKey,JSON.stringify({
+    responses:studentResponses,
+    flagged:flaggedQuestions,
+    currentIndex:currentIndex,
+    timeLeft:qTimeLeft,
+    savedAt:Date.now()
+  }));
+}
+
+function loadAutoSave(title){
+  if(!currentUserData)return null;
+  const saveKey=`baaz_autosave_${currentUserData.email}_${title}`;
+  try{
+    const saved=localStorage.getItem(saveKey);
+    if(!saved)return null;
+    const data=JSON.parse(saved);
+    if(Date.now()-(data.savedAt||0)>86400000){localStorage.removeItem(saveKey);return null;}
+    return data;
+  }catch(e){return null;}
+}
+
+function clearAutoSave(title){
+  if(!currentUserData||!title)return;
+  localStorage.removeItem(`baaz_autosave_${currentUserData.email}_${title}`);
+}function clearAnswer(){delete studentResponses[currentIndex];loadQuestionNode(currentIndex);}
 function prevQuestion(){if(currentIndex>1)loadQuestionNode(currentIndex-1);}
 function nextQuestion(){if(currentIndex<totalQuestionsCount)loadQuestionNode(currentIndex+1);}
 function toggleFlagQuestion(){flaggedQuestions[currentIndex]=!flaggedQuestions[currentIndex];syncPaletteStatusNode(currentIndex);}
@@ -2934,7 +2995,7 @@ function showSubmitProgress(){
 }
 
 async function calculateFinalResults(){
-  testRunningMode=false;clearInterval(singleQTimer);
+  testRunningMode=false;clearInterval(singleQTimer);   clearAutoSave(activeTest?.title);
   document.removeEventListener('visibilitychange',handleBlurEvent);
   window.removeEventListener('blur',handleWindowBlur);
   try{document.exitFullscreen();}catch(e){}
@@ -3038,6 +3099,7 @@ async function setTestByAdmin(){
   const rawTitle=document.getElementById('admin-test-title').value.trim();
   const testType=document.getElementById('admin-test-type').value||'MOCK';
   const desc=document.getElementById('admin-test-desc').value.trim()||"Test paper.";
+  const duration=parseInt(document.getElementById('admin-test-duration').value)||2700;
   const posM=document.getElementById('admin-pos-marks').value.trim()||3;
   const negM=document.getElementById('admin-neg-marks').value.trim()||1;
   const premium=document.getElementById('admin-is-premium').value==="TRUE";
@@ -3053,7 +3115,7 @@ async function setTestByAdmin(){
   const taggedTitle=encodeTestTitle(rawTitle,testType);
   status.innerText="Deploying...";
   try{
-    const res=await fetch(APPS_SCRIPT_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:"publish_test",exam,subject,title:taggedTitle,description:desc,positiveMarks:posM,negativeMarks:negM,isPremium:premium,rawText})});
+    const res=await fetch(APPS_SCRIPT_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:"publish_test",exam,subject,title:taggedTitle,description:desc,positiveMarks:posM,negativeMarks:negM,isPremium:premium,rawText,duration})});
     const d=await res.json();
     status.innerText=`✅ Deployed! ${d.questionCount||preview.length} questions. [${testType}] under ${exam}.`;
     status.style.color='var(--success2)';
@@ -3305,6 +3367,95 @@ function handleNoteAudio(e){
   if(!file)return;
   document.getElementById('note-audio-name').innerText=file.name;
 }
+  // ============================================================
+// FEATURE 1: EXAM INSTRUCTIONS PAGE
+// ============================================================
+let pendingLaunchTitle = null;
+
+function showInstructionsModal(title) {
+  const test = cachedTests.find(x => x.title === title);
+  if (!test) return;
+  pendingLaunchTitle = title;
+  document.getElementById('instr-test-title').innerText = test.displayTitle || title;
+  document.getElementById('instr-q-count').innerText = test.parsedQuestions?.length || '?';
+  document.getElementById('instr-pos-marks').innerText = '+' + (test.positiveMarks || 3);
+  document.getElementById('instr-neg-marks').innerText = '-' + (test.negativeMarks || 1);
+  const mins = Math.round((test.duration || 2700) / 60);
+  document.getElementById('instr-time').innerText = mins + ' minutes';
+  document.getElementById('instructions-modal').classList.remove('hidden');
+}
+
+function closeInstructionsModal() {
+  document.getElementById('instructions-modal').classList.add('hidden');
+  pendingLaunchTitle = null;
+}
+
+function startTestFromInstructions() {
+  document.getElementById('instructions-modal').classList.add('hidden');
+  if (pendingLaunchTitle) launchExamEngine(pendingLaunchTitle);
+}
 </script>
+  <!-- EXAM INSTRUCTIONS MODAL -->
+<div id="instructions-modal" class="modal-bg hidden">
+  <div class="instructions-modal">
+    <div class="flex items-center gap-3 mb-4">
+      <div style="width:40px;height:40px;background:linear-gradient(135deg,#d4891a,#a83220);border-radius:12px;display:flex;align-items:center;justify-content:center;">
+        <i class="fas fa-shield-halved text-white"></i>
+      </div>
+      <div>
+        <h2 class="font-black text-base text-accent" id="instr-test-title">Test Title</h2>
+        <p class="text-[10px] text-muted font-bold uppercase">Exam Instructions — Dhyan se padho</p>
+      </div>
+    </div>
+    <div class="grid grid-cols-3 gap-2 mb-4">
+      <div class="surface rounded-xl p-3 text-center">
+        <div class="font-black text-lg text-accent" id="instr-q-count">—</div>
+        <div class="text-[9px] text-muted font-bold uppercase">Questions</div>
+      </div>
+      <div class="surface rounded-xl p-3 text-center">
+        <div class="font-black text-lg text-emerald-400" id="instr-pos-marks">+3</div>
+        <div class="text-[9px] text-muted font-bold uppercase">Per Correct</div>
+      </div>
+      <div class="surface rounded-xl p-3 text-center">
+        <div class="font-black text-lg text-rose-400" id="instr-neg-marks">-1</div>
+        <div class="text-[9px] text-muted font-bold uppercase">Per Wrong</div>
+      </div>
+    </div>
+    <div class="space-y-2 mb-5">
+      <div class="instr-rule">
+        <div class="instr-icon" style="background:rgba(245,158,11,0.15);">⏱️</div>
+        <div><div class="font-bold text-xs">Time Limit</div><div class="text-[11px] text-muted mt-0.5">Poore test ke liye <span id="instr-time" class="text-accent font-bold">45 minutes</span> milenge.</div></div>
+      </div>
+      <div class="instr-rule">
+        <div class="instr-icon" style="background:rgba(16,185,129,0.15);">📝</div>
+        <div><div class="font-bold text-xs">Negative Marking</div><div class="text-[11px] text-muted mt-0.5">Galat jawab par marks katenge. Unsure ho to skip karo.</div></div>
+      </div>
+      <div class="instr-rule">
+        <div class="instr-icon" style="background:rgba(124,58,237,0.15);">🚩</div>
+        <div><div class="font-bold text-xs">Flag & Revisit</div><div class="text-[11px] text-muted mt-0.5">Koi sawaal chodna ho to Flag karo — baad mein wapas aa sakte ho.</div></div>
+      </div>
+      <div class="instr-rule">
+        <div class="instr-icon" style="background:rgba(244,63,94,0.15);">🚫</div>
+        <div><div class="font-bold text-xs">Tab Switch Warning</div><div class="text-[11px] text-muted mt-0.5">Tab switch par warning milegi. <strong>3 warnings = Auto Submit.</strong></div></div>
+      </div>
+      <div class="instr-rule">
+        <div class="instr-icon" style="background:rgba(37,99,235,0.15);">💾</div>
+        <div><div class="font-bold text-xs">Auto-Save ON</div><div class="text-[11px] text-muted mt-0.5">Tumhare jawab automatically save hote rehte hain.</div></div>
+      </div>
+    </div>
+    <div class="disclaimer-box mb-4">
+      <i class="fas fa-circle-info mr-1"></i>
+      Ek baar "Start Test" dabane ke baad exam shuru ho jayega.
+    </div>
+    <div class="flex gap-3">
+      <button onclick="closeInstructionsModal()" class="flex-1 btn-neutral font-bold py-3 rounded-xl text-sm cursor-pointer">
+        <i class="fas fa-arrow-left mr-1"></i> Wapas Jao
+      </button>
+      <button onclick="startTestFromInstructions()" class="btn-success font-bold py-3 rounded-xl text-sm cursor-pointer" style="flex:2">
+        <i class="fas fa-play mr-1"></i> Start Test!
+      </button>
+    </div>
+  </div>
+</div>
 </body>
 </html>
