@@ -1168,11 +1168,20 @@ ANSWER KEY:
       <input id="ssb-wat-tip" placeholder="Tip / Example sentence" class="w-full input-field rounded-xl px-3 py-2 text-xs">
     </div>
 
-    <!-- SRT FIELDS -->
-    <div id="ssb-fields-SRT" class="hidden space-y-2">
-      <textarea id="ssb-srt-sit" rows="3" placeholder="Situation description..." class="w-full input-field rounded-xl px-3 py-2 text-xs outline-none resize-none"></textarea>
-      <input id="ssb-srt-ideal" placeholder="Ideal response..." class="w-full input-field rounded-xl px-3 py-2 text-xs">
-    </div>
+   <!-- SRT FIELDS -->
+<div id="ssb-fields-SRT" class="hidden space-y-2">
+  <textarea id="ssb-srt-sit" rows="3" placeholder="Situation description..." class="w-full input-field rounded-xl px-3 py-2 text-xs outline-none resize-none"></textarea>
+  <input id="ssb-srt-a" placeholder="Option A" class="w-full input-field rounded-xl px-3 py-2 text-xs">
+  <input id="ssb-srt-b" placeholder="Option B" class="w-full input-field rounded-xl px-3 py-2 text-xs">
+  <input id="ssb-srt-c" placeholder="Option C" class="w-full input-field rounded-xl px-3 py-2 text-xs">
+  <input id="ssb-srt-d" placeholder="Option D" class="w-full input-field rounded-xl px-3 py-2 text-xs">
+  <select id="ssb-srt-correct" class="w-full input-field rounded-xl px-3 py-2 text-xs cursor-pointer">
+    <option value="A">✅ Correct Answer: A</option>
+    <option value="B">✅ Correct Answer: B</option>
+    <option value="C">✅ Correct Answer: C</option>
+    <option value="D">✅ Correct Answer: D</option>
+  </select>
+</div>
 
     <!-- TAT FIELDS -->
     <div id="ssb-fields-TAT" class="hidden space-y-2">
@@ -1739,14 +1748,10 @@ ANSWER KEY:
       </div>
       <p id="srt-situation-text" class="font-bold text-sm leading-relaxed"></p>
     </div>
-    <!-- Answer Box -->
+    <!-- MCQ Options -->
     <div class="mb-3">
-      <div class="text-[10px] font-black text-muted uppercase mb-2">Aapka Response:</div>
-      <textarea id="srt-answer-box" rows="3"
-        placeholder="Aap kya karenge? Short mein likhein..."
-        class="w-full input-field rounded-xl p-3 text-sm outline-none resize-none"
-        style="border:1px solid rgba(59,130,246,0.3)"
-        oninput="saveSRTAnswer()"></textarea>
+      <div class="text-[10px] font-black text-muted uppercase mb-2">Aapka Jawab Chunein:</div>
+      <div id="srt-options-container"></div>
     </div>
     <!-- Show Ideal -->
     <button onclick="toggleSRTIdealNew()"
@@ -2994,6 +2999,17 @@ function initSSBContent(){
     }
     if(data && data.srt && data.srt.length > 0) {
       SRT_60.length = 0;
+      data.srt.forEach((s,i) => SRT_60.push({
+        id: i+1,
+        sit: s.sit,
+        optA: s.optA || '',
+        optB: s.optB || '',
+        optC: s.optC || '',
+        optD: s.optD || '',
+        correct: s.correct || 'A'
+      }));
+    }0) {
+      SRT_60.length = 0;
       data.srt.forEach((s,i) => SRT_60.push({ id:i+1, sit:s.sit, ideal:s.ideal }));
     }
     if(data && data.tat && data.tat.length > 0) {
@@ -3106,13 +3122,29 @@ function renderSRTCard(){
   document.getElementById('srt-q-num').innerText = s.id;
   document.getElementById('srt-current-no').innerText = s.id;
   document.getElementById('srt-situation-text').innerText = s.sit;
-  document.getElementById('srt-answer-box').value = srtAnswers[s.id] || '';
   document.getElementById('srt-ideal-box').classList.add('hidden');
-  document.getElementById('srt-ideal-btn').innerHTML = 
-    '<i class="fas fa-eye mr-1"></i>Ideal Response Dekho';
+  document.getElementById('srt-ideal-btn').innerHTML =
+    '<i class="fas fa-eye mr-1"></i>Correct Answer Dekho';
+
+  // MCQ Options render
+  const optContainer = document.getElementById('srt-options-container');
+  if(optContainer && s.optA) {
+    const selected = srtAnswers[s.id];
+    optContainer.innerHTML = ['A','B','C','D'].map(l => {
+      const txt = s['opt'+l] || '';
+      const isSelected = selected === l;
+      return `<button onclick="selectSRTOption('${l}')"
+        class="w-full text-left p-3 rounded-xl text-sm font-semibold cursor-pointer transition mb-2"
+        style="background:${isSelected?'var(--success)':'var(--bg)'};
+        border:1px solid ${isSelected?'var(--success2)':'var(--border)'};
+        color:${isSelected?'#fff':'var(--text)'}"
+        id="srt-opt-${l}">
+        <span class="font-black mr-2">${l}.</span>${txt}
+      </button>`;
+    }).join('');
+  }
   updateSRTProgress();
 }
-
 function srtNext(){
   saveSRTAnswer();
   if(srtCurrentIdx < SRT_60.length - 1){
@@ -3134,21 +3166,30 @@ function srtPrev(){
 function saveSRTAnswer(){
   const s = SRT_60[srtCurrentIdx];
   if(!s) return;
-  srtAnswers[s.id] = document.getElementById('srt-answer-box').value;
   updateSRTProgress();
   buildSRTMiniGrid();
 }
 
+function selectSRTOption(letter){
+  const s = SRT_60[srtCurrentIdx];
+  if(!s) return;
+  srtAnswers[s.id] = letter;
+  renderSRTCard();
+  buildSRTMiniGrid();
+  updateSRTProgress();
+}
 function toggleSRTIdealNew(){
   const box = document.getElementById('srt-ideal-box');
   const btn = document.getElementById('srt-ideal-btn');
   const s = SRT_60[srtCurrentIdx];
   box.classList.toggle('hidden');
   if(!box.classList.contains('hidden')){
-    box.innerText = '✅ Ideal: ' + s.ideal;
+    const correct = s.correct || 'A';
+    const correctText = s['opt'+correct] || '';
+    box.innerHTML = `✅ Correct Answer: <b>${correct}</b> — ${correctText}`;
     btn.innerHTML = '<i class="fas fa-eye-slash mr-1"></i>Chhupao';
   } else {
-    btn.innerHTML = '<i class="fas fa-eye mr-1"></i>Ideal Response Dekho';
+    btn.innerHTML = '<i class="fas fa-eye mr-1"></i>Correct Answer Dekho';
   }
 }
 
