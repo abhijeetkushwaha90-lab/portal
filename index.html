@@ -2,6 +2,12 @@
 <html lang="hi" data-theme="military">
 <head>
 <meta charset="UTF-8">
+  <meta name="theme-color" content="#d4891a">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Operation Baaz">
+<link rel="manifest" href="manifest.json">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Operation Baaz — Complete Learning Platform v14.0</title>
 <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
@@ -590,7 +596,7 @@ body{overflow-x:hidden;}
     </div>
     <div id="exam-view-categories">
       <p class="text-xs text-muted mb-3">Apni category chuno, fir Mock Test ya Previous Year Papers (PYQ) dekho.</p>
-      <div id="category-grid" class="grid grid-cols-3 md:grid-cols-4 gap-3"><div class="premium-card rounded-xl p-4 col-span-3"><div class="spinner"></div></div></div>
+      <div id="category-grid" class="grid grid-cols-3 md:grid-cols-4 gap-3">   <div class="skeleton-card"><div class="skeleton" style="height:60px;border-radius:12px;"></div></div>   <div class="skeleton-card"><div class="skeleton" style="height:60px;border-radius:12px;"></div></div>   <div class="skeleton-card"><div class="skeleton" style="height:60px;border-radius:12px;"></div></div>   <div class="skeleton-card"><div class="skeleton" style="height:60px;border-radius:12px;"></div></div> </div>
     </div>
     <div id="exam-view-list" class="hidden">
       <div class="flex items-center justify-between flex-wrap gap-2 mb-3">
@@ -924,7 +930,7 @@ body{overflow-x:hidden;}
       </select>
     </div>
     <div id="leaderboard-podium" class="grid grid-cols-3 gap-2 mb-4"></div>
-    <div class="premium-card rounded-2xl p-4"><div id="leaderboard-table"><div class="spinner my-4"></div></div></div>
+    <div class="premium-card rounded-2xl p-4"><div id="leaderboard-table">   <div class="skeleton-card"><div class="skeleton" style="height:14px;width:80%;margin-bottom:8px;"></div><div class="skeleton" style="height:12px;width:60%;"></div></div>   <div class="skeleton-card"><div class="skeleton" style="height:14px;width:75%;margin-bottom:8px;"></div><div class="skeleton" style="height:12px;width:55%;"></div></div>   <div class="skeleton-card"><div class="skeleton" style="height:14px;width:70%;margin-bottom:8px;"></div><div class="skeleton" style="height:12px;width:50%;"></div></div> </div></div>
   </div>
 
   <!-- COURSES -->
@@ -3600,12 +3606,30 @@ function youtubeEmbedUrl(url){
   const m=url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([A-Za-z0-9_-]{6,})/);
   return m?`https://www.youtube.com/embed/${m[1]}`:'';
 }
+  if(!url)return'';
+  const m=url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([A-Za-z0-9_-]{6,})/);
+  return m?`https://www.youtube.com/embed/${m[1]}`:'';
+}
 
 function renderNotes(notes){
   const c=document.getElementById('notes-list');if(!c)return;
   const bookmarks=JSON.parse(localStorage.getItem('baaz_bookmarks_'+(currentUserData?.email))||'[]');
   if(!notes.length){
     c.innerHTML='<div class="premium-card rounded-xl p-4 text-xs text-muted text-center col-span-2">Koi note nahi mila.</div>';
+    return;
+  }
+  c.innerHTML=notes.map((n,i)=>{
+  }
+  c.innerHTML=notes.map((n,i)=>{
+    const isBookmarked=bookmarks.includes(n.title);
+    const realIdx=allNotes.findIndex(x=>x.title===n.title);
+    return`<div class="premium-card rounded-xl p-4 space-y-2">
+      <div class="flex justify-between items-start">
+        <div class="flex-1">
+          <span class="text-[9px] font-bold text-muted uppercase">${escapeHtml(n.exam||'')} • ${escapeHtml(n.subject||'')}</span>
+          <h3 class="font-black text-sm text-accent mt-0.5">${escapeHtml(n.title)}</h3>
+        </div>
+        <div class="flex gap-2 items-center ml-2">
     return;
   }
   c.innerHTML=notes.map((n,i)=>{
@@ -3720,6 +3744,16 @@ function openNoteModal(i){
     rb.innerHTML=`<a href="${escapeAttr(note.resourceUrl.trim())}" target="_blank" rel="noopener" class="w-full block text-center btn-success font-bold py-2.5 rounded-xl text-xs"><i class="fas fa-file-pdf mr-1"></i>Open PDF / Resource</a><iframe src="https://docs.google.com/viewer?url=${encodeURIComponent(note.resourceUrl.trim())}&embedded=true" width="100%" height="400px" style="border:none;border-radius:12px;margin-top:8px;" class="hidden" id="pdf-frame-inline"></iframe><button onclick="document.getElementById('pdf-frame-inline').classList.toggle('hidden')" class="w-full mt-2 btn-neutral font-bold py-2 rounded-xl text-xs cursor-pointer"><i class="fas fa-eye mr-1"></i>Preview PDF in App</button>`;
     rb.classList.remove('hidden');
   }else{rb.innerHTML='';rb.classList.add('hidden');}
+  const audioEl=document.getElementById('note-modal-audio');
+if(audioEl)audioEl.remove();
+if(note.audioUrl&&note.audioUrl.trim()){
+  const ap=document.createElement('div');
+  ap.id='note-modal-audio';
+  ap.style.cssText='margin-bottom:12px;';
+  ap.innerHTML=`<div class="text-xs font-bold text-accent mb-1"><i class="fas fa-headphones mr-1"></i>Audio Note</div>
+    <audio controls style="width:100%;border-radius:10px;" src="${escapeAttr(note.audioUrl.trim())}"></audio>`;
+  document.getElementById('note-modal-content').insertAdjacentElement('beforebegin',ap);
+}
   document.getElementById('note-reader-modal').classList.remove('hidden');
   document.body.classList.add('notes-open');
 }
@@ -4739,6 +4773,10 @@ async function loadNotes(){
   const NOTES_CSV_URL = APPS_SCRIPT_URL + "?action=get_notes";
   
   try {
+    if(c) c.innerHTML=`
+  <div class="skeleton-card"><div class="skeleton" style="height:18px;width:60%;margin-bottom:8px;"></div><div class="skeleton" style="height:12px;width:90%;margin-bottom:6px;"></div><div class="skeleton" style="height:12px;width:75%;"></div></div>
+  <div class="skeleton-card"><div class="skeleton" style="height:18px;width:55%;margin-bottom:8px;"></div><div class="skeleton" style="height:12px;width:85%;margin-bottom:6px;"></div><div class="skeleton" style="height:12px;width:70%;"></div></div>
+  <div class="skeleton-card"><div class="skeleton" style="height:18px;width:65%;margin-bottom:8px;"></div><div class="skeleton" style="height:12px;width:80%;margin-bottom:6px;"></div><div class="skeleton" style="height:12px;width:60%;"></div></div>`;
     const res = await fetch(NOTES_CSV_URL);
     const textData = await res.text();
     const rows = parseCSV(textData);
@@ -4802,6 +4840,15 @@ function handleNoteAudio(e){
   const file=e.target.files[0];
   if(!file)return;
   document.getElementById('note-audio-name').innerText=file.name;
+  const url=URL.createObjectURL(file);
+  const existing=document.getElementById('audio-preview-player');
+  if(existing)existing.remove();
+  const player=document.createElement('audio');
+  player.id='audio-preview-player';
+  player.controls=true;
+  player.src=url;
+  player.style.cssText='width:100%;margin-top:8px;border-radius:10px;';
+  document.getElementById('note-audio-name').insertAdjacentElement('afterend',player);
 }
   // ============================================================
 // FEATURE 1: EXAM INSTRUCTIONS PAGE
@@ -5544,5 +5591,22 @@ async function loadDynamicSSBData() {
     </div>
   </div>
 </div>
+  <script>
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>{
+    navigator.serviceWorker.register('/sw.js').catch(()=>{});
+  });
+}
+let deferredPrompt=null;
+window.addEventListener('beforeinstallprompt',(e)=>{
+  e.preventDefault();deferredPrompt=e;
+  const btn=document.createElement('button');
+  btn.id='install-btn';
+  btn.className='btn-accent px-4 py-2 rounded-xl text-xs font-bold cursor-pointer';
+  btn.innerHTML='<i class="fas fa-download mr-1"></i>Install App';
+  btn.onclick=()=>{deferredPrompt.prompt();deferredPrompt=null;btn.remove();};
+  document.querySelector('footer')?.insertAdjacentElement('beforebegin',btn);
+});
+</script>
 </body>
 </html>
