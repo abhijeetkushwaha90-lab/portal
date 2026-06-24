@@ -3623,18 +3623,6 @@ function renderNotes(notes){
           <h3 class="font-black text-sm text-accent mt-0.5">${escapeHtml(n.title)}</h3>
         </div>
         <div class="flex gap-2 items-center ml-2">
-    return;
-  }
-  c.innerHTML=notes.map((n,i)=>{
-    const isBookmarked=bookmarks.includes(n.title);
-    const realIdx=allNotes.findIndex(x=>x.title===n.title);
-    return`<div class="premium-card rounded-xl p-4 space-y-2">
-      <div class="flex justify-between items-start">
-        <div class="flex-1">
-          <span class="text-[9px] font-bold text-muted uppercase">${escapeHtml(n.exam||'')} • ${escapeHtml(n.subject||'')}</span>
-          <h3 class="font-black text-sm text-accent mt-0.5">${escapeHtml(n.title)}</h3>
-        </div>
-        <div class="flex gap-2 items-center ml-2">
           <button onclick="toggleBookmark('${escapeAttr(n.title)}',event)"
             class="text-lg cursor-pointer transition"
             title="${isBookmarked?'Bookmark hatao':'Bookmark karo'}">
