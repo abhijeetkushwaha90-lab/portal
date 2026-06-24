@@ -3008,11 +3008,7 @@ function initSSBContent(){
         optD: s.optD || '',
         correct: s.correct || 'A'
       }));
-    }0) {
-      SRT_60.length = 0;
-      data.srt.forEach((s,i) => SRT_60.push({ id:i+1, sit:s.sit, ideal:s.ideal }));
-    }
-    if(data && data.tat && data.tat.length > 0) {
+    }    if(data && data.tat && data.tat.length > 0) {
       TAT_IMAGES.length = 0;
       data.tat.forEach((t,i) => TAT_IMAGES.push({ id:i+1, scene:t.scene, hint:t.hint, imageUrl:t.imageUrl }));
     }
