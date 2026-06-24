@@ -989,6 +989,9 @@ body{overflow-x:hidden;}
       <button onclick="switchAdminTab('support-admin')" class="admin-tab" data-atab="support-admin"><i class="fas fa-headset mr-1"></i>Support</button>
       <button onclick="switchAdminTab('announce')" class="admin-tab" data-atab="announce"><i class="fas fa-bullhorn mr-1"></i>Announce</button>
     </div>
+    <button onclick="switchAdminTab('ssb-admin')" class="admin-tab" data-atab="ssb-admin">
+  <i class="fas fa-brain mr-1"></i>SSB Questions
+</button>
 
     <div id="atab-exams" class="space-y-3">
       <div class="premium-card rounded-xl p-5 space-y-3" style="border:1px solid rgba(245,158,11,0.3)">
@@ -1131,6 +1134,66 @@ ANSWER KEY:
         <div id="admin-support-list" class="space-y-2 max-h-80 overflow-y-auto"></div>
       </div>
     </div>
+    <div id="atab-ssb-admin" class="hidden space-y-4">
+  <div class="premium-card rounded-xl p-5 space-y-3" style="border:1px solid rgba(59,130,246,0.3)">
+    <div class="font-bold text-blue-400 text-sm"><i class="fas fa-plus mr-1"></i>Add SRT MCQ Question (Bilingual)</div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+      <textarea id="adm-srt-q-en" rows="2" placeholder="Question (English) — While going on a scooter..." class="input-field rounded-xl p-3 text-xs outline-none resize-none"></textarea>
+      <textarea id="adm-srt-q-hi" rows="2" placeholder="Question (Hindi) — स्कूटर पर जाते समय..." class="input-field rounded-xl p-3 text-xs outline-none resize-none"></textarea>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+      <div>
+        <input id="adm-srt-a-en" placeholder="Option A (English)" class="w-full input-field rounded-xl px-3 py-2 text-xs mb-1">
+        <input id="adm-srt-a-hi" placeholder="Option A (Hindi)" class="w-full input-field rounded-xl px-3 py-2 text-xs">
+      </div>
+      <div>
+        <input id="adm-srt-b-en" placeholder="Option B (English)" class="w-full input-field rounded-xl px-3 py-2 text-xs mb-1">
+        <input id="adm-srt-b-hi" placeholder="Option B (Hindi)" class="w-full input-field rounded-xl px-3 py-2 text-xs">
+      </div>
+      <div>
+        <input id="adm-srt-c-en" placeholder="Option C (English)" class="w-full input-field rounded-xl px-3 py-2 text-xs mb-1">
+        <input id="adm-srt-c-hi" placeholder="Option C (Hindi)" class="w-full input-field rounded-xl px-3 py-2 text-xs">
+      </div>
+      <div>
+        <input id="adm-srt-d-en" placeholder="Option D (English)" class="w-full input-field rounded-xl px-3 py-2 text-xs mb-1">
+        <input id="adm-srt-d-hi" placeholder="Option D (Hindi)" class="w-full input-field rounded-xl px-3 py-2 text-xs">
+      </div>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
+      <select id="adm-srt-correct" class="input-field rounded-xl px-3 py-2 text-xs cursor-pointer">
+        <option value="a">Correct: A</option>
+        <option value="b">Correct: B</option>
+        <option value="c">Correct: C</option>
+        <option value="d">Correct: D</option>
+      </select>
+      <input id="adm-srt-img" placeholder="Image URL (optional)" class="input-field rounded-xl px-3 py-2 text-xs">
+      <input id="adm-srt-exp" placeholder="Explanation (why correct)" class="input-field rounded-xl px-3 py-2 text-xs">
+    </div>
+    <button onclick="adminAddSRTQuestion()" class="btn-success px-6 py-2 rounded-xl text-xs font-bold cursor-pointer">
+      <i class="fas fa-plus mr-1"></i>Add SRT Question
+    </button>
+  </div>
+
+  <!-- WAT Words -->
+  <div class="premium-card rounded-xl p-4 space-y-2" style="border:1px solid rgba(124,58,237,0.3)">
+    <div class="font-bold text-violet-400 text-xs uppercase">Add WAT Word</div>
+    <div class="flex gap-2">
+      <input id="adm-wat-word" placeholder="Word (e.g. COURAGE)" class="flex-1 input-field rounded-xl px-3 py-2 text-xs">
+      <input id="adm-wat-tip" placeholder="Tip / example" class="flex-1 input-field rounded-xl px-3 py-2 text-xs">
+      <button onclick="adminAddWATWord()" class="btn-success px-4 py-2 rounded-xl text-xs font-bold cursor-pointer">Add</button>
+    </div>
+    <div id="adm-wat-list" class="flex flex-wrap gap-1 max-h-32 overflow-y-auto"></div>
+  </div>
+
+  <!-- Deployed SRT list -->
+  <div class="premium-card rounded-xl p-4">
+    <div class="flex justify-between items-center mb-2">
+      <div class="font-bold text-xs text-accent">SRT Questions (<span id="adm-srt-count">0</span>)</div>
+      <button onclick="clearAllSRT()" class="btn-danger-outline px-3 py-1 rounded-xl text-xs cursor-pointer">Clear All</button>
+    </div>
+    <div id="adm-srt-list" class="space-y-1 max-h-64 overflow-y-auto"></div>
+  </div>
+</div>
 
     <div id="atab-announce" class="hidden">
       <div class="premium-card rounded-xl p-5 space-y-3">
@@ -1595,9 +1658,97 @@ ANSWER KEY:
     <div class="flex items-center justify-between flex-wrap gap-3">
       <div>
         <div class="text-[10px] font-black text-muted uppercase mb-1">SSB Psychologist Test</div>
-        <h2 class="text-lg font-black" style="color:#60a5fa">SRT — Situation Reaction Test</h2>
-        <p class="text-xs text-muted mt-1">60 situations • 30 minutes • Practical reaction likhein</p>
+        <h2 class="text-lg font-black" style="color:#60a5fa">SRT — Situation Reaction Test (MCQ)</h2>
+        <p class="text-xs text-muted mt-1">Bilingual format (English + Hindi) • Select best option</p>
       </div>
+      <div class="flex gap-2 flex-wrap">
+        <div class="surface rounded-xl px-4 py-2 text-center">
+          <div class="text-xl font-black" style="color:#60a5fa" id="srt-current-no">1</div>
+          <div class="text-[9px] text-muted font-bold uppercase">Q No.</div>
+        </div>
+        <div class="surface rounded-xl px-4 py-2 text-center">
+          <div class="text-xl font-black text-emerald-400" id="srt-done-no">0</div>
+          <div class="text-[9px] text-muted font-bold uppercase">Done</div>
+        </div>
+        <div class="surface rounded-xl px-4 py-2 text-center">
+          <div class="text-xl font-black text-amber-400" id="srt-score-disp">0</div>
+          <div class="text-[9px] text-muted font-bold uppercase">Correct</div>
+        </div>
+      </div>
+    </div>
+    <div class="flex gap-2 mt-3 flex-wrap">
+      <button onclick="startSRTTimer()" class="btn-success px-4 py-2 rounded-xl text-xs font-black cursor-pointer">
+        <i class="fas fa-play mr-1"></i>Start Timer (30 min)
+      </button>
+      <button onclick="resetSRT()" class="btn-danger-outline px-4 py-2 rounded-xl text-xs font-black cursor-pointer">
+        <i class="fas fa-redo mr-1"></i>Reset All
+      </button>
+    </div>
+  </div>
+
+  <!-- Question Card — MCQ Bilingual -->
+  <div id="srt-active-card" class="premium-card rounded-2xl p-5"
+    style="border:2px solid rgba(59,130,246,0.4);background:linear-gradient(135deg,rgba(59,130,246,0.06),transparent)">
+
+    <div class="flex items-center justify-between mb-3">
+      <span class="text-[10px] font-black uppercase px-3 py-1 rounded-full"
+        style="background:rgba(59,130,246,0.15);color:#60a5fa">
+        Situation <span id="srt-q-num">1</span> / <span id="srt-q-total">0</span>
+      </span>
+      <div class="flex gap-2">
+        <button onclick="srtPrev()" class="btn-neutral px-3 py-1.5 rounded-xl text-xs font-black cursor-pointer">
+          <i class="fas fa-arrow-left"></i>
+        </button>
+        <button onclick="srtNext()" class="btn-accent px-3 py-1.5 rounded-xl text-xs font-black cursor-pointer">
+          <i class="fas fa-arrow-right"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Scene Image (if any) -->
+    <div id="srt-scene-img-box" class="hidden mb-3">
+      <img id="srt-scene-img" src="" alt="Scene" class="rounded-xl w-full max-h-48 object-cover"
+        onerror="document.getElementById('srt-scene-img-box').classList.add('hidden')">
+    </div>
+
+    <!-- Situation Text -->
+    <div class="rounded-xl p-4 mb-4" style="background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.25)">
+      <div class="text-[10px] font-black uppercase mb-2" style="color:#60a5fa">
+        <i class="fas fa-bolt mr-1"></i>Situation
+      </div>
+      <p id="srt-situation-text" class="font-bold text-sm leading-relaxed"></p>
+      <p id="srt-situation-hi" class="text-xs text-muted mt-2 leading-relaxed"></p>
+    </div>
+
+    <!-- MCQ Options -->
+    <div class="text-[10px] font-black text-muted uppercase mb-2">Sabse sahi option chuniye:</div>
+    <div id="srt-mcq-options" class="grid grid-cols-1 gap-2 mb-3"></div>
+
+    <!-- Result feedback -->
+    <div id="srt-result-box" class="hidden rounded-xl p-3 text-xs font-bold mt-2"></div>
+
+    <!-- Show Ideal -->
+    <button onclick="toggleSRTIdealNew()" class="w-full py-2 rounded-xl text-xs font-black cursor-pointer mt-2"
+      id="srt-ideal-btn"
+      style="background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.3);color:var(--accent)">
+      <i class="fas fa-eye mr-1"></i>Ideal Response / Explanation Dekho
+    </button>
+    <div id="srt-ideal-box" class="hidden tip-box text-xs leading-relaxed mt-2"></div>
+  </div>
+
+  <!-- Progress -->
+  <div class="premium-card rounded-xl p-4">
+    <div class="flex justify-between text-xs font-bold mb-2">
+      <span class="text-muted">Progress</span>
+      <span class="text-accent" id="srt-progress-text">0 / 0 complete</span>
+    </div>
+    <div class="xp-bar-track">
+      <div id="srt-progress-fill" class="xp-bar-fill" style="width:0%"></div>
+    </div>
+    <div id="srt-mini-grid" class="grid mt-3" style="grid-template-columns:repeat(10,1fr);gap:4px"></div>
+  </div>
+
+</div>
       <div class="flex gap-2 flex-wrap">
         <div class="surface rounded-xl px-4 py-2 text-center">
           <div class="text-xl font-black" style="color:#60a5fa" id="srt-current-no">1</div>
@@ -2785,6 +2936,13 @@ function cycleQuickFact(){quickFactIndex=(quickFactIndex+1)%QUICK_FACTS.length;s
   /* ============================================================
    PHASE 7 — SSB COMPLETE MODULE DATA
    ============================================================ */
+  function loadAdminWATData() {
+  const adminWAT = JSON.parse(localStorage.getItem('baaz_wat_v2') || 'null');
+  if (adminWAT && adminWAT.length) {
+    WAT_WORDS.length = 0;
+    adminWAT.forEach(w => WAT_WORDS.push(w.word));
+  }
+}
 const WAT_WORDS_500 = [
   "LEADERSHIP","COURAGE","DISCIPLINE","TEAMWORK","LOYALTY","SACRIFICE","PATRIOTISM",
   "DETERMINATION","HONESTY","RESILIENCE","INITIATIVE","CONFIDENCE","INTEGRITY","ADVENTURE",
@@ -2828,70 +2986,30 @@ const WAT_TIPS_500 = {
   "DEFAULT":"Positive, action-oriented sentence likhein. Subject (I/He/She/They) + action + positive result. Example: 'He used this quality to serve his nation with pride.'"
 };
 
-const SRT_60 = [
-  {id:1,sit:"Aap train mein hain. Ek budhi aurat ko seat nahi mil rahi, coach full hai.",ideal:"Apni seat de do, khade rehkar safar karo."},
-  {id:2,sit:"Exam mein paas wala student copy karne ki koshish kar raha hai.",ideal:"Politely mana karo, answer sheet dhako, invigilator ko inform karo."},
-  {id:3,sit:"Raat ko neighbor ke ghar mein aag lagi hai.",ideal:"Fire brigade (101) call karo, logon ko jagao, bahar nikalne mein help karo."},
-  {id:4,sit:"Team member project mein contribute nahi kar raha, deadline kal hai.",ideal:"Meeting karo, workload baanto, motivate karo."},
-  {id:5,sit:"Road par accident hua, log sirf dekh rahe hain.",ideal:"Ambulance (108) call karo, first aid do, traffic control karo."},
-  {id:6,sit:"Close friend ne exam mein cheat kiya — tumhe pata chala.",ideal:"Pehle dost se seedha baat karo, samjhao. Nahi maana to authorities ko batao."},
-  {id:7,sit:"Trek mein group rasta bhatk gaya, andhera ho raha hai.",ideal:"Calm raho, high ground dhundo, stars se direction lo, help signal karo."},
-  {id:8,sit:"Boss galat kaam karne ka pressure de raha hai.",ideal:"Politely refuse karo, ethics cite karo, HR ko report karo agar continue hue."},
-  {id:9,sit:"Bus mein ek bachcha rota hua akela khada hai.",ideal:"Bachche ke paas jao, reassure karo, announcement karwao, police ko batao."},
-  {id:10,sit:"Team mein 2 members jhagad rahe hain, project ruka hai.",ideal:"Beech mein jao, dono ki baat suno, common goal remind karao."},
-  {id:11,sit:"Swimming pool ke paas bachcha paani mein gir gaya.",ideal:"Fauran paani mein kudo, bachche ko bachao, medical help bulao."},
-  {id:12,sit:"Market mein purse mila jisme ID cards aur cash hai.",ideal:"Nearest police station ya lost-and-found mein jama karao."},
-  {id:13,sit:"Group leader galat direction mein le ja raha hai.",ideal:"Respectfully disagree karo, evidence dikhao, group vote lo."},
-  {id:14,sit:"Interview mein aisa sawaal poocha jiska jawab nahi pata.",ideal:"Honestly bolo 'abhi pata nahi, lekin main pata kar sakta hoon', approach explain karo."},
-  {id:15,sit:"Dost ka accident hua, parents door hain.",ideal:"Ambulance bulao, parents ko call karo, hospital mein unka intezaar karo."},
-  {id:16,sit:"Aap officer ho. Ek jawan ki tabiyat thik nahi par woh duty par aana chahta hai.",ideal:"Use rest karne ko kaho, medical officer ke paas bhejo, duty cover karo."},
-  {id:17,sit:"Exam mein ek question ka answer pata hai par galat lagta hai.",ideal:"Jo best answer lagta hai woh likho, guess work se better hai knowledge-based answer."},
-  {id:18,sit:"Aapke unit mein ek naya recruit bahut nervous hai.",ideal:"Encourage karo, guide karo, confidence badhao, senior ki tarah support do."},
-  {id:19,sit:"Aap akele jungle mein bhatk gaye hain, phone ki battery low hai.",ideal:"Emergency number dial karo, jagah note karo, high ground par jao, signal do."},
-  {id:20,sit:"Flood mein ek gaon phansa hua hai, aap nearest officer ho.",ideal:"Relief team organize karo, evacuation plan banao, medical help bulao."},
-  {id:21,sit:"Aapki team ne mission half-way mein chhod diya, aap akele ho.",ideal:"Mission continue karo jitna possible ho, backup plan use karo, report karo."},
-  {id:22,sit:"Ek civil ne aap par galat ilzaam lagaya hai public mein.",ideal:"Calm raho, baat suno, facts clearly rakhho, legal process follow karo."},
-  {id:23,sit:"Aapko pata chala ki unit ka ek member classified info leak kar raha hai.",ideal:"Fauran commanding officer ko report karo, khud investigate mat karo."},
-  {id:24,sit:"Aapki post par enemy attack expected hai, backup 2 ghante door hai.",ideal:"Position defend karo, team brief karo, backup ko inform karo, positions strong karo."},
-  {id:25,sit:"Ek senior officer aapko unethical kaam karne ko bol raha hai.",ideal:"Politely refuse karo, apna stand clear karo, higher authority ko report karo."},
-  {id:26,sit:"Aap driving kar rahe ho, saamne accident ho gaya.",ideal:"Gaadi rokko, hazard lights jalao, 108 call karo, jab tak help aaye first aid do."},
-  {id:27,sit:"Class mein aapka presentation fail ho gaya, sab haas rahe hain.",ideal:"Calm raho, apni galti accept karo, kal aur better presentation ki tayari karo."},
-  {id:28,sit:"Aapka best friend drugs le raha hai, aapne pakda.",ideal:"Seedha baat karo, professional help ke baare mein batao, family ko inform karo."},
-  {id:29,sit:"College mein ragging ho rahi hai, aap witness ho.",ideal:"Turant authorities ko report karo, victim ko support karo, evidence preserve karo."},
-  {id:30,sit:"Aap night duty par ho, suspicious person unit ke bahar dikh raha hai.",ideal:"Protocol follow karo, alert karo, proper challenge do, senior ko inform karo."},
-  {id:31,sit:"Disaster relief mission mein resources kam pad rahe hain.",ideal:"Priority tay karo, available resources efficiently use karo, HQ se aur mangwao."},
-  {id:32,sit:"Ek wounded soldier ko hospital le jaana hai par vehicle nahi hai.",ideal:"Emergency vehicle arrange karo, local transport use karo, helicopter request karo."},
-  {id:33,sit:"Aapki team ka morale low hai, mission ka 3rd day hai.",ideal:"Team ko encourage karo, achievements highlight karo, short break do, food ensure karo."},
-  {id:34,sit:"Aap marathon mein ho, aadha rasta baaki hai par thakaan aa gayi.",ideal:"Pace slow karo, breathe karo, mental strength use karo, finish line pe focus karo."},
-  {id:35,sit:"Ek chhote bachche ko koi stranger le jaane ki koshish kar raha hai.",ideal:"Immediately intervene karo, bachche ko safe karo, police call karo, witnesses lo."},
-  {id:36,sit:"Aapka exam kal hai aur notes kho gaye hain.",ideal:"Classmates se notes maango, key topics revise karo, panic mat karo."},
-  {id:37,sit:"Border par tension hai, civilians area nahi chhod rahe.",ideal:"Calmly explain karo, evacuation routes dikhao, force avoid karo, superiors ko batao."},
-  {id:38,sit:"Helicopter crash hua, aap sole survivor ho jungle mein.",ideal:"Signal fire jalaao, paani dhundo, shelter banao, rescue ka wait karo."},
-  {id:39,sit:"Aapki unit mein food poisoning ho gayi, mission kal hai.",ideal:"Medical help bulao, affected logon ko rest do, mission delay ki request karo."},
-  {id:40,sit:"Aap mounted guard duty par ho, neend aa rahi hai.",ideal:"Stand karo, walk karo, pani piyo, duty ke waqt kisi ko bhi compromise mat karo."},
-  {id:41,sit:"Ek local leader aapko bribe dene ki koshish kar raha hai.",ideal:"Strictly refuse karo, warn karo, senior ko report karo, documented evidence rakho."},
-  {id:42,sit:"Aapke captain ki accident mein mrityu ho gayi, aap senior most ho.",ideal:"Calm raho, team sambhalo, HQ ko inform karo, mission continue karo ya abort decide."},
-  {id:43,sit:"Enemy ke haath ek important document lag sakta hai.",ideal:"Document destroy karo ya secure karo, HQ alert karo, position defend karo."},
-  {id:44,sit:"Aap peace mission par ho, local protest ho rahi hai.",ideal:"Provoke mat karo, neutral raho, leaders se baat karo, HQ ko situation batao."},
-  {id:45,sit:"Aapka radio kharab ho gaya, mission mein ho.",ideal:"Backup communication use karo, signal fire jalaao, rendezvous point pe jao."},
-  {id:46,sit:"Unit ka ek member chhoti galti par bahut zyada punish hua.",ideal:"Commanding officer se baat karo, proper channels use karo, grievance redressal lo."},
-  {id:47,sit:"Jungle mein poisonous snake ne bite kiya team member ko.",ideal:"Calm rakho, affected area ko immobilize karo, antivenom ke liye evacuate karo."},
-  {id:48,sit:"Ek politician aapko apne favour mein kaam karne ko bol raha hai.",ideal:"Strictly refuse karo, apna constitutional duty yaad karo, superior ko report karo."},
-  {id:49,sit:"Flood mein ek pul toot gaya, gaon isolated ho gaya.",ideal:"Alternate route dhundo, boat arrange karo, airstrike/helicopter request karo."},
-  {id:50,sit:"Aap sports competition mein ho, referee ne galat decision diya.",ideal:"Calmly protest karo proper channel se, accept decision, team ka morale banaye rakho."},
-  {id:51,sit:"Team mein communication gap ki wajah se mission fail hua.",ideal:"Post-mission review karo, communication protocol improve karo, lesson learn karo."},
-  {id:52,sit:"Ek reporter aapko sensitive information share karne ko bol raha hai.",ideal:"Strictly refuse karo, PRO ke paas refer karo, official channels follow karo."},
-  {id:53,sit:"Aapke unit mein ek jawan ne suicide ki koshish ki.",ideal:"Medical help bulao, use safe rakho, counseling arrange karo, CO ko inform karo."},
-  {id:54,sit:"Mission mein enemy ki position pata nahi, reconnaissance nahi ho paya.",ideal:"Available intel use karo, cautiously advance karo, HQ se guidance lo."},
-  {id:55,sit:"Aapki unit ne galti se civilian area mein fire kiya.",ideal:"Ceasefire karo, casualties assess karo, medical help do, HQ ko immediately report karo."},
-  {id:56,sit:"Ek jawan repeatedly orders follow nahi kar raha.",ideal:"Private mein baat karo, reason samjho, counseling do, agar na maane disciplinary action lo."},
-  {id:57,sit:"Aap ek aisi jagah post hue ho jahan bahut zyada corruption hai.",ideal:"Integrity maintain karo, report karo, anonymous complaint karo, khud involve mat ho."},
-  {id:58,sit:"Aapke paas 10 minute hain aur 3 important decisions lene hain.",ideal:"Prioritize karo, available info se best decision lo, team ko brief karo, execute karo."},
-  {id:59,sit:"Mission mein aap injured ho gaye, team depend karti hai aap par.",ideal:"Injury report karo, possible ho to continue karo, 2IC ko command do agar needed."},
-  {id:60,sit:"War memorial ceremony mein ek civilian ne disrespect ki.",ideal:"Calmly explain importance, involve authorities agar needed, public mein scene avoid karo."}
-];
+  let SRT_60 = [];
 
-const TAT_IMAGES = [
+function loadAdminSRTData() {
+  const adminSRT = JSON.parse(localStorage.getItem('baaz_srt_v2') || 'null');
+  if (adminSRT && adminSRT.length) {
+    SRT_60 = adminSRT.map((q, i) => ({
+      id: i + 1,
+      sit: q.qEn,
+      sitHi: q.qHi || '',
+      opts: q.opts || [],
+      correct: q.correct || '',
+      ideal: q.exp || '',
+      img: q.img || ''
+    }));
+  } else {
+    SRT_60 = [
+      {id:1,sit:"Aap train mein hain. Ek budhi aurat ko seat nahi mil rahi.",sitHi:"आप ट्रेन में हैं। एक बुजुर्ग महिला को सीट नहीं मिल रही।",opts:[{en:"Ignore her.",hi:"उसे नजरअंदाज करें।"},{en:"Give your seat to her.",hi:"उसे अपनी सीट दें।"},{en:"Ask others to adjust.",hi:"दूसरों को एडजस्ट करने को कहें।"},{en:"Complain to TC.",hi:"TC से शिकायत करें।"}],correct:"b",ideal:"Give your seat — shows empathy and respect.",img:""},
+      {id:2,sit:"Exam mein paas wala student copy karne ki koshish kar raha hai.",sitHi:"परीक्षा में पास वाला छात्र नकल करने की कोशिश कर रहा है।",opts:[{en:"Help him copy.",hi:"उसे नकल करने में मदद करें।"},{en:"Ignore it.",hi:"नजरअंदाज करें।"},{en:"Politely refuse and cover your sheet.",hi:"विनम्रता से मना करें और अपनी शीट ढकें।"},{en:"Shout at him.",hi:"उस पर चिल्लाएं।"}],correct:"c",ideal:"Politely refuse — integrity is non-negotiable.",img:""},
+      {id:3,sit:"Road par accident hua, log sirf dekh rahe hain.",sitHi:"सड़क पर दुर्घटना हुई, लोग सिर्फ देख रहे हैं।",opts:[{en:"Also watch from distance.",hi:"दूर से देखते रहें।"},{en:"Call ambulance and help.",hi:"एम्बुलेंस बुलाएं और मदद करें।"},{en:"Leave quickly.",hi:"जल्दी निकल जाएं।"},{en:"Wait for police.",hi:"पुलिस का इंतजार करें।"}],correct:"b",ideal:"Call ambulance (108) immediately — save life first.",img:""}
+    ];
+  }
+}
+  
+  const TAT_IMAGES = [
   {id:1,scene:"Ek akela insaan pahaad ki choti par khada hai, neeche ghati hai.",hint:"Achievement, loneliness, determination, challenge overcome."},
   {id:2,scene:"Ek jawan apne ghar se bidayi le raha hai, maa aankhon mein aansu liye khadi hai.",hint:"Duty vs family, sacrifice, patriotism, emotional strength."},
   {id:3,scene:"Do log ek barish mein bheeg rahe hain, ek chhata share kar rahe hain.",hint:"Friendship, sharing, helping others, compassion."},
@@ -3180,22 +3298,87 @@ let srtTimeLeft = 1800;
 let srtTimerRunning = false;
 
 function initSRTNew(){
+  loadAdminSRTData();
   srtCurrentIdx = 0;
+  srtAnswers = {};
   renderSRTCard();
   buildSRTMiniGrid();
 }
-
 function renderSRTCard(){
   const s = SRT_60[srtCurrentIdx];
-  if(!s) return;
+  if(!s){
+    document.getElementById('srt-active-card').innerHTML='<p class="text-xs text-muted text-center py-4">Koi question nahi. Admin panel se add karein.</p>';
+    return;
+  }
   document.getElementById('srt-q-num').innerText = s.id;
+  document.getElementById('srt-q-total').innerText = SRT_60.length;
   document.getElementById('srt-current-no').innerText = s.id;
   document.getElementById('srt-situation-text').innerText = s.sit;
-  document.getElementById('srt-answer-box').value = srtAnswers[s.id] || '';
+  document.getElementById('srt-situation-hi').innerText = s.sitHi || '';
+
+  // Image
+  const imgBox = document.getElementById('srt-scene-img-box');
+  const imgEl = document.getElementById('srt-scene-img');
+  if(s.img && s.img.trim()){
+    imgEl.src = s.img;
+    imgBox.classList.remove('hidden');
+  } else {
+    imgBox.classList.add('hidden');
+  }
+
+  // MCQ Options
+  const optContainer = document.getElementById('srt-mcq-options');
+  const answered = srtAnswers[s.id];
+  const labels = ['a','b','c','d'];
+  const labelText = ['(a)','(b)','(c)','(d)'];
+
+  if(s.opts && s.opts.length === 4){
+    optContainer.innerHTML = s.opts.map((o, i) => {
+      const letter = labels[i];
+      let bg = 'var(--bg)';
+      let border = 'var(--border)';
+      let color = 'var(--text)';
+      if(answered){
+        if(letter === s.correct){
+          bg='rgba(16,185,129,0.15)'; border='var(--success2)'; color='var(--success2)';
+        } else if(letter === answered && answered !== s.correct){
+          bg='rgba(244,63,94,0.12)'; border='var(--danger2)'; color='var(--danger2)';
+        }
+      }
+      return `<button onclick="answerSRT('${s.id}','${letter}')"
+        style="text-align:left;padding:10px 12px;border-radius:12px;border:1px solid ${border};background:${bg};color:${color};cursor:${answered?'default':'pointer'};transition:all .2s;"
+        ${answered?'disabled':''}>
+        <span style="font-weight:900;margin-right:6px;">${labelText[i]}</span>
+        <span style="font-size:12px;font-weight:700;">${escapeHtml(o.en||o)}</span>
+        ${o.hi ? `<div style="font-size:10px;margin-top:3px;opacity:.7;">${escapeHtml(o.hi)}</div>` : ''}
+      </button>`;
+    }).join('');
+  } else {
+    // Fallback: textarea for open-ended
+    optContainer.innerHTML = `<textarea id="srt-answer-box" rows="3"
+      placeholder="Aap kya karenge? Short mein likhein..."
+      class="w-full input-field rounded-xl p-3 text-sm outline-none resize-none"
+      style="border:1px solid rgba(59,130,246,0.3)"
+      oninput="saveSRTAnswer()">${srtAnswers[s.id]||''}</textarea>`;
+  }
+
+  // Result box
+  const resultBox = document.getElementById('srt-result-box');
+  if(answered && s.opts && s.opts.length === 4){
+    const correct = answered === s.correct;
+    resultBox.classList.remove('hidden');
+    resultBox.style.background = correct ? 'rgba(16,185,129,0.12)' : 'rgba(244,63,94,0.12)';
+    resultBox.style.border = correct ? '1px solid var(--success2)' : '1px solid var(--danger2)';
+    resultBox.style.color = correct ? 'var(--success2)' : 'var(--danger2)';
+    resultBox.innerText = correct ? '✅ Sahi jawab!' : '❌ Galat — Sahi option: (' + s.correct.toUpperCase() + ')';
+  } else {
+    resultBox.classList.add('hidden');
+  }
+
   document.getElementById('srt-ideal-box').classList.add('hidden');
-  document.getElementById('srt-ideal-btn').innerHTML = 
-    '<i class="fas fa-eye mr-1"></i>Ideal Response Dekho';
+  document.getElementById('srt-ideal-btn').innerHTML = '<i class="fas fa-eye mr-1"></i>Ideal Response / Explanation Dekho';
   updateSRTProgress();
+  buildSRTMiniGrid();
 }
 
 function srtNext(){
@@ -3235,6 +3418,18 @@ function toggleSRTIdealNew(){
   } else {
     btn.innerHTML = '<i class="fas fa-eye mr-1"></i>Ideal Response Dekho';
   }
+}
+  function answerSRT(qId, letter){
+  const s = SRT_60[srtCurrentIdx];
+  if(!s || srtAnswers[s.id]) return; // already answered
+  srtAnswers[s.id] = letter;
+  const scoreEl = document.getElementById('srt-score-disp');
+  if(scoreEl){
+    let sc = 0;
+    SRT_60.forEach(q => { if(srtAnswers[q.id] === q.correct) sc++; });
+    scoreEl.innerText = sc;
+  }
+  renderSRTCard();
 }
 
 function updateSRTProgress(){
@@ -4670,16 +4865,103 @@ function loadAnnouncementsHistory(){
   if(!anns.length){c.innerHTML='<p class="text-xs text-muted">No announcements.</p>';return;}
   c.innerHTML=anns.slice(0,5).map(a=>`<div class="surface rounded-lg p-2 text-xs"><div class="text-muted text-[9px]">${a.timestamp}</div><div class="font-bold">${escapeHtml(a.text)}</div></div>`).join('');
 }
+  function adminAddSRTQuestion(){
+  const qEn = document.getElementById('adm-srt-q-en').value.trim();
+  const qHi = document.getElementById('adm-srt-q-hi').value.trim();
+  const aEn = document.getElementById('adm-srt-a-en').value.trim();
+  const aHi = document.getElementById('adm-srt-a-hi').value.trim();
+  const bEn = document.getElementById('adm-srt-b-en').value.trim();
+  const bHi = document.getElementById('adm-srt-b-hi').value.trim();
+  const cEn = document.getElementById('adm-srt-c-en').value.trim();
+  const cHi = document.getElementById('adm-srt-c-hi').value.trim();
+  const dEn = document.getElementById('adm-srt-d-en').value.trim();
+  const dHi = document.getElementById('adm-srt-d-hi').value.trim();
+  const correct = document.getElementById('adm-srt-correct').value;
+  const img = document.getElementById('adm-srt-img').value.trim();
+  const exp = document.getElementById('adm-srt-exp').value.trim();
+  if(!qEn||!aEn||!bEn||!cEn||!dEn){alert('Question aur sabhi 4 options (English) required hain.');return;}
+  const existing = JSON.parse(localStorage.getItem('baaz_srt_v2')||'[]');
+  existing.push({
+    qEn, qHi,
+    opts:[{en:aEn,hi:aHi},{en:bEn,hi:bHi},{en:cEn,hi:cHi},{en:dEn,hi:dHi}],
+    correct, img, exp
+  });
+  localStorage.setItem('baaz_srt_v2', JSON.stringify(existing));
+  ['adm-srt-q-en','adm-srt-q-hi','adm-srt-a-en','adm-srt-a-hi','adm-srt-b-en','adm-srt-b-hi',
+   'adm-srt-c-en','adm-srt-c-hi','adm-srt-d-en','adm-srt-d-hi','adm-srt-img','adm-srt-exp']
+    .forEach(id=>{ const el=document.getElementById(id); if(el) el.value=''; });
+  refreshAdmSRTList();
+  alert('✅ SRT question added! Total: '+existing.length);
+}
+
+function adminAddWATWord(){
+  const word = (document.getElementById('adm-wat-word').value||'').trim().toUpperCase();
+  const tip = (document.getElementById('adm-wat-tip').value||'').trim();
+  if(!word){alert('Word required.');return;}
+  const existing = JSON.parse(localStorage.getItem('baaz_wat_v2')||'[]');
+  if(existing.find(w=>w.word===word)){alert('Word already exists.');return;}
+  existing.push({word,tip});
+  localStorage.setItem('baaz_wat_v2', JSON.stringify(existing));
+  document.getElementById('adm-wat-word').value='';
+  document.getElementById('adm-wat-tip').value='';
+  refreshAdmWATList();
+}
+
+function refreshAdmSRTList(){
+  const data = JSON.parse(localStorage.getItem('baaz_srt_v2')||'[]');
+  const c = document.getElementById('adm-srt-list');
+  const cnt = document.getElementById('adm-srt-count');
+  if(cnt) cnt.innerText = data.length;
+  if(!c) return;
+  c.innerHTML = data.map((q,i)=>`
+    <div class="surface rounded-lg p-2 flex justify-between items-center">
+      <span class="text-xs font-bold flex-1">${escapeHtml(q.qEn.substring(0,60))}... <span class="text-muted">(${q.correct.toUpperCase()})</span></span>
+      <button onclick="deleteSRTAdmin(${i})" class="btn-danger-outline px-2 py-1 rounded-lg text-[10px] cursor-pointer ml-2"><i class="fas fa-trash"></i></button>
+    </div>`).join('') || '<p class="text-xs text-muted">Koi question nahi abhi.</p>';
+}
+
+function refreshAdmWATList(){
+  const data = JSON.parse(localStorage.getItem('baaz_wat_v2')||'[]');
+  const c = document.getElementById('adm-wat-list');
+  if(!c) return;
+  c.innerHTML = data.map((w,i)=>`
+    <span style="display:inline-flex;align-items:center;gap:4px;background:var(--bg);border:0.5px solid var(--border);border-radius:999px;padding:3px 10px;font-size:10px;font-weight:800;">
+      ${escapeHtml(w.word)}
+      <button onclick="deleteWATAdmin(${i})" style="background:none;border:none;cursor:pointer;color:var(--danger2);font-size:10px;"><i class="fas fa-times"></i></button>
+    </span>`).join('');
+}
+
+function deleteSRTAdmin(i){
+  if(!confirm('Delete this question?'))return;
+  const data = JSON.parse(localStorage.getItem('baaz_srt_v2')||'[]');
+  data.splice(i,1);
+  localStorage.setItem('baaz_srt_v2', JSON.stringify(data));
+  refreshAdmSRTList();
+}
+
+function deleteWATAdmin(i){
+  const data = JSON.parse(localStorage.getItem('baaz_wat_v2')||'[]');
+  data.splice(i,1);
+  localStorage.setItem('baaz_wat_v2', JSON.stringify(data));
+  refreshAdmWATList();
+}
+
+function clearAllSRT(){
+  if(!confirm('Saare SRT questions delete karein?'))return;
+  localStorage.removeItem('baaz_srt_v2');
+  refreshAdmSRTList();
+}
 
 function switchAdminTab(tab){
   document.querySelectorAll('.admin-tab[data-atab]').forEach(b=>b.classList.toggle('active',b.dataset.atab===tab));
-  ['exams','bulk','notes','students','support-admin','announce'].forEach(t=>{
+  ['exams','bulk','notes','students','support-admin','announce','ssb-admin'].forEach(t=>{
     const el=document.getElementById(`atab-${t}`);if(el)el.classList.toggle('hidden',t!==tab);
   });
   if(tab==='students')loadStudentList();
   if(tab==='notes')loadAdminNotesList();
   if(tab==='support-admin')loadAdminSupport();
   if(tab==='announce')loadAnnouncementsHistory();
+  if(tab==='ssb-admin'){refreshAdmSRTList();refreshAdmWATList();}
 }
 
 function setPaletteFilter(f){currentPaletteFilter=f;buildPaletteGrid();}
