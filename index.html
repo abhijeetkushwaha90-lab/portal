@@ -3606,19 +3606,12 @@ function youtubeEmbedUrl(url){
   const m=url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([A-Za-z0-9_-]{6,})/);
   return m?`https://www.youtube.com/embed/${m[1]}`:'';
 }
-  if(!url)return'';
-  const m=url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([A-Za-z0-9_-]{6,})/);
-  return m?`https://www.youtube.com/embed/${m[1]}`:'';
-}
-
 function renderNotes(notes){
   const c=document.getElementById('notes-list');if(!c)return;
   const bookmarks=JSON.parse(localStorage.getItem('baaz_bookmarks_'+(currentUserData?.email))||'[]');
   if(!notes.length){
     c.innerHTML='<div class="premium-card rounded-xl p-4 text-xs text-muted text-center col-span-2">Koi note nahi mila.</div>';
     return;
-  }
-  c.innerHTML=notes.map((n,i)=>{
   }
   c.innerHTML=notes.map((n,i)=>{
     const isBookmarked=bookmarks.includes(n.title);
