@@ -2270,64 +2270,6 @@ function parseQuestionsLocal(rawText) {
 }
 if (current) {
 
-  const inlineOptionRegex =
-  /\[A\]\s*(.*?)\s*\[B\]\s*(.*?)\s*\[C\]\s*(.*?)\s*\[D\]\s*(.*)$/i;
-
-  const inlineMatch = current.text.match(inlineOptionRegex);
-
-  if (inlineMatch) {
-
-    current.text = current.text.replace(inlineOptionRegex, '').trim();
-
-    current.A = inlineMatch[1].trim();
-    current.B = inlineMatch[2].trim();
-    current.C = inlineMatch[3].trim();
-    current.D = inlineMatch[4].trim();
-  }
-}    if (qMatch) {
-      if (current) questions.push(current);
-      current = {
-        id: parseInt(qMatch[1]),
-        text: qMatch[2].trim(),
-        A: '', B: '', C: '', D: '',
-        correct: ''
-      };
-      continue;
-    }
-
-    if (!current) continue;
-
-    // Options — (A) or A) or A. formats
-    const optMatch = line.match(/^[\[(\s]?([A-D])[\])\s][.)]\s*(.+)/i);
-    if (optMatch) {
-      const letter = optMatch[1].toUpperCase();
-      current[letter] = optMatch[2].trim();
-      continue;
-    }
-
-    // Multi-line question text (append to last question text if no option started)
-    if (!current.A && !current.B && !current.C && !current.D) {
-      current.text += ' ' + line;
-    }
-  }
-
-  // Push last question
-  if (current) questions.push(current);
-
-  // Assign answers
-  questions.forEach(q => {
-    if (answerMap[q.id]) q.correct = answerMap[q.id];
-  });
-
-  // Remove duplicates by id (keep first occurrence)
-  const seen = new Set();
-  return questions.filter(q => {
-    if (seen.has(q.id)) return false;
-    seen.add(q.id);
-    return true;
-  });
-}
-
 function parseAnswerLine(line, answerMap) {
   // Format: "1-A | 2-B | 3-C" or "1-A, 2-B" or "1. A  2. B"
   const parts = line.split(/[|,;]+/);
