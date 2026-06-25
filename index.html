@@ -2267,49 +2267,6 @@ function parseQuestionsLocal(rawText) {
     seen.add(q.id);
     return true;
   });
-}        // Inline options check karo jab push karo
-        extractInlineOptions(current);
-        questions.push(current);
-      }
-      current = { id: parseInt(qMatch[1]), text: qMatch[2].trim(), A:'', B:'', C:'', D:'', correct:'' };
-      continue;
-    }
-    if (!current) continue;
-
-    // Standard option formats: (A) A) [A] A.
-    const optMatch = line.match(/^[\[(]?\s*([A-D])\s*[\].)]\s*(.+)/i);
-    if (optMatch) {
-      current[optMatch[1].toUpperCase()] = optMatch[2].trim();
-      continue;
-    }
-    // Multi-line question text
-    if (!current.A) current.text += ' ' + line;
-  }
-
-  if (current) {
-    extractInlineOptions(current);
-    questions.push(current);
-  }
-
-  questions.forEach(q => { if (answerMap[q.id]) q.correct = answerMap[q.id]; });
-
-  // Duplicates hatao
-  const seen = new Set();
-  return questions.filter(q => {
-    if (seen.has(q.id)) return false;
-    seen.add(q.id); return true;
-  });
-
-
-    // Detect ANSWER KEY section
-    if (/^ANSWER\s*KEY\s*[:]/i.test(line)) {
-      answerKeySection = true;
-      // Parse inline if format is "1-A | 2-B | ..."
-      const rest = line.replace(/^ANSWER\s*KEY\s*[:]/i, '').trim();
-      if (rest) parseAnswerLine(rest, answerMap);
-      continue;
-    }
-
     if (answerKeySection) {
       parseAnswerLine(line, answerMap);
       continue;
@@ -4535,13 +4492,7 @@ function viewLockedResult(title) {
   } else {
     alert("Result nahi mila. Shayad pehle yeh test attempt nahi kiya.");
   }
-}    document.getElementById('app-container').classList.add('hidden');
-    document.getElementById('result-screen').classList.remove('hidden');
-    activeTest=cachedTests.find(x=>x.title===title)||activeTest;
-    displayResultScreen(h[title]);
-  }
 }
-
 function displayResultScreen(d){
   document.getElementById('res-total').innerText=d.total||0;
   document.getElementById('res-right').innerText=d.right||0;
