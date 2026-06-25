@@ -2268,9 +2268,6 @@ function parseQuestionsLocal(rawText) {
     return true;
   });
 }
-    // Detect new question — STRICT: must be Q{number}. or Q{number})
-    const qMatch = line.match(/^Q\s*(\d+)\s*[.)]\s*(.+)/i);
-
 if (current) {
 
   const inlineOptionRegex =
