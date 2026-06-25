@@ -2267,11 +2267,7 @@ function parseQuestionsLocal(rawText) {
     seen.add(q.id);
     return true;
   });
-    if (answerKeySection) {
-      parseAnswerLine(line, answerMap);
-      continue;
-    }
-
+}
     // Detect new question — STRICT: must be Q{number}. or Q{number})
     const qMatch = line.match(/^Q\s*(\d+)\s*[.)]\s*(.+)/i);
 
