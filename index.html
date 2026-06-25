@@ -2269,7 +2269,7 @@ if (current) {
     if (!current) continue;
 
     // Options — (A) or A) or A. formats
-    const optMatch = line.match(/^[\[(\s]?([A-D])[\])\s][.)]\s*(.+)/i);
+    const optMatch = line.match(/^\s*\(([A-D])\)\s+(.+)/i);
     if (optMatch) {
       const letter = optMatch[1].toUpperCase();
       current[letter] = optMatch[2].trim();
