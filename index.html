@@ -11,7 +11,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Operation Baaz — Complete Learning Platform v14.0</title>
 <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
 html[data-theme="military"] {
   --bg:#0a0f18;--card:#131a26;--border:rgba(33,38,53,0.65);
@@ -2211,6 +2211,7 @@ function clearRateLimit(email) {
    ============================================================ */
 function parseQuestionsLocal(rawText) {
   if (!rawText || !rawText.trim()) return [];
+  
   const lines = rawText.split('\n');
   const questions = [];
   let current = null;
@@ -2221,8 +2222,10 @@ function parseQuestionsLocal(rawText) {
     const line = lines[i].trim();
     if (!line) continue;
 
+    // Detect ANSWER KEY section
     if (/^ANSWER\s*KEY\s*[:]/i.test(line)) {
       answerKeySection = true;
+      // Parse inline if format is "1-A | 2-B | ..."
       const rest = line.replace(/^ANSWER\s*KEY\s*[:]/i, '').trim();
       if (rest) parseAnswerLine(rest, answerMap);
       continue;
@@ -2233,34 +2236,61 @@ function parseQuestionsLocal(rawText) {
       continue;
     }
 
+    // Detect new question — STRICT: must be Q{number}. or Q{number})
     const qMatch = line.match(/^Q\s*(\d+)\s*[.)]\s*(.+)/i);
-    if (qMatch) {
+
+if (current) {
+
+  const inlineOptionRegex =
+  /\[A\]\s*(.*?)\s*\[B\]\s*(.*?)\s*\[C\]\s*(.*?)\s*\[D\]\s*(.*)$/i;
+
+  const inlineMatch = current.text.match(inlineOptionRegex);
+
+  if (inlineMatch) {
+
+    current.text = current.text.replace(inlineOptionRegex, '').trim();
+
+    current.A = inlineMatch[1].trim();
+    current.B = inlineMatch[2].trim();
+    current.C = inlineMatch[3].trim();
+    current.D = inlineMatch[4].trim();
+  }
+}    if (qMatch) {
       if (current) questions.push(current);
       current = {
         id: parseInt(qMatch[1]),
         text: qMatch[2].trim(),
-        A: '', B: '', C: '', D: '', correct: ''
+        A: '', B: '', C: '', D: '',
+        correct: ''
       };
       continue;
     }
 
     if (!current) continue;
 
-    const optMatch = line.match(/^[\[(]?\s*([A-D])\s*[\].)]\s*(.+)/i);
+    // Options — (A) or A) or A. formats
+    const optMatch = line.match(/^[\[(\s]?([A-D])[\])\s][.)]\s*(.+)/i);
     if (optMatch) {
-      current[optMatch[1].toUpperCase()] = optMatch[2].trim();
+      const letter = optMatch[1].toUpperCase();
+      current[letter] = optMatch[2].trim();
       continue;
     }
 
-    if (!current.A) current.text += ' ' + line;
+    // Multi-line question text (append to last question text if no option started)
+    if (!current.A && !current.B && !current.C && !current.D) {
+      current.text += ' ' + line;
+    }
   }
 
+  // Push last question
   if (current) questions.push(current);
 
+  // Assign answers
   questions.forEach(q => {
     if (answerMap[q.id]) q.correct = answerMap[q.id];
   });
 
+  // Remove duplicates by id (keep first occurrence)
   const seen = new Set();
   return questions.filter(q => {
     if (seen.has(q.id)) return false;
@@ -2268,7 +2298,6 @@ function parseQuestionsLocal(rawText) {
     return true;
   });
 }
-if (current) {
 
 function parseAnswerLine(line, answerMap) {
   // Format: "1-A | 2-B | 3-C" or "1-A, 2-B" or "1. A  2. B"
@@ -4059,38 +4088,8 @@ async function loadTests(){
   }catch(e){cachedTests=[];}
 }
 
-function getHistoryMap() {
-  if (!currentUserData) return {};
-  try {
-    const key = `baaz_hist_${currentUserData.email}`;
-    const raw = localStorage.getItem(key);
-    if (!raw) return {};
-    return JSON.parse(raw);
-  } catch(e) { return {}; }
-}
+function getHistoryMap(){return JSON.parse(localStorage.getItem(`baaz_hist_${currentUserData?.email}`)||'{}');}
 
-function saveHistoryMap(map) {
-  if (!currentUserData) return;
-  try {
-    const key = `baaz_hist_${currentUserData.email}`;
-    localStorage.setItem(key, JSON.stringify(map));
-    localStorage.setItem(key + '_backup', JSON.stringify(map));
-  } catch(e) {
-    console.error('History save failed', e);
-  }
-}
-
-function getResultByTitle(title) {
-  const hist = getHistoryMap();
-  if (hist[title]) return hist[title];
-  const keys = Object.keys(hist);
-  const cleanTitle = title.replace(/^\[\[(MOCK|PYQ)\]\]\s*/i, '').trim().toLowerCase();
-  const match = keys.find(k => {
-    const cleanK = k.replace(/^\[\[(MOCK|PYQ)\]\]\s*/i, '').trim().toLowerCase();
-    return cleanK === cleanTitle;
-  });
-  return match ? hist[match] : null;
-}
 function renderExamCategories(){
   examScreenState={view:'categories',category:null,type:'MOCK'};
   document.getElementById('exam-view-categories').classList.remove('hidden');
@@ -4405,11 +4404,8 @@ async function calculateFinalResults(){
     document.getElementById('result-screen').classList.remove('hidden');
     document.getElementById('review-matrix-container').innerHTML='<div class="spinner my-4"></div>';
     if(d.status==="success"){
-      const h = getHistoryMap();
-d.date = d.date || new Date().toISOString();
-const saveKey = activeTest.title;
-h[saveKey] = d;
-saveHistoryMap(h);      if(currentUserData){currentUserData.xp=d.totalXP??currentUserData.xp;currentUserData.level=d.level??currentUserData.level;currentUserData.streak=d.streak??currentUserData.streak;currentUserData.badges=d.badges??currentUserData.badges;localStorage.setItem('baaz_userdata',JSON.stringify(currentUserData));updateGamificationUI(currentUserData.xp||0,currentUserData.streak||0,currentUserData.badges||[]);}
+      const h=getHistoryMap();d.date=d.date||new Date().toISOString();h[activeTest.title]=d;localStorage.setItem(`baaz_hist_${currentUserData?.email}`,JSON.stringify(h));
+      if(currentUserData){currentUserData.xp=d.totalXP??currentUserData.xp;currentUserData.level=d.level??currentUserData.level;currentUserData.streak=d.streak??currentUserData.streak;currentUserData.badges=d.badges??currentUserData.badges;localStorage.setItem('baaz_userdata',JSON.stringify(currentUserData));updateGamificationUI(currentUserData.xp||0,currentUserData.streak||0,currentUserData.badges||[]);}
       checkDailyChallenge('tests',1);
       checkDailyChallenge('accuracy',d.accuracy||0);
       displayResultScreen(d);fireConfetti();
@@ -4417,17 +4413,16 @@ saveHistoryMap(h);      if(currentUserData){currentUserData.xp=d.totalXP??curren
   }catch(e){stopProgress();document.getElementById('result-screen').classList.remove('hidden');document.getElementById('review-matrix-container').innerText='Connection error.';}
 }
 
-function viewLockedResult(title) {
-  const result = getResultByTitle(title);
-  if (result) {
+function viewLockedResult(title){
+  const h=getHistoryMap();
+  if(h[title]){
     document.getElementById('app-container').classList.add('hidden');
     document.getElementById('result-screen').classList.remove('hidden');
-    activeTest = cachedTests.find(x => x.title === title) || activeTest;
-    displayResultScreen(result);
-  } else {
-    alert("Result nahi mila. Shayad pehle yeh test attempt nahi kiya.");
+    activeTest=cachedTests.find(x=>x.title===title)||activeTest;
+    displayResultScreen(h[title]);
   }
 }
+
 function displayResultScreen(d){
   document.getElementById('res-total').innerText=d.total||0;
   document.getElementById('res-right').innerText=d.right||0;
