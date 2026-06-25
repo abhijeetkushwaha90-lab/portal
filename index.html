@@ -2211,7 +2211,6 @@ function clearRateLimit(email) {
    ============================================================ */
 function parseQuestionsLocal(rawText) {
   if (!rawText || !rawText.trim()) return [];
-  
   const lines = rawText.split('\n');
   const questions = [];
   let current = null;
@@ -2221,6 +2220,86 @@ function parseQuestionsLocal(rawText) {
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i].trim();
     if (!line) continue;
+
+    if (/^ANSWER\s*KEY\s*[:]/i.test(line)) {
+      answerKeySection = true;
+      const rest = line.replace(/^ANSWER\s*KEY\s*[:]/i, '').trim();
+      if (rest) parseAnswerLine(rest, answerMap);
+      continue;
+    }
+
+    if (answerKeySection) {
+      parseAnswerLine(line, answerMap);
+      continue;
+    }
+
+    const qMatch = line.match(/^Q\s*(\d+)\s*[.)]\s*(.+)/i);
+    if (qMatch) {
+      if (current) questions.push(current);
+      current = {
+        id: parseInt(qMatch[1]),
+        text: qMatch[2].trim(),
+        A: '', B: '', C: '', D: '', correct: ''
+      };
+      continue;
+    }
+
+    if (!current) continue;
+
+    const optMatch = line.match(/^[\[(]?\s*([A-D])\s*[\].)]\s*(.+)/i);
+    if (optMatch) {
+      current[optMatch[1].toUpperCase()] = optMatch[2].trim();
+      continue;
+    }
+
+    if (!current.A) current.text += ' ' + line;
+  }
+
+  if (current) questions.push(current);
+
+  questions.forEach(q => {
+    if (answerMap[q.id]) q.correct = answerMap[q.id];
+  });
+
+  const seen = new Set();
+  return questions.filter(q => {
+    if (seen.has(q.id)) return false;
+    seen.add(q.id);
+    return true;
+  });
+}        // Inline options check karo jab push karo
+        extractInlineOptions(current);
+        questions.push(current);
+      }
+      current = { id: parseInt(qMatch[1]), text: qMatch[2].trim(), A:'', B:'', C:'', D:'', correct:'' };
+      continue;
+    }
+    if (!current) continue;
+
+    // Standard option formats: (A) A) [A] A.
+    const optMatch = line.match(/^[\[(]?\s*([A-D])\s*[\].)]\s*(.+)/i);
+    if (optMatch) {
+      current[optMatch[1].toUpperCase()] = optMatch[2].trim();
+      continue;
+    }
+    // Multi-line question text
+    if (!current.A) current.text += ' ' + line;
+  }
+
+  if (current) {
+    extractInlineOptions(current);
+    questions.push(current);
+  }
+
+  questions.forEach(q => { if (answerMap[q.id]) q.correct = answerMap[q.id]; });
+
+  // Duplicates hatao
+  const seen = new Set();
+  return questions.filter(q => {
+    if (seen.has(q.id)) return false;
+    seen.add(q.id); return true;
+  });
+
 
     // Detect ANSWER KEY section
     if (/^ANSWER\s*KEY\s*[:]/i.test(line)) {
@@ -4088,8 +4167,38 @@ async function loadTests(){
   }catch(e){cachedTests=[];}
 }
 
-function getHistoryMap(){return JSON.parse(localStorage.getItem(`baaz_hist_${currentUserData?.email}`)||'{}');}
+function getHistoryMap() {
+  if (!currentUserData) return {};
+  try {
+    const key = `baaz_hist_${currentUserData.email}`;
+    const raw = localStorage.getItem(key);
+    if (!raw) return {};
+    return JSON.parse(raw);
+  } catch(e) { return {}; }
+}
 
+function saveHistoryMap(map) {
+  if (!currentUserData) return;
+  try {
+    const key = `baaz_hist_${currentUserData.email}`;
+    localStorage.setItem(key, JSON.stringify(map));
+    localStorage.setItem(key + '_backup', JSON.stringify(map));
+  } catch(e) {
+    console.error('History save failed', e);
+  }
+}
+
+function getResultByTitle(title) {
+  const hist = getHistoryMap();
+  if (hist[title]) return hist[title];
+  const keys = Object.keys(hist);
+  const cleanTitle = title.replace(/^\[\[(MOCK|PYQ)\]\]\s*/i, '').trim().toLowerCase();
+  const match = keys.find(k => {
+    const cleanK = k.replace(/^\[\[(MOCK|PYQ)\]\]\s*/i, '').trim().toLowerCase();
+    return cleanK === cleanTitle;
+  });
+  return match ? hist[match] : null;
+}
 function renderExamCategories(){
   examScreenState={view:'categories',category:null,type:'MOCK'};
   document.getElementById('exam-view-categories').classList.remove('hidden');
@@ -4404,8 +4513,11 @@ async function calculateFinalResults(){
     document.getElementById('result-screen').classList.remove('hidden');
     document.getElementById('review-matrix-container').innerHTML='<div class="spinner my-4"></div>';
     if(d.status==="success"){
-      const h=getHistoryMap();d.date=d.date||new Date().toISOString();h[activeTest.title]=d;localStorage.setItem(`baaz_hist_${currentUserData?.email}`,JSON.stringify(h));
-      if(currentUserData){currentUserData.xp=d.totalXP??currentUserData.xp;currentUserData.level=d.level??currentUserData.level;currentUserData.streak=d.streak??currentUserData.streak;currentUserData.badges=d.badges??currentUserData.badges;localStorage.setItem('baaz_userdata',JSON.stringify(currentUserData));updateGamificationUI(currentUserData.xp||0,currentUserData.streak||0,currentUserData.badges||[]);}
+      const h = getHistoryMap();
+d.date = d.date || new Date().toISOString();
+const saveKey = activeTest.title;
+h[saveKey] = d;
+saveHistoryMap(h);      if(currentUserData){currentUserData.xp=d.totalXP??currentUserData.xp;currentUserData.level=d.level??currentUserData.level;currentUserData.streak=d.streak??currentUserData.streak;currentUserData.badges=d.badges??currentUserData.badges;localStorage.setItem('baaz_userdata',JSON.stringify(currentUserData));updateGamificationUI(currentUserData.xp||0,currentUserData.streak||0,currentUserData.badges||[]);}
       checkDailyChallenge('tests',1);
       checkDailyChallenge('accuracy',d.accuracy||0);
       displayResultScreen(d);fireConfetti();
@@ -4413,10 +4525,17 @@ async function calculateFinalResults(){
   }catch(e){stopProgress();document.getElementById('result-screen').classList.remove('hidden');document.getElementById('review-matrix-container').innerText='Connection error.';}
 }
 
-function viewLockedResult(title){
-  const h=getHistoryMap();
-  if(h[title]){
+function viewLockedResult(title) {
+  const result = getResultByTitle(title);
+  if (result) {
     document.getElementById('app-container').classList.add('hidden');
+    document.getElementById('result-screen').classList.remove('hidden');
+    activeTest = cachedTests.find(x => x.title === title) || activeTest;
+    displayResultScreen(result);
+  } else {
+    alert("Result nahi mila. Shayad pehle yeh test attempt nahi kiya.");
+  }
+}    document.getElementById('app-container').classList.add('hidden');
     document.getElementById('result-screen').classList.remove('hidden');
     activeTest=cachedTests.find(x=>x.title===title)||activeTest;
     displayResultScreen(h[title]);
