@@ -55,7 +55,12 @@ header .title{font-weight:900;font-size:14px;color:#fff;letter-spacing:.02em;fle
 header .sub{font-size:9px;color:rgba(255,255,255,0.6);font-weight:700;text-transform:uppercase;display:flex;align-items:center;gap:5px;margin-top:2px;}
 .live-dot{width:6px;height:6px;border-radius:50%;background:#10b981;box-shadow:0 0 6px #10b981;animation:pulse 1.6s infinite;}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-
+  <button id="search-toggle-btn" onclick="toggleSearch()" 
+  style="background:rgba(255,255,255,0.15);border:none;color:#fff;
+  width:32px;height:32px;border-radius:8px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;">
+  <i class="fas fa-search"></i>
+</button>
 #theme-btn{
   background:rgba(255,255,255,0.15);border:none;color:#fff;
   width:32px;height:32px;border-radius:8px;cursor:pointer;
@@ -182,7 +187,6 @@ header .sub{font-size:9px;color:rgba(255,255,255,0.6);font-weight:700;text-trans
   background:var(--bg);border:0.5px solid var(--border);color:var(--text-dim);
   cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;
 }
-#emoji-btn:hover{border-color:var(--accent);color:var(--accent);}
 
 #send-btn{
   width:40px;height:40px;border-radius:50%;flex-shrink:0;
@@ -308,6 +312,23 @@ header .sub{font-size:9px;color:rgba(255,255,255,0.6);font-weight:700;text-trans
   font-size:11px;font-weight:700;color:var(--accent);
   align-items:center;gap:8px;flex-shrink:0;
 }
+  #search-bar {
+  display:none;
+  padding:8px 12px;
+  border-bottom:0.5px solid var(--border);
+  background:var(--bg);
+  flex-shrink:0;
+}
+#search-input {
+  width:100%;background:var(--card);border:0.5px solid var(--border);
+  color:var(--text);border-radius:24px;padding:8px 16px;
+  font-size:12px;outline:none;
+}
+#search-input:focus{border-color:var(--accent);}
+.msg-hidden{display:none !important;}
+.msg-highlight .bubble{
+  border:1.5px solid var(--accent) !important;
+}
 #announce-bar i{font-size:12px;}
   #pin-bar {
   display:none;
@@ -319,6 +340,9 @@ header .sub{font-size:9px;color:rgba(255,255,255,0.6);font-weight:700;text-trans
   cursor:pointer;
 }
 #pin-bar i{font-size:12px;}
+  <div id="search-bar">
+  <input id="search-input" type="text" placeholder="🔍 Message search karein...">
+</div>
 </style>
 </head>
 <body>
@@ -331,13 +355,15 @@ header .sub{font-size:9px;color:rgba(255,255,255,0.6);font-weight:700;text-trans
       <div class="sub"><span class="live-dot"></span>Operation Baaz Support</div>
     </div>
     <span id="online-count">● Online</span>
+    <button id="search-toggle-btn" onclick="toggleSearch()" 
+      style="background:rgba(255,255,255,0.15);border:none;color:#fff;
+      width:32px;height:32px;border-radius:8px;cursor:pointer;
+      display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;">
+      <i class="fas fa-search"></i>
+    </button>
     <button id="theme-btn" onclick="toggleTheme()" title="Theme Toggle">
       <i class="fas fa-moon" id="theme-icon"></i>
-    </button>
-    <div id="notif-badge">0</div>
-  </header>
-
-  <!-- NOTIFICATION PERMISSION BANNER -->
+    </button>  <!-- NOTIFICATION PERMISSION BANNER -->
   <div id="notif-banner">
     <i class="fas fa-bell" style="color:var(--accent)"></i>
     <span>Naye messages ki notification paane ke liye allow karo</span>
@@ -351,6 +377,9 @@ header .sub{font-size:9px;color:rgba(255,255,255,0.6);font-weight:700;text-trans
 <div id="pin-bar">
   <i class="fas fa-thumbtack"></i>
   <span id="pin-text"></span>
+</div>
+<div id="search-bar">
+  <input id="search-input" type="text" placeholder="🔍 Message search karein...">
 </div>
 
   <!-- REPLY PREVIEW BAR -->
@@ -371,7 +400,14 @@ header .sub{font-size:9px;color:rgba(255,255,255,0.6);font-weight:700;text-trans
 
   <div id="input-bar" style="display:none">
     <div id="input-row">
-      <button id="emoji-btn" onclick="toggleEmoji()">😊</button>
+     <button id="emoji-btn" onclick="toggleEmoji()">😊</button>
+      <input type="file" id="img-input" accept="image/*" style="display:none">
+      <button id="img-btn" onclick="document.getElementById('img-input').click()"
+        style="width:36px;height:36px;border-radius:50%;flex-shrink:0;
+        background:var(--bg);border:0.5px solid var(--border);color:var(--text-dim);
+        cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;">
+        📷
+      </button>
       <input id="msg-input" type="text" placeholder="Apna message likhein..." maxlength="500">
       <button id="send-btn" onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
     </div>
@@ -520,9 +556,11 @@ function init() {
   setInterval(checkTyping, 3000);
   updateOnlineCount();
   setInterval(updateOnlineCount, 15000);
-  loadAnnouncement();
+ loadAnnouncement();
   setInterval(loadAnnouncement, 30000);
+  loadPin();
 }
+  
 
 async function loadAnnouncement() {
   try {
@@ -798,7 +836,7 @@ function renderMessages(messages) {
           ${mIsAdmin ? '<span class="badge">ADMIN</span>' : ''}
         </div>
         ${m.replyTo ? `<div class="reply-bubble">↩ ${escapeHtml(m.replyTo)}</div>` : ''}
-        <div class="bubble">${escapeHtml(filterBadWords(m.message))}</div>
+       <div class="bubble">${m.message.startsWith('data:image') ? `<img src="${m.message}" style="max-width:200px;border-radius:12px;cursor:pointer;" onclick="viewPhoto('${m.message}','')">` : escapeHtml(filterBadWords(m.message))}</div>
         <div class="time-tag">${formatTime(m.timestamp)}${tickHtml}</div>
         <div class="reaction-bar" id="react-${escapeHtml(String(m.id||idx))}">
           ${renderReactions(m.id||idx)}
@@ -871,6 +909,87 @@ function loadPin() {
   const p = localStorage.getItem('baaz_pinned');
   if (p) showPinBar(p);
 }
+    /* ── SEARCH ── */
+function toggleSearch() {
+  const bar = document.getElementById('search-bar');
+  const isOpen = bar.style.display === 'block';
+  bar.style.display = isOpen ? 'none' : 'block';
+  if (!isOpen) document.getElementById('search-input').focus();
+  else {
+    document.getElementById('search-input').value = '';
+    filterMessages('');
+  }
+}
+
+function filterMessages(query) {
+  const rows = document.querySelectorAll('.msg-row');
+  rows.forEach(row => {
+    const bubble = row.querySelector('.bubble');
+    if (!bubble) return;
+    const text = bubble.innerText.toLowerCase();
+    if (!query || text.includes(query.toLowerCase())) {
+      row.classList.remove('msg-hidden');
+      row.classList.toggle('msg-highlight', !!query && text.includes(query.toLowerCase()));
+    } else {
+      row.classList.add('msg-hidden');
+      row.classList.remove('msg-highlight');
+    }
+  });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('search-input')?.addEventListener('input', e => {
+    filterMessages(e.target.value.trim());
+  });
+});
+  /* ── IMAGE SEND ── */
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('img-input')?.addEventListener('change', async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    if (file.size > 500000) {
+      alert('Image 500KB se chhoti honi chahiye!');
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = async (ev) => {
+      const base64 = ev.target.result;
+
+      // Turant locally dikhao
+      const win = document.getElementById('chat-window');
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = `<div class="msg-row mine" style="opacity:0.6">
+        <div class="avatar mine">${initials(currentUser.name)}</div>
+        <div class="bubble-wrap">
+          <img src="${base64}" style="max-width:200px;border-radius:12px;">
+          <div class="time-tag">Sending...</div>
+        </div>
+      </div>`;
+      win.appendChild(tempDiv);
+      win.scrollTop = win.scrollHeight;
+
+      try {
+        await fetch(APPS_SCRIPT_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({
+            action: 'send_chat_message',
+            email: currentUser.email,
+            name: currentUser.name,
+            role: currentUser.role || 'student',
+            message: base64,
+            gender: currentUser.gender || '',
+            profileImage: '',
+            replyTo: ''
+          })
+        });
+        loadMessages();
+      } catch(e) {}
+    };
+    reader.readAsDataURL(file);
+    e.target.value = '';
+  });
+});
 
 /* ── SEND MESSAGE ── */
 async function sendMessage() {
