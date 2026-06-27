@@ -670,6 +670,7 @@ async function sendMessage() {
   document.getElementById('emoji-picker').classList.remove('open');
   document.getElementById('send-btn').disabled = true;
   sendTypingStatus(false);
+cancelReply();
 
   try {
     await fetch(APPS_SCRIPT_URL, {
