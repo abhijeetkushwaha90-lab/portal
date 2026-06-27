@@ -2590,8 +2590,8 @@ async function doLogin() {
     const res=await fetch(APPS_SCRIPT_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:"login",email,password})});
     const d=await res.json();
     if(d.status==="success"){
-      const user={...d,role:"student"};
-      localStorage.setItem('baaz_email',email);localStorage.setItem('baaz_userdata',JSON.stringify(user));
+     const user={...d,role:"student",profileImage:d.profileImage||""};
+localStorage.setItem('baaz_email',email);localStorage.setItem('baaz_userdata',JSON.stringify(user));
       clearRateLimit(email);
       loginSuccess(user);
     }else{
