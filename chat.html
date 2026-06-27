@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Live Chat — Operation Baaz</title>
-  <link rel="manifest" href="/portal/manifest.json">
+<link rel="manifest" href="/portal/manifest.json">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
 html[data-theme="military"] {
@@ -233,7 +233,8 @@ header .sub{font-size:9px;color:rgba(255,255,255,0.6);font-weight:700;text-trans
 #notif-banner .close-banner{
   background:transparent;color:var(--text-dim);margin-left:auto;font-size:14px;
 }
-  /* REPLY PREVIEW */
+
+/* REPLY PREVIEW */
 #reply-preview {
   display:none;
   background:rgba(124,58,237,0.1);
@@ -270,7 +271,8 @@ header .sub{font-size:9px;color:rgba(255,255,255,0.6);font-weight:700;text-trans
   overflow:hidden;
   text-overflow:ellipsis;
 }
-  /* REACTIONS */
+
+/* REACTIONS */
 .reaction-bar {
   display:flex;gap:4px;margin-top:2px;flex-wrap:wrap;
 }
@@ -362,7 +364,6 @@ const notifySound = new Audio("https://cdn.freesound.org/previews/536/536108_746
 function requestNotificationPermission() {
   if (!('Notification' in window)) return;
   if (Notification.permission === 'default') {
-    // Show banner instead of immediate popup (better UX)
     document.getElementById('notif-banner').style.display = 'flex';
   }
 }
@@ -375,7 +376,6 @@ function askNotifPermission() {
   Notification.requestPermission().then(permission => {
     document.getElementById('notif-banner').style.display = 'none';
     if (permission === 'granted') {
-      // Test notification
       new Notification('✅ Notifications ON!', {
         body: 'Ab aapko Operation Baaz chat ke messages milenge.',
         icon: 'https://cdn-icons-png.flaticon.com/512/134/134914.png'
@@ -387,14 +387,13 @@ function askNotifPermission() {
 function showPushNotification(name, message) {
   if (!('Notification' in window)) return;
   if (Notification.permission !== 'granted') return;
-  if (isWindowFocused) return; // Only when app is in background
-
+  if (isWindowFocused) return;
   try {
     new Notification('💬 ' + name, {
       body: message.length > 60 ? message.substring(0, 60) + '...' : message,
       icon: 'https://cdn-icons-png.flaticon.com/512/134/134914.png',
       badge: 'https://cdn-icons-png.flaticon.com/512/134/134914.png',
-      tag: 'baaz-chat', // Replace previous notification
+      tag: 'baaz-chat',
       renotify: true,
       vibrate: [200, 100, 200]
     });
@@ -472,20 +471,15 @@ function clearBadge() {
 /* ── INIT ── */
 function init() {
   loadTheme();
-
   const saved = localStorage.getItem('baaz_userdata');
   if (!saved) {
     document.getElementById('chat-window').innerHTML =
       '<div id="login-warning"><i class="fas fa-lock"></i>Pehle Operation Baaz app mein login karein,<br>fir chat khulega.</div>';
     return;
   }
-
   currentUser = JSON.parse(saved);
   document.getElementById('input-bar').style.display = 'block';
-
-  // Ask for notification permission after login
   requestNotificationPermission();
-
   loadMessages();
   setInterval(loadMessages, 4000);
   setInterval(checkTyping, 3000);
@@ -556,14 +550,14 @@ async function loadMessages() {
         notifySound.play().catch(() => {});
         if (!isWindowFocused) {
           showBadge();
-          showPushNotification(last.name, last.message); // ← PUSH NOTIFICATION
+          showPushNotification(last.name, last.message);
         }
       }
     }
   } catch (e) {}
 }
 
-/* ── RENDER ── */
+/* ── RENDER HELPERS ── */
 function initials(name) {
   return (name || "?").trim().split(/\s+/).map(w => w[0]).join("").substring(0,2).toUpperCase();
 }
@@ -585,6 +579,86 @@ function formatDate(ts) {
   } catch(e) { return ''; }
 }
 
+/* ═══════════════════════════════════════════════════
+   ✅ FIX 1: REACTIONS — GLOBAL SCOPE MEIN MOVE KIYA
+   (Pehle yeh sendMessage() ke andar tha — isliye
+    renderMessages() aur onclick dono fail hote the)
+═══════════════════════════════════════════════════ */
+const REACTIONS = ['👍','❤️','😂','😮','😢','🔥'];
+let reactionsData = JSON.parse(localStorage.getItem('baaz_reactions') || '{}');
+
+function saveReactions() {
+  localStorage.setItem('baaz_reactions', JSON.stringify(reactionsData));
+}
+
+function renderReactions(msgId) {
+  const data = reactionsData[msgId] || {};
+  return Object.keys(data).map(emoji => {
+    const users = data[emoji] || [];
+    if (!users.length) return '';
+    const isMine = users.includes(currentUser?.email);
+    return `<span class="reaction-btn ${isMine ? 'active' : ''}"
+      onclick="toggleReaction('${msgId}','${emoji}')"
+      title="${users.join(', ')}">
+      ${emoji} ${users.length}
+    </span>`;
+  }).join('');
+}
+
+function showReactPicker(idx, msgId) {
+  document.querySelectorAll('.react-picker').forEach(e => e.remove());
+
+  const picker = document.createElement('div');
+  picker.className = 'react-picker';
+  picker.style.cssText = `
+    position:fixed;z-index:999;
+    background:var(--card);border:0.5px solid var(--border);
+    border-radius:999px;padding:6px 10px;
+    display:flex;gap:8px;font-size:20px;
+    box-shadow:0 4px 20px rgba(0,0,0,0.3);
+  `;
+
+  const msgEl = document.getElementById(`msg-${msgId}`);
+  if (msgEl) {
+    const rect = msgEl.getBoundingClientRect();
+    picker.style.top = (rect.top - 50) + 'px';
+    picker.style.left = Math.min(rect.left, window.innerWidth - 280) + 'px';
+  }
+
+  REACTIONS.forEach(emoji => {
+    const btn = document.createElement('span');
+    btn.innerText = emoji;
+    btn.style.cursor = 'pointer';
+    btn.onclick = () => {
+      toggleReaction(msgId, emoji);
+      picker.remove();
+    };
+    picker.appendChild(btn);
+  });
+
+  document.body.appendChild(picker);
+  setTimeout(() => document.addEventListener('click', () => picker.remove(), { once: true }), 100);
+}
+
+function toggleReaction(msgId, emoji) {
+  if (!currentUser) return;
+  if (!reactionsData[msgId]) reactionsData[msgId] = {};
+  if (!reactionsData[msgId][emoji]) reactionsData[msgId][emoji] = [];
+
+  const users = reactionsData[msgId][emoji];
+  const idx = users.indexOf(currentUser.email);
+
+  if (idx === -1) users.push(currentUser.email);
+  else users.splice(idx, 1);
+
+  if (!users.length) delete reactionsData[msgId][emoji];
+  saveReactions();
+
+  const bar = document.getElementById(`react-${msgId}`);
+  if (bar) bar.innerHTML = renderReactions(msgId);
+}
+
+/* ── RENDER MESSAGES ── */
 function renderMessages(messages) {
   const win = document.getElementById('chat-window');
   if (!messages.length) {
@@ -601,7 +675,6 @@ function renderMessages(messages) {
     const mIsAdmin = m.role === 'admin';
     const rowCls = isMine ? 'msg-row mine' : (mIsAdmin ? 'msg-row other admin-msg' : 'msg-row other');
 
-    // Avatar class — female pink, male blue, admin orange
     let avatarCls = 'mine';
     if (!isMine) {
       if (mIsAdmin) avatarCls = 'admin';
@@ -609,29 +682,28 @@ function renderMessages(messages) {
       else avatarCls = 'male';
     }
 
-    // Date divider
     const msgDate = formatDate(m.timestamp);
     if (msgDate && msgDate !== lastDate) {
       html += `<div class="date-divider">${msgDate}</div>`;
       lastDate = msgDate;
     }
 
-    // Seen tick
     const tickHtml = isMine
       ? `<span class="tick ${m.seen ? 'seen' : 'sent'}">${m.seen ? '✓✓' : '✓'}</span>`
       : '';
 
-    // Delete btn (admin only)
     const deleteBtn = isAdmin
       ? `<button class="delete-btn" onclick="deleteMessage('${escapeHtml(m.id||idx)}',this)" title="Delete"><i class="fas fa-times"></i></button>`
       : '';
 
-    // Profile image — safe render
     const hasPhoto = m.profileImage && m.profileImage.length > 10 && m.profileImage !== 'undefined' && m.profileImage !== 'null';
     const avatarContent = hasPhoto
       ? `<img src="${m.profileImage}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" onerror="this.style.display='none'">`
       : escapeHtml(initials(m.name));
 
+    /* ✅ FIX 2: Reply button ke liye data attributes use kiye
+       (Pehle inline onclick mein single-quote wali values thi
+        jो apostrophe wale names se break ho jaati thi) */
     html += `<div class="${rowCls}" id="msg-${escapeHtml(String(m.id||idx))}">
       <div class="avatar ${avatarCls}" onclick="viewPhoto('${hasPhoto ? m.profileImage : ''}','${escapeHtml(m.name)}')">
         ${avatarContent}
@@ -639,18 +711,21 @@ function renderMessages(messages) {
       <div class="bubble-wrap">
         ${deleteBtn}
         <div class="name-tag">
-  ${escapeHtml(m.name)}
-  <span onclick="setReply('${escapeHtml(m.name)}','${escapeHtml(m.message)}')" 
-    style="cursor:pointer;font-size:10px;color:var(--text-dim);margin-left:4px;" 
-    title="Reply">↩</span>
-  ${mIsAdmin ? '<span class="badge">ADMIN</span>' : ''}</div>
-       ${m.replyTo ? `<div class="reply-bubble">↩ ${escapeHtml(m.replyTo)}</div>` : ''}
-<div class="bubble">${escapeHtml(filterBadWords(m.message))}</div>
+          ${escapeHtml(m.name)}
+          <span class="reply-trigger"
+            data-name="${escapeHtml(m.name)}"
+            data-msg="${escapeHtml(m.message.substring(0, 100))}"
+            style="cursor:pointer;font-size:10px;color:var(--text-dim);margin-left:4px;"
+            title="Reply">↩</span>
+          ${mIsAdmin ? '<span class="badge">ADMIN</span>' : ''}
+        </div>
+        ${m.replyTo ? `<div class="reply-bubble">↩ ${escapeHtml(m.replyTo)}</div>` : ''}
+        <div class="bubble">${escapeHtml(filterBadWords(m.message))}</div>
         <div class="time-tag">${formatTime(m.timestamp)}${tickHtml}</div>
-<div class="reaction-bar" id="react-${escapeHtml(String(m.id||idx))}">
-  ${renderReactions(m.id||idx)}
-</div>
-<button class="react-trigger" onclick="showReactPicker(${idx},'${escapeHtml(String(m.id||idx))}')">😊+</button>
+        <div class="reaction-bar" id="react-${escapeHtml(String(m.id||idx))}">
+          ${renderReactions(m.id||idx)}
+        </div>
+        <button class="react-trigger" onclick="showReactPicker(${idx},'${escapeHtml(String(m.id||idx))}')">😊+</button>
       </div>
     </div>`;
   });
@@ -678,7 +753,28 @@ async function deleteMessage(msgId, btn) {
   }
 }
 
-/* ── SEND ── */
+/* ═══════════════════════════════════════════════════
+   ✅ FIX 3: REPLY SYSTEM — sendMessage() SE PEHLE RAKHA
+   (Pehle yeh neeche tha — cancelReply() sendMessage
+    ke andar call ho raha tha lekin defined baad mein tha)
+═══════════════════════════════════════════════════ */
+let replyingTo = null;
+
+function setReply(name, message) {
+  replyingTo = { name, message };
+  const preview = document.getElementById('reply-preview');
+  const text = document.getElementById('reply-preview-text');
+  preview.style.display = 'flex';
+  text.innerText = name + ': ' + message.substring(0, 60);
+  document.getElementById('msg-input').focus();
+}
+
+function cancelReply() {
+  replyingTo = null;
+  document.getElementById('reply-preview').style.display = 'none';
+}
+
+/* ── SEND MESSAGE ── */
 async function sendMessage() {
   const input = document.getElementById('msg-input');
   const text = input.value.trim();
@@ -689,103 +785,34 @@ async function sendMessage() {
     if (!confirm('Aapke message mein inappropriate words hain. Phir bhi bhejein?')) return;
   }
 
+  /* ✅ FIX 4: replyTo ko PEHLE save karo, PHIR cancelReply() bulao
+     (Pehle cancelReply() pehle call hoti thi jisse replyingTo = null
+      ho jaata tha aur reply kabhi bhi server ko nahi jaata tha) */
+  const replyToText = replyingTo
+    ? replyingTo.name + ': ' + replyingTo.message.substring(0, 60)
+    : "";
+
   input.value = '';
   emojiOpen = false;
   document.getElementById('emoji-picker').classList.remove('open');
   document.getElementById('send-btn').disabled = true;
   sendTypingStatus(false);
-cancelReply();
-  /* ── REACTIONS ── */
-const REACTIONS = ['👍','❤️','😂','😮','😢','🔥'];
-let reactionsData = JSON.parse(localStorage.getItem('baaz_reactions') || '{}');
-
-function saveReactions() {
-  localStorage.setItem('baaz_reactions', JSON.stringify(reactionsData));
-}
-
-function renderReactions(msgId) {
-  const data = reactionsData[msgId] || {};
-  return Object.keys(data).map(emoji => {
-    const users = data[emoji] || [];
-    if (!users.length) return '';
-    const isMine = users.includes(currentUser?.email);
-    return `<span class="reaction-btn ${isMine ? 'active' : ''}" 
-      onclick="toggleReaction('${msgId}','${emoji}')"
-      title="${users.join(', ')}">
-      ${emoji} ${users.length}
-    </span>`;
-  }).join('');
-}
-
-function showReactPicker(idx, msgId) {
-  // Remove existing picker
-  document.querySelectorAll('.react-picker').forEach(e => e.remove());
-  
-  const picker = document.createElement('div');
-  picker.className = 'react-picker';
-  picker.style.cssText = `
-    position:fixed;z-index:999;
-    background:var(--card);border:0.5px solid var(--border);
-    border-radius:999px;padding:6px 10px;
-    display:flex;gap:8px;font-size:20px;
-    box-shadow:0 4px 20px rgba(0,0,0,0.3);
-  `;
-  
-  const msgEl = document.getElementById(`msg-${msgId}`);
-  if (msgEl) {
-    const rect = msgEl.getBoundingClientRect();
-    picker.style.top = (rect.top - 50) + 'px';
-    picker.style.left = Math.min(rect.left, window.innerWidth - 280) + 'px';
-  }
-  
-  REACTIONS.forEach(emoji => {
-    const btn = document.createElement('span');
-    btn.innerText = emoji;
-    btn.style.cursor = 'pointer';
-    btn.onclick = () => {
-      toggleReaction(msgId, emoji);
-      picker.remove();
-    };
-    picker.appendChild(btn);
-  });
-  
-  document.body.appendChild(picker);
-  setTimeout(() => document.addEventListener('click', () => picker.remove(), { once: true }), 100);
-}
-
-function toggleReaction(msgId, emoji) {
-  if (!currentUser) return;
-  if (!reactionsData[msgId]) reactionsData[msgId] = {};
-  if (!reactionsData[msgId][emoji]) reactionsData[msgId][emoji] = [];
-  
-  const users = reactionsData[msgId][emoji];
-  const idx = users.indexOf(currentUser.email);
-  
-  if (idx === -1) users.push(currentUser.email);
-  else users.splice(idx, 1);
-  
-  if (!users.length) delete reactionsData[msgId][emoji];
-  saveReactions();
-  
-  // Update UI
-  const bar = document.getElementById(`react-${msgId}`);
-  if (bar) bar.innerHTML = renderReactions(msgId);
-}
+  cancelReply();
 
   try {
     await fetch(APPS_SCRIPT_URL, {
       method: "POST",
       headers: { "Content-Type": "text/plain;charset=utf-8" },
-     body: JSON.stringify({
-  action: "send_chat_message",
-  email: currentUser.email,
-  name: currentUser.name,
-  role: currentUser.role || "student",
-  message: filtered,
-  gender: currentUser.gender || "",
-  profileImage: currentUser.profileImage || "",
-  replyTo: replyingTo ? replyingTo.name + ': ' + replyingTo.message.substring(0,60) : ""
-})
+      body: JSON.stringify({
+        action: "send_chat_message",
+        email: currentUser.email,
+        name: currentUser.name,
+        role: currentUser.role || "student",
+        message: filtered,
+        gender: currentUser.gender || "",
+        profileImage: currentUser.profileImage || "",
+        replyTo: replyToText
+      })
     });
     loadMessages();
   } catch (e) {}
@@ -809,33 +836,30 @@ function escapeHtml(s) {
   return String(s || "").replace(/[&<>"']/g, c =>
     ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
-  /* ── REPLY SYSTEM ── */
-let replyingTo = null;
 
-function setReply(name, message) {
-  replyingTo = { name, message };
-  const preview = document.getElementById('reply-preview');
-  const text = document.getElementById('reply-preview-text');
-  preview.style.display = 'flex';
-  text.innerText = name + ': ' + message.substring(0, 60);
-  document.getElementById('msg-input').focus();
-}
-
-function cancelReply() {
-  replyingTo = null;
-  document.getElementById('reply-preview').style.display = 'none';
-}
-
+/* ── DOMContentLoaded ── */
 document.addEventListener('DOMContentLoaded', () => {
+  // Enter key se message bhejo
   document.getElementById('msg-input')?.addEventListener('keypress', e => {
     if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+  });
+
+  /* ✅ FIX 2 (part 2): Event delegation — dynamically created
+     reply-trigger elements ke liye click handler
+     (Inline onclick hata ke yahan centrally handle kiya) */
+  document.getElementById('chat-window').addEventListener('click', e => {
+    const trigger = e.target.closest('.reply-trigger');
+    if (trigger) {
+      setReply(trigger.dataset.name, trigger.dataset.msg);
+    }
   });
 });
 
 init();
 </script>
-  <script>
-if('serviceWorker' in navigator){
+
+<script>
+if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('/portal/sw.js');
 }
 </script>
