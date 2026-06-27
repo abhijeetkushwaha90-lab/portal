@@ -233,6 +233,43 @@ header .sub{font-size:9px;color:rgba(255,255,255,0.6);font-weight:700;text-trans
 #notif-banner .close-banner{
   background:transparent;color:var(--text-dim);margin-left:auto;font-size:14px;
 }
+  /* REPLY PREVIEW */
+#reply-preview {
+  display:none;
+  background:rgba(124,58,237,0.1);
+  border-left:3px solid var(--accent);
+  padding:6px 12px;
+  font-size:11px;
+  color:var(--text-dim);
+  align-items:center;
+  gap:8px;
+  flex-shrink:0;
+}
+#reply-preview .reply-text {
+  flex:1;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+#reply-preview .reply-close {
+  cursor:pointer;
+  background:none;
+  border:none;
+  color:var(--text-dim);
+  font-size:14px;
+}
+.reply-bubble {
+  background:rgba(124,58,237,0.08);
+  border-left:2px solid var(--accent);
+  border-radius:6px;
+  padding:4px 8px;
+  font-size:10px;
+  color:var(--text-dim);
+  margin-bottom:4px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
 </style>
 </head>
 <body>
@@ -257,6 +294,13 @@ header .sub{font-size:9px;color:rgba(255,255,255,0.6);font-weight:700;text-trans
     <span>Naye messages ki notification paane ke liye allow karo</span>
     <button onclick="askNotifPermission()">Allow 🔔</button>
     <button class="close-banner" onclick="document.getElementById('notif-banner').style.display='none'">✕</button>
+  </div>
+
+  <!-- REPLY PREVIEW BAR -->
+  <div id="reply-preview">
+    <i class="fas fa-reply" style="color:var(--accent);font-size:12px;"></i>
+    <div class="reply-text" id="reply-preview-text">Replying to...</div>
+    <button class="reply-close" onclick="cancelReply()">✕</button>
   </div>
 
   <div id="chat-window">
@@ -574,8 +618,14 @@ function renderMessages(messages) {
       </div>
       <div class="bubble-wrap">
         ${deleteBtn}
-        <div class="name-tag">${escapeHtml(m.name)}${mIsAdmin ? '<span class="badge">ADMIN</span>' : ''}</div>
-        <div class="bubble">${escapeHtml(filterBadWords(m.message))}</div>
+        <div class="name-tag">
+  ${escapeHtml(m.name)}
+  <span onclick="setReply('${escapeHtml(m.name)}','${escapeHtml(m.message)}')" 
+    style="cursor:pointer;font-size:10px;color:var(--text-dim);margin-left:4px;" 
+    title="Reply">↩</span>
+  ${mIsAdmin ? '<span class="badge">ADMIN</span>' : ''}</div>
+       ${m.replyTo ? `<div class="reply-bubble">↩ ${escapeHtml(m.replyTo)}</div>` : ''}
+<div class="bubble">${escapeHtml(filterBadWords(m.message))}</div>
         <div class="time-tag">${formatTime(m.timestamp)}${tickHtml}</div>
       </div>
     </div>`;
@@ -625,15 +675,16 @@ async function sendMessage() {
     await fetch(APPS_SCRIPT_URL, {
       method: "POST",
       headers: { "Content-Type": "text/plain;charset=utf-8" },
-      body: JSON.stringify({
-        action: "send_chat_message",
-        email: currentUser.email,
-        name: currentUser.name,
-        role: currentUser.role || "student",
-        message: filtered,
-        gender: currentUser.gender || "",
-        profileImage: currentUser.profileImage || ""
-      })
+     body: JSON.stringify({
+  action: "send_chat_message",
+  email: currentUser.email,
+  name: currentUser.name,
+  role: currentUser.role || "student",
+  message: filtered,
+  gender: currentUser.gender || "",
+  profileImage: currentUser.profileImage || "",
+  replyTo: replyingTo ? replyingTo.name + ': ' + replyingTo.message.substring(0,60) : ""
+})
     });
     loadMessages();
   } catch (e) {}
@@ -656,6 +707,22 @@ function viewPhoto(src, name) {
 function escapeHtml(s) {
   return String(s || "").replace(/[&<>"']/g, c =>
     ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+  /* ── REPLY SYSTEM ── */
+let replyingTo = null;
+
+function setReply(name, message) {
+  replyingTo = { name, message };
+  const preview = document.getElementById('reply-preview');
+  const text = document.getElementById('reply-preview-text');
+  preview.style.display = 'flex';
+  text.innerText = name + ': ' + message.substring(0, 60);
+  document.getElementById('msg-input').focus();
+}
+
+function cancelReply() {
+  replyingTo = null;
+  document.getElementById('reply-preview').style.display = 'none';
 }
 
 document.addEventListener('DOMContentLoaded', () => {
