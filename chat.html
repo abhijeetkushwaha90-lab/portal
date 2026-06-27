@@ -55,7 +55,6 @@ header .sub{font-size:9px;color:rgba(255,255,255,0.6);font-weight:700;text-trans
 .live-dot{width:6px;height:6px;border-radius:50%;background:#10b981;box-shadow:0 0 6px #10b981;animation:pulse 1.6s infinite;}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
 
-/* THEME TOGGLE */
 #theme-btn{
   background:rgba(255,255,255,0.15);border:none;color:#fff;
   width:32px;height:32px;border-radius:8px;cursor:pointer;
@@ -64,7 +63,6 @@ header .sub{font-size:9px;color:rgba(255,255,255,0.6);font-weight:700;text-trans
 }
 #theme-btn:hover{background:rgba(255,255,255,0.25);}
 
-/* ONLINE COUNT */
 #online-count{
   font-size:9px;font-weight:800;color:#10b981;
   background:rgba(16,185,129,0.1);border:0.5px solid rgba(16,185,129,0.3);
@@ -78,7 +76,6 @@ header .sub{font-size:9px;color:rgba(255,255,255,0.6);font-weight:700;text-trans
 #chat-window::-webkit-scrollbar{width:4px;}
 #chat-window::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px;}
 
-/* TYPING INDICATOR */
 #typing-indicator{
   display:none;padding:6px 14px 2px;
   font-size:11px;color:var(--text-dim);font-style:italic;
@@ -98,22 +95,19 @@ header .sub{font-size:9px;color:rgba(255,255,255,0.6);font-weight:700;text-trans
 .msg-row.other{align-self:flex-start;}
 
 .avatar{
-  width:26px;height:26px;border-radius:50%;flex-shrink:0;
+  width:32px;height:32px;border-radius:50%;flex-shrink:0;
   display:flex;align-items:center;justify-content:center;
   font-size:10px;font-weight:900;color:#fff;
-  overflow:hidden;
+  overflow:hidden;cursor:pointer;
 }
 .avatar.admin{background:linear-gradient(135deg,#d4891a,#a83220);}
-.avatar.student{background:linear-gradient(135deg,#3b82f6,#1e40af);}
-  
-  .avatar.male{background:linear-gradient(135deg,#3b82f6,#1e40af);}
-.avatar.female{background:linear-gradient(135deg,#ec4899,#be185d);border:2px solid #ec4899;}
 .avatar.male{background:linear-gradient(135deg,#3b82f6,#1e40af);border:2px solid #3b82f6;}
-  .avatar.mine{background:linear-gradient(135deg,#7c3aed,#5b21b6);}
+.avatar.female{background:linear-gradient(135deg,#ec4899,#be185d);border:2px solid #ec4899;}
+.avatar.mine{background:linear-gradient(135deg,#7c3aed,#5b21b6);}
 
 .bubble-wrap{display:flex;flex-direction:column;gap:2px;position:relative;}
 .msg-row.mine .bubble-wrap{align-items:flex-end;}
-  .name-tag{font-size:9px;font-weight:800;color:var(--text-dim);padding:0 4px;display:flex;align-items:center;gap:4px;white-space:nowrap;}
+.name-tag{font-size:11px;font-weight:800;color:var(--text);padding:0 4px;display:flex;align-items:center;gap:4px;white-space:nowrap;}
 .name-tag .badge{
   font-size:7px;font-weight:900;padding:1px 5px;border-radius:999px;
   background:rgba(212,137,26,0.18);color:var(--accent);
@@ -135,7 +129,6 @@ header .sub{font-size:9px;color:rgba(255,255,255,0.6);font-weight:700;text-trans
   border:0.5px solid rgba(212,137,26,0.3);
 }
 
-/* DELETE BTN — admin only */
 .delete-btn{
   display:none;position:absolute;top:-8px;right:-8px;
   width:20px;height:20px;border-radius:50%;
@@ -150,7 +143,6 @@ header .sub{font-size:9px;color:rgba(255,255,255,0.6);font-weight:700;text-trans
 .tick.seen{color:#10b981;}
 .tick.sent{color:var(--text-dim);}
 
-/* DATE DIVIDER */
 .date-divider{
   text-align:center;font-size:9px;font-weight:800;
   color:var(--text-dim);text-transform:uppercase;letter-spacing:.05em;
@@ -169,7 +161,6 @@ header .sub{font-size:9px;color:rgba(255,255,255,0.6);font-weight:700;text-trans
 }
 #login-warning i{font-size:28px;color:var(--accent);}
 
-/* INPUT BAR */
 #input-bar{
   flex-shrink:0;
   border-top:0.5px solid var(--border);
@@ -201,7 +192,6 @@ header .sub{font-size:9px;color:rgba(255,255,255,0.6);font-weight:700;text-trans
 #send-btn:hover{transform:scale(1.06);}
 #send-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;}
 
-/* EMOJI PICKER */
 #emoji-picker{
   display:none;padding:10px 12px;border-top:0.5px solid var(--border);
   flex-wrap:wrap;gap:4px;max-height:140px;overflow-y:auto;
@@ -214,7 +204,6 @@ header .sub{font-size:9px;color:rgba(255,255,255,0.6);font-weight:700;text-trans
 }
 #emoji-picker span:hover{transform:scale(1.3);background:var(--border);}
 
-/* NOTIFICATION BADGE */
 #notif-badge{
   display:none;position:absolute;top:8px;right:8px;
   background:#e11d48;color:#fff;font-size:9px;font-weight:900;
@@ -224,6 +213,25 @@ header .sub{font-size:9px;color:rgba(255,255,255,0.6);font-weight:700;text-trans
   animation:badgePop .3s ease;
 }
 @keyframes badgePop{0%{transform:scale(0)}100%{transform:scale(1)}}
+
+/* NOTIF PERMISSION BANNER */
+#notif-banner{
+  display:none;
+  background:linear-gradient(135deg,rgba(124,58,237,0.2),rgba(212,137,26,0.1));
+  border-bottom:0.5px solid rgba(124,58,237,0.3);
+  padding:8px 12px;
+  font-size:11px;font-weight:700;color:var(--text);
+  align-items:center;gap:8px;
+  flex-shrink:0;
+}
+#notif-banner button{
+  background:var(--accent);color:#000;border:none;
+  padding:3px 10px;border-radius:8px;font-size:10px;font-weight:800;cursor:pointer;
+  flex-shrink:0;
+}
+#notif-banner .close-banner{
+  background:transparent;color:var(--text-dim);margin-left:auto;font-size:14px;
+}
 </style>
 </head>
 <body>
@@ -241,6 +249,14 @@ header .sub{font-size:9px;color:rgba(255,255,255,0.6);font-weight:700;text-trans
     </button>
     <div id="notif-badge">0</div>
   </header>
+
+  <!-- NOTIFICATION PERMISSION BANNER -->
+  <div id="notif-banner">
+    <i class="fas fa-bell" style="color:var(--accent)"></i>
+    <span>Naye messages ki notification paane ke liye allow karo</span>
+    <button onclick="askNotifPermission()">Allow 🔔</button>
+    <button class="close-banner" onclick="document.getElementById('notif-banner').style.display='none'">✕</button>
+  </div>
 
   <div id="chat-window">
     <div id="empty-state"><i class="fas fa-spinner fa-spin"></i>Loading chat...</div>
@@ -277,6 +293,49 @@ let isWindowFocused = true;
 
 const notifySound = new Audio("https://cdn.freesound.org/previews/536/536108_7461855-lq.mp3");
 
+/* ── PUSH NOTIFICATIONS ── */
+function requestNotificationPermission() {
+  if (!('Notification' in window)) return;
+  if (Notification.permission === 'default') {
+    // Show banner instead of immediate popup (better UX)
+    document.getElementById('notif-banner').style.display = 'flex';
+  }
+}
+
+function askNotifPermission() {
+  if (!('Notification' in window)) {
+    alert('Aapka browser notifications support nahi karta.');
+    return;
+  }
+  Notification.requestPermission().then(permission => {
+    document.getElementById('notif-banner').style.display = 'none';
+    if (permission === 'granted') {
+      // Test notification
+      new Notification('✅ Notifications ON!', {
+        body: 'Ab aapko Operation Baaz chat ke messages milenge.',
+        icon: 'https://cdn-icons-png.flaticon.com/512/134/134914.png'
+      });
+    }
+  });
+}
+
+function showPushNotification(name, message) {
+  if (!('Notification' in window)) return;
+  if (Notification.permission !== 'granted') return;
+  if (isWindowFocused) return; // Only when app is in background
+
+  try {
+    new Notification('💬 ' + name, {
+      body: message.length > 60 ? message.substring(0, 60) + '...' : message,
+      icon: 'https://cdn-icons-png.flaticon.com/512/134/134914.png',
+      badge: 'https://cdn-icons-png.flaticon.com/512/134/134914.png',
+      tag: 'baaz-chat', // Replace previous notification
+      renotify: true,
+      vibrate: [200, 100, 200]
+    });
+  } catch(e) {}
+}
+
 /* ── THEME ── */
 function toggleTheme() {
   const html = document.documentElement;
@@ -300,14 +359,6 @@ function toggleEmoji() {
 
 document.addEventListener('DOMContentLoaded', () => {
   const picker = document.getElementById('emoji-picker');
-  picker.querySelectorAll('span').forEach(span => {
-    span.onclick = () => {
-      const input = document.getElementById('msg-input');
-      input.value += span.textContent;
-      input.focus();
-    };
-  });
-  // Convert text nodes to spans
   picker.innerHTML = picker.textContent.trim().split(/\s+/).map(e =>
     `<span>${e}</span>`
   ).join('');
@@ -329,10 +380,16 @@ function filterBadWords(text) {
   return clean;
 }
 
-/* ── NOTIFICATION BADGE ── */
-window.addEventListener('focus', () => { isWindowFocused = true; clearBadge(); });
-window.addEventListener('blur', () => { isWindowFocused = false; });
+/* ── WINDOW FOCUS ── */
+window.addEventListener('focus', () => {
+  isWindowFocused = true;
+  clearBadge();
+});
+window.addEventListener('blur', () => {
+  isWindowFocused = false;
+});
 
+/* ── NOTIFICATION BADGE ── */
 function showBadge() {
   unreadCount++;
   const b = document.getElementById('notif-badge');
@@ -350,14 +407,20 @@ function clearBadge() {
 /* ── INIT ── */
 function init() {
   loadTheme();
+
   const saved = localStorage.getItem('baaz_userdata');
   if (!saved) {
     document.getElementById('chat-window').innerHTML =
       '<div id="login-warning"><i class="fas fa-lock"></i>Pehle Operation Baaz app mein login karein,<br>fir chat khulega.</div>';
     return;
   }
+
   currentUser = JSON.parse(saved);
   document.getElementById('input-bar').style.display = 'block';
+
+  // Ask for notification permission after login
+  requestNotificationPermission();
+
   loadMessages();
   setInterval(loadMessages, 4000);
   setInterval(checkTyping, 3000);
@@ -416,15 +479,20 @@ async function loadMessages() {
     const res = await fetch(APPS_SCRIPT_URL + "?action=get_chat_messages");
     const data = await res.json();
     if (data.length === lastMessageCount) return;
+
     const isFirstLoad = lastMessageCount === 0;
     const newCount = data.length - lastMessageCount;
     lastMessageCount = data.length;
     renderMessages(data);
+
     if (!isFirstLoad && newCount > 0) {
       const last = data[data.length - 1];
       if (last.email !== currentUser.email) {
         notifySound.play().catch(() => {});
-        if (!isWindowFocused) showBadge();
+        if (!isWindowFocused) {
+          showBadge();
+          showPushNotification(last.name, last.message); // ← PUSH NOTIFICATION
+        }
       }
     }
   } catch (e) {}
@@ -467,7 +535,14 @@ function renderMessages(messages) {
     const isMine = m.email === currentUser.email;
     const mIsAdmin = m.role === 'admin';
     const rowCls = isMine ? 'msg-row mine' : (mIsAdmin ? 'msg-row other admin-msg' : 'msg-row other');
-    const avatarCls = isMine ? 'mine' : (mIsAdmin ? 'admin' : (m.gender === 'Female' ? 'female' : 'male'));
+
+    // Avatar class — female pink, male blue, admin orange
+    let avatarCls = 'mine';
+    if (!isMine) {
+      if (mIsAdmin) avatarCls = 'admin';
+      else if (m.gender === 'Female' || m.gender === 'female') avatarCls = 'female';
+      else avatarCls = 'male';
+    }
 
     // Date divider
     const msgDate = formatDate(m.timestamp);
@@ -486,16 +561,19 @@ function renderMessages(messages) {
       ? `<button class="delete-btn" onclick="deleteMessage('${escapeHtml(m.id||idx)}',this)" title="Delete"><i class="fas fa-times"></i></button>`
       : '';
 
-    html += `<div class="${rowCls}" id="msg-${escapeHtml(m.id||idx)}">
-      <div class="avatar ${avatarCls}" onclick="viewPhoto('${escapeHtml(m.profileImage||'')}','${escapeHtml(m.name)}')">
- ${(m.profileImage && m.profileImage.length > 10 && m.profileImage !== "undefined") 
-    ? `<img src="${m.profileImage}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" onerror="this.style.display='none'">` 
-    : escapeHtml(initials(m.name))
-  }
-</div>
+    // Profile image — safe render
+    const hasPhoto = m.profileImage && m.profileImage.length > 10 && m.profileImage !== 'undefined' && m.profileImage !== 'null';
+    const avatarContent = hasPhoto
+      ? `<img src="${m.profileImage}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" onerror="this.style.display='none'">`
+      : escapeHtml(initials(m.name));
+
+    html += `<div class="${rowCls}" id="msg-${escapeHtml(String(m.id||idx))}">
+      <div class="avatar ${avatarCls}" onclick="viewPhoto('${hasPhoto ? m.profileImage : ''}','${escapeHtml(m.name)}')">
+        ${avatarContent}
+      </div>
       <div class="bubble-wrap">
         ${deleteBtn}
-        <div class="name-tag" style="font-size:11px;font-weight:800;color:var(--text);">${escapeHtml(m.name)}${mIsAdmin ? '<span class="badge">ADMIN</span>' : ''}</div>
+        <div class="name-tag">${escapeHtml(m.name)}${mIsAdmin ? '<span class="badge">ADMIN</span>' : ''}</div>
         <div class="bubble">${escapeHtml(filterBadWords(m.message))}</div>
         <div class="time-tag">${formatTime(m.timestamp)}${tickHtml}</div>
       </div>
@@ -531,7 +609,6 @@ async function sendMessage() {
   const text = input.value.trim();
   if (!text || !currentUser) return;
 
-  // Bad word check
   const filtered = filterBadWords(text);
   if (filtered !== text) {
     if (!confirm('Aapke message mein inappropriate words hain. Phir bhi bhejein?')) return;
@@ -552,24 +629,29 @@ async function sendMessage() {
         email: currentUser.email,
         name: currentUser.name,
         role: currentUser.role || "student",
- message: filtered,
+        message: filtered,
         gender: currentUser.gender || "",
         profileImage: currentUser.profileImage || ""
-      })   });
+      })
+    });
     loadMessages();
   } catch (e) {}
+
   document.getElementById('send-btn').disabled = false;
   input.focus();
 }
-  function viewPhoto(src, name) {
+
+/* ── VIEW PHOTO ── */
+function viewPhoto(src, name) {
   if (!src) return;
   const d = document.createElement('div');
   d.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.9);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;';
-  d.innerHTML = `<img src="${src}" style="max-width:90vw;max-height:80vh;border-radius:16px;object-fit:contain;"><div style="color:#fff;margin-top:12px;font-weight:800;">${name}</div>`;
+  d.innerHTML = `<img src="${src}" style="max-width:90vw;max-height:80vh;border-radius:16px;object-fit:contain;"><div style="color:#fff;margin-top:12px;font-weight:800;font-size:16px;">${escapeHtml(name)}</div>`;
   d.onclick = () => d.remove();
   document.body.appendChild(d);
 }
 
+/* ── UTILS ── */
 function escapeHtml(s) {
   return String(s || "").replace(/[&<>"']/g, c =>
     ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
