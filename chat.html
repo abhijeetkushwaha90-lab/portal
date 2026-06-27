@@ -149,6 +149,7 @@ const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz6X6hX2Mnz-d_-
 
 let currentUser = null;
 let lastMessageCount = 0;
+  const notifySound = new Audio("https://cdn.freesound.org/previews/536/536108_7461855-lq.mp3");
 
 function init() {
   const saved = localStorage.getItem('baaz_userdata');
@@ -179,8 +180,16 @@ async function loadMessages() {
     const res = await fetch(APPS_SCRIPT_URL + "?action=get_chat_messages");
     const data = await res.json();
     if (data.length === lastMessageCount) return;
+    const isFirstLoad = lastMessageCount === 0;
+    const isNewIncoming = data.length > lastMessageCount;
     lastMessageCount = data.length;
     renderMessages(data);
+    if (isNewIncoming && !isFirstLoad) {
+      const last = data[data.length - 1];
+      if (last.email !== currentUser.email) {
+        notifySound.play().catch(()=>{});
+      }
+    }
   } catch (e) {}
 }
 
