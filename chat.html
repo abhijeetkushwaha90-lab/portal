@@ -541,26 +541,25 @@ async function checkTyping() {
     document.getElementById('typing-indicator').style.display = 'none';
   }
 }
- async function updateOnlineCount() {
+async function updateOnlineCount() {
   if (!currentUser) return;
-  try {
-    // Apni presence bhejo
-    await fetch(APPS_SCRIPT_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify({
-        action: 'set_online',
-        email: currentUser.email,
-        name: currentUser.name
-      })
-    });
-    // Online count lo
-    const res = await fetch(APPS_SCRIPT_URL + '?action=get_online_count');
-    const d = await res.json();
-    document.getElementById('online-count').innerText = '● ' + (d.count || 1) + ' Online';
-  } catch(e) {}
+  // Sirf background mein bhejo, await mat karo
+  fetch(APPS_SCRIPT_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify({
+      action: 'set_online',
+      email: currentUser.email,
+      name: currentUser.name
+    })
+  }).catch(() => {});
+  // Count locally loadMessages ke saath update hoga
+  fetch(APPS_SCRIPT_URL + '?action=get_online_count')
+    .then(r => r.json())
+    .then(d => {
+      document.getElementById('online-count').innerText = '● ' + (d.count || 1) + ' Online';
+    }).catch(() => {});
 }
-
 /* ── LOAD MESSAGES ── */
 async function loadMessages() {
   try {
