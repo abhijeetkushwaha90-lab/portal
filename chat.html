@@ -292,6 +292,14 @@ header .sub{font-size:9px;color:rgba(255,255,255,0.6);font-weight:700;text-trans
   background:none;border:none;padding:2px 6px;
 }
 .bubble-wrap:hover .react-trigger{opacity:1;}
+  #scroll-btn {
+  display:none;position:absolute;bottom:80px;right:16px;
+  width:36px;height:36px;border-radius:50%;
+  background:linear-gradient(135deg,#7c3aed,#6d28d9);
+  color:#fff;border:none;cursor:pointer;font-size:16px;
+  box-shadow:0 4px 12px rgba(124,58,237,0.4);
+  align-items:center;justify-content:center;z-index:99;
+}
 </style>
 </head>
 <body>
@@ -328,7 +336,7 @@ header .sub{font-size:9px;color:rgba(255,255,255,0.6);font-weight:700;text-trans
   <div id="chat-window">
     <div id="empty-state"><i class="fas fa-spinner fa-spin"></i>Loading chat...</div>
   </div>
-
+<button id="scroll-btn" onclick="scrollToBottom()">⬇</button>
   <div id="typing-indicator">
     <div class="typing-dots"><span></span><span></span><span></span></div>
     <span id="typing-name">Admin</span> typing...
@@ -482,7 +490,9 @@ function init() {
   requestNotificationPermission();
   loadMessages();
   setInterval(loadMessages, 2000);
-  setInterval(checkTyping, 3000);
+setInterval(checkTyping, 3000);
+  updateOnlineCount();
+  setInterval(updateOnlineCount, 15000);
 }
 
 /* ── TYPING INDICATOR ── */
@@ -530,6 +540,25 @@ async function checkTyping() {
   } catch(e) {
     document.getElementById('typing-indicator').style.display = 'none';
   }
+}
+ async function updateOnlineCount() {
+  if (!currentUser) return;
+  try {
+    // Apni presence bhejo
+    await fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({
+        action: 'set_online',
+        email: currentUser.email,
+        name: currentUser.name
+      })
+    });
+    // Online count lo
+    const res = await fetch(APPS_SCRIPT_URL + '?action=get_online_count');
+    const d = await res.json();
+    document.getElementById('online-count').innerText = '● ' + (d.count || 1) + ' Online';
+  } catch(e) {}
 }
 
 /* ── LOAD MESSAGES ── */
@@ -867,6 +896,19 @@ document.addEventListener('DOMContentLoaded', () => {
     if (trigger) {
       setReply(trigger.dataset.name, trigger.dataset.msg);
     }
+  });
+});
+  function scrollToBottom() {
+  const win = document.getElementById('chat-window');
+  win.scrollTop = win.scrollHeight;
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const win = document.getElementById('chat-window');
+  const btn = document.getElementById('scroll-btn');
+  win.addEventListener('scroll', () => {
+    const isNearBottom = win.scrollHeight - win.scrollTop - win.clientHeight < 100;
+    btn.style.display = isNearBottom ? 'none' : 'flex';
   });
 });
 
