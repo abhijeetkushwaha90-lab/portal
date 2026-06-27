@@ -270,6 +270,26 @@ header .sub{font-size:9px;color:rgba(255,255,255,0.6);font-weight:700;text-trans
   overflow:hidden;
   text-overflow:ellipsis;
 }
+  /* REACTIONS */
+.reaction-bar {
+  display:flex;gap:4px;margin-top:2px;flex-wrap:wrap;
+}
+.reaction-btn {
+  background:var(--bg);border:0.5px solid var(--border);
+  border-radius:999px;padding:2px 8px;font-size:12px;
+  cursor:pointer;transition:transform .1s;
+}
+.reaction-btn:hover{transform:scale(1.2);}
+.reaction-btn.active{
+  background:rgba(124,58,237,0.15);
+  border-color:var(--accent);
+}
+.react-trigger {
+  font-size:11px;cursor:pointer;opacity:0;
+  transition:opacity .2s;color:var(--text-dim);
+  background:none;border:none;padding:2px 6px;
+}
+.bubble-wrap:hover .react-trigger{opacity:1;}
 </style>
 </head>
 <body>
@@ -627,6 +647,10 @@ function renderMessages(messages) {
        ${m.replyTo ? `<div class="reply-bubble">↩ ${escapeHtml(m.replyTo)}</div>` : ''}
 <div class="bubble">${escapeHtml(filterBadWords(m.message))}</div>
         <div class="time-tag">${formatTime(m.timestamp)}${tickHtml}</div>
+<div class="reaction-bar" id="react-${escapeHtml(String(m.id||idx))}">
+  ${renderReactions(m.id||idx)}
+</div>
+<button class="react-trigger" onclick="showReactPicker(${idx},'${escapeHtml(String(m.id||idx))}')">😊+</button>
       </div>
     </div>`;
   });
@@ -671,6 +695,82 @@ async function sendMessage() {
   document.getElementById('send-btn').disabled = true;
   sendTypingStatus(false);
 cancelReply();
+  /* ── REACTIONS ── */
+const REACTIONS = ['👍','❤️','😂','😮','😢','🔥'];
+let reactionsData = JSON.parse(localStorage.getItem('baaz_reactions') || '{}');
+
+function saveReactions() {
+  localStorage.setItem('baaz_reactions', JSON.stringify(reactionsData));
+}
+
+function renderReactions(msgId) {
+  const data = reactionsData[msgId] || {};
+  return Object.keys(data).map(emoji => {
+    const users = data[emoji] || [];
+    if (!users.length) return '';
+    const isMine = users.includes(currentUser?.email);
+    return `<span class="reaction-btn ${isMine ? 'active' : ''}" 
+      onclick="toggleReaction('${msgId}','${emoji}')"
+      title="${users.join(', ')}">
+      ${emoji} ${users.length}
+    </span>`;
+  }).join('');
+}
+
+function showReactPicker(idx, msgId) {
+  // Remove existing picker
+  document.querySelectorAll('.react-picker').forEach(e => e.remove());
+  
+  const picker = document.createElement('div');
+  picker.className = 'react-picker';
+  picker.style.cssText = `
+    position:fixed;z-index:999;
+    background:var(--card);border:0.5px solid var(--border);
+    border-radius:999px;padding:6px 10px;
+    display:flex;gap:8px;font-size:20px;
+    box-shadow:0 4px 20px rgba(0,0,0,0.3);
+  `;
+  
+  const msgEl = document.getElementById(`msg-${msgId}`);
+  if (msgEl) {
+    const rect = msgEl.getBoundingClientRect();
+    picker.style.top = (rect.top - 50) + 'px';
+    picker.style.left = Math.min(rect.left, window.innerWidth - 280) + 'px';
+  }
+  
+  REACTIONS.forEach(emoji => {
+    const btn = document.createElement('span');
+    btn.innerText = emoji;
+    btn.style.cursor = 'pointer';
+    btn.onclick = () => {
+      toggleReaction(msgId, emoji);
+      picker.remove();
+    };
+    picker.appendChild(btn);
+  });
+  
+  document.body.appendChild(picker);
+  setTimeout(() => document.addEventListener('click', () => picker.remove(), { once: true }), 100);
+}
+
+function toggleReaction(msgId, emoji) {
+  if (!currentUser) return;
+  if (!reactionsData[msgId]) reactionsData[msgId] = {};
+  if (!reactionsData[msgId][emoji]) reactionsData[msgId][emoji] = [];
+  
+  const users = reactionsData[msgId][emoji];
+  const idx = users.indexOf(currentUser.email);
+  
+  if (idx === -1) users.push(currentUser.email);
+  else users.splice(idx, 1);
+  
+  if (!users.length) delete reactionsData[msgId][emoji];
+  saveReactions();
+  
+  // Update UI
+  const bar = document.getElementById(`react-${msgId}`);
+  if (bar) bar.innerHTML = renderReactions(msgId);
+}
 
   try {
     await fetch(APPS_SCRIPT_URL, {
