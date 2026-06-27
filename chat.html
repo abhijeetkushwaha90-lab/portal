@@ -481,7 +481,7 @@ function init() {
   document.getElementById('input-bar').style.display = 'block';
   requestNotificationPermission();
   loadMessages();
-  setInterval(loadMessages, 4000);
+  setInterval(loadMessages, 1000);
   setInterval(checkTyping, 3000);
 }
 
@@ -790,9 +790,6 @@ async function sendMessage() {
     if (!confirm('Aapke message mein inappropriate words hain. Phir bhi bhejein?')) return;
   }
 
-  /* ✅ FIX 4: replyTo ko PEHLE save karo, PHIR cancelReply() bulao
-     (Pehle cancelReply() pehle call hoti thi jisse replyingTo = null
-      ho jaata tha aur reply kabhi bhi server ko nahi jaata tha) */
   const replyToText = replyingTo
     ? replyingTo.name + ': ' + replyingTo.message.substring(0, 60)
     : "";
@@ -803,6 +800,20 @@ async function sendMessage() {
   document.getElementById('send-btn').disabled = true;
   sendTypingStatus(false);
   cancelReply();
+
+  // Turant locally dikhao
+  const win = document.getElementById('chat-window');
+  const tempDiv = document.createElement('div');
+  tempDiv.id = 'temp-msg';
+  tempDiv.innerHTML = `<div class="msg-row mine" style="opacity:0.6">
+    <div class="avatar mine">${initials(currentUser.name)}</div>
+    <div class="bubble-wrap">
+      <div class="bubble">${escapeHtml(filtered)}</div>
+      <div class="time-tag">Sending...</div>
+    </div>
+  </div>`;
+  win.appendChild(tempDiv);
+  win.scrollTop = win.scrollHeight;
 
   try {
     await fetch(APPS_SCRIPT_URL, {
@@ -825,7 +836,6 @@ async function sendMessage() {
   document.getElementById('send-btn').disabled = false;
   input.focus();
 }
-
 /* ── VIEW PHOTO ── */
 function viewPhoto(src, name) {
   if (!src) return;
