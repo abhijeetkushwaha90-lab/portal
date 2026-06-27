@@ -537,6 +537,12 @@ async function loadMessages() {
   try {
     const res = await fetch(APPS_SCRIPT_URL + "?action=get_chat_messages");
     const data = await res.json();
+    // profileImage ko trim karo taaki render fast ho
+data.forEach(m => {
+  if (m.profileImage && m.profileImage.length > 5000) {
+    m.profileImage = ''; // too large, skip karo
+  }
+});
     if (data.length === lastMessageCount) return;
 
     const isFirstLoad = lastMessageCount === 0;
@@ -554,9 +560,8 @@ async function loadMessages() {
         }
       }
     }
-  } catch (e) {}
+} catch (e) { console.error('loadMessages error:', e); }
 }
-
 /* ── RENDER HELPERS ── */
 function initials(name) {
   return (name || "?").trim().split(/\s+/).map(w => w[0]).join("").substring(0,2).toUpperCase();
