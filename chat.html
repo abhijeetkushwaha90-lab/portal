@@ -55,12 +55,6 @@ header .title{font-weight:900;font-size:14px;color:#fff;letter-spacing:.02em;fle
 header .sub{font-size:9px;color:rgba(255,255,255,0.6);font-weight:700;text-transform:uppercase;display:flex;align-items:center;gap:5px;margin-top:2px;}
 .live-dot{width:6px;height:6px;border-radius:50%;background:#10b981;box-shadow:0 0 6px #10b981;animation:pulse 1.6s infinite;}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-  <button id="search-toggle-btn" onclick="toggleSearch()" 
-  style="background:rgba(255,255,255,0.15);border:none;color:#fff;
-  width:32px;height:32px;border-radius:8px;cursor:pointer;
-  display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;">
-  <i class="fas fa-search"></i>
-</button>
 #theme-btn{
   background:rgba(255,255,255,0.15);border:none;color:#fff;
   width:32px;height:32px;border-radius:8px;cursor:pointer;
@@ -68,20 +62,17 @@ header .sub{font-size:9px;color:rgba(255,255,255,0.6);font-weight:700;text-trans
   flex-shrink:0;
 }
 #theme-btn:hover{background:rgba(255,255,255,0.25);}
-
 #online-count{
   font-size:9px;font-weight:800;color:#10b981;
   background:rgba(16,185,129,0.1);border:0.5px solid rgba(16,185,129,0.3);
   padding:2px 8px;border-radius:999px;flex-shrink:0;
 }
-
 #chat-window{
   flex:1;overflow-y:auto;padding:14px 12px 8px;display:flex;flex-direction:column;gap:2px;
   scroll-behavior:smooth;
 }
 #chat-window::-webkit-scrollbar{width:4px;}
 #chat-window::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px;}
-
 #typing-indicator{
   display:none;padding:6px 14px 2px;
   font-size:11px;color:var(--text-dim);font-style:italic;
@@ -95,11 +86,9 @@ header .sub{font-size:9px;color:rgba(255,255,255,0.6);font-weight:700;text-trans
 .typing-dots span:nth-child(2){animation-delay:.2s;}
 .typing-dots span:nth-child(3){animation-delay:.4s;}
 @keyframes typingBounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}
-
 .msg-row{display:flex;gap:8px;max-width:84%;margin-bottom:8px;align-items:flex-end;}
 .msg-row.mine{align-self:flex-end;flex-direction:row-reverse;}
 .msg-row.other{align-self:flex-start;}
-
 .avatar{
   width:32px;height:32px;border-radius:50%;flex-shrink:0;
   display:flex;align-items:center;justify-content:center;
@@ -110,7 +99,6 @@ header .sub{font-size:9px;color:rgba(255,255,255,0.6);font-weight:700;text-trans
 .avatar.male{background:linear-gradient(135deg,#3b82f6,#1e40af);border:2px solid #3b82f6;}
 .avatar.female{background:linear-gradient(135deg,#ec4899,#be185d);border:2px solid #ec4899;}
 .avatar.mine{background:linear-gradient(135deg,#7c3aed,#5b21b6);}
-
 .bubble-wrap{display:flex;flex-direction:column;gap:2px;position:relative;}
 .msg-row.mine .bubble-wrap{align-items:flex-end;}
 .name-tag{font-size:11px;font-weight:800;color:var(--text);padding:0 4px;display:flex;align-items:center;gap:4px;white-space:nowrap;}
@@ -134,7 +122,6 @@ header .sub{font-size:9px;color:rgba(255,255,255,0.6);font-weight:700;text-trans
   background:linear-gradient(135deg,rgba(212,137,26,0.12),var(--bg));
   border:0.5px solid rgba(212,137,26,0.3);
 }
-
 .delete-btn{
   display:none;position:absolute;top:-8px;right:-8px;
   width:20px;height:20px;border-radius:50%;
@@ -143,19 +130,16 @@ header .sub{font-size:9px;color:rgba(255,255,255,0.6);font-weight:700;text-trans
   box-shadow:0 2px 6px rgba(0,0,0,0.3);
 }
 .bubble-wrap:hover .delete-btn{display:flex;}
-
 .time-tag{font-size:9px;color:var(--text-dim);padding:0 4px;display:flex;align-items:center;gap:3px;}
 .tick{font-size:10px;}
 .tick.seen{color:#10b981;}
 .tick.sent{color:var(--text-dim);}
-
 .date-divider{
   text-align:center;font-size:9px;font-weight:800;
   color:var(--text-dim);text-transform:uppercase;letter-spacing:.05em;
   margin:8px 0;display:flex;align-items:center;gap:8px;
 }
 .date-divider::before,.date-divider::after{content:'';flex:1;height:0.5px;background:var(--border);}
-
 #empty-state{
   margin:auto;text-align:center;color:var(--text-dim);font-size:12px;
   display:flex;flex-direction:column;align-items:center;gap:10px;padding:30px;
@@ -166,28 +150,20 @@ header .sub{font-size:9px;color:rgba(255,255,255,0.6);font-weight:700;text-trans
   display:flex;flex-direction:column;align-items:center;gap:10px;
 }
 #login-warning i{font-size:28px;color:var(--accent);}
-
-#input-bar{
-  flex-shrink:0;
-  border-top:0.5px solid var(--border);
-  background:var(--card);
-}
-#input-row{
-  display:flex;gap:8px;padding:10px 12px;align-items:center;
-}
+#input-bar{flex-shrink:0;border-top:0.5px solid var(--border);background:var(--card);}
+#input-row{display:flex;gap:8px;padding:10px 12px;align-items:center;}
 #msg-input{
   flex:1;background:var(--bg);border:0.5px solid var(--border);color:var(--text);
   border-radius:24px;padding:10px 16px;font-size:13px;outline:none;
 }
 #msg-input:focus{border-color:var(--accent);}
 #msg-input::placeholder{color:var(--text-dim);}
-
 #emoji-btn{
   width:36px;height:36px;border-radius:50%;flex-shrink:0;
   background:var(--bg);border:0.5px solid var(--border);color:var(--text-dim);
   cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;
 }
-
+#emoji-btn:hover{border-color:var(--accent);color:var(--accent);}
 #send-btn{
   width:40px;height:40px;border-radius:50%;flex-shrink:0;
   background:linear-gradient(135deg,#7c3aed,#6d28d9);color:#fff;border:none;
@@ -196,19 +172,13 @@ header .sub{font-size:9px;color:rgba(255,255,255,0.6);font-weight:700;text-trans
 }
 #send-btn:hover{transform:scale(1.06);}
 #send-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;}
-
 #emoji-picker{
   display:none;padding:10px 12px;border-top:0.5px solid var(--border);
-  flex-wrap:wrap;gap:4px;max-height:140px;overflow-y:auto;
-  background:var(--bg);
+  flex-wrap:wrap;gap:4px;max-height:140px;overflow-y:auto;background:var(--bg);
 }
 #emoji-picker.open{display:flex;}
-#emoji-picker span{
-  font-size:22px;cursor:pointer;padding:4px;border-radius:8px;
-  transition:transform .1s;
-}
+#emoji-picker span{font-size:22px;cursor:pointer;padding:4px;border-radius:8px;transition:transform .1s;}
 #emoji-picker span:hover{transform:scale(1.3);background:var(--border);}
-
 #notif-badge{
   display:none;position:absolute;top:8px;right:8px;
   background:#e11d48;color:#fff;font-size:9px;font-weight:900;
@@ -218,85 +188,42 @@ header .sub{font-size:9px;color:rgba(255,255,255,0.6);font-weight:700;text-trans
   animation:badgePop .3s ease;
 }
 @keyframes badgePop{0%{transform:scale(0)}100%{transform:scale(1)}}
-
-/* NOTIF PERMISSION BANNER */
 #notif-banner{
   display:none;
   background:linear-gradient(135deg,rgba(124,58,237,0.2),rgba(212,137,26,0.1));
   border-bottom:0.5px solid rgba(124,58,237,0.3);
-  padding:8px 12px;
-  font-size:11px;font-weight:700;color:var(--text);
-  align-items:center;gap:8px;
-  flex-shrink:0;
+  padding:8px 12px;font-size:11px;font-weight:700;color:var(--text);
+  align-items:center;gap:8px;flex-shrink:0;
 }
 #notif-banner button{
   background:var(--accent);color:#000;border:none;
-  padding:3px 10px;border-radius:8px;font-size:10px;font-weight:800;cursor:pointer;
-  flex-shrink:0;
+  padding:3px 10px;border-radius:8px;font-size:10px;font-weight:800;cursor:pointer;flex-shrink:0;
 }
-#notif-banner .close-banner{
-  background:transparent;color:var(--text-dim);margin-left:auto;font-size:14px;
+#notif-banner .close-banner{background:transparent;color:var(--text-dim);margin-left:auto;font-size:14px;}
+#reply-preview{
+  display:none;background:rgba(124,58,237,0.1);border-left:3px solid var(--accent);
+  padding:6px 12px;font-size:11px;color:var(--text-dim);align-items:center;gap:8px;flex-shrink:0;
 }
-
-/* REPLY PREVIEW */
-#reply-preview {
-  display:none;
-  background:rgba(124,58,237,0.1);
-  border-left:3px solid var(--accent);
-  padding:6px 12px;
-  font-size:11px;
-  color:var(--text-dim);
-  align-items:center;
-  gap:8px;
-  flex-shrink:0;
+#reply-preview .reply-text{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+#reply-preview .reply-close{cursor:pointer;background:none;border:none;color:var(--text-dim);font-size:14px;}
+.reply-bubble{
+  background:rgba(124,58,237,0.08);border-left:2px solid var(--accent);border-radius:6px;
+  padding:4px 8px;font-size:10px;color:var(--text-dim);margin-bottom:4px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
 }
-#reply-preview .reply-text {
-  flex:1;
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
-}
-#reply-preview .reply-close {
-  cursor:pointer;
-  background:none;
-  border:none;
-  color:var(--text-dim);
-  font-size:14px;
-}
-.reply-bubble {
-  background:rgba(124,58,237,0.08);
-  border-left:2px solid var(--accent);
-  border-radius:6px;
-  padding:4px 8px;
-  font-size:10px;
-  color:var(--text-dim);
-  margin-bottom:4px;
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
-}
-
-/* REACTIONS */
-.reaction-bar {
-  display:flex;gap:4px;margin-top:2px;flex-wrap:wrap;
-}
-.reaction-btn {
+.reaction-bar{display:flex;gap:4px;margin-top:2px;flex-wrap:wrap;}
+.reaction-btn{
   background:var(--bg);border:0.5px solid var(--border);
-  border-radius:999px;padding:2px 8px;font-size:12px;
-  cursor:pointer;transition:transform .1s;
+  border-radius:999px;padding:2px 8px;font-size:12px;cursor:pointer;transition:transform .1s;
 }
 .reaction-btn:hover{transform:scale(1.2);}
-.reaction-btn.active{
-  background:rgba(124,58,237,0.15);
-  border-color:var(--accent);
-}
-.react-trigger {
-  font-size:11px;cursor:pointer;opacity:0;
-  transition:opacity .2s;color:var(--text-dim);
-  background:none;border:none;padding:2px 6px;
+.reaction-btn.active{background:rgba(124,58,237,0.15);border-color:var(--accent);}
+.react-trigger{
+  font-size:11px;cursor:pointer;opacity:0;transition:opacity .2s;
+  color:var(--text-dim);background:none;border:none;padding:2px 6px;
 }
 .bubble-wrap:hover .react-trigger{opacity:1;}
-  #scroll-btn {
+#scroll-btn{
   display:none;position:absolute;bottom:80px;right:16px;
   width:36px;height:36px;border-radius:50%;
   background:linear-gradient(135deg,#7c3aed,#6d28d9);
@@ -304,49 +231,37 @@ header .sub{font-size:9px;color:rgba(255,255,255,0.6);font-weight:700;text-trans
   box-shadow:0 4px 12px rgba(124,58,237,0.4);
   align-items:center;justify-content:center;z-index:99;
 }
-  #announce-bar {
+#announce-bar{
   display:none;
   background:linear-gradient(135deg,rgba(212,137,26,0.15),rgba(212,137,26,0.05));
   border-bottom:0.5px solid rgba(212,137,26,0.4);
-  padding:8px 12px;
-  font-size:11px;font-weight:700;color:var(--accent);
+  padding:8px 12px;font-size:11px;font-weight:700;color:var(--accent);
   align-items:center;gap:8px;flex-shrink:0;
 }
-  #search-bar {
-  display:none;
-  padding:8px 12px;
-  border-bottom:0.5px solid var(--border);
-  background:var(--bg);
-  flex-shrink:0;
-}
-#search-input {
-  width:100%;background:var(--card);border:0.5px solid var(--border);
-  color:var(--text);border-radius:24px;padding:8px 16px;
-  font-size:12px;outline:none;
-}
-#search-input:focus{border-color:var(--accent);}
-.msg-hidden{display:none !important;}
-.msg-highlight .bubble{
-  border:1.5px solid var(--accent) !important;
-}
 #announce-bar i{font-size:12px;}
-  #pin-bar {
+#pin-bar{
   display:none;
   background:linear-gradient(135deg,rgba(16,185,129,0.12),rgba(16,185,129,0.05));
   border-bottom:0.5px solid rgba(16,185,129,0.3);
-  padding:8px 12px;
-  font-size:11px;font-weight:700;color:#10b981;
-  align-items:center;gap:8px;flex-shrink:0;
-  cursor:pointer;
+  padding:8px 12px;font-size:11px;font-weight:700;color:#10b981;
+  align-items:center;gap:8px;flex-shrink:0;cursor:pointer;
 }
 #pin-bar i{font-size:12px;}
-  <div id="search-bar">
-  <input id="search-input" type="text" placeholder="🔍 Message search karein...">
-</div>
+#search-bar{
+  display:none;padding:8px 12px;
+  border-bottom:0.5px solid var(--border);
+  background:var(--bg);flex-shrink:0;
+}
+#search-input{
+  width:100%;background:var(--card);border:0.5px solid var(--border);
+  color:var(--text);border-radius:24px;padding:8px 16px;font-size:12px;outline:none;
+}
+#search-input:focus{border-color:var(--accent);}
+.msg-hidden{display:none !important;}
+.msg-highlight .bubble{border:1.5px solid var(--accent) !important;}
 </style>
 </head>
 <body>
-
 <div id="app">
   <header>
     <div class="icon"><i class="fas fa-comments"></i></div>
@@ -355,7 +270,7 @@ header .sub{font-size:9px;color:rgba(255,255,255,0.6);font-weight:700;text-trans
       <div class="sub"><span class="live-dot"></span>Operation Baaz Support</div>
     </div>
     <span id="online-count">● Online</span>
-    <button id="search-toggle-btn" onclick="toggleSearch()" 
+    <button id="search-toggle-btn" onclick="toggleSearch()"
       style="background:rgba(255,255,255,0.15);border:none;color:#fff;
       width:32px;height:32px;border-radius:8px;cursor:pointer;
       display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;">
@@ -363,26 +278,31 @@ header .sub{font-size:9px;color:rgba(255,255,255,0.6);font-weight:700;text-trans
     </button>
     <button id="theme-btn" onclick="toggleTheme()" title="Theme Toggle">
       <i class="fas fa-moon" id="theme-icon"></i>
-    </button>  <!-- NOTIFICATION PERMISSION BANNER -->
+    </button>
+    <div id="notif-badge">0</div>
+  </header>
+
   <div id="notif-banner">
     <i class="fas fa-bell" style="color:var(--accent)"></i>
     <span>Naye messages ki notification paane ke liye allow karo</span>
     <button onclick="askNotifPermission()">Allow 🔔</button>
     <button class="close-banner" onclick="document.getElementById('notif-banner').style.display='none'">✕</button>
   </div>
- <div id="announce-bar">
-  <i class="fas fa-bullhorn"></i>
-  <span id="announce-text"></span>
-</div>
-<div id="pin-bar">
-  <i class="fas fa-thumbtack"></i>
-  <span id="pin-text"></span>
-</div>
-<div id="search-bar">
-  <input id="search-input" type="text" placeholder="🔍 Message search karein...">
-</div>
 
-  <!-- REPLY PREVIEW BAR -->
+  <div id="announce-bar">
+    <i class="fas fa-bullhorn"></i>
+    <span id="announce-text"></span>
+  </div>
+
+  <div id="pin-bar">
+    <i class="fas fa-thumbtack"></i>
+    <span id="pin-text"></span>
+  </div>
+
+  <div id="search-bar">
+    <input id="search-input" type="text" placeholder="🔍 Message search karein...">
+  </div>
+
   <div id="reply-preview">
     <i class="fas fa-reply" style="color:var(--accent);font-size:12px;"></i>
     <div class="reply-text" id="reply-preview-text">Replying to...</div>
@@ -392,7 +312,9 @@ header .sub{font-size:9px;color:rgba(255,255,255,0.6);font-weight:700;text-trans
   <div id="chat-window">
     <div id="empty-state"><i class="fas fa-spinner fa-spin"></i>Loading chat...</div>
   </div>
-<button id="scroll-btn" onclick="scrollToBottom()">⬇</button>
+
+  <button id="scroll-btn" onclick="scrollToBottom()">⬇</button>
+
   <div id="typing-indicator">
     <div class="typing-dots"><span></span><span></span><span></span></div>
     <span id="typing-name">Admin</span> typing...
@@ -400,7 +322,7 @@ header .sub{font-size:9px;color:rgba(255,255,255,0.6);font-weight:700;text-trans
 
   <div id="input-bar" style="display:none">
     <div id="input-row">
-     <button id="emoji-btn" onclick="toggleEmoji()">😊</button>
+      <button id="emoji-btn" onclick="toggleEmoji()">😊</button>
       <input type="file" id="img-input" accept="image/*" style="display:none">
       <button id="img-btn" onclick="document.getElementById('img-input').click()"
         style="width:36px;height:36px;border-radius:50%;flex-shrink:0;
@@ -420,18 +342,14 @@ header .sub{font-size:9px;color:rgba(255,255,255,0.6);font-weight:700;text-trans
 
 <script>
 const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz6X6hX2Mnz-d_-Cao6B7bOkRop3RPnCve5-z_R1iV5kdf3PIL9aG6y8dSca84dpIAc/exec";
-
 const BAD_WORDS = ['gali1','gali2','bc','mc','bkl','sala','harami','chutiya','madarchod','behenchod','randi','gaand'];
-
 let currentUser = null;
 let lastMessageCount = 0;
 let unreadCount = 0;
 let emojiOpen = false;
 let isWindowFocused = true;
-
 const notifySound = new Audio("https://cdn.freesound.org/previews/536/536108_7461855-lq.mp3");
 
-/* ── PUSH NOTIFICATIONS ── */
 function requestNotificationPermission() {
   if (!('Notification' in window)) return;
   if (Notification.permission === 'default') {
@@ -440,10 +358,7 @@ function requestNotificationPermission() {
 }
 
 function askNotifPermission() {
-  if (!('Notification' in window)) {
-    alert('Aapka browser notifications support nahi karta.');
-    return;
-  }
+  if (!('Notification' in window)) { alert('Aapka browser notifications support nahi karta.'); return; }
   Notification.requestPermission().then(permission => {
     document.getElementById('notif-banner').style.display = 'none';
     if (permission === 'granted') {
@@ -464,14 +379,11 @@ function showPushNotification(name, message) {
       body: message.length > 60 ? message.substring(0, 60) + '...' : message,
       icon: 'https://cdn-icons-png.flaticon.com/512/134/134914.png',
       badge: 'https://cdn-icons-png.flaticon.com/512/134/134914.png',
-      tag: 'baaz-chat',
-      renotify: true,
-      vibrate: [200, 100, 200]
+      tag: 'baaz-chat', renotify: true, vibrate: [200, 100, 200]
     });
   } catch(e) {}
 }
 
-/* ── THEME ── */
 function toggleTheme() {
   const html = document.documentElement;
   const isLight = html.getAttribute('data-theme') === 'light';
@@ -486,7 +398,6 @@ function loadTheme() {
   document.getElementById('theme-icon').className = t === 'light' ? 'fas fa-sun' : 'fas fa-moon';
 }
 
-/* ── EMOJI ── */
 function toggleEmoji() {
   emojiOpen = !emojiOpen;
   document.getElementById('emoji-picker').classList.toggle('open', emojiOpen);
@@ -494,9 +405,7 @@ function toggleEmoji() {
 
 document.addEventListener('DOMContentLoaded', () => {
   const picker = document.getElementById('emoji-picker');
-  picker.innerHTML = picker.textContent.trim().split(/\s+/).map(e =>
-    `<span>${e}</span>`
-  ).join('');
+  picker.innerHTML = picker.textContent.trim().split(/\s+/).map(e => `<span>${e}</span>`).join('');
   picker.querySelectorAll('span').forEach(span => {
     span.onclick = () => {
       document.getElementById('msg-input').value += span.textContent;
@@ -505,7 +414,6 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-/* ── BAD WORDS FILTER ── */
 function filterBadWords(text) {
   let clean = text;
   BAD_WORDS.forEach(w => {
@@ -515,16 +423,9 @@ function filterBadWords(text) {
   return clean;
 }
 
-/* ── WINDOW FOCUS ── */
-window.addEventListener('focus', () => {
-  isWindowFocused = true;
-  clearBadge();
-});
-window.addEventListener('blur', () => {
-  isWindowFocused = false;
-});
+window.addEventListener('focus', () => { isWindowFocused = true; clearBadge(); });
+window.addEventListener('blur', () => { isWindowFocused = false; });
 
-/* ── NOTIFICATION BADGE ── */
 function showBadge() {
   unreadCount++;
   const b = document.getElementById('notif-badge');
@@ -539,7 +440,6 @@ function clearBadge() {
   document.title = 'Live Chat — Operation Baaz';
 }
 
-/* ── INIT ── */
 function init() {
   loadTheme();
   const saved = localStorage.getItem('baaz_userdata');
@@ -556,11 +456,10 @@ function init() {
   setInterval(checkTyping, 3000);
   updateOnlineCount();
   setInterval(updateOnlineCount, 15000);
- loadAnnouncement();
+  loadAnnouncement();
   setInterval(loadAnnouncement, 30000);
   loadPin();
 }
-  
 
 async function loadAnnouncement() {
   try {
@@ -573,9 +472,7 @@ async function loadAnnouncement() {
   } catch(e) {}
 }
 
-/* ── TYPING INDICATOR ── */
 let myTypingTimeout = null;
-
 document.addEventListener('DOMContentLoaded', () => {
   const input = document.getElementById('msg-input');
   if (!input) return;
@@ -592,12 +489,7 @@ async function sendTypingStatus(isTyping) {
     await fetch(APPS_SCRIPT_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify({
-        action: 'set_typing',
-        email: currentUser.email,
-        name: currentUser.name,
-        typing: isTyping
-      })
+      body: JSON.stringify({ action: 'set_typing', email: currentUser.email, name: currentUser.name, typing: isTyping })
     });
   } catch(e) {}
 }
@@ -619,64 +511,49 @@ async function checkTyping() {
     document.getElementById('typing-indicator').style.display = 'none';
   }
 }
+
 async function updateOnlineCount() {
   if (!currentUser) return;
-  // Sirf background mein bhejo, await mat karo
   fetch(APPS_SCRIPT_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-    body: JSON.stringify({
-      action: 'set_online',
-      email: currentUser.email,
-      name: currentUser.name
-    })
+    body: JSON.stringify({ action: 'set_online', email: currentUser.email, name: currentUser.name })
   }).catch(() => {});
-  // Count locally loadMessages ke saath update hoga
   fetch(APPS_SCRIPT_URL + '?action=get_online_count')
     .then(r => r.json())
-    .then(d => {
-      document.getElementById('online-count').innerText = '● ' + (d.count || 1) + ' Online';
-    }).catch(() => {});
+    .then(d => { document.getElementById('online-count').innerText = '● ' + (d.count || 1) + ' Online'; })
+    .catch(() => {});
 }
-/* ── LOAD MESSAGES ── */
+
 async function loadMessages() {
   try {
     const res = await fetch(APPS_SCRIPT_URL + "?action=get_chat_messages");
     const data = await res.json();
-    // profileImage ko trim karo taaki render fast ho
-data.forEach(m => {
-  if (m.profileImage && m.profileImage.length > 5000) {
-    m.profileImage = ''; // too large, skip karo
-  }
-});
+    data.forEach(m => {
+      if (m.profileImage && m.profileImage.length > 5000) m.profileImage = '';
+    });
     if (data.length === lastMessageCount) return;
-
     const isFirstLoad = lastMessageCount === 0;
     const newCount = data.length - lastMessageCount;
     lastMessageCount = data.length;
     renderMessages(data);
-
     if (!isFirstLoad && newCount > 0) {
       const last = data[data.length - 1];
       if (last.email !== currentUser.email) {
         notifySound.play().catch(() => {});
-        if (!isWindowFocused) {
-          showBadge();
-          showPushNotification(last.name, last.message);
-        }
+        if (!isWindowFocused) { showBadge(); showPushNotification(last.name, last.message); }
       }
     }
-} catch (e) { console.error('loadMessages error:', e); }
+  } catch(e) { console.error('loadMessages error:', e); }
 }
-/* ── RENDER HELPERS ── */
+
 function initials(name) {
   return (name || "?").trim().split(/\s+/).map(w => w[0]).join("").substring(0,2).toUpperCase();
 }
 
 function formatTime(ts) {
-  try {
-    return new Date(ts).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
-  } catch(e) { return ""; }
+  try { return new Date(ts).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' }); }
+  catch(e) { return ""; }
 }
 
 function formatDate(ts) {
@@ -690,17 +567,10 @@ function formatDate(ts) {
   } catch(e) { return ''; }
 }
 
-/* ═══════════════════════════════════════════════════
-   ✅ FIX 1: REACTIONS — GLOBAL SCOPE MEIN MOVE KIYA
-   (Pehle yeh sendMessage() ke andar tha — isliye
-    renderMessages() aur onclick dono fail hote the)
-═══════════════════════════════════════════════════ */
 const REACTIONS = ['👍','❤️','😂','😮','😢','🔥'];
 let reactionsData = JSON.parse(localStorage.getItem('baaz_reactions') || '{}');
 
-function saveReactions() {
-  localStorage.setItem('baaz_reactions', JSON.stringify(reactionsData));
-}
+function saveReactions() { localStorage.setItem('baaz_reactions', JSON.stringify(reactionsData)); }
 
 function renderReactions(msgId) {
   const data = reactionsData[msgId] || {};
@@ -710,43 +580,28 @@ function renderReactions(msgId) {
     const isMine = users.includes(currentUser?.email);
     return `<span class="reaction-btn ${isMine ? 'active' : ''}"
       onclick="toggleReaction('${msgId}','${emoji}')"
-      title="${users.join(', ')}">
-      ${emoji} ${users.length}
-    </span>`;
+      title="${users.join(', ')}">${emoji} ${users.length}</span>`;
   }).join('');
 }
 
 function showReactPicker(idx, msgId) {
   document.querySelectorAll('.react-picker').forEach(e => e.remove());
-
   const picker = document.createElement('div');
   picker.className = 'react-picker';
-  picker.style.cssText = `
-    position:fixed;z-index:999;
-    background:var(--card);border:0.5px solid var(--border);
-    border-radius:999px;padding:6px 10px;
-    display:flex;gap:8px;font-size:20px;
-    box-shadow:0 4px 20px rgba(0,0,0,0.3);
-  `;
-
+  picker.style.cssText = `position:fixed;z-index:999;background:var(--card);border:0.5px solid var(--border);border-radius:999px;padding:6px 10px;display:flex;gap:8px;font-size:20px;box-shadow:0 4px 20px rgba(0,0,0,0.3);`;
   const msgEl = document.getElementById(`msg-${msgId}`);
   if (msgEl) {
     const rect = msgEl.getBoundingClientRect();
     picker.style.top = (rect.top - 50) + 'px';
     picker.style.left = Math.min(rect.left, window.innerWidth - 280) + 'px';
   }
-
   REACTIONS.forEach(emoji => {
     const btn = document.createElement('span');
     btn.innerText = emoji;
     btn.style.cursor = 'pointer';
-    btn.onclick = () => {
-      toggleReaction(msgId, emoji);
-      picker.remove();
-    };
+    btn.onclick = () => { toggleReaction(msgId, emoji); picker.remove(); };
     picker.appendChild(btn);
   });
-
   document.body.appendChild(picker);
   setTimeout(() => document.addEventListener('click', () => picker.remove(), { once: true }), 100);
 }
@@ -755,75 +610,60 @@ function toggleReaction(msgId, emoji) {
   if (!currentUser) return;
   if (!reactionsData[msgId]) reactionsData[msgId] = {};
   if (!reactionsData[msgId][emoji]) reactionsData[msgId][emoji] = [];
-
   const users = reactionsData[msgId][emoji];
   const idx = users.indexOf(currentUser.email);
-
   if (idx === -1) users.push(currentUser.email);
   else users.splice(idx, 1);
-
   if (!users.length) delete reactionsData[msgId][emoji];
   saveReactions();
-
   const bar = document.getElementById(`react-${msgId}`);
   if (bar) bar.innerHTML = renderReactions(msgId);
 }
 
-/* ── RENDER MESSAGES ── */
 function renderMessages(messages) {
   const win = document.getElementById('chat-window');
   if (!messages.length) {
     win.innerHTML = '<div id="empty-state"><i class="fas fa-comment-dots"></i>Koi message nahi abhi.<br>Sabse pehle aap baat shuru karein! 👋</div>';
     return;
   }
-
   const isAdmin = currentUser.role === 'admin';
   let lastDate = '';
   let html = '';
-
   messages.forEach((m, idx) => {
     const isMine = m.email === currentUser.email;
     const mIsAdmin = m.role === 'admin';
     const rowCls = isMine ? 'msg-row mine' : (mIsAdmin ? 'msg-row other admin-msg' : 'msg-row other');
-
     let avatarCls = 'mine';
     if (!isMine) {
       if (mIsAdmin) avatarCls = 'admin';
       else if (m.gender === 'Female' || m.gender === 'female') avatarCls = 'female';
       else avatarCls = 'male';
     }
-
     const msgDate = formatDate(m.timestamp);
     if (msgDate && msgDate !== lastDate) {
       html += `<div class="date-divider">${msgDate}</div>`;
       lastDate = msgDate;
     }
-
     const tickHtml = isMine
       ? `<span class="tick ${m.seen ? 'seen' : 'sent'}">${m.seen ? '✓✓' : '✓'}</span>`
       : '';
-
-  const deleteBtn = isAdmin
+    const deleteBtn = isAdmin
       ? `<button class="delete-btn" onclick="deleteMessage('${escapeHtml(m.id||idx)}',this)" title="Delete"><i class="fas fa-times"></i></button>`
       : '';
-
     const pinBtn = isAdmin
-      ? `<button class="delete-btn" style="right:16px;top:14px;background:#10b981;" 
-          onclick="pinMessage('${escapeHtml(String(m.id||idx))}','${escapeHtml(m.message.substring(0,100))}')" 
+      ? `<button class="delete-btn" style="right:16px;top:14px;background:#10b981;"
+          onclick="pinMessage('${escapeHtml(String(m.id||idx))}','${escapeHtml(m.message.substring(0,100))}')"
           title="Pin">📌</button>`
       : '';
     const hasPhoto = m.profileImage && m.profileImage.length > 10 && m.profileImage !== 'undefined' && m.profileImage !== 'null';
     const avatarContent = hasPhoto
       ? `<img src="${m.profileImage}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" onerror="this.style.display='none'">`
       : escapeHtml(initials(m.name));
-
-    /* ✅ FIX 2: Reply button ke liye data attributes use kiye
-       (Pehle inline onclick mein single-quote wali values thi
-        jो apostrophe wale names se break ho jaati thi) */
+    const msgContent = m.message.startsWith('data:image')
+      ? `<img src="${m.message}" style="max-width:200px;border-radius:12px;cursor:pointer;" onclick="viewPhoto('${m.message}','')">`
+      : escapeHtml(filterBadWords(m.message));
     html += `<div class="${rowCls}" id="msg-${escapeHtml(String(m.id||idx))}">
-      <div class="avatar ${avatarCls}" onclick="viewPhoto('${hasPhoto ? m.profileImage : ''}','${escapeHtml(m.name)}')">
-        ${avatarContent}
-      </div>
+      <div class="avatar ${avatarCls}" onclick="viewPhoto('${hasPhoto ? m.profileImage : ''}','${escapeHtml(m.name)}')">${avatarContent}</div>
       <div class="bubble-wrap">
         ${deleteBtn}${pinBtn}
         <div class="name-tag">
@@ -836,21 +676,17 @@ function renderMessages(messages) {
           ${mIsAdmin ? '<span class="badge">ADMIN</span>' : ''}
         </div>
         ${m.replyTo ? `<div class="reply-bubble">↩ ${escapeHtml(m.replyTo)}</div>` : ''}
-       <div class="bubble">${m.message.startsWith('data:image') ? `<img src="${m.message}" style="max-width:200px;border-radius:12px;cursor:pointer;" onclick="viewPhoto('${m.message}','')">` : escapeHtml(filterBadWords(m.message))}</div>
+        <div class="bubble">${msgContent}</div>
         <div class="time-tag">${formatTime(m.timestamp)}${tickHtml}</div>
-        <div class="reaction-bar" id="react-${escapeHtml(String(m.id||idx))}">
-          ${renderReactions(m.id||idx)}
-        </div>
+        <div class="reaction-bar" id="react-${escapeHtml(String(m.id||idx))}">${renderReactions(m.id||idx)}</div>
         <button class="react-trigger" onclick="showReactPicker(${idx},'${escapeHtml(String(m.id||idx))}')">😊+</button>
       </div>
     </div>`;
   });
-
   win.innerHTML = html;
   win.scrollTop = win.scrollHeight;
 }
 
-/* ── DELETE MESSAGE (Admin) ── */
 async function deleteMessage(msgId, btn) {
   if (!confirm('Yeh message delete karein?')) return;
   const row = btn.closest('.msg-row');
@@ -869,58 +705,42 @@ async function deleteMessage(msgId, btn) {
   }
 }
 
-/* ═══════════════════════════════════════════════════
-   ✅ FIX 3: REPLY SYSTEM — sendMessage() SE PEHLE RAKHA
-   (Pehle yeh neeche tha — cancelReply() sendMessage
-    ke andar call ho raha tha lekin defined baad mein tha)
-═══════════════════════════════════════════════════ */
 let replyingTo = null;
-
 function setReply(name, message) {
   replyingTo = { name, message };
-  const preview = document.getElementById('reply-preview');
-  const text = document.getElementById('reply-preview-text');
-  preview.style.display = 'flex';
-  text.innerText = name + ': ' + message.substring(0, 60);
+  document.getElementById('reply-preview').style.display = 'flex';
+  document.getElementById('reply-preview-text').innerText = name + ': ' + message.substring(0, 60);
   document.getElementById('msg-input').focus();
 }
-
 function cancelReply() {
   replyingTo = null;
   document.getElementById('reply-preview').style.display = 'none';
 }
-  /* ── PIN MESSAGE ── */
-let pinnedMsg = localStorage.getItem('baaz_pinned') || '';
 
+let pinnedMsg = localStorage.getItem('baaz_pinned') || '';
 function pinMessage(msgId, text) {
   if (currentUser.role !== 'admin') return;
   pinnedMsg = text;
   localStorage.setItem('baaz_pinned', text);
   showPinBar(text);
 }
-
 function showPinBar(text) {
   if (!text) return;
   document.getElementById('pin-text').innerText = '📌 ' + text.substring(0, 80);
   document.getElementById('pin-bar').style.display = 'flex';
 }
-
 function loadPin() {
   const p = localStorage.getItem('baaz_pinned');
   if (p) showPinBar(p);
 }
-    /* ── SEARCH ── */
+
 function toggleSearch() {
   const bar = document.getElementById('search-bar');
   const isOpen = bar.style.display === 'block';
   bar.style.display = isOpen ? 'none' : 'block';
   if (!isOpen) document.getElementById('search-input').focus();
-  else {
-    document.getElementById('search-input').value = '';
-    filterMessages('');
-  }
+  else { document.getElementById('search-input').value = ''; filterMessages(''); }
 }
-
 function filterMessages(query) {
   const rows = document.querySelectorAll('.msg-row');
   rows.forEach(row => {
@@ -936,26 +756,20 @@ function filterMessages(query) {
     }
   });
 }
-
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('search-input')?.addEventListener('input', e => {
     filterMessages(e.target.value.trim());
   });
 });
-  /* ── IMAGE SEND ── */
+
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('img-input')?.addEventListener('change', async (e) => {
     const file = e.target.files[0];
     if (!file) return;
-    if (file.size > 500000) {
-      alert('Image 500KB se chhoti honi chahiye!');
-      return;
-    }
+    if (file.size > 500000) { alert('Image 500KB se chhoti honi chahiye!'); return; }
     const reader = new FileReader();
     reader.onload = async (ev) => {
       const base64 = ev.target.result;
-
-      // Turant locally dikhao
       const win = document.getElementById('chat-window');
       const tempDiv = document.createElement('div');
       tempDiv.innerHTML = `<div class="msg-row mine" style="opacity:0.6">
@@ -967,20 +781,15 @@ document.addEventListener('DOMContentLoaded', () => {
       </div>`;
       win.appendChild(tempDiv);
       win.scrollTop = win.scrollHeight;
-
       try {
         await fetch(APPS_SCRIPT_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'text/plain;charset=utf-8' },
           body: JSON.stringify({
             action: 'send_chat_message',
-            email: currentUser.email,
-            name: currentUser.name,
-            role: currentUser.role || 'student',
-            message: base64,
-            gender: currentUser.gender || '',
-            profileImage: '',
-            replyTo: ''
+            email: currentUser.email, name: currentUser.name,
+            role: currentUser.role || 'student', message: base64,
+            gender: currentUser.gender || '', profileImage: '', replyTo: ''
           })
         });
         loadMessages();
@@ -991,29 +800,21 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-/* ── SEND MESSAGE ── */
 async function sendMessage() {
   const input = document.getElementById('msg-input');
   const text = input.value.trim();
   if (!text || !currentUser) return;
-
   const filtered = filterBadWords(text);
   if (filtered !== text) {
     if (!confirm('Aapke message mein inappropriate words hain. Phir bhi bhejein?')) return;
   }
-
-  const replyToText = replyingTo
-    ? replyingTo.name + ': ' + replyingTo.message.substring(0, 60)
-    : "";
-
+  const replyToText = replyingTo ? replyingTo.name + ': ' + replyingTo.message.substring(0, 60) : "";
   input.value = '';
   emojiOpen = false;
   document.getElementById('emoji-picker').classList.remove('open');
   document.getElementById('send-btn').disabled = true;
   sendTypingStatus(false);
   cancelReply();
-
-  // Turant locally dikhao
   const win = document.getElementById('chat-window');
   const tempDiv = document.createElement('div');
   tempDiv.id = 'temp-msg';
@@ -1026,29 +827,24 @@ async function sendMessage() {
   </div>`;
   win.appendChild(tempDiv);
   win.scrollTop = win.scrollHeight;
-
   try {
     await fetch(APPS_SCRIPT_URL, {
       method: "POST",
       headers: { "Content-Type": "text/plain;charset=utf-8" },
       body: JSON.stringify({
         action: "send_chat_message",
-        email: currentUser.email,
-        name: currentUser.name,
-        role: currentUser.role || "student",
-        message: filtered,
-        gender: currentUser.gender || "",
-        profileImage: currentUser.profileImage || "",
+        email: currentUser.email, name: currentUser.name,
+        role: currentUser.role || "student", message: filtered,
+        gender: currentUser.gender || "", profileImage: currentUser.profileImage || "",
         replyTo: replyToText
       })
     });
     loadMessages();
-  } catch (e) {}
-
+  } catch(e) {}
   document.getElementById('send-btn').disabled = false;
   input.focus();
 }
-/* ── VIEW PHOTO ── */
+
 function viewPhoto(src, name) {
   if (!src) return;
   const d = document.createElement('div');
@@ -1058,34 +854,25 @@ function viewPhoto(src, name) {
   document.body.appendChild(d);
 }
 
-/* ── UTILS ── */
 function escapeHtml(s) {
   return String(s || "").replace(/[&<>"']/g, c =>
     ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
 
-/* ── DOMContentLoaded ── */
 document.addEventListener('DOMContentLoaded', () => {
-  // Enter key se message bhejo
   document.getElementById('msg-input')?.addEventListener('keypress', e => {
     if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
   });
-
-  /* ✅ FIX 2 (part 2): Event delegation — dynamically created
-     reply-trigger elements ke liye click handler
-     (Inline onclick hata ke yahan centrally handle kiya) */
   document.getElementById('chat-window').addEventListener('click', e => {
     const trigger = e.target.closest('.reply-trigger');
-    if (trigger) {
-      setReply(trigger.dataset.name, trigger.dataset.msg);
-    }
+    if (trigger) setReply(trigger.dataset.name, trigger.dataset.msg);
   });
 });
-  function scrollToBottom() {
+
+function scrollToBottom() {
   const win = document.getElementById('chat-window');
   win.scrollTop = win.scrollHeight;
 }
-
 document.addEventListener('DOMContentLoaded', () => {
   const win = document.getElementById('chat-window');
   const btn = document.getElementById('scroll-btn');
@@ -1097,7 +884,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 init();
 </script>
-
 <script>
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('/portal/sw.js');
