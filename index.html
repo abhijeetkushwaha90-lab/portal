@@ -559,6 +559,45 @@ body{overflow-x:hidden;}
   <div class="card-label">Study Buddies</div>
   <div class="card-sub">Add & Compare</div>
 </div>
+      CHANGE NEEDED IN YOUR index.html
+==================================
+
+Find this block (your existing "Study Buddies" home-grid tile):
+
+<div class="home-card card-g4" onclick="showScreen('friends')">
+  <div class="card-icon" style="background:linear-gradient(135deg,#86198f,#e879f9)">
+    <i class="fas fa-user-group text-white"></i>
+  </div>
+  <div class="card-label">Study Buddies</div>
+  <div class="card-sub">Add & Compare</div>
+</div>
+<div class="home-card card-g8" onclick="window.open('study-buddies.html','_blank')">
+  <div class="card-icon" style="background:linear-gradient(135deg,#7c3aed,#a855f7)">
+    <i class="fas fa-robot text-white"></i>
+  </div>
+  <div class="card-label">AI Study Buddies</div>
+  <div class="card-sub">Chat & Learn</div>
+</div>
+REPLACE the onclick so it opens the new AI chat page instead of (or in addition to)
+the friends-comparison screen. Two options:
+
+OPTION A — Replace entirely with AI buddies (simplest):
+  onclick="window.open('study-buddies.html','_blank')"
+
+OPTION B — Keep BOTH features by adding a second tile (recommended, since your
+existing "Study Buddies / Add & Compare" feature with referral codes still works
+and is different from AI chat). Add a NEW tile right after it:
+
+<div class="home-card card-g8" onclick="window.open('study-buddies.html','_blank')">
+  <div class="card-icon" style="background:linear-gradient(135deg,#7c3aed,#a855f7)">
+    <i class="fas fa-robot text-white"></i>
+  </div>
+  <div class="card-label">AI Study Buddies</div>
+  <div class="card-sub">Chat & Learn</div>
+</div>
+
+I recommend OPTION B — your real-friend comparison feature and the AI mentor
+chat serve different purposes, no need to remove one for the other.
       <div class="home-card card-g10" onclick="showScreen('ssb')">
         <div class="card-icon" style="background:linear-gradient(135deg,#92400e,#f59e0b)"><i class="fas fa-people-group text-white"></i></div>
         <div class="card-label">SSB Preparation</div><div class="card-sub">WAT • SRT • OIR • GAT</div>
@@ -914,6 +953,7 @@ body{overflow-x:hidden;}
       <div id="buddy-list" class="space-y-2"></div>
     </div>
   </div>
+  
  <!-- RANKING -->
   <div id="screen-ranking">
     <div class="flex items-center gap-3 mb-3">
