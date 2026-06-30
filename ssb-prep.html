@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="hi" data-theme="military">
+<head>
+<meta charset="UTF-8">
+<meta name="theme-color" content="#d4891a">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SSB / AFSB Preparation — Operation Baaz</title>
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+html[data-theme="military"] {
+  --bg:#0a0f18;--card:#131a26;--border:rgba(33,38,53,0.65);
+  --text:#c9d1d9;--text-dim:#7d8590;
+  --accent:#d4891a;--accent2:#b8741a;--accent-text:#0e0a00;
+  --success:#059669;--success2:#10b981;
+  --danger:#e11d48;--danger2:#f43f5e;
+  --flag:#7c3aed;--flag2:#5b21b6;
+}
+html[data-theme="midnight"] {
+  --bg:#0b0c10;--card:#1f2833;--border:rgba(90,90,90,0.3);
+  --text:#c5a059;--text-dim:#9a9a9a;
+  --accent:#66fcf1;--accent2:#45a29e;--accent-text:#0b0c10;
+  --success:#22c55e;--success2:#16a34a;
+  --danger:#ef4444;--danger2:#dc2626;
+  --flag:#a78bfa;--flag2:#7c3aed;
+}
+html[data-theme="minimalist"] {
+  --bg:#f8fafc;--card:#ffffff;--border:#e2e8f0;
+  --text:#0f172a;--text-dim:#64748b;
+  --accent:#2563eb;--accent2:#1d4ed8;--accent-text:#ffffff;
+  --success:#16a34a;--success2:#15803d;
+  --danger:#dc2626;--danger2:#b91c1c;
+  --flag:#4f46e5;--flag2:#4338ca;
+}
+*{box-sizing:border-box;transition:background-color .2s ease,border-color .2s ease,color .2s ease;}
+body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,sans-serif;min-height:100vh;overflow-x:hidden;}
+.premium-card{background:var(--card);border:0.5px solid var(--border);box-shadow:0 12px 40px rgba(0,0,0,.6);backdrop-filter:blur(12px);}
+.surface{background:var(--bg);border:0.5px solid var(--border);}
+.text-muted{color:var(--text-dim);}
+.text-accent{color:var(--accent);}
+.brand-gradient{background-image:linear-gradient(90deg,var(--accent),#a83220,#5522b0);-webkit-background-clip:text;background-clip:text;color:transparent;}
+.btn-accent{background:var(--accent);color:var(--accent-text);}
+.btn-accent:hover{filter:brightness(1.15);}
+.btn-success{background:var(--success);color:#fff;}
+.btn-success:hover{background:var(--success2);}
+.btn-danger-outline{background:color-mix(in srgb,var(--danger) 12%,transparent);color:var(--danger2);border:0.5px solid var(--danger);}
+.btn-neutral{background:var(--border);color:var(--text);}
+.btn-neutral:hover{filter:brightness(1.25);}
+.input-field{background:var(--bg);border:0.5px solid var(--border);color:var(--text);}
+.input-field:focus{outline:none;border-color:var(--accent);}
+.disclaimer-box{background:rgba(244,63,94,0.08);border:0.5px solid rgba(244,63,94,0.35);border-radius:14px;padding:12px 14px;font-size:11px;color:var(--text);line-height:1.5;}
+.ssb-stage-card{background:var(--card);border:0.5px solid var(--border);border-radius:16px;padding:16px;}
+.ssb-stage-card h3{font-size:13px;font-weight:900;color:var(--accent);margin-bottom:6px;}
+.ssb-tab-btn{padding:8px 14px;border-radius:10px;font-size:11px;font-weight:800;cursor:pointer;background:var(--bg);border:0.5px solid var(--border);color:var(--text-dim);}
+.ssb-tab-btn.active{background:var(--accent);color:var(--accent-text);}
+.ssb-quiz-card{background:var(--card);border:0.5px solid var(--border);border-radius:16px;padding:16px;margin-bottom:12px;}
+.oir-opt{background:var(--bg);border:0.5px solid var(--border);border-radius:10px;padding:10px;cursor:pointer;transition:all .2s;font-size:12px;font-weight:600;}
+.oir-opt:hover{border-color:var(--accent);}
+.oir-opt.correct{background:rgba(16,185,129,0.15);border-color:var(--success2);color:var(--success2);}
+.oir-opt.wrong{background:rgba(244,63,94,0.12);border-color:var(--danger2);color:var(--danger2);}
+.tip-box{background:rgba(245,158,11,0.08);border-left:3px solid var(--accent);border-radius:0 10px 10px 0;padding:10px 12px;font-size:11px;margin-top:8px;}
+.xp-bar-track{width:100%;height:7px;border-radius:999px;background:var(--border);overflow:hidden;}
+.xp-bar-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,#f59e0b,#fbbf24);transition:width .6s ease;}
+.spinner{border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;width:28px;height:28px;animation:spin .7s linear infinite;margin:auto;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.watermark-overlay{position:absolute;inset:0;pointer-events:none;overflow:hidden;display:flex;align-items:center;justify-content:center;z-index:5;}
+.watermark-overlay span{display:block;white-space:nowrap;font-size:1.1rem;font-weight:800;color:var(--text);opacity:.03;transform:rotate(-28deg) scale(2.2);letter-spacing:.1em;}
+.hidden{display:none!important;}
+.exam-card{background:var(--card);border:0.5px solid var(--border);border-radius:18px;padding:18px 14px;cursor:pointer;transition:all .2s ease;text-align:center;position:relative;}
+.exam-card:hover{border-color:var(--accent);transform:translateY(-3px);box-shadow:0 12px 30px rgba(0,0,0,.4);}
+.exam-card .ex-icon{font-size:1.9rem;margin-bottom:6px;}
+.exam-card .ex-name{font-size:12px;font-weight:900;}
+.exam-card .ex-sub{font-size:9px;color:var(--text-dim);font-weight:700;margin-top:2px;text-transform:uppercase;}
+.admin-tab{padding:8px 16px;border-radius:10px;font-weight:700;font-size:11px;cursor:pointer;color:var(--text-dim);border:0.5px solid transparent;background:var(--bg);}
+.admin-tab.active{background:var(--accent);color:var(--accent-text);}
+@media(max-width:480px){
+  .premium-card{padding:12px!important;}
+  .ssb-tab-btn{padding:6px 10px!important;font-size:10px!important;}
+  #wat-word{font-size:2.2rem!important;}
+}
+</style>
+</head>
+<body class="p-2 md:p-3">
+
+<div id="auth-block" class="max-w-md mx-auto mt-20 text-center hidden">
+  <div class="premium-card rounded-2xl p-6">
+    <i class="fas fa-lock text-3xl text-accent mb-3"></i>
+    <p class="text-sm font-bold mb-4">Pehle login karein Operation Baaz app mein.</p>
+    <a href="index.html" class="btn-accent px-5 py-2.5 rounded-xl text-xs font-bold inline-block"><i class="fas fa-arrow-left mr-1"></i>Login Page par jao</a>
+  </div>
+</div>
+
+<div id="ssb-app" class="hidden max-w-5xl mx-auto space-y-3">
+
+  <header class="w-full text-center mb-3">
+    <div class="flex items-center justify-center gap-3 mb-1">
+      <div style="width:38px;height:38px;background:linear-gradient(135deg,#d4891a,#a83220);border-radius:10px;display:flex;align-items:center;justify-content:center;">
+        <i class="fas fa-people-group" style="color:#fff;font-size:18px;"></i>
+      </div>
+      <h1 class="text-2xl md:text-3xl font-black tracking-widest brand-gradient">SSB / AFSB PREPARATION</h1>
+    </div>
+    <p class="text-[9px] text-muted uppercase tracking-widest font-semibold">⚔️ Operation Baaz — Exam-wise WAT • SRT • PPDT • TAT • OIR • GTO • PI</p>
+  </header>
+
+  <div class="flex items-center gap-2 mb-3 flex-wrap">
+    <a href="index.html" class="btn-neutral px-3 py-2 rounded-xl text-xs font-bold cursor-pointer"><i class="fas fa-arrow-left mr-1"></i>Back to App</a>
+    <h2 class="text-base font-black text-accent flex-1"><i class="fas fa-people-group mr-1"></i><span id="header-label">Select Exam</span></h2>
+    <button id="admin-bulk-toggle-btn" onclick="toggleAdminPanel()" class="hidden btn-accent px-3 py-2 rounded-xl text-xs font-bold cursor-pointer">
+      <i class="fas fa-user-shield mr-1"></i>Admin: Bulk Add Content
+    </button>
+  </div>
+
+  <!-- ===================== ADMIN BULK PANEL ===================== -->
+  <div id="admin-bulk-panel" class="hidden premium-card rounded-2xl p-5 space-y-4 mb-4" style="border:1px solid rgba(245,158,11,0.35)">
+    <div class="font-black text-amber-500 text-sm"><i class="fas fa-bolt mr-1"></i>Bulk Add SSB Content (Exam-wise)</div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+      <div>
+        <label class="block text-[10px] font-bold text-muted uppercase mb-1">Exam *</label>
+        <select id="bulk-exam" class="w-full input-field rounded-xl px-3 py-2 text-xs cursor-pointer">
+          <option value="NDA">NDA — SSB</option>
+          <option value="CDS">CDS — SSB</option>
+          <option value="AFCAT">AFCAT — AFSB</option>
+          <option value="AIR FORCE X/Y">AIR FORCE X/Y — AFSB</option>
+          <option value="NAVY">NAVY — SSB</option>
+          <option value="ARMY GD">ARMY GD — SRT/Screening</option>
+        </select>
+      </div>
+      <div>
+        <label class="block text-[10px] font-bold text-muted uppercase mb-1">Content Type *</label>
+        <select id="bulk-type" onchange="updateBulkFormatHint()" class="w-full input-field rounded-xl px-3 py-2 text-xs cursor-pointer">
+          <option value="WAT">📝 WAT — Word Association</option>
+          <option value="SRT">⚡ SRT — Situation Reaction</option>
+          <option value="TAT">🖼️ TAT — Thematic Apperception (image URL)</option>
+          <option value="OIR">🧠 OIR — Officer Intelligence</option>
+          <option value="PI">🎙️ PI — Personal Interview</option>
+          <option value="GAT">👥 GAT — Group Tasks</option>
+        </select>
+      </div>
+    </div>
+
+    <div id="bulk-format-hint" class="surface rounded-xl p-3 text-[10px] leading-relaxed text-muted"></div>
+
+    <textarea id="bulk-paste-text" rows="10" placeholder="Yahan bulk content paste karein (har line = 1 entry, format upar dekho)"
+      class="w-full input-field rounded-xl p-3 text-xs font-mono outline-none resize-y"></textarea>
+
+    <div class="flex gap-2 flex-wrap">
+      <button onclick="previewBulkSSB()" class="btn-neutral px-4 py-2.5 rounded-xl text-xs font-bold cursor-pointer"><i class="fas fa-eye mr-1"></i>Preview</button>
+      <button onclick="submitBulkSSB()" class="flex-1 btn-success font-bold py-2.5 rounded-xl text-xs uppercase cursor-pointer"><i class="fas fa-rocket mr-1"></i>Upload All to Sheet</button>
+    </div>
+    <div id="bulk-preview-box" class="hidden surface rounded-xl p-3 text-xs max-h-48 overflow-y-auto"></div>
+    <p id="bulk-status-text" class="text-[10px] text-muted"></p>
+
+    <!-- MANAGE / DELETE EXISTING -->
+    <div class="pt-3 border-t border-slate-700/40">
+      <div class="flex justify-between items-center mb-2">
+        <div class="font-bold text-xs text-accent"><i class="fas fa-list mr-1"></i>Existing Content (selected exam + type)</div>
+        <button onclick="loadAdminManageList()" class="btn-neutral px-3 py-1.5 rounded-xl text-[10px] font-bold cursor-pointer"><i class="fas fa-sync mr-1"></i>Refresh</button>
+      </div>
+      <div id="admin-manage-list" class="space-y-2 max-h-64 overflow-y-auto"></div>
+    </div>
+  </div>
+
+  <!-- ===================== EXAM SELECTION GRID ===================== -->
+  <div id="exam-grid-view">
+    <p class="text-xs text-muted mb-3">Apna exam chuno — usi exam ke SSB/AFSB pattern ke hisaab se sahi stages aur content dikhega.</p>
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-3" id="exam-grid"></div>
+  </div>
+
+  <!-- ===================== STAGE TABS + CONTENT (after exam selected) ===================== -->
+  <div id="stage-view" class="hidden space-y-4">
+    <div class="flex items-center gap-2 mb-1">
+      <button onclick="backToExamGrid()" class="btn-neutral px-3 py-2 rounded-xl text-xs font-bold cursor-pointer"><i class="fas fa-arrow-left mr-1"></i>Change Exam</button>
+      <div class="text-sm font-black text-accent" id="current-exam-label">—</div>
+    </div>
+
+    <div class="disclaimer-box mb-2"><i class="fas fa-circle-info mr-1"></i>Yeh practice questions SSB/AFSB pattern par based hain. Actual board format thoda differ kar sakta hai.</div>
+
+    <div class="flex gap-2 flex-wrap mb-2" id="ssb-stage-tabs"></div>
+
+    <!-- WAT -->
+    <div id="ssb-wat" class="hidden space-y-4">
+      <div class="premium-card rounded-2xl p-5" style="border-left:4px solid var(--accent)">
+        <div class="flex items-center justify-between flex-wrap gap-3">
+          <div>
+            <div class="text-[10px] font-black text-muted uppercase mb-1">SSB Psychologist Test</div>
+            <h2 class="text-lg font-black text-accent">WAT — Word Association Test</h2>
+            <p class="text-xs text-muted mt-1">15 seconds each • Positive sentence likhein</p>
+          </div>
+          <div class="flex gap-2 flex-wrap">
+            <div class="surface rounded-xl px-4 py-2 text-center"><div class="text-xl font-black text-accent" id="wat-word-count">1/0</div><div class="text-[9px] text-muted font-bold uppercase">Word No.</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="premium-card rounded-2xl p-6 text-center relative overflow-hidden"
+        style="background:linear-gradient(135deg,rgba(124,58,237,0.12),rgba(212,137,26,0.06));border:2px solid rgba(124,58,237,0.3)">
+        <div class="watermark-overlay"><span>WAT PRACTICE</span></div>
+        <div class="text-[10px] font-black text-muted uppercase mb-3 tracking-widest">Word</div>
+        <div id="wat-word" class="text-5xl font-black text-accent mb-4" style="letter-spacing:.08em;text-shadow:0 0 30px rgba(212,137,26,0.3)">—</div>
+        <div class="w-full h-3 rounded-full mb-2" style="background:var(--border)">
+          <div id="wat-timer-fill" class="h-full rounded-full transition-none" style="background:linear-gradient(90deg,var(--accent),#f59e0b);width:100%"></div>
+        </div>
+        <div class="flex justify-between text-[10px] font-black text-muted mb-4">
+          <span>0s</span><span id="wat-timer-text" class="text-accent text-sm font-black">15s</span><span>15s</span>
+        </div>
+        <textarea id="wat-input" rows="2" placeholder="Apna sentence yahan likhein... (English mein)"
+          class="w-full input-field rounded-xl p-3 text-sm font-semibold outline-none resize-none mb-4" style="border:1px solid rgba(124,58,237,0.4)"></textarea>
+        <div class="flex gap-3 justify-center flex-wrap">
+          <button onclick="watNewWord()" class="btn-accent px-6 py-2.5 rounded-xl text-xs font-black cursor-pointer"><i class="fas fa-forward mr-1"></i>Next Word</button>
+          <button onclick="watShowTip()" class="btn-neutral px-6 py-2.5 rounded-xl text-xs font-black cursor-pointer"><i class="fas fa-lightbulb mr-1"></i>Tip + Example</button>
+          <button onclick="resetWAT()" class="btn-danger-outline px-4 py-2.5 rounded-xl text-xs font-black cursor-pointer"><i class="fas fa-redo mr-1"></i>Reset</button>
+        </div>
+        <div id="wat-tip" class="hidden mt-4 text-left tip-box text-xs leading-relaxed"></div>
+      </div>
+      <div class="premium-card rounded-xl p-4">
+        <div class="font-black text-sm text-accent mb-3"><i class="fas fa-list mr-1"></i>WAT Word Bank</div>
+        <div id="wat-wordbank" class="flex flex-wrap gap-1.5 max-h-48 overflow-y-auto"></div>
+      </div>
+    </div>
+
+    <!-- SRT -->
+    <div id="ssb-srt" class="hidden space-y-4">
+      <div class="premium-card rounded-2xl p-5" style="border-left:4px solid #3b82f6">
+        <div class="flex items-center justify-between flex-wrap gap-3">
+          <div>
+            <div class="text-[10px] font-black text-muted uppercase mb-1">SSB Psychologist Test</div>
+            <h2 class="text-lg font-black" style="color:#60a5fa">SRT — Situation Reaction Test</h2>
+          </div>
+          <div class="flex gap-2 flex-wrap">
+            <div class="surface rounded-xl px-4 py-2 text-center"><div class="text-xl font-black" style="color:#60a5fa" id="srt-current-no">1</div><div class="text-[9px] text-muted font-bold uppercase">Current</div></div>
+            <div class="surface rounded-xl px-4 py-2 text-center"><div class="text-xl font-black text-amber-400" id="srt-timer-disp">30:00</div><div class="text-[9px] text-muted font-bold uppercase">Time Left</div></div>
+          </div>
+        </div>
+        <div class="flex gap-2 mt-3 flex-wrap">
+          <button onclick="startSRTTimer()" class="btn-success px-4 py-2 rounded-xl text-xs font-black cursor-pointer"><i class="fas fa-play mr-1"></i>Start Timer (30 min)</button>
+          <button onclick="resetSRT()" class="btn-danger-outline px-4 py-2 rounded-xl text-xs font-black cursor-pointer"><i class="fas fa-redo mr-1"></i>Reset All</button>
+        </div>
+      </div>
+      <div id="srt-active-card" class="premium-card rounded-2xl p-5" style="border:2px solid rgba(59,130,246,0.4);background:linear-gradient(135deg,rgba(59,130,246,0.06),transparent)">
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-[10px] font-black uppercase px-3 py-1 rounded-full" style="background:rgba(59,130,246,0.15);color:#60a5fa">Situation <span id="srt-q-num">1</span> / <span id="srt-q-total">0</span></span>
+          <div class="flex gap-2">
+            <button onclick="srtPrev()" class="btn-neutral px-3 py-1.5 rounded-xl text-xs font-black cursor-pointer"><i class="fas fa-arrow-left"></i></button>
+            <button onclick="srtNext()" class="btn-accent px-3 py-1.5 rounded-xl text-xs font-black cursor-pointer"><i class="fas fa-arrow-right"></i></button>
+          </div>
+        </div>
+        <div class="rounded-xl p-4 mb-4" style="background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.25)">
+          <div class="text-[10px] font-black uppercase mb-2" style="color:#60a5fa"><i class="fas fa-bolt mr-1"></i>Situation</div>
+          <p id="srt-situation-text" class="font-bold text-sm leading-relaxed"></p>
+        </div>
+        <div class="mb-3"><div class="text-[10px] font-black text-muted uppercase mb-2">Aapka Jawab Chunein:</div><div id="srt-options-container"></div></div>
+        <button onclick="toggleSRTIdealNew()" class="w-full py-2 rounded-xl text-xs font-black cursor-pointer mb-2" id="srt-ideal-btn"
+          style="background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.3);color:var(--accent)"><i class="fas fa-check-circle mr-1"></i>Answer Check Karo</button>
+        <div id="srt-ideal-box" class="hidden tip-box text-xs leading-relaxed"></div>
+      </div>
+      <div class="premium-card rounded-xl p-4">
+        <div class="flex justify-between text-xs font-bold mb-2"><span class="text-muted">Progress</span><span class="text-accent" id="srt-progress-text">0 complete</span></div>
+        <div class="xp-bar-track"><div id="srt-progress-fill" class="xp-bar-fill" style="width:0%"></div></div>
+        <div id="srt-mini-grid" class="grid mt-3" style="grid-template-columns:repeat(10,1fr);gap:4px"></div>
+      </div>
+    </div>
+
+    <!-- PPDT -->
+    <div id="ssb-ppdt" class="hidden space-y-4">
+      <div class="premium-card rounded-2xl p-5" style="border-left:4px solid #8b5cf6">
+        <div class="text-[10px] font-black text-muted uppercase mb-1">SSB Psychologist Test</div>
+        <h2 class="text-lg font-black" style="color:#a78bfa">PPDT — Picture Perception & Discussion Test</h2>
+        <p class="text-xs text-muted mt-1">30 sec image dekho → 4 min story likho → Group discussion</p>
+      </div>
+      <div class="premium-card rounded-2xl p-5" style="border:2px solid rgba(139,92,246,0.4);background:linear-gradient(135deg,rgba(139,92,246,0.06),transparent)">
+        <div class="flex items-center justify-between mb-4 flex-wrap gap-2">
+          <div class="font-black text-sm" style="color:#a78bfa"><i class="fas fa-image mr-1"></i>Scene <span id="ppdt-scene-no">1</span> / <span id="ppdt-scene-total">0</span></div>
+          <div class="flex gap-2">
+            <div class="surface rounded-xl px-3 py-1.5 text-center"><div class="text-lg font-black text-amber-400" id="ppdt-timer">4:00</div><div class="text-[9px] text-muted font-bold">Time Left</div></div>
+            <button onclick="startPPDTTimer()" class="btn-success px-4 py-2 rounded-xl text-xs font-black cursor-pointer"><i class="fas fa-play mr-1"></i>Start (4 min)</button>
+          </div>
+        </div>
+        <div id="ppdt-image-box" class="hidden mb-3 rounded-xl overflow-hidden"><img id="ppdt-image" src="" style="width:100%;max-height:260px;object-fit:cover;border-radius:12px;"></div>
+        <div class="rounded-xl p-4 mb-4" style="background:rgba(139,92,246,0.08);border:1px solid rgba(139,92,246,0.25)">
+          <div class="text-[10px] font-black uppercase mb-2" style="color:#a78bfa"><i class="fas fa-eye mr-1"></i>Scene (30 sec mein dekho)</div>
+          <p id="ppdt-scene-text" class="font-bold text-sm leading-relaxed"></p>
+        </div>
+        <textarea id="ppdt-story" rows="6" placeholder="Apni story yahan likhein... Format: Hero -> Problem -> Action -> Result"
+          class="w-full input-field rounded-xl p-4 text-sm outline-none resize-none mb-3" style="border:1px solid rgba(139,92,246,0.3);line-height:1.8"></textarea>
+        <div class="flex justify-between items-center mb-3">
+          <span class="text-[10px] text-muted font-bold">Words: <span id="ppdt-word-count" class="text-accent font-black">0</span> <span class="text-muted">(ideal: 80-120)</span></span>
+          <button onclick="checkPPDTStory()" class="btn-accent px-4 py-2 rounded-xl text-xs font-black cursor-pointer"><i class="fas fa-check mr-1"></i>Story Check Karo</button>
+        </div>
+        <div id="ppdt-feedback" class="hidden rounded-xl p-3 text-xs space-y-1"></div>
+        <div class="flex gap-2 mt-3">
+          <button onclick="ppdtPrev()" class="flex-1 btn-neutral py-2.5 rounded-xl text-xs font-black cursor-pointer"><i class="fas fa-arrow-left mr-1"></i>Prev</button>
+          <button onclick="ppdtNext()" class="flex-1 btn-accent py-2.5 rounded-xl text-xs font-black cursor-pointer">Next Scene<i class="fas fa-arrow-right ml-1"></i></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAT -->
+    <div id="ssb-tat" class="hidden space-y-4">
+      <div class="premium-card rounded-2xl p-5" style="border-left:4px solid #10b981">
+        <div class="text-[10px] font-black text-muted uppercase mb-1">SSB Psychologist Test</div>
+        <h2 class="text-lg font-black text-emerald-400">TAT — Thematic Apperception Test</h2>
+        <p class="text-xs text-muted mt-1">4 min each • Story likhein</p>
+      </div>
+      <div class="premium-card rounded-2xl p-5" style="border:2px solid rgba(16,185,129,0.4);background:linear-gradient(135deg,rgba(16,185,129,0.06),transparent)">
+        <div class="flex items-center justify-between mb-4 flex-wrap gap-2">
+          <div class="font-black text-sm text-emerald-400">Image <span id="tat-img-no">1</span> / <span id="tat-img-total">0</span></div>
+          <div class="flex gap-2 items-center">
+            <div class="surface rounded-xl px-3 py-1.5 text-center"><div class="text-lg font-black text-amber-400" id="tat-timer">4:00</div><div class="text-[9px] text-muted font-bold">Time Left</div></div>
+            <button onclick="startTATTimer()" class="btn-success px-4 py-2 rounded-xl text-xs font-black cursor-pointer"><i class="fas fa-play mr-1"></i>Start</button>
+          </div>
+        </div>
+        <div class="rounded-2xl mb-4 text-center relative overflow-hidden" style="background:linear-gradient(135deg,#0f1b12,#1a2f1d);border:1px solid rgba(16,185,129,0.3);min-height:160px">
+          <img id="tat-real-image" class="hidden" style="width:100%;max-height:280px;object-fit:cover;">
+          <div id="tat-fallback-visual" class="p-5">
+            <div id="tat-scene-visual" class="text-6xl mb-3">🏔️</div>
+            <div class="text-[10px] font-black uppercase mb-2 text-emerald-400">Scene Description</div>
+            <p id="tat-scene-text" class="font-bold text-sm leading-relaxed text-muted"></p>
+          </div>
+        </div>
+        <div id="tat-hint-box" class="tip-box text-xs mb-4"><span class="font-black text-accent">💡 Hint: </span><span id="tat-hint-text"></span></div>
+        <textarea id="tat-story" rows="5" placeholder="Apni story likhein..."
+          class="w-full input-field rounded-xl p-4 text-sm outline-none resize-none mb-3" style="border:1px solid rgba(16,185,129,0.3);line-height:1.8"></textarea>
+        <div class="flex justify-between items-center mb-3"><span class="text-[10px] text-muted font-bold">Words: <span id="tat-word-count" class="text-emerald-400 font-black">0</span> / 120 ideal</span></div>
+        <div class="flex gap-2">
+          <button onclick="tatPrev()" class="flex-1 btn-neutral py-2.5 rounded-xl text-xs font-black cursor-pointer"><i class="fas fa-arrow-left mr-1"></i>Prev</button>
+          <button onclick="tatNext()" class="flex-1 btn-success py-2.5 rounded-xl text-xs font-black cursor-pointer">Next Image<i class="fas fa-arrow-right ml-1"></i></button>
+        </div>
+      </div>
+      <div class="premium-card rounded-xl p-4">
+        <div class="flex justify-between text-xs font-bold mb-2"><span class="text-muted">Stories Written</span><span class="text-emerald-400" id="tat-progress-text">0</span></div>
+        <div class="xp-bar-track"><div id="tat-progress-fill" class="xp-bar-fill" style="width:0%;background:linear-gradient(90deg,#10b981,#34d399)"></div></div>
+        <div id="tat-mini-grid" class="grid mt-3" style="grid-template-columns:repeat(11,1fr);gap:4px"></div>
+      </div>
+    </div>
+
+    <!-- OIR -->
+    <div id="ssb-oir" class="hidden space-y-4">
+      <div class="premium-card rounded-2xl p-5" style="border-left:4px solid #10b981">
+        <div class="text-[10px] font-black text-muted uppercase mb-1">SSB Intelligence Test</div>
+        <h2 class="text-lg font-black text-emerald-400">OIR — Officer Intelligence Rating</h2>
+      </div>
+      <div class="premium-card rounded-xl p-3 flex justify-between items-center">
+        <span class="text-xs font-bold">Score: <span id="oir-score" class="text-accent font-black">0</span> / <span id="oir-total">0</span></span>
+        <button onclick="resetOIR()" class="btn-neutral px-3 py-1.5 rounded-xl text-xs font-bold cursor-pointer"><i class="fas fa-redo mr-1"></i>Reset</button>
+      </div>
+      <div id="oir-container" class="space-y-3"></div>
+    </div>
+
+    <!-- GAT -->
+    <div id="ssb-gat" class="hidden space-y-4">
+      <div class="ssb-stage-card">
+        <h3><i class="fas fa-users-rectangle mr-1"></i>GAT / GTO Tasks — Tips & Strategy</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3" id="gat-tips-grid"></div>
+      </div>
+    </div>
+
+    <!-- PI -->
+    <div id="ssb-pi" class="hidden space-y-4">
+      <div class="ssb-stage-card">
+        <h3><i class="fas fa-user-tie mr-1"></i>Personal Interview — PIQ Based Practice</h3>
+      </div>
+      <div id="pi-questions-list" class="space-y-3"></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz6X6hX2Mnz-d_-Cao6B7bOkRop3RPnCve5-z_R1iV5kdf3PIL9aG6y8dSca84dpIAc/exec";
+function escapeHtml(s){return String(s||"").replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function escapeAttr(s){return escapeHtml(s);}
+
+const EXAM_LIST = [
+  {key:"NDA",icon:"🎖️",sub:"SSB"},
+  {key:"CDS",icon:"⚔️",sub:"SSB"},
+  {key:"AFCAT",icon:"✈️",sub:"AFSB"},
+  {key:"AIR FORCE X/Y",icon:"🛩️",sub:"AFSB"},
+  {key:"NAVY",icon:"⚓",sub:"SSB"},
+  {key:"ARMY GD",icon:"🪖",sub:"Screening / SRT"}
+];
+const STAGE_LABELS = {
+  WAT:{icon:'<i class="fas fa-pen-fancy mr-1"></i>',label:'WAT'},
+  SRT:{icon:'<i class="fas fa-bolt mr-1"></i>',label:'SRT'},
+  PPDT:{icon:'<i class="fas fa-users mr-1"></i>',label:'PPDT'},
+  TAT:{icon:'<i class="fas fa-image mr-1"></i>',label:'TAT'},
+  OIR:{icon:'<i class="fas fa-brain mr-1"></i>',label:'OIR'},
+  GAT:{icon:'<i class="fas fa-people-group mr-1"></i>',label:'GTO'},
+  PI:{icon:'<i class="fas fa-user-tie mr-1"></i>',label:'PI'}
+};
+
+let currentUserData=null, currentExam=null, examStageConfig={};
+
+/* AUTH CHECK */
+const savedEmail = localStorage.getItem('baaz_email');
+currentUserData = JSON.parse(localStorage.getItem('baaz_userdata')||'null');
+if(!savedEmail || !currentUserData){
+  document.getElementById('auth-block').classList.remove('hidden');
+}else{
+  document.getElementById('ssb-app').classList.remove('hidden');
+  document.documentElement.setAttribute('data-theme', localStorage.getItem('baaz_theme')||'military');
+  if(currentUserData.role==='admin') document.getElementById('admin-bulk-toggle-btn').classList.remove('hidden');
+  renderExamGrid();
+}
+
+function renderExamGrid(){
+  const g=document.getElementById('exam-grid');
+  g.innerHTML=EXAM_LIST.map(e=>`<div class="exam-card" onclick="selectExam('${escapeAttr(e.key)}')">
+    <div class="ex-icon">${e.icon}</div>
+    <div class="ex-name">${escapeHtml(e.key)}</div>
+    <div class="ex-sub">${escapeHtml(e.sub)}</div>
+  </div>`).join('');
+}
+
+function backToExamGrid(){
+  document.getElementById('exam-grid-view').classList.remove('hidden');
+  document.getElementById('stage-view').classList.add('hidden');
+  document.getElementById('header-label').innerText='Select Exam';
+  currentExam=null;
+}
+
+async function selectExam(exam){
+  currentExam=exam;
+  document.getElementById('exam-grid-view').classList.add('hidden');
+  document.getElementById('stage-view').classList.remove('hidden');
+  document.getElementById('current-exam-label').innerText=`📌 ${exam}`;
+  document.getElementById('header-label').innerText=exam+' Practice';
+  document.getElementById('ssb-stage-tabs').innerHTML='<div class="spinner"></div>';
+
+  // Load stage config for this exam
+  try{
+    const res=await fetch(APPS_SCRIPT_URL+'?action=get_ssb_exam_config');
+    const cfg=await res.json();
+    const examCfg=cfg.find(c=>c.exam===exam);
+    examStageConfig = examCfg || {WAT:true,SRT:true,PPDT:true,TAT:true,OIR:true,GAT:true,PI:true};
+  }catch(e){
+    examStageConfig = {WAT:true,SRT:true,PPDT:true,TAT:true,OIR:true,GAT:true,PI:true};
+  }
+
+  const enabledStages=Object.keys(STAGE_LABELS).filter(s=>examStageConfig[s]!==false);
+  document.getElementById('ssb-stage-tabs').innerHTML = enabledStages.map((s,i)=>
+    `<button class="ssb-tab-btn ${i===0?'active':''}" onclick="ssbTab('${s.toLowerCase()}')">${STAGE_LABELS[s].icon}${STAGE_LABELS[s].label}</button>`
+  ).join('');
+
+  Object.keys(STAGE_LABELS).forEach(s=>{
+    const el=document.getElementById('ssb-'+s.toLowerCase());
+    if(el) el.classList.toggle('hidden', s!==enabledStages[0]);
+  });
+
+  loadExamContent(exam);
+}
+
+function ssbTab(tab){
+  Object.keys(STAGE_LABELS).forEach(s=>{
+    const el=document.getElementById('ssb-'+s.toLowerCase());
+    if(el)el.classList.toggle('hidden', s.toLowerCase()!==tab);
+  });
+  document.querySelectorAll('#ssb-stage-tabs .ssb-tab-btn').forEach(b=>{
+    const t=b.getAttribute('onclick').match(/ssbTab\('(\w+)'\)/)?.[1];
+    b.classList.toggle('active', t===tab);
+  });
+}
+
+/* ============================================================
+   EXAM-WISE DATA LOAD
+   ============================================================ */
+let WAT_WORDS=[], WAT_TIPS={DEFAULT:"Positive, action-oriented sentence likhein."};
+let SRT_LIST=[], TAT_LIST=[], OIR_LIST=[], GAT_LIST=[], PI_LIST=[];
+let PPDT_LIST=[];
+
+async function loadExamContent(exam){
+  try{
+    const res=await fetch(APPS_SCRIPT_URL+'?action=get_ssb_data_v2&exam='+encodeURIComponent(exam));
+    const d=await res.json();
+
+    WAT_WORDS = (d.wat||[]).map(w=>w.word);
+    WAT_TIPS = {DEFAULT:"Positive, action-oriented sentence likhein."};
+    (d.wat||[]).forEach(w=>{ if(w.tip) WAT_TIPS[w.word]=w.tip; });
+    if(!WAT_WORDS.length) WAT_WORDS=["LEADERSHIP","COURAGE","DUTY"];
+
+    SRT_LIST = (d.srt||[]).map((s,i)=>({id:i+1,sit:s.sit,optA:s.optA||'',optB:s.optB||'',optC:s.optC||'',optD:s.optD||'',correct:s.correct||'A'}));
+
+    TAT_LIST = (d.tat||[]).map((t,i)=>({id:i+1,scene:t.scene,hint:t.hint,imageUrl:t.imageUrl||''}));
+    PPDT_LIST = TAT_LIST.length ? TAT_LIST.map(t=>({id:t.id,scene:t.scene,imageUrl:t.imageUrl})) :
+      [{id:1,scene:"Is exam ke liye abhi koi PPDT scene admin ne add nahi kiya."}];
+
+    OIR_LIST = (d.oir||[]).map(q=>{
+      const ansMap={'A':0,'B':1,'C':2,'D':3};
+      return {q:q.q,opts:q.opts,ans:ansMap[q.ans]||0,exp:q.exp};
+    });
+
+    GAT_LIST = (d.gat||[]).map(g=>({title:g.title,icon:g.icon,tip:g.tip}));
+    if(!GAT_LIST.length) GAT_LIST=[{title:"Content jaldi aayega",icon:"⏳",tip:"Admin abhi is exam ke liye GTO tips add kar rahe hain."}];
+
+    PI_LIST = (d.pi||[]).map(p=>({q:p.q,tip:p.tip}));
+    if(!PI_LIST.length) PI_LIST=[{q:"Apne baare mein bataiye.",tip:"Confident aur honest raho, achievements highlight karo."}];
+
+    initWAT(); initSRTNew(); initPPDT(); initTAT(); initOIR(); initGAT(); initPI();
+  }catch(e){
+    document.getElementById('ssb-stage-tabs').insertAdjacentHTML('afterend','<p class="text-xs text-danger2 mt-2">Content load nahi ho saka. Refresh karein.</p>');
+  }
+}
+
+/* ===== WAT ===== */
+let watTimer=null, watTimeLeft=15, currentWatWordIdx=-1;
+function initWAT(){
+  const bank=document.getElementById('wat-wordbank');
+  if(bank) bank.innerHTML=WAT_WORDS.map(w=>`<span onclick="setWatWord('${escapeAttr(w)}')" class="text-[10px] font-bold px-2 py-1 rounded-lg cursor-pointer surface hover:border-amber-500 border border-transparent">${escapeHtml(w)}</span>`).join('');
+  currentWatWordIdx=-1; watNewWord();
+}
+function setWatWord(w){
+  clearInterval(watTimer);
+  document.getElementById('wat-word').innerText=w;
+  document.getElementById('wat-input').value=''; document.getElementById('wat-tip').classList.add('hidden');
+  startWatTimer();
+}
+function watNewWord(){
+  clearInterval(watTimer);
+  currentWatWordIdx=(currentWatWordIdx+1)%WAT_WORDS.length;
+  document.getElementById('wat-word').innerText=WAT_WORDS[currentWatWordIdx];
+  document.getElementById('wat-word-count').innerText=`${currentWatWordIdx+1}/${WAT_WORDS.length}`;
+  document.getElementById('wat-input').value=''; document.getElementById('wat-tip').classList.add('hidden');
+  startWatTimer();
+}
+function startWatTimer(){
+  watTimeLeft=15;
+  document.getElementById('wat-timer-fill').style.width='100%';
+  document.getElementById('wat-timer-fill').style.background='var(--accent)';
+  watTimer=setInterval(()=>{
+    watTimeLeft--;
+    document.getElementById('wat-timer-fill').style.width=(watTimeLeft/15*100)+'%';
+    document.getElementById('wat-timer-text').innerText=watTimeLeft+'s';
+    if(watTimeLeft<=5) document.getElementById('wat-timer-fill').style.background='var(--danger2)';
+    if(watTimeLeft<=0){clearInterval(watTimer);watNewWord();}
+  },1000);
+}
+function watShowTip(){
+  const word=document.getElementById('wat-word').innerText;
+  const tip=WAT_TIPS[word]||WAT_TIPS['DEFAULT'];
+  const tipEl=document.getElementById('wat-tip'); tipEl.innerText='💡 Tip: '+tip; tipEl.classList.remove('hidden');
+}
+function resetWAT(){ currentWatWordIdx=-1; watNewWord(); }
+
+/* ===== SRT ===== */
+let srtCurrentIdx=0, srtAnswers={}, srtTimerInterval=null, srtTimeLeft=1800, srtTimerRunning=false;
+function initSRTNew(){
+  srtCurrentIdx=0; srtAnswers={};
+  document.getElementById('srt-q-total').innerText=SRT_LIST.length;
+  if(SRT_LIST.length>0) renderSRTCard();
+  else document.getElementById('srt-situation-text').innerText='Is exam ke liye abhi koi SRT situation add nahi hui.';
+  buildSRTMiniGrid();
+}
+function renderSRTCard(){
+  if(!SRT_LIST.length) return;
+  const s=SRT_LIST[srtCurrentIdx]; if(!s)return;
+  document.getElementById('srt-q-num').innerText=s.id;
+  document.getElementById('srt-current-no').innerText=s.id;
+  document.getElementById('srt-situation-text').innerText=s.sit;
+  document.getElementById('srt-ideal-box').classList.add('hidden');
+  document.getElementById('srt-ideal-btn').innerHTML='<i class="fas fa-eye mr-1"></i>Correct Answer Dekho';
+  const optContainer=document.getElementById('srt-options-container');
+  if(optContainer && s.optA){
+    const selected=srtAnswers[s.id];
+    optContainer.innerHTML=['A','B','C','D'].map(l=>{
+      const txt=s['opt'+l]||''; if(!txt) return '';
+      const isSelected=selected===l;
+      return `<button onclick="selectSRTOption('${l}')" class="w-full text-left p-3 rounded-xl text-sm font-semibold cursor-pointer transition mb-2"
+        style="background:${isSelected?'var(--success)':'var(--bg)'};border:1px solid ${isSelected?'var(--success2)':'var(--border)'};color:${isSelected?'#fff':'var(--text)'}">
+        <span class="font-black mr-2">${l}.</span>${escapeHtml(txt)}</button>`;
+    }).join('');
+  } else if(optContainer) optContainer.innerHTML='<p class="text-xs text-muted">Options add nahi ki gayi is situation ke liye.</p>';
+  updateSRTProgress();
+}
+function srtNext(){ saveSRTAnswer(); if(srtCurrentIdx<SRT_LIST.length-1){srtCurrentIdx++;renderSRTCard();} else if(SRT_LIST.length) alert("🎉 Saari situations complete ho gayi!"); }
+function srtPrev(){ saveSRTAnswer(); if(srtCurrentIdx>0){srtCurrentIdx--;renderSRTCard();} }
+function saveSRTAnswer(){ updateSRTProgress(); buildSRTMiniGrid(); }
+function selectSRTOption(letter){ const s=SRT_LIST[srtCurrentIdx]; if(!s)return; srtAnswers[s.id]=letter; renderSRTCard(); buildSRTMiniGrid(); updateSRTProgress(); }
+function toggleSRTIdealNew(){
+  const box=document.getElementById('srt-ideal-box'); const btn=document.getElementById('srt-ideal-btn');
+  const s=SRT_LIST[srtCurrentIdx]; if(!s)return;
+  box.classList.toggle('hidden');
+  if(!box.classList.contains('hidden')){
+    const correct=s.correct||'A'; const selected=srtAnswers[s.id]; const isCorrect=selected===correct;
+    let html='';
+    ['A','B','C','D'].forEach(l=>{
+      const txt=s['opt'+l]||''; if(!txt)return;
+      let bg='var(--bg)', border='var(--border)', icon='';
+      if(l===correct){bg='rgba(16,185,129,0.15)';border='var(--success2)';icon='✅ ';}
+      if(l===selected && l!==correct){bg='rgba(244,63,94,0.15)';border='var(--danger2)';icon='❌ ';}
+      html+=`<div style="padding:8px 12px;border-radius:10px;background:${bg};border:1px solid ${border};font-size:12px;font-weight:600;margin-bottom:6px;">${icon}<b>${l}.</b> ${escapeHtml(txt)}</div>`;
+    });
+    if(!selected) html+=`<div style="font-size:11px;color:var(--text-dim);margin-top:4px;">⚠️ Aapne koi option select nahi kiya</div>`;
+    else if(isCorrect) html+=`<div style="font-size:11px;color:var(--success2);margin-top:4px;font-weight:800;">🎉 Sahi jawab diya!</div>`;
+    else html+=`<div style="font-size:11px;color:var(--danger2);margin-top:4px;font-weight:800;">❌ Galat — Sahi answer: ${correct}</div>`;
+    box.innerHTML=html;
+    btn.innerHTML='<i class="fas fa-eye-slash mr-1"></i>Chhupao';
+  }else btn.innerHTML='<i class="fas fa-eye mr-1"></i>Answer Check Karo';
+}
+function updateSRTProgress(){
+  const done=Object.keys(srtAnswers).filter(k=>srtAnswers[k].trim()).length;
+  document.getElementById('srt-progress-text').innerText=done+' / '+SRT_LIST.length+' complete';
+  document.getElementById('srt-progress-fill').style.width=SRT_LIST.length?Math.round((done/SRT_LIST.length)*100)+'%':'0%';
+}
+function buildSRTMiniGrid(){
+  const g=document.getElementById('srt-mini-grid'); if(!g)return;
+  g.innerHTML=SRT_LIST.map((s,i)=>{
+    const done=srtAnswers[s.id]&&srtAnswers[s.id].trim(); const current=i===srtCurrentIdx;
+    return `<div onclick="jumpSRT(${i})" style="height:20px;border-radius:4px;cursor:pointer;font-size:8px;font-weight:800;display:flex;align-items:center;justify-content:center;
+      background:${current?'var(--accent)':done?'rgba(16,185,129,0.4)':'var(--border)'};color:${current?'var(--accent-text)':done?'#10b981':'var(--text-dim)'};
+      border:${current?'1px solid var(--accent)':'none'}">${s.id}</div>`;
+  }).join('');
+}
+function jumpSRT(idx){ saveSRTAnswer(); srtCurrentIdx=idx; renderSRTCard(); }
+function startSRTTimer(){
+  const btn=document.querySelector('[onclick="startSRTTimer()"]');
+  if(srtTimerRunning){clearInterval(srtTimerInterval);srtTimerRunning=false;btn.innerHTML='<i class="fas fa-play mr-1"></i>Resume Timer';return;}
+  srtTimerRunning=true; btn.innerHTML='<i class="fas fa-pause mr-1"></i>Pause Timer';
+  srtTimerInterval=setInterval(()=>{
+    srtTimeLeft--;
+    const mm=Math.floor(srtTimeLeft/60), ss=srtTimeLeft%60;
+    const disp=document.getElementById('srt-timer-disp');
+    if(disp){disp.innerText=`${String(mm).padStart(2,'0')}:${String(ss).padStart(2,'0')}`;disp.style.color=srtTimeLeft<300?'var(--danger2)':'var(--accent)';}
+    if(srtTimeLeft<=0){clearInterval(srtTimerInterval);alert("⏱️ 30 minutes complete!");}
+  },1000);
+}
+function resetSRT(){
+  if(!confirm("Saare answers reset karein?"))return;
+  clearInterval(srtTimerInterval); srtTimerRunning=false; srtTimeLeft=1800; srtCurrentIdx=0; srtAnswers={};
+  document.getElementById('srt-timer-disp').innerText='30:00';
+  document.getElementById('srt-timer-disp').style.color='var(--accent)';
+  const btn=document.querySelector('[onclick="startSRTTimer()"]'); if(btn)btn.innerHTML='<i class="fas fa-play mr-1"></i>Start Timer (30 min)';
+  renderSRTCard(); buildSRTMiniGrid();
+}
+
+/* ===== PPDT ===== */
+let ppdtCurrentIdx=0, ppdtTimerInterval=null, ppdtTimeLeft=240, ppdtTimerRunning=false, ppdtStories={};
+function initPPDT(){
+  ppdtCurrentIdx=0; document.getElementById('ppdt-scene-total').innerText=PPDT_LIST.length;
+  renderPPDTCard();
+  const ta=document.getElementById('ppdt-story');
+  ta.oninput=()=>{ document.getElementById('ppdt-word-count').innerText=ta.value.trim().split(/\s+/).filter(w=>w).length; };
+}
+function renderPPDTCard(){
+  const s=PPDT_LIST[ppdtCurrentIdx]; if(!s)return;
+  document.getElementById('ppdt-scene-no').innerText=s.id;
+  document.getElementById('ppdt-scene-text').innerText=s.scene||'';
+  document.getElementById('ppdt-story').value=ppdtStories[s.id]||'';
+  document.getElementById('ppdt-feedback').classList.add('hidden');
+  document.getElementById('ppdt-word-count').innerText=(ppdtStories[s.id]||'').trim().split(/\s+/).filter(w=>w).length;
+  const imgBox=document.getElementById('ppdt-image-box');
+  if(s.imageUrl){ document.getElementById('ppdt-image').src=s.imageUrl; imgBox.classList.remove('hidden'); }
+  else imgBox.classList.add('hidden');
+  clearInterval(ppdtTimerInterval); ppdtTimerRunning=false; ppdtTimeLeft=240;
+  document.getElementById('ppdt-timer').innerText='4:00';
+}
+function ppdtNext(){ ppdtStories[PPDT_LIST[ppdtCurrentIdx].id]=document.getElementById('ppdt-story').value; if(ppdtCurrentIdx<PPDT_LIST.length-1){ppdtCurrentIdx++;renderPPDTCard();} else alert("🎉 Saari scenes complete!"); }
+function ppdtPrev(){ ppdtStories[PPDT_LIST[ppdtCurrentIdx].id]=document.getElementById('ppdt-story').value; if(ppdtCurrentIdx>0){ppdtCurrentIdx--;renderPPDTCard();} }
+function startPPDTTimer(){
+  if(ppdtTimerRunning){clearInterval(ppdtTimerInterval);ppdtTimerRunning=false;return;}
+  ppdtTimerRunning=true;
+  ppdtTimerInterval=setInterval(()=>{
+    ppdtTimeLeft--;
+    const mm=Math.floor(ppdtTimeLeft/60), ss=ppdtTimeLeft%60;
+    document.getElementById('ppdt-timer').innerText=`${mm}:${String(ss).padStart(2,'0')}`;
+    if(ppdtTimeLeft<=0){clearInterval(ppdtTimerInterval);alert("⏱️ 4 minutes khatam!");}
+  },1000);
+}
+function checkPPDTStory(){
+  const story=document.getElementById('ppdt-story').value.trim();
+  const words=story.split(/\s+/).filter(w=>w).length;
+  const fb=document.getElementById('ppdt-feedback'); fb.classList.remove('hidden');
+  let issues=[], good=[];
+  if(words<50) issues.push("❌ Story bahut chhoti hai");
+  else if(words>150) issues.push("⚠️ Story thodi lambi hai");
+  else good.push("✅ Word count sahi hai ("+words+" words)");
+  if(/death|murder|suicide/i.test(story)) issues.push("❌ Negative/dark content avoid karo");
+  else good.push("✅ Content appropriate hai");
+  fb.style.background=issues.length?'rgba(244,63,94,0.08)':'rgba(16,185,129,0.08)';
+  fb.style.border=issues.length?'1px solid rgba(244,63,94,0.3)':'1px solid rgba(16,185,129,0.3)';
+  fb.innerHTML=[...good,...issues].map(i=>`<div class="font-bold">${i}</div>`).join('');
+}
+
+/* ===== TAT ===== */
+let tatCurrentIdx=0, tatTimerInterval=null, tatTimeLeft=240, tatTimerRunning=false, tatStories={};
+const TAT_ICONS=['🏔️','🪖','🌧️','📚','👮','👶','🔥','🏃','🌊','🏥','⬜'];
+function initTAT(){
+  tatCurrentIdx=0; document.getElementById('tat-img-total').innerText=TAT_LIST.length||1;
+  renderTATCard(); buildTATMiniGrid();
+  const ta=document.getElementById('tat-story');
+  ta.oninput=()=>{ document.getElementById('tat-word-count').innerText=ta.value.trim().split(/\s+/).filter(w=>w).length; };
+}
+function renderTATCard(){
+  const list=TAT_LIST.length?TAT_LIST:[{id:1,scene:"Is exam ke liye abhi koi TAT image add nahi hui."}];
+  const s=list[tatCurrentIdx]; if(!s)return;
+  document.getElementById('tat-img-no').innerText=tatCurrentIdx+1;
+  document.getElementById('tat-scene-text').innerText=s.scene||'';
+  document.getElementById('tat-hint-text').innerText=s.hint||'';
+  document.getElementById('tat-story').value=tatStories[tatCurrentIdx]||'';
+  document.getElementById('tat-word-count').innerText=(tatStories[tatCurrentIdx]||'').trim().split(/\s+/).filter(w=>w).length;
+  const realImg=document.getElementById('tat-real-image'), fallback=document.getElementById('tat-fallback-visual');
+  if(s.imageUrl){ realImg.src=s.imageUrl; realImg.classList.remove('hidden'); fallback.classList.add('hidden'); }
+  else{ realImg.classList.add('hidden'); fallback.classList.remove('hidden'); document.getElementById('tat-scene-visual').innerText=TAT_ICONS[tatCurrentIdx%TAT_ICONS.length]; }
+  clearInterval(tatTimerInterval); tatTimerRunning=false; tatTimeLeft=240;
+  document.getElementById('tat-timer').innerText='4:00';
+  buildTATMiniGrid();
+}
+function tatNext(){ tatStories[tatCurrentIdx]=document.getElementById('tat-story').value; const max=(TAT_LIST.length||1)-1; if(tatCurrentIdx<max){tatCurrentIdx++;renderTATCard();} else alert("🎉 Saari images complete!"); }
+function tatPrev(){ tatStories[tatCurrentIdx]=document.getElementById('tat-story').value; if(tatCurrentIdx>0){tatCurrentIdx--;renderTATCard();} }
+function startTATTimer(){
+  if(tatTimerRunning){clearInterval(tatTimerInterval);tatTimerRunning=false;return;}
+  tatTimerRunning=true;
+  tatTimerInterval=setInterval(()=>{
+    tatTimeLeft--;
+    const mm=Math.floor(tatTimeLeft/60), ss=tatTimeLeft%60;
+    document.getElementById('tat-timer').innerText=`${mm}:${String(ss).padStart(2,'0')}`;
+    if(tatTimeLeft<=0){clearInterval(tatTimerInterval);alert("⏱️ 4 minutes khatam!");tatNext();}
+  },1000);
+}
+function buildTATMiniGrid(){
+  const g=document.getElementById('tat-mini-grid'); if(!g)return;
+  const list=TAT_LIST.length?TAT_LIST:[{id:1}];
+  const done=Object.keys(tatStories).filter(k=>tatStories[k]&&tatStories[k].trim()).length;
+  document.getElementById('tat-progress-text').innerText=done+' / '+list.length;
+  document.getElementById('tat-progress-fill').style.width=Math.round((done/list.length)*100)+'%';
+  g.innerHTML=list.map((_,i)=>{
+    const isDone=tatStories[i]&&tatStories[i].trim(); const isCurrent=i===tatCurrentIdx;
+    return `<div onclick="tatJump(${i})" style="height:28px;border-radius:6px;cursor:pointer;font-size:11px;display:flex;align-items:center;justify-content:center;
+      background:${isCurrent?'var(--accent)':isDone?'rgba(16,185,129,0.3)':'var(--border)'};border:${isCurrent?'2px solid var(--accent)':'none'}">${TAT_ICONS[i%TAT_ICONS.length]}</div>`;
+  }).join('');
+}
+function tatJump(idx){ tatStories[tatCurrentIdx]=document.getElementById('tat-story').value; tatCurrentIdx=idx; renderTATCard(); }
+
+/* ===== OIR ===== */
+let oirAnswered={}, oirScore=0;
+function initOIR(){
+  const c=document.getElementById('oir-container'); if(!c)return;
+  c.innerHTML=''; oirAnswered={}; oirScore=0;
+  document.getElementById('oir-score').innerText=0;
+  document.getElementById('oir-total').innerText=OIR_LIST.length;
+  if(!OIR_LIST.length){ c.innerHTML='<p class="text-xs text-muted">Is exam ke liye abhi koi OIR question add nahi hui.</p>'; return; }
+  OIR_LIST.forEach((q,i)=>{
+    const div=document.createElement('div'); div.className='ssb-quiz-card'; div.id=`oir-q-${i}`;
+    div.innerHTML=`<div class="text-[9px] text-accent font-black uppercase mb-1">OIR Question ${i+1}</div>
+      <p class="font-bold text-sm mb-3">${escapeHtml(q.q)}</p>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+        ${q.opts.map((o,j)=>`<button onclick="answerOIR(${i},${j})" id="oir-${i}-${j}" class="oir-opt">${String.fromCharCode(65+j)}. ${escapeHtml(o)}</button>`).join('')}
+      </div>
+      <div id="oir-exp-${i}" class="hidden tip-box mt-2 text-xs"></div>`;
+    c.appendChild(div);
+  });
+}
+function answerOIR(qi,ai){
+  if(oirAnswered[qi]!==undefined)return;
+  oirAnswered[qi]=ai;
+  const q=OIR_LIST[qi]; const correct=ai===q.ans;
+  if(correct){oirScore++;document.getElementById('oir-score').innerText=oirScore;}
+  q.opts.forEach((_,j)=>{
+    const btn=document.getElementById(`oir-${qi}-${j}`);
+    if(j===q.ans)btn.classList.add('correct'); else if(j===ai&&!correct)btn.classList.add('wrong');
+    btn.disabled=true;
+  });
+  const exp=document.getElementById(`oir-exp-${qi}`); exp.innerText='💡 '+(q.exp||''); exp.classList.remove('hidden');
+}
+function resetOIR(){ initOIR(); }
+
+/* ===== GAT / PI ===== */
+function initGAT(){
+  const grid=document.getElementById('gat-tips-grid'); if(!grid)return;
+  grid.innerHTML=GAT_LIST.map(t=>`<div class="surface rounded-xl p-3"><div class="font-black text-sm text-accent mb-1">${t.icon||''} ${escapeHtml(t.title)}</div><p class="text-xs text-muted leading-relaxed">${escapeHtml(t.tip)}</p></div>`).join('');
+}
+function initPI(){
+  const c=document.getElementById('pi-questions-list'); if(!c)return;
+  c.innerHTML=PI_LIST.map((p,i)=>`<div class="ssb-quiz-card">
+    <div class="font-bold text-sm mb-2">Q${i+1}: ${escapeHtml(p.q)}</div>
+    <textarea rows="3" placeholder="Apna answer draft karein..." class="w-full input-field rounded-xl px-3 py-2 text-xs outline-none resize-none mb-2"></textarea>
+    <button onclick="togglePITip(this,'${escapeAttr(p.tip)}')" class="text-[10px] font-bold text-amber-400 cursor-pointer underline">Tip Dekho</button>
+    <div class="hidden tip-box mt-2 text-xs"></div></div>`).join('');
+}
+function togglePITip(btn,tip){ const box=btn.nextElementSibling; box.classList.toggle('hidden'); if(!box.classList.contains('hidden')) box.innerText='💡 '+tip; }
+
+/* ============================================================
+   ADMIN — BULK ADD PANEL
+   ============================================================ */
+function toggleAdminPanel(){
+  document.getElementById('admin-bulk-panel').classList.toggle('hidden');
+  updateBulkFormatHint();
+}
+const BULK_FORMATS = {
+  WAT: { hint:`Format (1 line = 1 word):<br><code>WORD | tip</code><br>Example:<br><code>LEADERSHIP | Hero ne team ko safe nikala<br>COURAGE | Usne dar ke bawajood aage badhke kaam kiya</code>`, fields:['word','tip'] },
+  SRT: { hint:`Format (1 line = 1 situation):<br><code>situation | optionA | optionB | optionC | optionD | correctLetter</code><br>Example:<br><code>Train chootne wali hai, sirf 2 min bache hain | Bhaag kar pakdo | Agla train lo | Station master ko bolo | Wait karo | A</code>`, fields:['sit','optA','optB','optC','optD','correct'] },
+  TAT: { hint:`Format (1 line = 1 image):<br><code>imageURL | scene description | hint</code><br>(Image URL Google Drive/Imgur ka direct link daalo, blank chhod sakte ho)<br>Example:<br><code>https://i.imgur.com/xyz.jpg | Ek aadmi pahad chadh raha hai | Hero ko determined dikhao</code>`, fields:['imageUrl','scene','hint'] },
+  OIR: { hint:`Format (1 line = 1 question):<br><code>question | optionA | optionB | optionC | optionD | correctLetter | explanation</code>`, fields:['q','optA','optB','optC','optD','ans','exp'] },
+  PI:  { hint:`Format (1 line = 1 question):<br><code>question | tip</code>`, fields:['q','tip'] },
+  GAT: { hint:`Format (1 line = 1 task):<br><code>title | emoji icon | tip</code>`, fields:['title','icon','tip'] }
+};
+function updateBulkFormatHint(){
+  const type=document.getElementById('bulk-type').value;
+  document.getElementById('bulk-format-hint').innerHTML='<i class="fas fa-info-circle mr-1"></i>'+BULK_FORMATS[type].hint;
+  loadAdminManageList();
+}
+
+function parseBulkLines(){
+  const type=document.getElementById('bulk-type').value;
+  const fields=BULK_FORMATS[type].fields;
+  const lines=document.getElementById('bulk-paste-text').value.split('\n').map(l=>l.trim()).filter(l=>l);
+  return lines.map(line=>{
+    const parts=line.split('|').map(p=>p.trim());
+    const obj={type};
+    fields.forEach((f,i)=>{ obj[f]=parts[i]||''; });
+    return obj;
+  }).filter(o=>o[fields[0]]);
+}
+
+function previewBulkSSB(){
+  const rows=parseBulkLines();
+  const box=document.getElementById('bulk-preview-box');
+  box.classList.remove('hidden');
+  if(!rows.length){ box.innerHTML='<p class="text-danger2 font-bold">❌ Koi valid line nahi mili.</p>'; return; }
+  box.innerHTML=`<div class="font-bold text-accent mb-2">${rows.length} entries parsed:</div>`+
+    rows.map(r=>`<div class="surface rounded-lg p-2 mb-1">${escapeHtml(JSON.stringify(r))}</div>`).join('');
+}
+
+async function submitBulkSSB(){
+  const exam=document.getElementById('bulk-exam').value;
+  const type=document.getElementById('bulk-type').value;
+  const rows=parseBulkLines();
+  const status=document.getElementById('bulk-status-text');
+  if(!rows.length){ status.innerText='❌ Koi valid entry nahi mili.'; status.style.color='var(--danger2)'; return; }
+  status.innerText=`Uploading ${rows.length} entries...`;
+  status.style.color='var(--text-dim)';
+  let success=0, failed=0;
+  for(const row of rows){
+    const payload={ action:'add_ssb_content_v2', type, exam, ...row };
+    try{
+      const res=await fetch(APPS_SCRIPT_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)});
+      const d=await res.json();
+      if(d.status==='success') success++; else failed++;
+    }catch(e){ failed++; }
+  }
+  status.innerText=`✅ ${success} added, ${failed} failed — for ${exam} (${type})`;
+  status.style.color = failed? 'var(--accent)' : 'var(--success2)';
+  document.getElementById('bulk-paste-text').value='';
+  document.getElementById('bulk-preview-box').classList.add('hidden');
+  loadAdminManageList();
+  if(currentExam===exam) loadExamContent(exam);
+}
+
+async function loadAdminManageList(){
+  const exam=document.getElementById('bulk-exam').value;
+  const type=document.getElementById('bulk-type').value;
+  const c=document.getElementById('admin-manage-list');
+  if(!c) return;
+  c.innerHTML='<div class="spinner"></div>';
+  try{
+    const res=await fetch(APPS_SCRIPT_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'get_ssb_admin_list',type,exam})});
+    const items=await res.json();
+    if(!items.length){ c.innerHTML='<p class="text-xs text-muted">Is exam+type ke liye abhi koi content nahi.</p>'; return; }
+    c.innerHTML=items.map(item=>{
+      const label = type==='WAT' ? item.Word :
+                    type==='SRT' ? (item.Situation||'').substring(0,55)+'...' :
+                    type==='TAT' ? (item.SceneDescription||'').substring(0,55)+'...' :
+                    type==='OIR' ? (item.Question||'').substring(0,55)+'...' :
+                    type==='PI'  ? (item.Question||'').substring(0,55)+'...' :
+                    type==='GAT' ? (item.Icon||'')+' '+item.Title : '';
+      return `<div class="surface rounded-xl p-2 flex justify-between items-center gap-2">
+        <span class="text-xs font-bold flex-1">${escapeHtml(label)}</span>
+        <button onclick="deleteSSBContentItem('${type}',${item.rowIndex})" class="btn-danger-outline px-2 py-1 rounded-lg text-[10px] cursor-pointer flex-shrink-0"><i class="fas fa-trash"></i></button>
+      </div>`;
+    }).join('');
+  }catch(e){ c.innerHTML='<p class="text-xs text-muted">Load failed.</p>'; }
+}
+
+async function deleteSSBContentItem(type, rowIndex){
+  if(!confirm('Delete karein?'))return;
+  try{
+    const res=await fetch(APPS_SCRIPT_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'delete_ssb_content',type,rowIndex})});
+    const d=await res.json();
+    if(d.status==='success') loadAdminManageList();
+    else alert('Delete failed: '+d.message);
+  }catch(e){ alert('Server error.'); }
+}
+
+document.getElementById('bulk-exam')?.addEventListener('change', loadAdminManageList);
+</script>
+</body>
+</html>
