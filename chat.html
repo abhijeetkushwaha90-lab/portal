@@ -622,6 +622,9 @@ function toggleReaction(msgId, emoji) {
 
 function renderMessages(messages) {
   const win = document.getElementById('chat-window');
+  const wasNearBottom = win.scrollHeight - win.scrollTop - win.clientHeight < 100;
+  const prevScrollHeight = win.scrollHeight;
+  const prevScrollTop = win.scrollTop;
   if (!messages.length) {
     win.innerHTML = '<div id="empty-state"><i class="fas fa-comment-dots"></i>Koi message nahi abhi.<br>Sabse pehle aap baat shuru karein! 👋</div>';
     return;
@@ -684,8 +687,11 @@ function renderMessages(messages) {
     </div>`;
   });
   win.innerHTML = html;
-  win.scrollTop = win.scrollHeight;
-}
+  if (wasNearBottom) {
+    win.scrollTop = win.scrollHeight;
+  } else {
+    win.scrollTop = prevScrollTop + (win.scrollHeight - prevScrollHeight);
+  }}
 
 async function deleteMessage(msgId, btn) {
   if (!confirm('Yeh message delete karein?')) return;
