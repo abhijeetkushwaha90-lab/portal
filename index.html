@@ -552,27 +552,14 @@ body{overflow-x:hidden;}
   <div class="card-label">Live Chat</div><div class="card-sub">Chat Now</div>
 </div>
 
-<div class="home-card card-g4" onclick="showScreen('friends')">
+<div class="home-card card-g4" onclick="window.open('study-buddies.html','_blank')">
   <div class="card-icon" style="background:linear-gradient(135deg,#86198f,#e879f9)">
     <i class="fas fa-user-group text-white"></i>
   </div>
   <div class="card-label">Study Buddies</div>
   <div class="card-sub">Add & Compare</div>
 </div>
- <div class="home-card card-g4" onclick="showScreen('friends')">
-  <div class="card-icon" style="background:linear-gradient(135deg,#86198f,#e879f9)">
-    <i class="fas fa-user-group text-white"></i>
-  </div>
-  <div class="card-label">Study Buddies</div>
-  <div class="card-sub">Add & Compare</div>
-</div>
-<div class="home-card card-g8" onclick="window.open('study-buddies.html','_blank')">
-  <div class="card-icon" style="background:linear-gradient(135deg,#7c3aed,#a855f7)">
-    <i class="fas fa-robot text-white"></i>
-  </div>
-  <div class="card-label">AI Study Buddies</div>
-  <div class="card-sub">Chat & Learn</div>
-</div>      <div class="home-card card-g10" onclick="showScreen('ssb')">
+      <div class="home-card card-g10" onclick="showScreen('ssb')">
         <div class="card-icon" style="background:linear-gradient(135deg,#92400e,#f59e0b)"><i class="fas fa-people-group text-white"></i></div>
         <div class="card-label">SSB Preparation</div><div class="card-sub">WAT • SRT • OIR • GAT</div>
       </div>
@@ -905,26 +892,6 @@ body{overflow-x:hidden;}
         <a id="telegram-share-btn" href="#" target="_blank" class="flex items-center justify-center gap-2 py-3 rounded-xl font-bold text-sm text-white cursor-pointer" style="background:#2CA5E0"><i class="fab fa-telegram text-xl"></i> Telegram</a>
         <button onclick="copyReferral()" class="flex items-center justify-center gap-2 py-3 rounded-xl font-bold text-sm btn-accent cursor-pointer"><i class="fas fa-copy"></i> Copy Link</button>
       </div>
-    </div>
-  </div>
-<!-- FRIENDS / STUDY BUDDY -->
-  <div id="screen-friends">
-    <div class="flex items-center gap-3 mb-3">
-      <button onclick="goHome()" class="btn-neutral px-3 py-2 rounded-xl text-xs font-bold cursor-pointer"><i class="fas fa-arrow-left mr-1"></i>Back</button>
-      <h2 class="text-base font-black text-accent"><i class="fas fa-user-group mr-1"></i>Study Buddies</h2>
-    </div>
-    <div class="premium-card rounded-2xl p-5 space-y-3 mb-4">
-      <div class="font-bold text-sm"><i class="fas fa-user-plus text-accent mr-1"></i>Add a Study Buddy</div>
-      <p class="text-xs text-muted">Dost ka Referral Code daalo aur unke saath progress compare karo!</p>
-      <div class="flex gap-2">
-        <input id="buddy-code-input" placeholder="Friend's Referral Code" class="flex-1 input-field rounded-xl px-3 py-2.5 text-xs">
-        <button onclick="addStudyBuddy()" class="btn-success px-4 py-2.5 rounded-xl text-xs font-bold cursor-pointer"><i class="fas fa-plus mr-1"></i>Add</button>
-      </div>
-      <p id="buddy-msg" class="hidden text-xs text-center font-bold"></p>
-    </div>
-    <div class="premium-card rounded-2xl p-5">
-      <div class="font-bold text-sm mb-3"><i class="fas fa-users text-accent mr-1"></i>My Study Buddies</div>
-      <div id="buddy-list" class="space-y-2"></div>
     </div>
   </div>
   
@@ -3843,75 +3810,7 @@ function copyReferral(){
   if(!ref){alert('Referral code nahi mila.');return;}
   navigator.clipboard.writeText(ref).then(()=>alert('Copied: '+ref)).catch(()=>alert('Code: '+ref));
 }
-  /* ============================================================
-   PHASE 6 — STUDY BUDDY SYSTEM
-   ============================================================ */
-function getBuddyList(){
-  if(!currentUserData)return[];
-  return JSON.parse(localStorage.getItem('baaz_buddies_'+currentUserData.email)||'[]');
-}
-
-function saveBuddyList(list){
-  if(!currentUserData)return;
-  localStorage.setItem('baaz_buddies_'+currentUserData.email,JSON.stringify(list));
-}
-
-async function addStudyBuddy(){
-  const code=document.getElementById('buddy-code-input').value.trim();
-  const msg=document.getElementById('buddy-msg');
-  msg.classList.add('hidden');
-  if(!code){msg.innerText='❌ Referral code daalo.';msg.style.color='var(--danger2)';msg.classList.remove('hidden');return;}
-  if(code===currentUserData?.referralCode){msg.innerText='❌ Apna khud ka code add nahi kar sakte.';msg.style.color='var(--danger2)';msg.classList.remove('hidden');return;}
-  const list=getBuddyList();
-  if(list.find(b=>b.code===code)){msg.innerText='⚠️ Yeh buddy already added hai.';msg.style.color='var(--accent)';msg.classList.remove('hidden');return;}
-  try{
-    const res=await fetch(APPS_SCRIPT_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:"find_by_referral",referralCode:code})});
-    const d=await res.json();
-    if(d.status==="success"&&d.name){
-      list.push({code,name:d.name,email:d.email||'',addedOn:new Date().toLocaleDateString()});
-      saveBuddyList(list);
-      document.getElementById('buddy-code-input').value='';
-      msg.innerText='✅ '+d.name+' add ho gaya!';msg.style.color='var(--success2)';msg.classList.remove('hidden');
-      renderBuddyList();
-    }else{
-      msg.innerText='❌ Yeh referral code valid nahi hai.';msg.style.color='var(--danger2)';msg.classList.remove('hidden');
-    }
-  }catch(e){
-    msg.innerText='⚠️ Server check nahi ho paya — local entry add kar di.';msg.style.color='var(--accent)';msg.classList.remove('hidden');
-    list.push({code,name:'Buddy ('+code+')',email:'',addedOn:new Date().toLocaleDateString()});
-    saveBuddyList(list);
-    document.getElementById('buddy-code-input').value='';
-    renderBuddyList();
-  }
-}
-
-function removeBuddy(idx){
-  if(!confirm("Is buddy ko remove karein?"))return;
-  const list=getBuddyList();
-  list.splice(idx,1);
-  saveBuddyList(list);
-  renderBuddyList();
-}
-
-function renderBuddyList(){
-  const c=document.getElementById('buddy-list');
-  if(!c)return;
-  const list=getBuddyList();
-  if(!list.length){c.innerHTML='<p class="text-xs text-muted text-center py-4">Koi study buddy add nahi kiya abhi. Upar code daal ke add karo!</p>';return;}
-  const myHist=getHistoryMap();
-  const myTests=Object.keys(myHist).length;
-  const myScore=Object.keys(myHist).reduce((s,k)=>s+(myHist[k].score||0),0);
-  c.innerHTML=list.map((b,i)=>`
-    <div class="surface rounded-xl p-3 flex justify-between items-center">
-      <div>
-        <div class="font-bold text-sm">${escapeHtml(b.name)}</div>
-        <div class="text-[9px] text-muted">Added: ${escapeHtml(b.addedOn)}</div>
-        <div class="text-[10px] text-violet-400 font-bold mt-1">vs You: ${myTests} tests • ${myScore} score</div>
-      </div>
-      <button onclick="removeBuddy(${i})" class="btn-danger-outline px-2 py-1.5 rounded-lg text-[10px] cursor-pointer"><i class="fas fa-trash"></i></button>
-    </div>`).join('');
-}
-
+ 
 /* ============================================================
    SUPPORT
    ============================================================ */
