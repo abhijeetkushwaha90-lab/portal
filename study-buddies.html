@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="hi" data-theme="military">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Study Buddies — Operation Baaz</title>
+<link rel="manifest" href="/portal/manifest.json">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+html[data-theme="military"] {
+  --bg:#0a0f18;--card:#131a26;--border:rgba(33,38,53,0.65);
+  --text:#c9d1d9;--text-dim:#7d8590;
+  --accent:#d4891a;--accent2:#b8741a;--accent-text:#0e0a00;
+  --success:#059669;--success2:#10b981;
+  --danger:#e11d48;--danger2:#f43f5e;
+}
+*{box-sizing:border-box;margin:0;padding:0;transition:background .2s,color .2s;}
+body{
+  background:var(--bg);color:var(--text);
+  font-family:system-ui,-apple-system,sans-serif;
+  min-height:100vh;padding:16px;
+}
+#app{width:100%;max-width:680px;margin:0 auto;}
+header{
+  display:flex;align-items:center;gap:10px;margin-bottom:16px;
+}
+header .icon{
+  width:42px;height:42px;border-radius:12px;flex-shrink:0;
+  background:linear-gradient(135deg,#86198f,#e879f9);
+  display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px;
+}
+header .title{font-weight:900;font-size:18px;flex:1;}
+header .sub{font-size:10px;color:var(--text-dim);font-weight:700;text-transform:uppercase;}
+#back-btn{
+  background:var(--card);border:0.5px solid var(--border);color:var(--text);
+  width:38px;height:38px;border-radius:10px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;
+}
+.card{
+  background:var(--card);border:0.5px solid var(--border);
+  border-radius:18px;padding:20px;margin-bottom:16px;
+  box-shadow:0 8px 24px rgba(0,0,0,0.3);
+}
+.card h2{font-size:15px;font-weight:800;margin-bottom:6px;display:flex;align-items:center;gap:8px;}
+.card p{font-size:12px;color:var(--text-dim);margin-bottom:14px;}
+.input-row{display:flex;gap:8px;}
+input{
+  flex:1;background:var(--bg);border:0.5px solid var(--border);color:var(--text);
+  border-radius:12px;padding:12px 14px;font-size:13px;outline:none;
+}
+input:focus{border-color:var(--accent);}
+button.add-btn{
+  background:var(--success);color:#fff;border:none;border-radius:12px;
+  padding:0 20px;font-weight:800;font-size:13px;cursor:pointer;white-space:nowrap;
+}
+button.add-btn:hover{background:var(--success2);}
+#buddy-msg{font-size:12px;font-weight:700;margin-top:10px;display:none;}
+.buddy-row{
+  background:var(--bg);border:0.5px solid var(--border);border-radius:14px;
+  padding:14px;display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;
+}
+.buddy-row .name{font-weight:800;font-size:13px;}
+.buddy-row .meta{font-size:10px;color:var(--text-dim);margin-top:2px;}
+.buddy-row .stats{font-size:11px;color:#a78bfa;font-weight:700;margin-top:4px;}
+.remove-btn{
+  background:rgba(225,29,72,0.12);color:var(--danger2);border:0.5px solid var(--danger);
+  border-radius:10px;padding:6px 10px;cursor:pointer;font-size:11px;
+}
+#empty-state{text-align:center;color:var(--text-dim);font-size:12px;padding:24px;}
+#login-warning{
+  text-align:center;padding:40px 20px;color:var(--text-dim);font-size:14px;
+}
+#login-warning i{font-size:32px;color:var(--accent);margin-bottom:12px;display:block;}
+</style>
+</head>
+<body>
+<div id="app">
+  <header>
+    <button id="back-btn" onclick="window.close()"><i class="fas fa-arrow-left"></i></button>
+    <div class="icon"><i class="fas fa-user-group"></i></div>
+    <div>
+      <div class="title">Study Buddies</div>
+      <div class="sub">Operation Baaz</div>
+    </div>
+  </header>
+
+  <div id="main-content" style="display:none">
+    <div class="card">
+      <h2><i class="fas fa-user-plus" style="color:var(--accent)"></i>Add a Study Buddy</h2>
+      <p>Dost ka Referral Code daalo aur unke saath progress compare karo!</p>
+      <div class="input-row">
+        <input id="buddy-code-input" placeholder="Friend's Referral Code">
+        <button class="add-btn" onclick="addStudyBuddy()"><i class="fas fa-plus"></i> Add</button>
+      </div>
+      <p id="buddy-msg"></p>
+    </div>
+
+    <div class="card">
+      <h2><i class="fas fa-users" style="color:var(--accent)"></i>My Study Buddies</h2>
+      <div id="buddy-list"></div>
+    </div>
+
+    <!-- NEW FEATURE AREA: add things like group challenges, shared streak, chat-with-buddy, etc. here -->
+  </div>
+
+  <div id="login-warning" style="display:none">
+    <i class="fas fa-lock"></i>
+    Pehle Operation Baaz app mein login karein,<br>fir Study Buddies khulega.
+  </div>
+</div>
+
+<script>
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz6X6hX2Mnz-d_-Cao6B7bOkRop3RPnCve5-z_R1iV5kdf3PIL9aG6y8dSca84dpIAc/exec";
+let currentUserData = null;
+
+function init() {
+  const saved = localStorage.getItem('baaz_userdata');
+  if (!saved) {
+    document.getElementById('login-warning').style.display = 'block';
+    return;
+  }
+  currentUserData = JSON.parse(saved);
+  document.getElementById('main-content').style.display = 'block';
+  renderBuddyList();
+}
+
+function getHistoryMap() {
+  return JSON.parse(localStorage.getItem(`baaz_hist_${currentUserData?.email}`) || '{}');
+}
+
+function getBuddyList() {
+  if (!currentUserData) return [];
+  return JSON.parse(localStorage.getItem('baaz_buddies_' + currentUserData.email) || '[]');
+}
+
+function saveBuddyList(list) {
+  if (!currentUserData) return;
+  localStorage.setItem('baaz_buddies_' + currentUserData.email, JSON.stringify(list));
+}
+
+async function addStudyBuddy() {
+  const code = document.getElementById('buddy-code-input').value.trim();
+  const msg = document.getElementById('buddy-msg');
+  msg.style.display = 'none';
+
+  if (!code) {
+    msg.innerText = '❌ Referral code daalo.';
+    msg.style.color = 'var(--danger2)';
+    msg.style.display = 'block';
+    return;
+  }
+  if (code === currentUserData?.referralCode) {
+    msg.innerText = '❌ Apna khud ka code add nahi kar sakte.';
+    msg.style.color = 'var(--danger2)';
+    msg.style.display = 'block';
+    return;
+  }
+  const list = getBuddyList();
+  if (list.find(b => b.code === code)) {
+    msg.innerText = '⚠️ Yeh buddy already added hai.';
+    msg.style.color = 'var(--accent)';
+    msg.style.display = 'block';
+    return;
+  }
+  try {
+    const res = await fetch(APPS_SCRIPT_URL, {
+      method: "POST",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify({ action: "find_by_referral", referralCode: code })
+    });
+    const d = await res.json();
+    if (d.status === "success" && d.name) {
+      list.push({ code, name: d.name, email: d.email || '', addedOn: new Date().toLocaleDateString() });
+      saveBuddyList(list);
+      document.getElementById('buddy-code-input').value = '';
+      msg.innerText = '✅ ' + d.name + ' add ho gaya!';
+      msg.style.color = 'var(--success2)';
+      msg.style.display = 'block';
+      renderBuddyList();
+    } else {
+      msg.innerText = '❌ Yeh referral code valid nahi hai.';
+      msg.style.color = 'var(--danger2)';
+      msg.style.display = 'block';
+    }
+  } catch (e) {
+    msg.innerText = '⚠️ Server check nahi ho paya — local entry add kar di.';
+    msg.style.color = 'var(--accent)';
+    msg.style.display = 'block';
+    list.push({ code, name: 'Buddy (' + code + ')', email: '', addedOn: new Date().toLocaleDateString() });
+    saveBuddyList(list);
+    document.getElementById('buddy-code-input').value = '';
+    renderBuddyList();
+  }
+}
+
+function removeBuddy(idx) {
+  if (!confirm("Is buddy ko remove karein?")) return;
+  const list = getBuddyList();
+  list.splice(idx, 1);
+  saveBuddyList(list);
+  renderBuddyList();
+}
+
+function renderBuddyList() {
+  const c = document.getElementById('buddy-list');
+  const list = getBuddyList();
+  if (!list.length) {
+    c.innerHTML = '<div id="empty-state">Koi study buddy add nahi kiya abhi. Upar code daal ke add karo!</div>';
+    return;
+  }
+  const myHist = getHistoryMap();
+  const myTests = Object.keys(myHist).length;
+  const myScore = Object.keys(myHist).reduce((s, k) => s + (myHist[k].score || 0), 0);
+  c.innerHTML = list.map((b, i) => `
+    <div class="buddy-row">
+      <div>
+        <div class="name">${escapeHtml(b.name)}</div>
+        <div class="meta">Added: ${escapeHtml(b.addedOn)}</div>
+        <div class="stats">vs You: ${myTests} tests • ${myScore} score</div>
+      </div>
+      <button class="remove-btn" onclick="removeBuddy(${i})"><i class="fas fa-trash"></i></button>
+    </div>`).join('');
+}
+
+function escapeHtml(s) {
+  return String(s || "").replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+init();
+</script>
+</body>
+</html>
