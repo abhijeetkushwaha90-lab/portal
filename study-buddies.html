@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Study Buddies — Operation Baaz</title>
-<link rel="manifest" href="/portal/manifest.json">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
 html[data-theme="military"] {
@@ -14,93 +13,94 @@ html[data-theme="military"] {
   --success:#059669;--success2:#10b981;
   --danger:#e11d48;--danger2:#f43f5e;
 }
-*{box-sizing:border-box;margin:0;padding:0;transition:background .2s,color .2s;}
-body{
-  background:var(--bg);color:var(--text);
-  font-family:system-ui,-apple-system,sans-serif;
-  min-height:100vh;padding:16px;
-}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,sans-serif;min-height:100vh;padding:16px;}
 #app{width:100%;max-width:680px;margin:0 auto;}
-header{
-  display:flex;align-items:center;gap:10px;margin-bottom:16px;
-}
-header .icon{
-  width:42px;height:42px;border-radius:12px;flex-shrink:0;
-  background:linear-gradient(135deg,#86198f,#e879f9);
-  display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px;
-}
+header{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
+header .icon{width:42px;height:42px;border-radius:12px;flex-shrink:0;background:linear-gradient(135deg,#86198f,#e879f9);display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px;}
 header .title{font-weight:900;font-size:18px;flex:1;}
 header .sub{font-size:10px;color:var(--text-dim);font-weight:700;text-transform:uppercase;}
-#back-btn{
-  background:var(--card);border:0.5px solid var(--border);color:var(--text);
-  width:38px;height:38px;border-radius:10px;cursor:pointer;
-  display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;
-}
-.card{
-  background:var(--card);border:0.5px solid var(--border);
-  border-radius:18px;padding:20px;margin-bottom:16px;
-  box-shadow:0 8px 24px rgba(0,0,0,0.3);
-}
-.card h2{font-size:15px;font-weight:800;margin-bottom:6px;display:flex;align-items:center;gap:8px;}
-.card p{font-size:12px;color:var(--text-dim);margin-bottom:14px;}
-.input-row{display:flex;gap:8px;}
-input{
-  flex:1;background:var(--bg);border:0.5px solid var(--border);color:var(--text);
-  border-radius:12px;padding:12px 14px;font-size:13px;outline:none;
-}
-input:focus{border-color:var(--accent);}
-button.add-btn{
-  background:var(--success);color:#fff;border:none;border-radius:12px;
-  padding:0 20px;font-weight:800;font-size:13px;cursor:pointer;white-space:nowrap;
-}
-button.add-btn:hover{background:var(--success2);}
-#buddy-msg{font-size:12px;font-weight:700;margin-top:10px;display:none;}
-.buddy-row{
-  background:var(--bg);border:0.5px solid var(--border);border-radius:14px;
-  padding:14px;display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;
-}
-.buddy-row .name{font-weight:800;font-size:13px;}
-.buddy-row .meta{font-size:10px;color:var(--text-dim);margin-top:2px;}
-.buddy-row .stats{font-size:11px;color:#a78bfa;font-weight:700;margin-top:4px;}
-.remove-btn{
-  background:rgba(225,29,72,0.12);color:var(--danger2);border:0.5px solid var(--danger);
-  border-radius:10px;padding:6px 10px;cursor:pointer;font-size:11px;
-}
-#empty-state{text-align:center;color:var(--text-dim);font-size:12px;padding:24px;}
-#login-warning{
-  text-align:center;padding:40px 20px;color:var(--text-dim);font-size:14px;
-}
+#back-btn,#admin-btn{background:var(--card);border:0.5px solid var(--border);color:var(--text);width:38px;height:38px;border-radius:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
+.card{background:var(--card);border:0.5px solid var(--border);border-radius:18px;padding:18px;margin-bottom:14px;box-shadow:0 8px 24px rgba(0,0,0,0.3);}
+.card h2{font-size:14px;font-weight:800;margin-bottom:10px;}
+.bot-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.bot-card{background:var(--bg);border:0.5px solid var(--border);border-radius:14px;padding:12px;display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;text-align:center;}
+.bot-card:active{transform:scale(0.97);}
+.avatar{width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:16px;}
+.bot-name{font-size:12px;font-weight:800;}
+.bot-subject{font-size:10px;color:var(--text-dim);}
+
+/* CHAT VIEW */
+#chat-view{display:none;}
+#chat-header{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
+#chat-header .avatar{width:40px;height:40px;font-size:13px;}
+#chat-header .info .name{font-size:14px;font-weight:800;}
+#chat-header .info .sub{font-size:10px;color:var(--text-dim);}
+#chat-box{background:var(--card);border:0.5px solid var(--border);border-radius:16px;padding:14px;height:50vh;overflow-y:auto;margin-bottom:10px;display:flex;flex-direction:column;gap:10px;}
+.msg{max-width:80%;padding:10px 12px;border-radius:14px;font-size:13px;line-height:1.4;}
+.msg.user{align-self:flex-end;background:var(--accent);color:var(--accent-text);border-bottom-right-radius:4px;}
+.msg.bot{align-self:flex-start;background:var(--bg);border:0.5px solid var(--border);border-bottom-left-radius:4px;}
+.msg.typing{align-self:flex-start;color:var(--text-dim);font-style:italic;font-size:12px;}
+#chat-input-row{display:flex;gap:8px;}
+#chat-input{flex:1;background:var(--card);border:0.5px solid var(--border);color:var(--text);border-radius:12px;padding:12px 14px;font-size:13px;outline:none;}
+#chat-input:focus{border-color:var(--accent);}
+#send-btn{background:var(--success);color:#fff;border:none;border-radius:12px;width:46px;cursor:pointer;font-size:15px;}
+
+/* ADMIN VIEW */
+#admin-view{display:none;}
+.admin-row{background:var(--bg);border:0.5px solid var(--border);border-radius:12px;padding:12px;margin-bottom:10px;}
+.admin-row label{font-size:10px;color:var(--text-dim);display:block;margin-bottom:4px;margin-top:8px;}
+.admin-row input,.admin-row textarea{width:100%;background:var(--card);border:0.5px solid var(--border);color:var(--text);border-radius:8px;padding:8px 10px;font-size:12px;outline:none;}
+.admin-row textarea{min-height:60px;resize:vertical;}
+.admin-row .save-btn{margin-top:8px;background:var(--success);color:#fff;border:none;border-radius:8px;padding:8px 14px;font-size:11px;font-weight:700;cursor:pointer;}
+#login-warning{text-align:center;padding:40px 20px;color:var(--text-dim);font-size:14px;}
 #login-warning i{font-size:32px;color:var(--accent);margin-bottom:12px;display:block;}
 </style>
 </head>
 <body>
 <div id="app">
   <header>
-    <button id="back-btn" onclick="window.close()"><i class="fas fa-arrow-left"></i></button>
-    <div class="icon"><i class="fas fa-user-group"></i></div>
-    <div>
-      <div class="title">Study Buddies</div>
-      <div class="sub">Operation Baaz</div>
+    <button id="back-btn" onclick="goBack()"><i class="fas fa-arrow-left"></i></button>
+    <div class="icon"><i class="fas fa-robot"></i></div>
+    <div style="flex:1">
+      <div class="title" id="header-title">Study Buddies</div>
+      <div class="sub">Operation Baaz — AI Doubt Helpers</div>
     </div>
+    <button id="admin-btn" onclick="openAdmin()" title="Admin"><i class="fas fa-gear"></i></button>
   </header>
 
-  <div id="main-content" style="display:none">
+  <!-- BOT LIST -->
+  <div id="bot-list-view">
     <div class="card">
-      <h2><i class="fas fa-user-plus" style="color:var(--accent)"></i>Add a Study Buddy</h2>
-      <p>Dost ka Referral Code daalo aur unke saath progress compare karo!</p>
-      <div class="input-row">
-        <input id="buddy-code-input" placeholder="Friend's Referral Code">
-        <button class="add-btn" onclick="addStudyBuddy()"><i class="fas fa-plus"></i> Add</button>
+      <h2><i class="fas fa-comments" style="color:var(--accent)"></i> Apna AI Study Buddy Chuno</h2>
+      <p style="font-size:11px;color:var(--text-dim);margin-bottom:12px;">Kisi bhi subject ka doubt ho, in teachers se free me poocho!</p>
+      <div class="bot-grid" id="bot-grid"></div>
+    </div>
+  </div>
+
+  <!-- CHAT VIEW -->
+  <div id="chat-view">
+    <div id="chat-header">
+      <div class="avatar" id="chat-avatar"></div>
+      <div class="info">
+        <div class="name" id="chat-bot-name"></div>
+        <div class="sub" id="chat-bot-subject"></div>
       </div>
-      <p id="buddy-msg"></p>
     </div>
+    <div id="chat-box"></div>
+    <div id="chat-input-row">
+      <input id="chat-input" placeholder="Apna doubt yahan likho..." onkeypress="if(event.key==='Enter')sendMessage()">
+      <button id="send-btn" onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
+    </div>
+  </div>
 
+  <!-- ADMIN VIEW -->
+  <div id="admin-view">
     <div class="card">
-      <h2><i class="fas fa-users" style="color:var(--accent)"></i>My Study Buddies</h2>
-      <div id="buddy-list"></div>
+      <h2><i class="fas fa-shield-halved" style="color:var(--accent)"></i> Admin — Bot Settings</h2>
+      <p style="font-size:11px;color:var(--text-dim);margin-bottom:6px;">Naam, subject, avatar color/initials aur instructions yahan se edit karo.</p>
+      <div id="admin-list"></div>
     </div>
-
-    <!-- NEW FEATURE AREA: add things like group challenges, shared streak, chat-with-buddy, etc. here -->
   </div>
 
   <div id="login-warning" style="display:none">
@@ -111,7 +111,11 @@ button.add-btn:hover{background:var(--success2);}
 
 <script>
 const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz6X6hX2Mnz-d_-Cao6B7bOkRop3RPnCve5-z_R1iV5kdf3PIL9aG6y8dSca84dpIAc/exec";
+const ADMIN_PASSCODE = "BAAZ-ADMIN-2026"; // change this to your own secret code
+
 let currentUserData = null;
+let bots = [];
+let activeBot = null;
 
 function init() {
   const saved = localStorage.getItem('baaz_userdata');
@@ -120,110 +124,198 @@ function init() {
     return;
   }
   currentUserData = JSON.parse(saved);
-  document.getElementById('main-content').style.display = 'block';
-  renderBuddyList();
+  loadBots();
 }
 
-function getHistoryMap() {
-  return JSON.parse(localStorage.getItem(`baaz_hist_${currentUserData?.email}`) || '{}');
-}
-
-function getBuddyList() {
-  if (!currentUserData) return [];
-  return JSON.parse(localStorage.getItem('baaz_buddies_' + currentUserData.email) || '[]');
-}
-
-function saveBuddyList(list) {
-  if (!currentUserData) return;
-  localStorage.setItem('baaz_buddies_' + currentUserData.email, JSON.stringify(list));
-}
-
-async function addStudyBuddy() {
-  const code = document.getElementById('buddy-code-input').value.trim();
-  const msg = document.getElementById('buddy-msg');
-  msg.style.display = 'none';
-
-  if (!code) {
-    msg.innerText = '❌ Referral code daalo.';
-    msg.style.color = 'var(--danger2)';
-    msg.style.display = 'block';
-    return;
-  }
-  if (code === currentUserData?.referralCode) {
-    msg.innerText = '❌ Apna khud ka code add nahi kar sakte.';
-    msg.style.color = 'var(--danger2)';
-    msg.style.display = 'block';
-    return;
-  }
-  const list = getBuddyList();
-  if (list.find(b => b.code === code)) {
-    msg.innerText = '⚠️ Yeh buddy already added hai.';
-    msg.style.color = 'var(--accent)';
-    msg.style.display = 'block';
-    return;
-  }
+async function loadBots() {
   try {
-    const res = await fetch(APPS_SCRIPT_URL, {
-      method: "POST",
-      headers: { "Content-Type": "text/plain;charset=utf-8" },
-      body: JSON.stringify({ action: "find_by_referral", referralCode: code })
-    });
-    const d = await res.json();
-    if (d.status === "success" && d.name) {
-      list.push({ code, name: d.name, email: d.email || '', addedOn: new Date().toLocaleDateString() });
-      saveBuddyList(list);
-      document.getElementById('buddy-code-input').value = '';
-      msg.innerText = '✅ ' + d.name + ' add ho gaya!';
-      msg.style.color = 'var(--success2)';
-      msg.style.display = 'block';
-      renderBuddyList();
-    } else {
-      msg.innerText = '❌ Yeh referral code valid nahi hai.';
-      msg.style.color = 'var(--danger2)';
-      msg.style.display = 'block';
-    }
+    const res = await fetch(APPS_SCRIPT_URL + "?action=get_bots");
+    bots = await res.json();
+    renderBotGrid();
   } catch (e) {
-    msg.innerText = '⚠️ Server check nahi ho paya — local entry add kar di.';
-    msg.style.color = 'var(--accent)';
-    msg.style.display = 'block';
-    list.push({ code, name: 'Buddy (' + code + ')', email: '', addedOn: new Date().toLocaleDateString() });
-    saveBuddyList(list);
-    document.getElementById('buddy-code-input').value = '';
-    renderBuddyList();
+    document.getElementById('bot-grid').innerHTML = '<p style="font-size:12px;color:var(--text-dim)">Bots load nahi ho paaye. Internet check karo.</p>';
   }
 }
 
-function removeBuddy(idx) {
-  if (!confirm("Is buddy ko remove karein?")) return;
-  const list = getBuddyList();
-  list.splice(idx, 1);
-  saveBuddyList(list);
-  renderBuddyList();
-}
-
-function renderBuddyList() {
-  const c = document.getElementById('buddy-list');
-  const list = getBuddyList();
-  if (!list.length) {
-    c.innerHTML = '<div id="empty-state">Koi study buddy add nahi kiya abhi. Upar code daal ke add karo!</div>';
-    return;
-  }
-  const myHist = getHistoryMap();
-  const myTests = Object.keys(myHist).length;
-  const myScore = Object.keys(myHist).reduce((s, k) => s + (myHist[k].score || 0), 0);
-  c.innerHTML = list.map((b, i) => `
-    <div class="buddy-row">
-      <div>
-        <div class="name">${escapeHtml(b.name)}</div>
-        <div class="meta">Added: ${escapeHtml(b.addedOn)}</div>
-        <div class="stats">vs You: ${myTests} tests • ${myScore} score</div>
-      </div>
-      <button class="remove-btn" onclick="removeBuddy(${i})"><i class="fas fa-trash"></i></button>
+function renderBotGrid() {
+  const grid = document.getElementById('bot-grid');
+  grid.innerHTML = bots.map(b => `
+    <div class="bot-card" onclick="openChat('${b.botId}')">
+      <div class="avatar" style="background:${b.avatarColor}">${escapeHtml(b.avatarInitials)}</div>
+      <div class="bot-name">${escapeHtml(b.name)}</div>
+      <div class="bot-subject">${escapeHtml(b.subject)}</div>
     </div>`).join('');
 }
 
 function escapeHtml(s) {
   return String(s || "").replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+/* ---------- CHAT ---------- */
+async function openChat(botId) {
+  activeBot = bots.find(b => b.botId === botId);
+  if (!activeBot) return;
+  document.getElementById('bot-list-view').style.display = 'none';
+  document.getElementById('admin-view').style.display = 'none';
+  document.getElementById('chat-view').style.display = 'block';
+  document.getElementById('header-title').innerText = activeBot.name;
+
+  document.getElementById('chat-avatar').style.background = activeBot.avatarColor;
+  document.getElementById('chat-avatar').innerText = activeBot.avatarInitials;
+  document.getElementById('chat-bot-name').innerText = activeBot.name;
+  document.getElementById('chat-bot-subject').innerText = activeBot.subject;
+
+  const box = document.getElementById('chat-box');
+  box.innerHTML = '<p style="font-size:11px;color:var(--text-dim);text-align:center">Loading chat...</p>';
+
+  try {
+    const res = await fetch(APPS_SCRIPT_URL + "?action=get_bot_history&email=" + encodeURIComponent(currentUserData.email) + "&botId=" + botId);
+    const history = await res.json();
+    box.innerHTML = '';
+    if (!history.length) {
+      appendMessage('bot', `Namaste! Main ${activeBot.name} hoon. ${activeBot.subject} se related koi bhi doubt poocho!`);
+    } else {
+      history.forEach(h => appendMessage(h.role === 'bot' ? 'bot' : 'user', h.message));
+    }
+  } catch (e) {
+    box.innerHTML = '';
+    appendMessage('bot', `Namaste! Main ${activeBot.name} hoon. ${activeBot.subject} se related koi bhi doubt poocho!`);
+  }
+}
+
+function appendMessage(role, text) {
+  const box = document.getElementById('chat-box');
+  const div = document.createElement('div');
+  div.className = 'msg ' + role;
+  div.innerText = text;
+  box.appendChild(div);
+  box.scrollTop = box.scrollHeight;
+}
+
+async function sendMessage() {
+  const input = document.getElementById('chat-input');
+  const text = input.value.trim();
+  if (!text || !activeBot) return;
+  input.value = '';
+  appendMessage('user', text);
+
+  const box = document.getElementById('chat-box');
+  const typingDiv = document.createElement('div');
+  typingDiv.className = 'msg typing';
+  typingDiv.innerText = activeBot.name + ' likh rahi/rahe hain...';
+  box.appendChild(typingDiv);
+  box.scrollTop = box.scrollHeight;
+
+  try {
+    const res = await fetch(APPS_SCRIPT_URL, {
+      method: "POST",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify({
+        action: "chat_with_bot",
+        email: currentUserData.email,
+        botId: activeBot.botId,
+        message: text
+      })
+    });
+    const d = await res.json();
+    typingDiv.remove();
+    if (d.status === "success") {
+      appendMessage('bot', d.reply);
+    } else {
+      appendMessage('bot', "⚠️ " + (d.message || "Kuch problem ho gayi."));
+    }
+  } catch (e) {
+    typingDiv.remove();
+    appendMessage('bot', "⚠️ Connection problem. Phir try karo.");
+  }
+}
+
+function goBack() {
+  if (document.getElementById('chat-view').style.display === 'block') {
+    document.getElementById('chat-view').style.display = 'none';
+    document.getElementById('bot-list-view').style.display = 'block';
+    document.getElementById('header-title').innerText = 'Study Buddies';
+    activeBot = null;
+    return;
+  }
+  if (document.getElementById('admin-view').style.display === 'block') {
+    document.getElementById('admin-view').style.display = 'none';
+    document.getElementById('bot-list-view').style.display = 'block';
+    document.getElementById('header-title').innerText = 'Study Buddies';
+    return;
+  }
+  window.close();
+}
+
+/* ---------- ADMIN ---------- */
+async function openAdmin() {
+  const code = prompt("Admin passcode daalo:");
+  if (code !== ADMIN_PASSCODE) {
+    if (code !== null) alert("Galat passcode.");
+    return;
+  }
+  document.getElementById('bot-list-view').style.display = 'none';
+  document.getElementById('chat-view').style.display = 'none';
+  document.getElementById('admin-view').style.display = 'block';
+  document.getElementById('header-title').innerText = 'Admin Panel';
+
+  const listDiv = document.getElementById('admin-list');
+  listDiv.innerHTML = '<p style="font-size:12px;color:var(--text-dim)">Loading...</p>';
+
+  try {
+    const res = await fetch(APPS_SCRIPT_URL, {
+      method: "POST",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify({ action: "get_bot_config_admin" })
+    });
+    const list = await res.json();
+    listDiv.innerHTML = list.map(b => `
+      <div class="admin-row" id="admin-${b.botId}">
+        <strong style="font-size:13px">${escapeHtml(b.name)}</strong>
+        <label>Naam</label>
+        <input id="name-${b.botId}" value="${escapeHtml(b.name)}">
+        <label>Subject</label>
+        <input id="subject-${b.botId}" value="${escapeHtml(b.subject)}">
+        <label>Avatar Color (hex)</label>
+        <input id="color-${b.botId}" value="${escapeHtml(b.avatarColor)}">
+        <label>Avatar Initials</label>
+        <input id="initials-${b.botId}" value="${escapeHtml(b.avatarInitials)}">
+        <label>Instructions (system prompt)</label>
+        <textarea id="prompt-${b.botId}">${escapeHtml(b.systemPrompt)}</textarea>
+        <button class="save-btn" onclick="saveBot('${b.botId}')"><i class="fas fa-save"></i> Save</button>
+      </div>`).join('');
+  } catch (e) {
+    listDiv.innerHTML = '<p style="font-size:12px;color:var(--danger2)">Load nahi hua, internet check karo.</p>';
+  }
+}
+
+async function saveBot(botId) {
+  const payload = {
+    action: "update_bot_config",
+    botId: botId,
+    name: document.getElementById('name-' + botId).value,
+    subject: document.getElementById('subject-' + botId).value,
+    avatarColor: document.getElementById('color-' + botId).value,
+    avatarInitials: document.getElementById('initials-' + botId).value,
+    systemPrompt: document.getElementById('prompt-' + botId).value,
+    active: true
+  };
+  try {
+    const res = await fetch(APPS_SCRIPT_URL, {
+      method: "POST",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify(payload)
+    });
+    const d = await res.json();
+    if (d.status === "success") {
+      alert("✅ Saved!");
+      loadBots();
+    } else {
+      alert("❌ " + (d.message || "Save nahi hua."));
+    }
+  } catch (e) {
+    alert("⚠️ Connection problem.");
+  }
 }
 
 init();
